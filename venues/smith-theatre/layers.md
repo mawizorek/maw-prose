@@ -1,22 +1,10 @@
----
-title: Smith Theatre — Layers
-type: venue-reference
-package: smith-theatre
-domain: theatre
-department: all
-venue: smith-theatre
-audience: designers-and-drafters
-status: working-draft
-last_verified: 2026-07-16
----
-
 # Smith Theatre — Layers
 
-**29 design layers.** Working draft. Source: the Google Sheet *URITP VWX Smith Theatre BASE FILE Worksheets*.
+*All 29 Vectorworks design layers, grouped by elevation band. Working draft. Source: the Google Sheet* URITP VWX Smith Theatre BASE FILE Worksheets*. Content last checked: 2026-07-16.*
 
-`VENUE-BASE` layers are authored once in the master file. `DEPARTMENT` layers are the thin per-discipline consumers that reference it.
+**`venue-base` layers are authored once in the master file. `department` layers are the thin per-discipline consumers that reference it.**
 
----
+*These stay as tables, deliberately, against the house preference for prose. Twenty-nine rows across six uniform attributes is genuinely tabular data — there is nothing to say about any individual row that the columns do not already say, and a prose version would be twenty-nine sentences of the same sentence. Everything worth saying about the set is said around the tables.*
 
 ## `3 CATWALK` — catwalk / high steel
 
@@ -77,20 +65,24 @@ last_verified: 2026-07-16
 | `VID - REP` | VIDEO | venue-base | ✗ | ✗ | — · *rep* |
 | `2D 2 [SPAC] Mezzanine` | UR | venue-base | ✗ | ✗ | **CUT?** |
 
----
+## Known gaps in this list
 
-## Open on this list
+Stated so nobody mistakes a blank cell for a clean one.
 
-- **`2D 2 [SPAC] Mezzanine` is flagged `CUT?`** — cut it or keep it.
-- **Three rows have no elevation band** (`>import 3D`, `VID - REP`, `2D 2 [SPAC] Mezzanine`). Band them or confirm they are deliberately unbanded.
-- **Nine rows have no status at all.** Blank means unknown, not "fine."
-- **The uniform design-layer scale value is not recorded anywhere.** All layers share one scale; nobody wrote down what it is.
-- **`LX DESIGNER` and `HEAD ELECTRICIAN` are separate departments here.** Worth confirming that split is intentional, since it puts `LX - REP` and `LX - PLOT SECTIONS` under one and the plots under the other.
+**Nine rows carry no status at all.** Blank means unknown, not fine.
 
----
+**Three rows have no elevation band** — `>import 3D`, `VID - REP`, and `2D 2 [SPAC] Mezzanine` — and the band is the thing every other layer is keyed to.
+
+**`2D 2 [SPAC] Mezzanine` is flagged `CUT?` in the source** and has been since the list was authored.
+
+**The uniform design-layer scale value is not written down anywhere.** Every layer shares one scale, which is precisely why it is not a column here, and nobody recorded what it is. That is the gap most likely to bite during a reference or a viewport setup.
 
 ## Two conventions this list depends on
 
-**Elevation lives in the layer, never in a class.** Layers answer *where, whose, what height*; classes answer *what kind of thing*.
+**Elevation lives in the layer, never in a class.** Layers answer *where, whose, what height*. Classes answer *what kind of thing*. Getting that backwards is the most common way this structure gets broken.
 
-**All design layers share one scale**, so referenced viewports line up. That is why scale is not a column here.
+**All design layers share one scale**, so referenced viewports line up. That is why scale is not a column.
+
+---
+
+*Ratifying this list, and the `LX DESIGNER` versus `HEAD ELECTRICIAN` split it depends on, is an open question in the ClickUp decision log. Questions do not live in this repo.*
