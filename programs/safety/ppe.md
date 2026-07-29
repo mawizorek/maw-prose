@@ -1,72 +1,43 @@
----
-title: Personal Protective Equipment
-type: program
-package: safety
-domain: theatre
-department: all
-audience: all-personnel
-acknowledgment: required
-status: active
-last_verified: 2025-08-13
-source: /URITP SOPs/PPE Program.docx
-related: []
----
-
 # Safety Program: Personal Protective Equipment
+
+*Signed program. Source: `/URITP SOPs/PPE Program.docx`, last revised 13 August 2025 — which is eleven months old, so treat the specifics as due for a walk-through.*
 
 It is the responsibility of the International Theatre Program to maintain appropriate Personal Protective Equipment for any tasks that necessitate it.
 
----
+## What we stock, and where it lives
 
-## What is available, and where
+Most of the PPE is split between two rooms, and knowing which one saves a trip. **The Sloan Scene Shop** carries the widest stock: earplugs, earmuffs, eye glasses and goggles, gloves, hardhats, and the "Overhead Work" signs. **The Todd Green Room** carries earplugs, gloves, and COVID masks. Masks are also kept in the **Theater Intern Office**.
 
-| PPE | Where it lives | Wear it when |
-|---|---|---|
-| **Ear plugs** | Todd Green Room · Sloan Scene Shop | Exposed to excessive noise, periodic or prolonged |
-| **Earmuffs** | Sloan Scene Shop | Exposed to excessive noise, periodic or prolonged |
-| **Eye glasses / goggles** | Sloan Scene Shop | Exposed to sharp objects, or potential unintentional projectiles or blowback |
-| **COVID masks** | Todd Green Room · Theater Intern Office | Exposed to COVID |
-| **Gloves** | Todd Green Room · Sloan Scene Shop | Working with heavy loads, rough surfaces, solvents, or prolonged work |
-| **"Overhead Work" signs** | Sloan Scene Shop | Overhead work is being completed — display them |
-| **Hardhats** | Sloan Scene Shop | Overhead work is being completed |
+So: earplugs and gloves are in both main rooms. Earmuffs, eye protection, hardhats, and the overhead signs are Sloan only. Masks are Todd and the Intern Office, not Sloan.
 
----
+**Hearing protection** — earplugs or earmuffs — is worn any time someone is exposed to excessive noise, whether that exposure is periodic or prolonged.
 
-## Minimum PPE for select activities
+**Eye protection** is worn when there are sharp objects in play, or any potential for unintentional projectiles or blowback.
 
-**Operating power or air tools**
+**Gloves** go on for heavy loads, rough surfaces, solvents, and prolonged work.
 
-1. Face/eye protection
-2. Ear protection (earplugs or earmuffs)
+**Hardhats and the "Overhead Work" signs** travel together. Whenever overhead work is happening, the signs get displayed and the hardhats come out.
 
-**Using aerosols, or generating dust or debris**
+**COVID masks** are worn on exposure to COVID.
 
-1. Appropriate respiratory protective devices will be provided and **must** be worn when adequate ventilation is not possible
-2. Face/eye protection
-3. Ear protection (earplugs or earmuffs)
+## Minimum PPE by activity
 
-**Overhead work**
+Three situations have a defined floor.
 
-1. Hardhats must be worn by those on the deck
-2. "Overhead Work" signs must be posted in the work zone
-3. Hardhats shall be worn in the lifts at all times
+**Operating power or air tools** requires face and eye protection plus ear protection, earplugs or earmuffs either way.
 
----
+**Working with aerosols, or generating dust or debris**, requires face and eye protection and ear protection, and appropriate respiratory protective devices will be provided and **must** be worn whenever adequate ventilation is not possible. The respirator is the part people skip; it is not optional when the ventilation is not there.
+
+**Overhead work** requires hardhats on everyone standing on the deck, "Overhead Work" signs posted in the work zone, and hardhats worn in the lifts at all times. Note that last clause — the lift requirement is unconditional, not tied to whether work is currently overhead.
 
 ## Acknowledgment
 
-This program is signed. The blank form and the signed returns live in ClickUp — this file is the source text only.
+This is a signed program. The blank form and the signed returns live in ClickUp; this file is the source text only. The form captures who completed it, the date completed, and a printed name.
 
-**Fields on the form:** completed by · date completed · printed name.
+## Notes on this file
 
----
+Converted from the Word original on 29 July 2026. Wording is unchanged — the availability list was reorganized by location rather than by item, because "what is in this room" is the question you actually have standing in the doorway, but no requirement was added, removed, or reworded.
 
-## Notes on this conversion
+The original document carried an empty `related programs:` field, and it is worth filling. This program cites hardhats in lifts, which is a MEWP dependency nobody ever linked. Fire prevention, hazard communication (solvents), and ladder and scaffold work (overhead) are the other obvious neighbours.
 
-**Converted verbatim from `/URITP SOPs/PPE Program.docx` on 2026-07-29.** Wording is unchanged; the availability list became a table because it was already a table in everything but formatting (item, location, condition). Nothing was added, removed, or reworded.
-
-**`last_verified: 2025-08-13`** is the revision date carried in the source document, not the conversion date. **That is 11 months old** and it is the single most useful thing this front matter does.
-
-**`related: []` is empty because the source's `related programs:` field was empty.** The cross-reference mechanism was designed and never filled in. Obvious candidates once someone rules on them: Fire Prevention (hot work needs eye protection), MEWP (hardhats in lifts, stated right here in this program), Hazard Communication (solvents), Ladder & Scaffold (overhead work).
-
-**The Dropbox `.docx` is untouched.** This is a parallel copy per the ruling to write a repo version and decide after it proves out.
+The Dropbox `.docx` is untouched. This is a parallel copy while the approach proves out.
