@@ -4,56 +4,60 @@ type: venue-reference
 package: smith-theatre
 domain: theatre
 venue: smith-theatre
-audience: designers-and-drafters
+audience: designers-and-new-hires
 status: active
-last_verified: 2026-07-16
+last_verified: 2026-07-29
 ---
 
 # Smith Theatre
 
-Reference notes for the room and its Vectorworks base file. **Look things up here.**
+Everything worth knowing about the room. **One file per system** — so you open the one you need instead of scrolling a venue bible.
 
-| File | What you get |
-|---|---|
-| [**The Room**](./the-room.md) | Shape, datum, the elevation trap, high-steel load limits, beam positions, band and department vocabulary |
-| [**Layers**](./layers.md) | All 29 design layers, grouped by elevation band |
-| [**Classes**](./classes.md) | The 11-class proposal, four categories |
-| **Symbols** | ❌ **Does not exist.** See below. |
+| File | What is in it | State |
+|---|---|---|
+| [**The Room**](./the-room.md) | Shape, datum, the elevation trap, high-steel load limits, beam positions, toe height | ✅ real |
+| [**Layers**](./layers.md) | All 29 Vectorworks design layers, grouped by elevation band | ✅ real |
+| [**Classes**](./classes.md) | The 11-class proposal | ⚠️ proposal |
+| [**Electrics**](./electrics.md) | Dimmer racks, circuits, DMX, company switch, gotchas | ⭕ **empty — headings only** |
 
----
+**Files that should exist and do not yet.** Named so the gaps are visible rather than forgotten:
 
-## ❌ The symbol inventory does not exist
-
-Worth stating plainly, because it was asked for directly.
-
-**There is no list of symbols anywhere.** The source file in `ClickUp_apps` is a *plan for how the library will be organized* plus three TODOs, with zero inventory. Its stated approach is that `symbols.csv` gets **generated from a Vectorworks worksheet**, not hand-authored — so the list only comes into existence once someone runs that export.
-
-**Nothing is being invented to fill the gap.** What is actually known:
-
-- Symbols group by department, mirroring the layer departments: lighting devices, rigging points and hardware, scenic units, audio, video, hang positions.
-- **Lighting-device and pipe/position symbols must be hybrid 2D/3D**, and the 2D component must be a **screen-plane** representation, not a 2D planar object, or it will not behave in 3D.
-- **A record attached to a symbol *definition* auto-attaches to every instance**, which is what makes the inventory machine-readable later.
-- No commas in symbol names.
-
-**To get the list:** build a Vectorworks worksheet database row with columns `name, type, default_layer, default_class, count`, export to CSV, and it becomes a real file here.
+- `audio.md` — amp/rack locations, tie lines, snake runs, mix positions
+- `video.md` — projector positions, throw distances, signal paths
+- `rigging.md` — the detail behind the load limits: pipe inventory, positions, hardware
+- `access.md` — doors, keys, storage, who to ask. ⚠️ **names and key-holders are personnel data** — see the note below
+- `soft-goods.md` — what masking exists, sizes, condition, where it lives
 
 ---
 
-## What else is still in `ClickUp_apps/Vectorworks/`
+## What belongs in here
 
-Not yet migrated, nothing deleted:
+**The back-pocket test:** if a tech asks you in the room and you would rather not guess, it goes here.
 
-- **`VWX-BEST-PRACTICES.md`** — 30.6KB of sourced research, findings F-001..F-016, every claim with a vendor link and a confidence rating. **This is the genuinely useful half of that file** and it has not moved yet.
-- **`BUILD-PLAN.md`** — the one-page build-from artifact.
-- **`_TEMPLATE/`** — 17 files of cloneable skeleton. Status contested; see the Decision Log.
-- The rest of `smith-theatre/`: sheet layers, drafting, naming, records, hatches, saved views, title blocks, reconciliation, plus two record CSVs.
+Dimmer rack locations. Circuit numbering. Which position has the dead circuit nobody remembers. Load ratings. Where the ladder key lives. **Raw, specific, unglamorous facts about this building.**
+
+**What does NOT belong here:**
+
+- **Dimensioned geometry** — that lives in the Vectorworks model. A transcribed drawing dimension goes stale the moment someone edits the file.
+- **Anything that is a signed record** — completed forms, dated acknowledgments, anything tied to a person. FileMaker.
+- **How to do a task** — that is a guide, not a venue fact.
+
+**The dividing line:** *if you would put it on a drawing, it lives in the model. If you would tell it to a new hire on their first walk of the space, it lives here.*
+
+⚠️ **Personnel:** this repo is private, so names are not a leak. But a fact that decays when someone leaves the job ("Charlie has the key") is a worse note than the fact that outlives them ("the key lives in the PM office, ask the PM"). **Write the durable version.**
 
 ---
 
-## Status of the base file itself
+## The Vectorworks base file
 
-**Phase 2 of 6 — building the `.vwx` from the authored plan.** Stalled since 2026-07-16 on three rulings: the class tree, promoting the sheet-numbering scheme, and locking the layer list.
+**Phase 2 of 6** — building the `.vwx` from the authored plan. Stalled since 2026-07-16 on three rulings: the class tree, sheet numbering, and locking the layer list.
 
-The file is being built in **Vectorworks Educational** and will eventually need re-creating in a licensed version. The hedge is a DWG export: keep resources embedded and cleanly laid out so a re-import de-skins but brings the content back.
+Built in **Educational**, so it will need re-creating in a licensed version. The hedge is a DWG export — keep resources embedded and cleanly laid out and a re-import de-skins the file but brings the content back.
 
 **The `.vwx` does not live in git.** It lives locally; this package documents it.
+
+❌ **There is no symbol inventory anywhere.** The old plan was to generate it from a Vectorworks worksheet, so it does not exist until someone runs that export. Columns needed: `name, type, default_layer, default_class, count`.
+
+---
+
+*Setup conventions that apply to every venue, not just this one: [how our Vectorworks files are set up](../../standards/vectorworks/).*
