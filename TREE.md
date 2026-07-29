@@ -1,8 +1,20 @@
 # The Tree — a prototype for `maw-prose`
 
-> **Status: PROPOSAL. Nothing here is ratified.** This is the first file in the repository and its only purpose is to be argued with. No content packages exist yet, deliberately. Michael rules on the shape before anything gets authored into it.
+> **Status: PROPOSAL. The shape is not ratified.** This is the first file in the repository. No content packages exist yet, deliberately — the tree gets agreed before it gets filled.
 >
-> **Last verified: 2026-07-29.** Authored by Brain (Opus 5) with Dev Dexter on architecture, seated by Maestro Mira. Session record: ClickUp task `86ajrtz1m`. Reasoning trail: *Prose Documentation (repo) — Decision Log* in the Brain Reference Library.
+> **RULED 2026-07-29:** `standards/vectorworks/` is **package #1**. Everything else waits.
+>
+> **Last verified: 2026-07-29.** Authored by Brain (Opus 5) with Dev Dexter on architecture, seated by Maestro Mira. Session record: ClickUp task `86ajrtz1m`. **Decisions and open questions: *Prose Documentation (repo) — Decision Log*, ClickUp, Brain Reference Library.**
+
+---
+
+## Where decisions live (read this before adding anything to this file)
+
+**This file holds findings, architecture, and reasoning. It never holds a question.**
+
+Questions posed to Michael are `Q` blocks on the ClickUp Decision Log, always. The reason is mechanical, not stylistic: the decision-log format runs on **inverted checkbox polarity** — Michael answers by checking the options he *rejects*. In repo markdown, `- [ ]` is inert text. **A question written here cannot be answered without hand-editing a file through the GitHub UI**, which means it is not a question, it is a wish.
+
+An earlier revision of this file shipped five open questions in a section at the bottom. That was the defect, corrected on 2026-07-29. **If a passage in this repo expects a reply, it is in the wrong place.**
 
 ---
 
@@ -39,6 +51,8 @@ Not invented. Surveyed on 2026-07-29:
 | Dropbox ▸ `/URITP SOPs` | **~15 `.docx` safety programs**, an `__INDEX OF PROGRAMS.docx`, a `_Cover Page.docx`, `_PROGRAMS IN PROGRESS`, `__SHOW SPECIFIC PROGRAMS`, `zOld` |
 | Dropbox ▸ root | `Emergency Handbook`, `Lighting & Sound`, `_URITP Production RESOURCES`, `PRODUCTIONS`, `PROGRAM`, `Theatre Rig HB.pdf`, `zSHARED ARCHIVALS` |
 | `ClickUp_apps/Vectorworks/` | A six-phase package lifecycle, `_TEMPLATE/` → `smith-theatre/`, `VWX-BEST-PRACTICES.md` at **30.6KB**, 23 logged decisions |
+
+**Not surveyed: Google Drive.** No listing tool was available in the session that produced this file. A credential exists, so this is a gap in the survey rather than an absence of content. **Anything Drive-side is unrepresented below.**
 
 ### 🔑 The finding: this pattern has been built three times already
 
@@ -114,7 +128,7 @@ maw-prose/
     stage-manager/
 
   standards/                   Craft standards. How the work is done correctly.
-    vectorworks/
+    vectorworks/               ← PACKAGE #1 (ruled 2026-07-29)
       README.md
       s-01-file-organization.md
       s-02-classes-and-layers.md
@@ -164,6 +178,8 @@ maw-prose/
 
 If a proposed type cannot state a distinct question and a distinct retrieval pattern, it is a front-matter value, not a folder.
 
+**The type list is the only decision here that is expensive to reverse**, because level 1 is the sole taxonomy axis encoded in paths. Everything else is a text edit. It is under review — see the Decision Log.
+
 ---
 
 ## Front matter
@@ -201,6 +217,7 @@ last_verified: 2026-07-29
 - **Zero-padded sequences.** `week-01`, not `week-1`. Unpadded sorts 1, 10, 11, 2.
 - **One document per unit.** One week, one standard, one program, one template. Never a file that accretes.
 - **~15KB soft ceiling, ~22KB hard.** Past roughly 22KB a file cannot be read whole, and **a file that cannot be read whole cannot be safely edited.** Over the line, split it.
+- **Nothing in this repo asks a question.** Findings and reasoning here; questions to the Decision Log. If a passage expects a reply, it is misfiled. (See *Where decisions live*, top of this file.)
 - **Every package has a `README.md`** listing its documents in order. The index is what makes the rest findable.
 - **The root `README.md` is the map.** It is the single most valuable file here. The Vectorworks README made an entire stalled project legible from a cold start thirteen days later, without reading the other 60KB.
 - **Superseded content is marked, not deleted.** `status: superseded` plus a pointer to the replacement. Git holds the history; the reader needs the signpost.
@@ -210,25 +227,15 @@ last_verified: 2026-07-29
 
 ## Migration candidates
 
-Real inventory from the survey, in the order that makes the most sense to attempt. **None are authorized.**
+Real inventory from the survey. **Only the first is authorized.**
 
-| Candidate | Where it is now | Why it goes first, or does not |
+| Candidate | Where it is now | Status |
 |---|---|---|
-| `standards/vectorworks/` | `ClickUp_apps/Vectorworks/VWX-BEST-PRACTICES.md`, 30.6KB | **Strongest first move.** Already written, already over the readable ceiling. Splitting it fixes a live defect and tests the shape against real content instead of content that has to be invented. |
-| `programs/safety/` | Dropbox `.docx` ×15 + ClickUp `Policies` ×15 + legacy `SAFETY Programs` | **Highest value, highest risk.** It is the biggest body of finished prose and it is *already* three-way split mid-migration. Do not touch it until the retirement plan is explicit, or it becomes a fourth claimant. |
+| `standards/vectorworks/` | `ClickUp_apps/Vectorworks/VWX-BEST-PRACTICES.md`, 30.6KB | ✅ **PACKAGE #1, ruled 2026-07-29.** Already written, already over the readable ceiling. Splitting it into one-file-per-standard fixes a live defect and tests the tree against prose Michael already trusts. Two things to settle before the split: whether the source file is **moved** or **left as a pointer** (a full copy left behind is two claimants on one truth), and that `Vectorworks/DECISION-LOG.md` is **not** replicated into this tree. |
+| `programs/safety/` | Dropbox `.docx` ×15 + ClickUp `Policies` ×15 + legacy `SAFETY Programs` | **Highest value, highest risk. Not authorized.** The biggest body of finished prose, and *already* three-way split mid-migration. Do not touch it until the retirement plan is explicit, or it becomes a fourth claimant. |
 | `handbooks/head-electrician/` | Does not exist | The thing Michael actually wants. Net-new authoring, so it tests nothing about the structure and everything about the writing. |
 | `templates/email/` | Does not exist | Thin, easy, low-stakes. A good second test. |
-| `practice/production-history/` | ClickUp ▸ CV and Applications, 44+ productions | ⚠️ **Probably should NOT move.** Structured records with fields, not prose. This is FileMaker's lane by the boundary above. Listed so the decision is deliberate rather than accidental. |
-
----
-
-## Open questions for Michael
-
-1. **Are seven artifact types right?** Too many, too few, wrong names? This is the one decision that is expensive to change later, because it is the only thing encoded in paths.
-2. **Which package is written first?** Recommendation: `standards/vectorworks/`, for the reasons above.
-3. **`guides/` versus `standards/` — is that line real?** A standard says what is correct; a guide says how to do a thing. Defensible, but they will blur, and a blurry level-1 boundary is the expensive kind.
-4. **Does `practice/` belong here at all**, or is a production history a FileMaker record set?
-5. **What retires when the safety programs move?** The Dropbox `.docx` set, the ClickUp `Policies` tasks, or the legacy space. **Answering "none" means not moving them.**
+| `practice/production-history/` | ClickUp ▸ CV and Applications, 44+ productions | ⚠️ **Probably should NOT move.** Structured records with fields, not prose — FileMaker's lane by the boundary above. Under review in the Decision Log so the call is deliberate rather than accidental. |
 
 ---
 
@@ -237,4 +244,4 @@ Real inventory from the survey, in the order that makes the most sense to attemp
 - **No `_TEMPLATE/` folder.** Vectorworks earned one because a venue package has layers, classes, sheet lists, and reconciliation exports. A prose package has a README and a naming rule. **A template that enforces two conventions is more machinery than the conventions.** Revisit only if a third package genuinely wants it.
 - **No automation, and no pretending otherwise.** Nothing parses the front matter today. The consumer is Brain reading the files, which *is* the capability that motivated this repo — but no scheduler fires, no site builds, and nothing sends. An email send lock has been in force since 2026-07-16: drafts yes, sending no. **The realistic gain is drafting speed, not delivery.**
 - **No publishing story.** Pages from a private repository may require a paid plan; that has not been verified and nothing here depends on it. Private authoring works today regardless.
-- **No content.** On purpose. The tree gets ratified before it gets filled, because a structure with content in it is ten times harder to change than a structure without.
+- **No content.** On purpose, and only until the type list settles. `standards/vectorworks/` is cleared to be first the moment it does.
