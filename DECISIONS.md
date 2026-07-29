@@ -10,11 +10,13 @@ Settled calls about this repo and its contents. **One line each, newest first.**
 
 ## This repo · 2026-07-29
 
+- **D-031** — Head electrician notes are broken up by **production phase**, not calendar week, matching the spine the existing handbook site already used. Provisional; the weeks-versus-phases fork is open in ClickUp.
+- **D-030** — **Prose, not tables, and no YAML front matter.** GitHub renders front matter as a table, so every note opened with a metadata grid instead of a sentence. What mattered in it — what this is, where it came from, how old the source is — goes in an italic line under the title. A table is allowed only when the data is genuinely tabular and there is nothing to say about it, and it has to justify itself in the file. *(Supersedes the front-matter half of D-025.)*
 - **D-029** — Notes are **handoff docs**, written for a designer, a new hire, or whoever holds the role next. Reference first, ceremony never.
 - **D-028** — Dropped `practice/`. A production history is a record set; FileMaker owns it.
 - **D-027** — `guides/` and `standards/` both stay, with the boundary test written into `CONVENTIONS.md` so placement is never a judgment call.
 - **D-026** — Replaced the old "never numbers in prose" rule: **if you would put it on a drawing it lives in the model; if you would tell it to a new hire on their first walk, it lives in the notes.**
-- **D-025** — Prose lives in `maw-prose`, private, Michael is the only distribution gate. Level 1 is artifact type; the taxonomy is front matter; depth capped at two levels.
+- **D-025** — Prose lives in `maw-prose`, private, Michael is the only distribution gate. Level 1 is artifact type and depth is capped at two levels. ~~The taxonomy is front matter.~~ **Superseded by D-030: there is no front matter. The taxonomy lives in the prose and the paths, and finding things is a matter of reading rather than querying.**
 - **D-025b** — FileMaker holds **records**, this repo holds **source**. An FMP record may carry a repo path; the repo never holds a copy of a record.
 
 ## Vectorworks · 2026-07-16
