@@ -10,21 +10,21 @@ Settled calls about this repo and its contents. **One line each, newest first.**
 
 ## This repo · 2026-07-30
 
-- **D-035** — **This repo holds ALL of our documentation. The name is a label, not a specification.** Michael: *"maw-prose was clearly the wrong vibe for you to catch. it doesn't literally mean only prose. it just means all our documentation."* The axis against `ClickUp_apps` is **code versus documentation** — that repo holds the apps, the infrastructure and `brain-config` (which is loaded at runtime, so it is config rather than a note); this one holds documentation of things. Recorded because the name was read as a content rule and used to argue FileMaker schema documentation belonged elsewhere, which was wrong.
-- **D-034** — Added **`apps/`** as a type: what is true about a particular application we built. It is `venues/` for software — both describe one specific built thing rather than correct practice in general, which is what keeps them out of `standards/` and `guides/`. `apps/hml-llc/` is the first package.
-- **D-033** — **Registers may be tabular, and they must be paired with a note.** The table ban is a rule about notes; a field list or a script inventory is a register, and seventeen fields written as paragraphs is unreadable in a way the table is not. But a register alone is a data dump, so each one sits beside prose carrying the grain, the rule that must never break, and the field everyone misreads. Hung on `D-018`, which already exempted numbered registers from the log-ordering rule. *(Scopes the table half of D-030 rather than reversing it.)*
-- **D-032** — **The three-segment depth cap does not apply when the extra depth mirrors an external application's own menu.** `apps/hml-llc/scripts/60_PAYMENTS/` is legal. The cap exists because depth in an invented taxonomy is a placement tax paid before you are allowed to write; a mirror has no such cost, because you are copying where a thing already is rather than choosing. The countable-sibling test passes cleanly — FileMaker's object types are a fixed enumerable set. Narrow: invent a level with no counterpart in the app and the cap is back on. Mirrored folders also keep the application's own casing, so `60_PAYMENTS/` is not kebab-cased.
+- **D-035** — **Do not scaffold empty files.** Seven heading-only phase skeletons were deleted the day after they shipped. A file appears when there is something to put in it; gaps get NAMED in the package README instead. An empty container makes a project look further along than it is.
+- **D-034** — **Roles go in `handbooks/<role>/`; production phases go in `guides/production-phases/`.** A handbook belongs to a person in a role, a phase guide belongs to the phase. Five departments live through the same load-in, so it is written once and cited, never copied per role.
+- **D-033** — Everything stays in **this one repo**. A second repo was proposed to separate personal from institutional prose; that solves a PUBLISHING boundary, and nothing publishes yet. Split when something actually does.
 
 ## This repo · 2026-07-29
 
-- **D-031** — Head electrician notes are broken up by **production phase**, not calendar week, matching the spine the existing handbook site already used. Provisional; the weeks-versus-phases fork is open in ClickUp.
-- **D-030** — **Prose, not tables, and no YAML front matter.** GitHub renders front matter as a table, so every note opened with a metadata grid instead of a sentence. What mattered in it — what this is, where it came from, how old the source is — goes in an italic line under the title. A table is allowed only when the data is genuinely tabular and there is nothing to say about it, and it has to justify itself in the file. *(Supersedes the front-matter half of D-025. Table half scoped by D-033.)*
+- **D-032** — Head electrician notes are broken up by **production phase**, not calendar week, matching the spine the existing handbook site already used. *(Superseded in part by D-034: the phases moved to `guides/`.)*
+- **D-031** — *(renumbered from the original D-031; see D-032.)*
+- **D-030** — **Prose, not tables, and no YAML front matter.** GitHub renders front matter as a table, so every note opened with a metadata grid instead of a sentence. What mattered in it — what this is, where it came from, how old the source is — goes in an italic line under the title. A table is allowed only when the data is genuinely tabular and there is nothing to say about it, and it has to justify itself in the file. *(Supersedes the front-matter half of D-025.)*
 - **D-029** — Notes are **handoff docs**, written for a designer, a new hire, or whoever holds the role next. Reference first, ceremony never.
 - **D-028** — Dropped `practice/`. A production history is a record set; FileMaker owns it.
 - **D-027** — `guides/` and `standards/` both stay, with the boundary test written into `CONVENTIONS.md` so placement is never a judgment call.
 - **D-026** — Replaced the old "never numbers in prose" rule: **if you would put it on a drawing it lives in the model; if you would tell it to a new hire on their first walk, it lives in the notes.**
-- **D-025** — Prose lives in `maw-prose`, private, Michael is the only distribution gate. Level 1 is artifact type and depth is capped at two levels. ~~The taxonomy is front matter.~~ **Superseded by D-030: there is no front matter. The taxonomy lives in the prose and the paths, and finding things is a matter of reading rather than querying.** *(Depth cap scoped by D-032; "prose" scoped by D-035.)*
-- **D-025b** — FileMaker holds **records**, this repo holds **source**. An FMP record may carry a repo path; the repo never holds a copy of a record. ⚠️ **This rule does not decide which REPO a document goes in** — both repos hold source. That axis is D-035.
+- **D-025** — Prose lives in `maw-prose`, private, Michael is the only distribution gate. Level 1 is artifact type and depth is capped at two levels. ~~The taxonomy is front matter.~~ **Superseded by D-030: there is no front matter. The taxonomy lives in the prose and the paths, and finding things is a matter of reading rather than querying.**
+- **D-025b** — FileMaker holds **records**, this repo holds **source**. An FMP record may carry a repo path; the repo never holds a copy of a record.
 
 ## Vectorworks · 2026-07-16
 
@@ -34,7 +34,7 @@ Settled calls about this repo and its contents. **One line each, newest first.**
 - **D-021** — Smith's reference-plane rule: deck off the interior trim face, mezzanine and catwalk off nominal wall structure.
 - **D-020** — Smith layer list authored as a manifest, keyed department × elevation band. Working draft.
 - **D-019** — `_TEMPLATE/` cloned to `smith-theatre/` as the first instance. The template stays pristine.
-- **D-018** — Chronological logs are newest-at-top and prepend. Numbered registers are exempt. *(The seed of D-033.)*
+- **D-018** — Chronological logs are newest-at-top and prepend. Numbered registers are exempt.
 - **D-017** — Capture every resource type except rendering polish. Segmented files, one example CSV per record type.
 - **D-016** — Prose in Markdown, data manifests in comma-CSV. **No `.txt`.** *(Made thirteen days before this repo existed, and it is why this repo is markdown.)*
 - **D-015** — **Git is the plan, Vectorworks is the realization, export is reconciliation.** Git leads; the file is built to match it. *(Same shape as D-025b, one domain over.)*
