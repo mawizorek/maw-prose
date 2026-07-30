@@ -1,6 +1,6 @@
 # maw-prose
 
-Notes, handbooks, and standards. Written as handoff docs — for a designer starting cold, a new hire, or whoever holds the role next.
+All of our documentation. Written as handoff docs — for a designer starting cold, a new hire, or whoever holds the role next.
 
 Private. Write freely.
 
@@ -29,14 +29,24 @@ What is true about a particular room.
 
 - **[Smith Theatre](./venues/smith-theatre/)** — [the room](./venues/smith-theatre/the-room.md) · [layers](./venues/smith-theatre/layers.md) · [classes](./venues/smith-theatre/classes.md) · [electrics](./venues/smith-theatre/electrics.md)
 
+## Apps
+
+What is true about a particular application we built. `apps/` is `venues/` for software.
+
+- **[HML_LLC](./apps/hml-llc/)** — the FileMaker loan-servicing solution.
+
 ## Programs
 
 What someone has to read and sign.
 
 - **[Safety](./programs/safety/)** — [PPE](./programs/safety/ppe.md)
 
+## Paperwork
+
+The forms themselves.
+
 ---
 
-A handbook belongs to a person in a role. A guide belongs to a task. A standard is what work must conform to. A venue note is what is true about a room. If a document could go two places, that is the test.
+A handbook belongs to a person in a role. A guide belongs to a task. A standard is what work must conform to. A venue note is what is true about a room, and an app note is the same thing for software. If a document could go two places, that is the test.
 
 [CONVENTIONS.md](./CONVENTIONS.md) before you add anything. [DECISIONS.md](./DECISIONS.md) for settled calls.
