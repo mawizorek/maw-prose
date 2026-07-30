@@ -30,6 +30,10 @@ The cost of dropping front matter is honest: there are no machine-readable tags 
 
 **Say how old it is.** The one thing front matter was genuinely good for. Every note states when its content was last actually checked — not when the file was last touched, which is a different and much less useful fact. Copying a file is not verifying it. This is the only defense against prose that looks authoritative forever while being quietly wrong.
 
+**Go easy on bold and emoji.** A page where half the words are bold has no emphasis at all, and a warning marker means nothing once it is decoration. Save both for something that costs real money to get wrong.
+
+**Do not write about the documentation.** No notes on why a file is shaped the way it is, what it used to be, or what got moved and when. A reader opening a note about a room does not care how the note came to exist. That belongs in `DECISIONS.md`, one line.
+
 ### Registers are not notes
 
 A field list, a script inventory, an object-class list — these are **registers**, and the rules above are rules about notes. A register's whole job is to be a complete enumeration you scan for one row, and prose cannot do that: seventeen fields written as paragraphs is unreadable in a way the table version is not.
@@ -76,7 +80,9 @@ And the countable-sibling test passes cleanly: FileMaker's object types are a fi
 
 **Split past roughly 15KB.** A file nobody reads whole is a file nobody edits safely.
 
-**Every package has a `README.md`** listing its documents. The index is what makes the rest findable.
+**Every package has a `README.md`** listing its documents — and naming the ones that should exist and do not, so the gaps stay visible. The index is what makes the rest findable.
+
+**Never scaffold an empty file.** A file appears when there is something to put in it. A heading-only placeholder makes a project look further along than it is; name the gap in the README instead.
 
 **Nothing here asks a question.** Questions go to the ClickUp log; findings stay here. A `- [ ]` in this repo is dead text — nobody can answer it. If a passage expects a reply, it is misfiled.
 

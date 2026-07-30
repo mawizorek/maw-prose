@@ -10,6 +10,7 @@ Settled calls about this repo and its contents. **One line each, newest first.**
 
 ## This repo · 2026-07-30
 
+- **D-036** — The Vectorworks research findings migrate as **lookup notes, not a numbered register.** `F-NNN` numbering dropped: nobody looks up F-011, they look up how to get a list out of a file, so the filename carries the question.
 - **D-035** — **Do not scaffold empty files.** Seven heading-only phase skeletons were deleted the day after they shipped. A file appears when there is something to put in it; gaps get NAMED in the package README instead. An empty container makes a project look further along than it is.
 - **D-034** — **Roles go in `handbooks/<role>/`; production phases go in `guides/production-phases/`.** A handbook belongs to a person in a role, a phase guide belongs to the phase. Five departments live through the same load-in, so it is written once and cited, never copied per role.
 - **D-033** — Everything stays in **this one repo**. A second repo was proposed to separate personal from institutional prose; that solves a PUBLISHING boundary, and nothing publishes yet. Split when something actually does.
