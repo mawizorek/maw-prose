@@ -20,6 +20,10 @@ Other Components: 0.2 inches per occupant (or 0.1 with sprinklers).
 501 to 1000 Occupants: Minimum 3 exits.
 Over 1000 Occupants: Minimum 4 exits.
 
+# Doorways
+Door swings must be in the outwards direction of egress?
+and no center supports on double doors?
+
 ~~## Egress Windows (Residential)~~
 ~~Minimum net clear opening: 20 inches wide x 24 inches high.~~
 ~~Minimum net clear opening area: 5.7 sq. ft..~~
