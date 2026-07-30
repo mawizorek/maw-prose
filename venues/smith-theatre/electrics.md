@@ -1,16 +1,16 @@
-# Smith Theatre — Electrics
+# Smith Theatre — electrics
 
-*⭕ **EMPTY. Nothing below has been filled in.** The headings are here so the facts have a home, and every one of them is a question waiting for an answer. Content last checked: never.*
+*Empty. Nothing below has been filled in; the headings are the questions. Checked: never.*
 
-Back-pocket electrics facts. **The stuff you need standing in the room with a tech asking you a question.**
+Back-pocket electrics facts — the stuff you need standing in the room with a tech asking you a question.
 
 ## Dimmer racks
 
-Where they physically are, how you get to them, how many and what type, and what feeds what. Rack locations. How you get in — door, key, and who holds it, written durably rather than by name. Rack type, manufacturer, and capacity.
+Where they physically are and how you get to them. Rack type, manufacturer, capacity. What feeds what. How you get in — door, key, and who holds it, written durably rather than by name.
 
 ## Circuits
 
-The numbering scheme. Which circuits land where, and which positions they serve. Non-dims and constant circuits, which are the ones people assume rather than check.
+The numbering scheme. Which circuits land where and which positions they serve. Non-dims and constant circuits, which are the ones people assume rather than check.
 
 ## Data and control
 
@@ -26,4 +26,4 @@ The things that catch people: a dead circuit everyone forgets, a rack that trips
 
 ---
 
-*How to fill this in: say it out loud and it gets written. Nothing here needs to be complete or tidy to be worth recording. **A half-answered heading beats an empty file, and an empty file beats a fact that only lives in your head.***
+*A half-answered heading beats an empty file, and an empty file beats a fact that only lives in your head.*
