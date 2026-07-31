@@ -5,6 +5,7 @@ In New York State (NYS), egress capacity and minimum widths are determined by oc
 Key factors are the occupant load, whether sprinklers are present, and specific component (stairs, doors, courts) requirements, all detailed in the Building Code of New York State (BCNYS).
 
 ### Key Egress Width Requirements
+*use a general 36" for aisle widths to remain compliant*
 Stairways: Minimum 44 inches wide (36 inches for <50 occupants).
 Egress Doors: Minimum 32 inches clear opening width.
 Egress Courts: Minimum 44 inches wide (36 inches for R-3/U occupancies). 
