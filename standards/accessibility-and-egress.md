@@ -2,24 +2,24 @@
 ## Egress pathways
 In New York State (NYS), egress capacity and minimum widths are determined by occupant load and occupancy type, with factors like 0.3 inches per occupant for stairways (0.2 for other components).
 ### Key Egress Width Requirements
-Minimum widths vary:
-Stairways: Minimum 44 inches wide (36 inches for <50 occupants).
-Egress Doors: Minimum 32 inches clear opening width.
-36 inches for doors serving less than 50 people, and 32 inches clear opening for egress doors.
-Egress Courts: Minimum 44 inches wide (36 inches for R-3/U occupancies). 
-*use a general 36" for aisle widths to remain compliant*
+Minimum widths vary:  
+Stairways: Minimum 44 inches wide (36 inches for <50 occupants).  
+Egress Doors: Minimum 32 inches clear opening width.  
+36 inches for doors serving less than 50 people, and 32 inches clear opening for egress doors.  
+Egress Courts: Minimum 44 inches wide (36 inches for R-3/U occupancies).   
+*use a general 36" for aisle widths to remain compliant*. 
 
 Key factors are the occupant load, whether sprinklers are present, and specific component (stairs, doors, courts) requirements, all detailed in the Building Code of New York State (BCNYS).
 
 ## Calculating Egress Capacity
-Determine Occupant Load: Use floor area and occupancy type (e.g., classrooms, warehouses) to find the number of occupants.
-Calculate Required Width: Multiply the occupant load by the capacity factor.
-Stairways: 0.3 inches per occupant (or 0.15 with sprinklers).
-Other Components: 0.2 inches per occupant (or 0.1 with sprinklers). 
+Determine Occupant Load: Use floor area and occupancy type (e.g., classrooms, warehouses) to find the number of occupants.  
+Calculate Required Width: Multiply the occupant load by the capacity factor.  
+Stairways: 0.3 inches per occupant (or 0.15 with sprinklers).  
+Other Components: 0.2 inches per occupant (or 0.1 with sprinklers).  
 ## Minimum Number of Exits
-1 to 500 Occupants: Minimum 2 exits.
-501 to 1000 Occupants: Minimum 3 exits.
-Over 1000 Occupants: Minimum 4 exits.
+1 to 500 Occupants: Minimum 2 exits.  
+501 to 1000 Occupants: Minimum 3 exits.  
+Over 1000 Occupants: Minimum 4 exits.  
 
 # Doorways
 Door swings must be in the outwards direction of egress?
