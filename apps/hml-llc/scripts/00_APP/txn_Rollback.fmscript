@@ -1,0 +1,36 @@
+# txn_Rollback
+# Discards every uncommitted write since txn_Begin by reverting the PARENT record.
+# Param (JSON, optional): { reason }
+# Returns (JSON): { ok, reverted, reason }
+# No repair path by design: if a stray commit leaked rows, this cannot reach them and
+# the correct outcome is a loud failure, not an automated tidy-up.
+
+Set Error Capture [ On ]
+Set Variable [ $p ; Value: Get ( ScriptParameter ) ]
+Set Variable [ $reason ; Value: Case ( IsEmpty ( JSONGetElement ( $p ; "reason" ) ) ; "unspecified" ; JSONGetElement ( $p ; "reason" ) ) ]
+
+# A rollback with no open transaction is a caller bug. Say so.
+If [ $$TXN_ACTIVE <> 1 ]
+	Exit Script [ Result: JSONSetElement ( "{}" ; [ "ok" ; False ; JSONBoolean ] ; [ "error" ; "txn_Rollback called with no open transaction" ; JSONString ] ) ]
+End If
+
+Go to Layout [ $$TXN_PARENT_TABLE ]
+Enter Find Mode [ Pause: Off ]
+Set Field By Name [ $$TXN_PARENT_TABLE & "::PrimaryKey" ; $$TXN_PARENT_ID ]
+Perform Find [ ]
+Revert Record/Request [ With dialog: Off ]
+
+Set Variable [ $err ; Value: Get ( LastError ) ]
+
+# Clear state either way, or a phantom open transaction blocks the next txn_Begin
+Set Variable [ $$TXN_ACTIVE ; Value: "" ]
+Set Variable [ $$TXN_ID ; Value: "" ]
+Set Variable [ $$TXN_PARENT_TABLE ; Value: "" ]
+Set Variable [ $$TXN_PARENT_ID ; Value: "" ]
+Set Variable [ $$TXN_LABEL ; Value: "" ]
+
+If [ $err ]
+	Exit Script [ Result: JSONSetElement ( "{}" ; [ "ok" ; False ; JSONBoolean ] ; [ "error" ; "revert reported error " & $err & " - INSPECT THE DATA MANUALLY" ; JSONString ] ; [ "reason" ; $reason ; JSONString ] ) ]
+End If
+
+Exit Script [ Result: JSONSetElement ( "{}" ; [ "ok" ; True ; JSONBoolean ] ; [ "reverted" ; True ; JSONBoolean ] ; [ "reason" ; $reason ; JSONString ] ) ]
