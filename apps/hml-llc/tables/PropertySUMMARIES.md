@@ -23,7 +23,9 @@ It remains the property-first navigation hub, which is worth stating because it 
 
 The last row is not a placeholder anybody forgot. It is an honest statement that this table's actual identity fields have never been enumerated from the live file, and writing a plausible-looking address block here would be worse than the gap.
 
-### Calculation
+### One calculation, and its status is unresolved
+
+⚠️ **`countNumDocuments` may not exist.** It was documented on this table, and then flagged on 2026-07-16 as absent from the locked schema and possibly phantom — present in an old index, never carried into the canonical field set. It is recorded here because deleting a possibly-real calculation is worse than carrying a flagged one, but **do not treat it as built.** If the live file has it, it needs a real entry alongside the other formula files; if not, it stays dropped.
 
 `countNumDocuments` — Number, unstored. Counts related property documents.
 
@@ -36,7 +38,7 @@ GetAsNumber (
 )
 ```
 
-This is the one calc in the app whose text lives in a table note rather than a `.fmcalc` file, because it is four lines and it exists to illustrate the SQL table-name dependency: the query says `Documents`, so it breaks silently the day that table is renamed. `ExecuteSQL` returns nothing rather than erroring on a bad table name, which is why table names get locked before any SQL is written.
+It is also a live example of the SQL naming exposure: the query names `Documents` as text, so it breaks silently the day that table is renamed — returning nothing rather than erroring.
 
 ## Relationships
 
