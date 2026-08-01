@@ -16,8 +16,18 @@ The formula lives here and nowhere else. Table notes name their calc fields with
 
 **`Loans`** — eleven, and this is the app's arithmetic. Two of them, `calc_TotalOutstanding` and `calc_CurrentPayoffAmount`, both check for a frozen payoff first and fall back to a live computation. **That fallback is the reason `Loans.fkCurrentPayoff` must be empty while a live payoff is being computed** — leave it set and both calcs short-circuit to last month's frozen number and return it as if it were current.
 
+## Two names that are not synonyms
+
+**`calc_NextDueDate` and `calc_NextMaturityDate` mean different things** and reading one as the other produces a wrong payoff. The first is the next date something is collectible — a query for the earliest upcoming expected row. The second is a maturity milestone computed from the closing or origination date plus the maturation term. A loan can be months from maturity and have interest due next week.
+
+This was recorded once in an index that has since been retired, which is exactly the kind of fact that vanishes in a reorganization.
+
 ## Two things worth knowing before editing any of them
 
 **`ExecuteSQL` embeds table and field names as text.** `calc_amountPaid` queries `PaymentApplications`, `calc_lateAfterDate` queries `Loans`, `calc_NextDueDate` queries `ExpectedTransactions`, and both payoff calcs query `Payoffs`. A rename in Manage Database does not update them, and SQL against a wrong table name **returns empty rather than erroring**. This is the concrete reason table names get locked before any SQL is written.
 
 **Stored versus unstored is load-bearing, not a performance knob.** Anything reading related records or `Get(CurrentDate)` has to be unstored or it freezes at its first evaluation. `calc_islate` stored would mean a row that was on time yesterday is on time forever.
+
+## Not here
+
+`PropertySUMMARIES::countNumDocuments` has a body recorded on its table note rather than a file here, because **its existence is unconfirmed** — flagged in July as possibly present only in an old index. If the live file has it, it gets a real `.fmcalc` like everything else.
