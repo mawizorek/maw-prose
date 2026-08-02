@@ -8,7 +8,7 @@ Grain: one note, one set of terms. The financial parent of all servicing records
 
 | Field | Type | FMP Comment | TO | ⚠️ |
 |---|---|---|---|---|
-| PrimaryKey | text-uuid | Auto-generated unique identifier | | |
+| PrimaryKey | text-uuid | Auto-generated unique identifier for this loan record | | |
 | fkProperty | text-uuid | Collateral property for this loan | → PropertySUMMARIES | |
 | fkBorrower | text-uuid | Borrowing entity (always an Organization, even for individuals) | → Organizations | |
 | fkCurrentPayoff | text-uuid | Most recent payoff snapshot; empty during live compute | → Payoffs | |
@@ -23,23 +23,20 @@ Grain: one note, one set of terms. The financial parent of all servicing records
 | LoanTerm_inDays | number | Total loan term in calendar days | | |
 | GraceDays | number | Days after due before late fee triggers | | ⚠️ default value? |
 | ServicingStatus | text | Current state: active, paid off, default, extended | | ⚠️ should be value list |
+| [calc_CurrentPrincipalBalance](../calculations/Loans__calc_CurrentPrincipalBalance.fmcalc) | (c→Number) | Principal remaining after all applied payments | | |
+| [calc_originationPoints](../calculations/Loans__calc_originationPoints.fmcalc) | (c→Number) | Computed origination fee dollar amount | | |
+| [calc_MaturationPayment](../calculations/Loans__calc_MaturationPayment.fmcalc) | (c→Number) | Balloon payment due at maturity | | |
+| [calc_MonthlyPayment](../calculations/Loans__calc_MonthlyPayment.fmcalc) | (c→Number) | Interest-only monthly payment amount | | |
+| [calc_perDiemInterest](../calculations/Loans__calc_perDiemInterest.fmcalc) | (c→Number) | Daily interest accrual; unstored | | |
+| [calc_FirstMaturation](../calculations/Loans__calc_FirstMaturation.fmcalc) | (c→Number) | Original maturity date as serial | | |
+| [calc_NextMaturityDate](../calculations/Loans__calc_NextMaturityDate.fmcalc) | (c→Date) | Next maturity considering extensions; unstored | | |
+| [calc_NextDueDate](../calculations/Loans__calc_NextDueDate.fmcalc) | (c→Date) | Next payment due date; unstored | | |
+| [calc_TotalOutstanding](../calculations/Loans__calc_TotalOutstanding.fmcalc) | (c→Number) | Principal + all accrued unpaid interest; unstored | | |
+| [calc_CurrentPayoffAmount](../calculations/Loans__calc_CurrentPayoffAmount.fmcalc) | (c→Number) | Live payoff figure (outstanding + per diem to today); unstored | | |
+| [calc_expROI](../calculations/Loans__calc_expROI.fmcalc) | (c→Number) | Expected return on investment over full term | | |
+| CreationTimestamp | timestamp | Record creation timestamp (auto-enter) | | |
+| CreatedBy | text | Account name at record creation (auto-enter) | | |
+| ModificationTimestamp | timestamp | Last modification timestamp (auto-enter) | | |
+| ModifiedBy | text | Account name at last modification (auto-enter) | | |
 
-Audit fields: CreationTimestamp, CreatedBy, ModificationTimestamp, ModifiedBy.
-
-## Calculations
-
-| Field | Returns | Stored | Formula |
-|---|---|---|---|
-| calc_CurrentPrincipalBalance | Number | yes | [view](../calculations/Loans__calc_CurrentPrincipalBalance.fmcalc) |
-| calc_originationPoints | Number | yes | [view](../calculations/Loans__calc_originationPoints.fmcalc) |
-| calc_MaturationPayment | Number | yes | [view](../calculations/Loans__calc_MaturationPayment.fmcalc) |
-| calc_MonthlyPayment | Number | yes | [view](../calculations/Loans__calc_MonthlyPayment.fmcalc) |
-| calc_perDiemInterest | Number | no | [view](../calculations/Loans__calc_perDiemInterest.fmcalc) |
-| calc_FirstMaturation | Number | yes | [view](../calculations/Loans__calc_FirstMaturation.fmcalc) |
-| calc_NextMaturityDate | Date | no | [view](../calculations/Loans__calc_NextMaturityDate.fmcalc) |
-| calc_NextDueDate | Date | no | [view](../calculations/Loans__calc_NextDueDate.fmcalc) |
-| calc_TotalOutstanding | Number | no | [view](../calculations/Loans__calc_TotalOutstanding.fmcalc) |
-| calc_CurrentPayoffAmount | Number | no | [view](../calculations/Loans__calc_CurrentPayoffAmount.fmcalc) |
-| calc_expROI | Number | yes | [view](../calculations/Loans__calc_expROI.fmcalc) |
-
-Full relationship context → [graph.md](../relationships/graph.md)
+Full relationship context → [graph.md](../relationships/README.md)
