@@ -1,51 +1,73 @@
 <!DOCTYPE html>
-<html lang="en" style="visibility:hidden">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=1060">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Loan Detail (Form View) — HML_LLC</title>
 <!--
-  RENDER METADATA
-  ===============
-  theme-join: papyrus (resolved via shared/themes/_themes.json)
-  vectors:
-    color: papyrus (colors.tsv)
-    typography: papyrus (typography.tsv)
-    forms: papyrus (forms.tsv)
-    spacing: tight (spacing.tsv)
-  theme-source: ../../OPEN-ME.md (frontmatter: theme: papyrus)
-  object-library: shared/themes/_objects.json (schemaVersion 2)
-  layout-source: form-loan-detail.md
-  standard: filemaker/LAYOUT-RENDER-STANDARD.md (DD-R01..R06)
-  status: v2 — dynamic theme join (no hardcoded tokens)
-
-  HOW THIS WORKS:
-  resolve.js loads ALL theme tokens from the 4-vector TSV grids at runtime.
-  Change a value in colors.tsv/typography.tsv/forms.tsv/spacing.tsv → it
-  lands here on next load. Zero values are copied into this file.
-
-  OBJECTS USED (from _objects.json):
-    cnt_page_shell, cnt_section_card, nav_back, tx_page_title,
-    tx_field_label, fd_text_standard, fd_readonly_display,
-    fd_dropdown_standard, row_tile_badge, btn_family, tx_badge
+  RENDER: form-loan-detail
+  THEME: papyrus (baked from papyrus.json @ 2026-08-02)
+  OBJECTS: cnt_page_shell, cnt_section_card, nav_back, tx_page_title,
+           tx_field_label, fd_text_standard, fd_readonly_display,
+           row_tile_badge, btn_family, tx_badge
+  SELF-CONTAINED: zero external dependencies.
 -->
-
-<!-- Fonts: must match typography.papyrus row in typography.tsv -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-
-<!-- THEME RESOLVER: the JOIN. Loads 4 vectors from TSV grids, sets all CSS vars. -->
-<script src="https://raw.githubusercontent.com/mawizorek/ClickUp_apps/main/shared/themes/resolve.js"></script>
-
 <style>
-/* === LAYOUT-SPECIFIC CONSTANTS (not theme tokens, not in any grid) === */
+/* === THEME TOKENS (baked from papyrus.json) === */
 :root {
+  --bg: oklch(0.935 0.026 85);
+  --surface-1: oklch(0.965 0.020 85);
+  --surface-2: oklch(0.895 0.032 82);
+  --surface-3: oklch(0.855 0.038 80);
+  --border: oklch(0.78 0.042 78);
+  --field: oklch(0.975 0.018 85);
+  --text: oklch(0.30 0.045 60);
+  --text-soft: oklch(0.46 0.045 62);
+  --text-faint: oklch(0.60 0.038 65);
+  --accent: oklch(0.52 0.11 62);
+  --accent-2: oklch(0.56 0.11 42);
+  --accent-soft: oklch(0.88 0.05 75);
+  --on-accent: oklch(0.98 0.02 80);
+  --good: oklch(0.52 0.13 145);
+  --warn: oklch(0.62 0.13 70);
+  --bad: oklch(0.52 0.18 30);
+  --info: oklch(0.50 0.10 230);
+
+  /* Typography */
+  --font-display: 'Gabarito', system-ui, sans-serif;
+  --font-body: 'Gabarito', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --fs-lead: 1.35rem;
+  --fs-body: 0.9375rem;
+  --fs-sm: 0.8125rem;
+  --fs-xs: 0.6875rem;
+
+  /* Forms */
+  --radius: 0px;
+  --radius-lg: 2px;
+  --border-w: 1px;
+  --shadow-out: 0 1px 2px oklch(0.30 0.02 60 / 0.08);
+  --shadow-in: inset 0 1px 3px oklch(0.30 0.02 60 / 0.12);
+
+  /* Spacing */
+  --gap-xs: 4px;
+  --gap-sm: 8px;
+  --gap-md: 12px;
+  --gap-lg: 20px;
+  --pad-cell: 8px;
+  --pad-card: 16px;
+
+  /* Layout constants */
   --row-h: 30px;
   --cell-px: 8px;
   --cell-py: 4px;
+  --track-tight: -0.01em;
+  --track-btn: 0.04em;
 }
 
-/* === RESET + PAGE SHELL (cnt_page_shell) === */
+/* === RESET === */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body {
   background: var(--bg);
@@ -53,16 +75,15 @@ html, body {
   font-family: var(--font-body);
   font-size: var(--fs-body);
   line-height: 1.35;
-  overflow-x: auto;
 }
 
 .layout {
-  width: 1060px;
+  max-width: 1060px;
   padding: var(--pad-card) var(--gap-lg);
   margin: 0 auto;
 }
 
-/* === HEADER (tx_page_title + nav_back) === */
+/* === HEADER === */
 .layout-header {
   display: flex;
   align-items: center;
@@ -100,7 +121,7 @@ html, body {
 }
 .btn-back:hover { border-color: var(--accent); }
 
-/* === SECTION CARD (cnt_section_card) === */
+/* === SECTION CARD === */
 .terms-card {
   background: var(--surface-2);
   border: var(--border-w) solid var(--border);
@@ -112,7 +133,7 @@ html, body {
 }
 .terms-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: var(--gap-xs) var(--pad-card);
 }
 .terms-grid .field {
@@ -145,9 +166,10 @@ html, body {
   color: var(--text-soft);
   padding: 2px 6px;
   border: var(--border-w) solid transparent;
+  font-style: italic;
 }
 
-/* Status pill (tx_badge) */
+/* Status pill */
 .pill {
   display: inline-block;
   font-size: var(--fs-xs);
@@ -158,14 +180,11 @@ html, body {
   border-radius: var(--radius);
 }
 .pill.active { background: var(--good); color: var(--on-accent); }
-.pill.upcoming { background: var(--warn); color: var(--on-accent); }
 .pill.late { background: var(--bad); color: var(--on-accent); }
 .pill.paid-off { background: var(--info); color: var(--on-accent); }
 
-/* === PORTAL TABLE (row_tile_badge: rows state) === */
-.portal {
-  margin-bottom: var(--pad-card);
-}
+/* === PORTAL TABLE === */
+.portal { margin-bottom: var(--pad-card); }
 .portal-header {
   font-family: var(--font-display);
   font-size: var(--fs-sm);
@@ -208,9 +227,8 @@ html, body {
   background: var(--accent-soft);
   border-left: 2px solid var(--accent-2);
 }
-.portal tr:hover td { background: var(--accent-soft); }
+.portal tr:hover td { background: var(--accent-soft); cursor: pointer; }
 
-/* Portal status dots */
 .dot {
   display: inline-block;
   width: 7px;
@@ -224,7 +242,7 @@ html, body {
 .dot.late { background: var(--bad); }
 .dot.applied { background: var(--info); }
 
-/* === ACTION BAR (btn_family) === */
+/* === ACTION BAR === */
 .action-bar {
   display: flex;
   gap: var(--gap-xs);
@@ -240,27 +258,13 @@ html, body {
   cursor: pointer;
   box-shadow: var(--shadow-out);
   border-radius: var(--radius);
-  transition: transform var(--motion-fast) var(--ease), box-shadow var(--motion-fast) var(--ease);
 }
-.btn.primary {
-  background: var(--accent);
-  color: var(--on-accent);
-}
-.btn.primary:active {
-  box-shadow: var(--shadow-in);
-  transform: translateY(1px);
-}
-.btn.secondary {
-  background: transparent;
-  color: var(--accent-2);
-  border: var(--border-w) solid var(--accent-2);
-}
-.btn.secondary:active {
-  background: var(--surface-3);
-  box-shadow: var(--shadow-in);
-}
+.btn.primary { background: var(--accent); color: var(--on-accent); }
+.btn.primary:active { box-shadow: var(--shadow-in); transform: translateY(1px); }
+.btn.secondary { background: transparent; color: var(--accent-2); border: var(--border-w) solid var(--accent-2); }
+.btn.secondary:active { background: var(--surface-3); box-shadow: var(--shadow-in); }
 
-/* === FOOTER (PK + version) === */
+/* === FOOTER === */
 .layout-footer {
   margin-top: var(--gap-md);
   padding-top: var(--pad-cell);
@@ -272,18 +276,20 @@ html, body {
   justify-content: space-between;
 }
 
-/* === CALC FIELD VISUAL (fd_readonly_display) === */
+/* === CALC ROW === */
 .calc-row {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--gap-md);
   margin-top: var(--gap-xs);
   padding-top: var(--pad-cell);
   border-top: 1px dashed var(--border);
 }
-.calc-row .field .val {
-  background: var(--surface-2);
-  color: var(--text-soft);
-  font-style: italic;
+
+@media (max-width: 700px) {
+  .terms-grid { grid-template-columns: repeat(2, 1fr); }
+  .calc-row { flex-direction: column; }
+  .layout-footer { flex-direction: column; gap: 4px; }
 }
 </style>
 </head>
@@ -293,68 +299,27 @@ html, body {
   <!-- HEADER -->
   <header class="layout-header">
     <h1>LOAN DETAIL</h1>
-    <button class="btn-back" onclick="alert('NAV/go-to-property')">&#8592; Property Hub</button>
+    <button class="btn-back">&#8592; Property Hub</button>
   </header>
 
   <!-- TERMS CARD -->
   <section class="terms-card">
     <div class="terms-grid">
-      <div class="field">
-        <label>Borrower</label>
-        <div class="val editable">Cougar Capital LLC</div>
-      </div>
-      <div class="field">
-        <label>Original Principal</label>
-        <div class="val editable">$85,000.00</div>
-      </div>
-      <div class="field">
-        <label>Rate (Annual)</label>
-        <div class="val editable">12%</div>
-      </div>
-      <div class="field">
-        <label>Status</label>
-        <div class="val"><span class="pill active">ACTIVE</span></div>
-      </div>
-      <div class="field">
-        <label>Origination</label>
-        <div class="val editable">01/15/2025</div>
-      </div>
-      <div class="field">
-        <label>Term (days)</label>
-        <div class="val editable">365</div>
-      </div>
-      <div class="field">
-        <label>Grace Days</label>
-        <div class="val editable">5</div>
-      </div>
-      <div class="field">
-        <label>Loan #</label>
-        <div class="val editable">HML-2025-003</div>
-      </div>
+      <div class="field"><label>Borrower</label><div class="val editable" contenteditable>Cougar Capital LLC</div></div>
+      <div class="field"><label>Original Principal</label><div class="val editable" contenteditable>$85,000.00</div></div>
+      <div class="field"><label>Rate (Annual)</label><div class="val editable" contenteditable>12%</div></div>
+      <div class="field"><label>Status</label><div class="val"><span class="pill active">ACTIVE</span></div></div>
+      <div class="field"><label>Origination</label><div class="val editable" contenteditable>01/15/2025</div></div>
+      <div class="field"><label>Term (days)</label><div class="val editable" contenteditable>365</div></div>
+      <div class="field"><label>Grace Days</label><div class="val editable" contenteditable>5</div></div>
+      <div class="field"><label>Loan #</label><div class="val editable" contenteditable>HML-2025-003</div></div>
     </div>
-
-    <!-- Calc fields (fd_readonly_display) -->
     <div class="calc-row">
-      <div class="field">
-        <label>Monthly Payment (calc)</label>
-        <div class="val readonly">$850.00</div>
-      </div>
-      <div class="field">
-        <label>Per Diem (calc)</label>
-        <div class="val readonly">$27.95</div>
-      </div>
-      <div class="field">
-        <label>Current Balance (calc)</label>
-        <div class="val readonly">$85,000.00</div>
-      </div>
-      <div class="field">
-        <label>Next Due (calc)</label>
-        <div class="val readonly">08/15/2025</div>
-      </div>
-      <div class="field">
-        <label>Payoff Amount (calc)</label>
-        <div class="val readonly">$87,345.20</div>
-      </div>
+      <div class="field"><label>Monthly Payment (calc)</label><div class="val readonly">$850.00</div></div>
+      <div class="field"><label>Per Diem (calc)</label><div class="val readonly">$27.95</div></div>
+      <div class="field"><label>Current Balance (calc)</label><div class="val readonly">$85,000.00</div></div>
+      <div class="field"><label>Next Due (calc)</label><div class="val readonly">08/15/2025</div></div>
+      <div class="field"><label>Payoff Amount (calc)</label><div class="val readonly">$87,345.20</div></div>
     </div>
   </section>
 
@@ -362,58 +327,13 @@ html, body {
   <section class="portal">
     <div class="portal-header">Expected Transactions</div>
     <table>
-      <thead>
-        <tr>
-          <th>Due Date</th>
-          <th class="num">Amount</th>
-          <th>Status</th>
-          <th>Late?</th>
-          <th class="num">Applied</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Due Date</th><th class="num">Amount</th><th>Status</th><th>Late?</th><th class="num">Applied</th></tr></thead>
       <tbody>
-        <tr class="selected">
-          <td>08/15/2025</td>
-          <td class="num">$850.00</td>
-          <td><span class="dot pending"></span>pending</td>
-          <td></td>
-          <td class="num">$0.00</td>
-        </tr>
-        <tr>
-          <td>07/15/2025</td>
-          <td class="num">$850.00</td>
-          <td><span class="dot current"></span>paid</td>
-          <td></td>
-          <td class="num">$850.00</td>
-        </tr>
-        <tr>
-          <td>06/15/2025</td>
-          <td class="num">$850.00</td>
-          <td><span class="dot current"></span>paid</td>
-          <td></td>
-          <td class="num">$850.00</td>
-        </tr>
-        <tr>
-          <td>05/15/2025</td>
-          <td class="num">$850.00</td>
-          <td><span class="dot current"></span>paid</td>
-          <td><span class="dot late"></span>6d</td>
-          <td class="num">$850.00</td>
-        </tr>
-        <tr>
-          <td>04/15/2025</td>
-          <td class="num">$850.00</td>
-          <td><span class="dot current"></span>paid</td>
-          <td></td>
-          <td class="num">$850.00</td>
-        </tr>
-        <tr>
-          <td>03/15/2025</td>
-          <td class="num">$850.00</td>
-          <td><span class="dot current"></span>paid</td>
-          <td></td>
-          <td class="num">$850.00</td>
-        </tr>
+        <tr class="selected"><td>08/15/2025</td><td class="num">$850.00</td><td><span class="dot pending"></span>pending</td><td></td><td class="num">$0.00</td></tr>
+        <tr><td>07/15/2025</td><td class="num">$850.00</td><td><span class="dot current"></span>paid</td><td></td><td class="num">$850.00</td></tr>
+        <tr><td>06/15/2025</td><td class="num">$850.00</td><td><span class="dot current"></span>paid</td><td></td><td class="num">$850.00</td></tr>
+        <tr><td>05/15/2025</td><td class="num">$850.00</td><td><span class="dot current"></span>paid</td><td><span class="dot late"></span>6d</td><td class="num">$850.00</td></tr>
+        <tr><td>04/15/2025</td><td class="num">$850.00</td><td><span class="dot current"></span>paid</td><td></td><td class="num">$850.00</td></tr>
       </tbody>
     </table>
   </section>
@@ -422,158 +342,28 @@ html, body {
   <section class="portal">
     <div class="portal-header">Received Funds</div>
     <table>
-      <thead>
-        <tr>
-          <th>Date Received</th>
-          <th class="num">Amount</th>
-          <th>Source</th>
-          <th>Applied?</th>
-          <th>Match</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Date Received</th><th class="num">Amount</th><th>Source</th><th>Applied?</th><th>Match</th></tr></thead>
       <tbody>
-        <tr>
-          <td>07/14/2025</td>
-          <td class="num">$850.00</td>
-          <td>wire</td>
-          <td><span class="dot applied"></span>full</td>
-          <td>Jul expected</td>
-        </tr>
-        <tr>
-          <td>06/13/2025</td>
-          <td class="num">$850.00</td>
-          <td>check</td>
-          <td><span class="dot applied"></span>full</td>
-          <td>Jun expected</td>
-        </tr>
-        <tr>
-          <td>05/21/2025</td>
-          <td class="num">$850.00</td>
-          <td>venmo</td>
-          <td><span class="dot applied"></span>full</td>
-          <td>May expected (late)</td>
-        </tr>
-        <tr>
-          <td>04/15/2025</td>
-          <td class="num">$850.00</td>
-          <td>wire</td>
-          <td><span class="dot applied"></span>full</td>
-          <td>Apr expected</td>
-        </tr>
-        <tr>
-          <td>03/14/2025</td>
-          <td class="num">$850.00</td>
-          <td>wire</td>
-          <td><span class="dot applied"></span>full</td>
-          <td>Mar expected</td>
-        </tr>
+        <tr><td>07/14/2025</td><td class="num">$850.00</td><td>wire</td><td><span class="dot applied"></span>full</td><td>Jul expected</td></tr>
+        <tr><td>06/13/2025</td><td class="num">$850.00</td><td>check</td><td><span class="dot applied"></span>full</td><td>Jun expected</td></tr>
+        <tr><td>05/21/2025</td><td class="num">$850.00</td><td>venmo</td><td><span class="dot applied"></span>full</td><td>May expected (late)</td></tr>
+        <tr><td>04/15/2025</td><td class="num">$850.00</td><td>wire</td><td><span class="dot applied"></span>full</td><td>Apr expected</td></tr>
       </tbody>
     </table>
   </section>
 
   <!-- ACTION BAR -->
   <div class="action-bar">
-    <button class="btn primary" onclick="alert('SERVICING/apply-payment')">Apply Payment</button>
-    <button class="btn secondary" onclick="alert('SERVICING/generate-payoff')">Generate Payoff</button>
+    <button class="btn primary">Apply Payment</button>
+    <button class="btn secondary">Generate Payoff</button>
   </div>
 
   <!-- FOOTER -->
   <footer class="layout-footer">
     <span>PK: 4A7C-E912-8F3B-D01A</span>
-    <span>HML_LLC v1 · papyrus · modified 08/02/2025 14:32</span>
+    <span>HML_LLC v1 · papyrus · baked 2026-08-02</span>
   </footer>
 
 </div>
-
-<!-- DD-R05: EMBEDDED MANIFEST (mirrors canonical data index) -->
-<script type="application/json" id="manifest">
-{
-  "layout": "form-loan-detail",
-  "context": "Loans",
-  "theme": "papyrus",
-  "themeSource": "resolve.js → _themes.json → 4-vector TSV grids",
-  "objectLibrary": "shared/themes/_objects.json",
-  "objectsUsed": [
-    "cnt_page_shell", "cnt_section_card", "nav_back",
-    "tx_page_title", "tx_field_label", "tx_badge",
-    "fd_text_standard", "fd_readonly_display", "fd_dropdown_standard",
-    "row_tile_badge", "btn_family"
-  ],
-  "portals": [
-    {
-      "name": "Expected Transactions",
-      "table": "ExpectedTransactions",
-      "relationship": "Loans::PrimaryKey = ExpectedTransactions::fkLoan",
-      "sort": "DueDate desc",
-      "filter": null
-    },
-    {
-      "name": "Received Funds",
-      "table": "ReceivedFunds",
-      "relationship": "Loans::PrimaryKey = ReceivedFunds::fkLoan",
-      "sort": "DateReceived desc",
-      "filter": null
-    }
-  ],
-  "actions": [
-    { "button": "Apply Payment", "script": "SERVICING/apply-payment", "target": "form-payment-application" },
-    { "button": "Generate Payoff", "script": "SERVICING/generate-payoff", "target": "form-payoff" },
-    { "button": "\u2190 Property Hub", "script": "NAV/go-to-property", "target": "form-property-hub" }
-  ],
-  "fields": {
-    "terms": [
-      { "field": "fkBorrower", "display": "Borrower", "via": "Organizations::Name" },
-      { "field": "OriginalPrincipal", "display": "Original Principal" },
-      { "field": "InterestRateAnnual", "display": "Rate (Annual)" },
-      { "field": "ServicingStatus", "display": "Status", "format": "pill" },
-      { "field": "OriginationDate", "display": "Origination" },
-      { "field": "LoanTerm_inDays", "display": "Term (days)" },
-      { "field": "GraceDays", "display": "Grace Days" },
-      { "field": "LoanNumber", "display": "Loan #" }
-    ],
-    "calculations": [
-      { "field": "calc_MonthlyPayment", "display": "Monthly Payment" },
-      { "field": "calc_perDiemInterest", "display": "Per Diem" },
-      { "field": "calc_CurrentPrincipalBalance", "display": "Current Balance" },
-      { "field": "calc_NextDueDate", "display": "Next Due" },
-      { "field": "calc_CurrentPayoffAmount", "display": "Payoff Amount" }
-    ]
-  }
-}
-</script>
-
-<!-- THEME INIT: apply the join, reveal the page -->
-<script>
-THEMES.ready.then(function() {
-  return THEMES.applyTheme('papyrus');
-}).then(function() {
-  document.documentElement.style.visibility = 'visible';
-}).catch(function() {
-  // If theme fails to load, show content anyway with whatever resolved
-  document.documentElement.style.visibility = 'visible';
-});
-</script>
-
-<!-- DD-R02: Live controls -->
-<script>
-document.querySelectorAll('.val.editable').forEach(function(el) {
-  el.contentEditable = true;
-  el.addEventListener('focus', function() {
-    el.style.borderColor = 'var(--accent)';
-    el.style.boxShadow = 'var(--shadow-in)';
-  });
-  el.addEventListener('blur', function() {
-    el.style.borderColor = 'var(--border)';
-    el.style.boxShadow = 'none';
-  });
-});
-
-document.querySelectorAll('.portal tr').forEach(function(row) {
-  row.addEventListener('click', function() {
-    row.closest('tbody').querySelectorAll('tr').forEach(function(r) { r.classList.remove('selected'); });
-    row.classList.add('selected');
-  });
-});
-</script>
 </body>
 </html>
