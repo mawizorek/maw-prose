@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1060">
+<title>Loan Detail (Form View) — HML_LLC</title>
+<!--
+  RENDER METADATA
+  ===============
+  theme-slug: papyrus
+  theme-source: ../../OPEN-ME.md (frontmatter: theme: papyrus)
+  object-library: shared/themes/_objects.json (schemaVersion 2)
+  layout-source: form-loan-detail.md
+  standard: filemaker/LAYOUT-RENDER-STANDARD.md (DD-R01..R06)
+  status: v1 initial render
+
+  OBJECTS USED (from _objects.json):
+    cnt_page_shell, cnt_section_card, nav_back, tx_page_title,
+    tx_field_label, fd_text_standard, fd_readonly_display,
+    fd_dropdown_standard, row_tile_badge, btn_family, tx_badge
+-->
+<style>
+/* === THEME: PAPYRUS (inlined at build time per DD-R06) === */
+:root {
+  --bg: oklch(0.935 0.026 85);
+  --surface-1: oklch(0.965 0.020 85);
+  --surface-2: oklch(0.895 0.032 82);
+  --surface-3: oklch(0.855 0.038 80);
+  --border: oklch(0.78 0.042 78);
+  --field: oklch(0.975 0.018 85);
+  --text: oklch(0.30 0.045 60);
+  --text-soft: oklch(0.46 0.045 62);
+  --text-faint: oklch(0.60 0.038 65);
+  --accent: oklch(0.52 0.11 62);
+  --accent-2: oklch(0.56 0.11 42);
+  --accent-soft: oklch(0.88 0.05 75);
+  --on-accent: oklch(0.98 0.02 80);
+  --good: oklch(0.52 0.13 145);
+  --warn: oklch(0.62 0.13 70);
+  --bad: oklch(0.52 0.18 30);
+  --info: oklch(0.50 0.10 230);
+
+  /* Typography (from object library tx_* roles) */
+  --font-display: 'Gabarito', system-ui, sans-serif;
+  --font-body: 'Gabarito', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SF Mono', monospace;
+
+  /* Spacing / density */
+  --row-h: 30px;
+  --cell-px: 8px;
+  --cell-py: 4px;
+  --radius: 0px;
+  --radius-lg: 4px;
+  --shadow-out: 0 1px 3px oklch(0.30 0.02 60 / 0.12);
+  --shadow-in: inset 0 1px 2px oklch(0.30 0.02 60 / 0.10);
+}
+
+/* === RESET + PAGE SHELL (cnt_page_shell) === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.35;
+  width: 1060px;
+  overflow-x: hidden;
+}
+
+.layout {
+  width: 1060px;
+  padding: 16px 24px;
+}
+
+/* === HEADER (tx_page_title + nav_back) === */
+.layout-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.layout-header h1 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.layout-header h1::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 16px;
+  background: var(--accent);
+  margin-right: 8px;
+  vertical-align: middle;
+  border-radius: 1px;
+}
+.btn-back {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent);
+  background: transparent;
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  cursor: pointer;
+  border-radius: var(--radius);
+}
+.btn-back:hover { border-color: var(--accent); }
+
+/* === SECTION CARD (cnt_section_card) === */
+.terms-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--accent-2);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-out);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+}
+.terms-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px 16px;
+}
+.terms-grid .field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.terms-grid .field label {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--text-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.terms-grid .field .val {
+  font-size: 13px;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+.terms-grid .field .val.editable {
+  background: var(--field);
+  border: 1px solid var(--border);
+  padding: 2px 6px;
+  min-height: 22px;
+}
+.terms-grid .field .val.readonly {
+  background: var(--surface-2);
+  color: var(--text-soft);
+  padding: 2px 6px;
+  border: 1px solid transparent;
+}
+
+/* Status pill (tx_badge) */
+.pill {
+  display: inline-block;
+  font-size: 10px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 2px;
+}
+.pill.active { background: var(--good); color: var(--on-accent); }
+.pill.upcoming { background: var(--warn); color: var(--on-accent); }
+.pill.late { background: var(--bad); color: var(--on-accent); }
+.pill.paid-off { background: var(--info); color: var(--on-accent); }
+
+/* === PORTAL TABLE (row_tile_badge: rows state) === */
+.portal {
+  margin-bottom: 16px;
+}
+.portal-header {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 6px 0 4px;
+  border-bottom: 1px solid var(--border);
+}
+.portal table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.portal th {
+  text-align: left;
+  font-weight: 500;
+  color: var(--text-soft);
+  background: var(--surface-1);
+  padding: var(--cell-py) var(--cell-px);
+  border-bottom: 1px solid var(--border);
+  height: var(--row-h);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.portal th.num { text-align: right; }
+.portal td {
+  padding: var(--cell-py) var(--cell-px);
+  border-bottom: 1px solid var(--border);
+  height: var(--row-h);
+  vertical-align: middle;
+}
+.portal td.num {
+  text-align: right;
+}
+.portal tr:nth-child(even) td {
+  background: var(--surface-2);
+}
+.portal tr.selected td {
+  background: var(--accent-soft);
+  border-left: 2px solid var(--accent-2);
+}
+.portal tr:hover td {
+  background: var(--accent-soft);
+}
+
+/* Portal status dots */
+.dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+.dot.current { background: var(--good); }
+.dot.pending { background: var(--warn); }
+.dot.late { background: var(--bad); }
+.dot.applied { background: var(--info); }
+
+/* === ACTION BAR (btn_family) === */
+.action-bar {
+  display: flex;
+  gap: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+.btn {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--shadow-out);
+  border-radius: var(--radius);
+}
+.btn.primary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.btn.primary:active {
+  box-shadow: var(--shadow-in);
+  transform: translateY(1px);
+}
+.btn.secondary {
+  background: transparent;
+  color: var(--accent-2);
+  border: 1px solid var(--accent-2);
+}
+.btn.secondary:active {
+  background: var(--surface-3);
+  box-shadow: var(--shadow-in);
+}
+
+/* === FOOTER (PK + version) === */
+.layout-footer {
+  margin-top: 14px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-faint);
+  display: flex;
+  justify-content: space-between;
+}
+
+/* === CALC FIELD VISUAL (fd_readonly_display) === */
+.calc-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border);
+}
+.calc-row .field .val {
+  background: var(--surface-2);
+  color: var(--text-soft);
+  font-style: italic;
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- HEADER -->
+  <header class="layout-header">
+    <h1>LOAN DETAIL</h1>
+    <button class="btn-back" onclick="alert('NAV/go-to-property')">← Property Hub</button>
+  </header>
+
+  <!-- TERMS CARD -->
+  <section class="terms-card">
+    <div class="terms-grid">
+      <div class="field">
+        <label>Borrower</label>
+        <div class="val editable">Cougar Capital LLC</div>
+      </div>
+      <div class="field">
+        <label>Original Principal</label>
+        <div class="val editable">$85,000.00</div>
+      </div>
+      <div class="field">
+        <label>Rate (Annual)</label>
+        <div class="val editable">12%</div>
+      </div>
+      <div class="field">
+        <label>Status</label>
+        <div class="val"><span class="pill active">ACTIVE</span></div>
+      </div>
+      <div class="field">
+        <label>Origination</label>
+        <div class="val editable">01/15/2025</div>
+      </div>
+      <div class="field">
+        <label>Term (days)</label>
+        <div class="val editable">365</div>
+      </div>
+      <div class="field">
+        <label>Grace Days</label>
+        <div class="val editable">5</div>
+      </div>
+      <div class="field">
+        <label>Loan #</label>
+        <div class="val editable">HML-2025-003</div>
+      </div>
+    </div>
+
+    <!-- Calc fields (fd_readonly_display) -->
+    <div class="calc-row">
+      <div class="field">
+        <label>Monthly Payment (calc)</label>
+        <div class="val readonly">$850.00</div>
+      </div>
+      <div class="field">
+        <label>Per Diem (calc)</label>
+        <div class="val readonly">$27.95</div>
+      </div>
+      <div class="field">
+        <label>Current Balance (calc)</label>
+        <div class="val readonly">$85,000.00</div>
+      </div>
+      <div class="field">
+        <label>Next Due (calc)</label>
+        <div class="val readonly">08/15/2025</div>
+      </div>
+      <div class="field">
+        <label>Payoff Amount (calc)</label>
+        <div class="val readonly">$87,345.20</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPECTED TRANSACTIONS PORTAL -->
+  <section class="portal">
+    <div class="portal-header">Expected Transactions</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Due Date</th>
+          <th class="num">Amount</th>
+          <th>Status</th>
+          <th>Late?</th>
+          <th class="num">Applied</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="selected">
+          <td>08/15/2025</td>
+          <td class="num">$850.00</td>
+          <td><span class="dot pending"></span>pending</td>
+          <td></td>
+          <td class="num">$0.00</td>
+        </tr>
+        <tr>
+          <td>07/15/2025</td>
+          <td class="num">$850.00</td>
+          <td><span class="dot current"></span>paid</td>
+          <td></td>
+          <td class="num">$850.00</td>
+        </tr>
+        <tr>
+          <td>06/15/2025</td>
+          <td class="num">$850.00</td>
+          <td><span class="dot current"></span>paid</td>
+          <td></td>
+          <td class="num">$850.00</td>
+        </tr>
+        <tr>
+          <td>05/15/2025</td>
+          <td class="num">$850.00</td>
+          <td><span class="dot current"></span>paid</td>
+          <td><span class="dot late"></span>6d</td>
+          <td class="num">$850.00</td>
+        </tr>
+        <tr>
+          <td>04/15/2025</td>
+          <td class="num">$850.00</td>
+          <td><span class="dot current"></span>paid</td>
+          <td></td>
+          <td class="num">$850.00</td>
+        </tr>
+        <tr>
+          <td>03/15/2025</td>
+          <td class="num">$850.00</td>
+          <td><span class="dot current"></span>paid</td>
+          <td></td>
+          <td class="num">$850.00</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- RECEIVED FUNDS PORTAL -->
+  <section class="portal">
+    <div class="portal-header">Received Funds</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Date Received</th>
+          <th class="num">Amount</th>
+          <th>Source</th>
+          <th>Applied?</th>
+          <th>Match</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>07/14/2025</td>
+          <td class="num">$850.00</td>
+          <td>wire</td>
+          <td><span class="dot applied"></span>full</td>
+          <td>Jul expected</td>
+        </tr>
+        <tr>
+          <td>06/13/2025</td>
+          <td class="num">$850.00</td>
+          <td>check</td>
+          <td><span class="dot applied"></span>full</td>
+          <td>Jun expected</td>
+        </tr>
+        <tr>
+          <td>05/21/2025</td>
+          <td class="num">$850.00</td>
+          <td>venmo</td>
+          <td><span class="dot applied"></span>full</td>
+          <td>May expected (late)</td>
+        </tr>
+        <tr>
+          <td>04/15/2025</td>
+          <td class="num">$850.00</td>
+          <td>wire</td>
+          <td><span class="dot applied"></span>full</td>
+          <td>Apr expected</td>
+        </tr>
+        <tr>
+          <td>03/14/2025</td>
+          <td class="num">$850.00</td>
+          <td>wire</td>
+          <td><span class="dot applied"></span>full</td>
+          <td>Mar expected</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ACTION BAR -->
+  <div class="action-bar">
+    <button class="btn primary" onclick="alert('SERVICING/apply-payment \u2192 opens form-payment-application')">Apply Payment</button>
+    <button class="btn secondary" onclick="alert('SERVICING/generate-payoff \u2192 creates new Payoff record')">Generate Payoff</button>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="layout-footer">
+    <span>PK: 4A7C-E912-8F3B-D01A</span>
+    <span>HML_LLC v1 · papyrus · modified 08/02/2025 14:32</span>
+  </footer>
+
+</div>
+
+<!-- DD-R05: EMBEDDED MANIFEST (mirrors canonical data index) -->
+<script type="application/json" id="manifest">
+{
+  "layout": "form-loan-detail",
+  "context": "Loans",
+  "theme": "papyrus",
+  "objectLibrary": "shared/themes/_objects.json",
+  "objectsUsed": [
+    "cnt_page_shell", "cnt_section_card", "nav_back",
+    "tx_page_title", "tx_field_label", "tx_badge",
+    "fd_text_standard", "fd_readonly_display", "fd_dropdown_standard",
+    "row_tile_badge", "btn_family"
+  ],
+  "portals": [
+    {
+      "name": "Expected Transactions",
+      "table": "ExpectedTransactions",
+      "relationship": "Loans::PrimaryKey = ExpectedTransactions::fkLoan",
+      "sort": "DueDate desc",
+      "filter": null
+    },
+    {
+      "name": "Received Funds",
+      "table": "ReceivedFunds",
+      "relationship": "Loans::PrimaryKey = ReceivedFunds::fkLoan",
+      "sort": "DateReceived desc",
+      "filter": null
+    }
+  ],
+  "actions": [
+    { "button": "Apply Payment", "script": "SERVICING/apply-payment", "target": "form-payment-application" },
+    { "button": "Generate Payoff", "script": "SERVICING/generate-payoff", "target": "form-payoff" },
+    { "button": "\u2190 Property Hub", "script": "NAV/go-to-property", "target": "form-property-hub" }
+  ],
+  "fields": {
+    "terms": [
+      { "field": "fkBorrower", "display": "Borrower", "via": "Organizations::Name" },
+      { "field": "OriginalPrincipal", "display": "Original Principal" },
+      { "field": "InterestRateAnnual", "display": "Rate (Annual)" },
+      { "field": "ServicingStatus", "display": "Status", "format": "pill" },
+      { "field": "OriginationDate", "display": "Origination" },
+      { "field": "LoanTerm_inDays", "display": "Term (days)" },
+      { "field": "GraceDays", "display": "Grace Days" },
+      { "field": "LoanNumber", "display": "Loan #" }
+    ],
+    "calculations": [
+      { "field": "calc_MonthlyPayment", "display": "Monthly Payment" },
+      { "field": "calc_perDiemInterest", "display": "Per Diem" },
+      { "field": "calc_CurrentPrincipalBalance", "display": "Current Balance" },
+      { "field": "calc_NextDueDate", "display": "Next Due" },
+      { "field": "calc_CurrentPayoffAmount", "display": "Payoff Amount" }
+    ]
+  }
+}
+</script>
+
+<!-- DD-R02: Live controls -->
+<script>
+document.querySelectorAll('.val.editable').forEach(el => {
+  el.contentEditable = true;
+  el.addEventListener('focus', () => {
+    el.style.borderColor = 'var(--accent)';
+    el.style.boxShadow = 'var(--shadow-in)';
+  });
+  el.addEventListener('blur', () => {
+    el.style.borderColor = 'var(--border)';
+    el.style.boxShadow = 'none';
+  });
+});
+
+document.querySelectorAll('.portal tr').forEach(row => {
+  row.addEventListener('click', () => {
+    row.closest('tbody').querySelectorAll('tr').forEach(r => r.classList.remove('selected'));
+    row.classList.add('selected');
+  });
+});
+</script>
+</body>
+</html>
