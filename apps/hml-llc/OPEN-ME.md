@@ -18,6 +18,7 @@ Open the tree, find the screen, build or edit from it.
 apps/hml-llc/
 │
 ├── OPEN-ME.md                ← you are here (nav + build order + theme tag)
+├── _viewer.html              ← LAYOUT RENDERER (dropdown + live render of all HTML below)
 │
 ├── tables/                   ← Manage → Database → Tables
 │   ├── Loans.md
@@ -43,9 +44,12 @@ apps/hml-llc/
 │   │  table- = Table View (spreadsheet grid, column config)
 │   │  list-  = List View (scrollable row layout)
 │   │
+│   │  *-render.html files = visual renders (what the wireframe looks like built)
+│   │  _viewer.html auto-discovers all renders via GitHub API
+│   │
 │   ├── form-property-hub.md
 │   ├── form-loan-detail.md
-│   ├── form-loan-detail-render.html  ← VISUAL RENDER (what the wireframe looks like built)
+│   ├── form-loan-detail-render.html
 │   ├── form-payment-application.md
 │   ├── form-payoff.md
 │   ├── form-document-binder.md
