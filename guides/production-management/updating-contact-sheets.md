@@ -1,5 +1,51 @@
+# Updating Contact Sheets
+> Track who's on a production and how to reach them. Cross-platform sync target.
 
-!!! ----- MAW PROSE DO NOT EDIT ----- !!!
+## What It Is
+One doc per production listing cast, crew, staff with roles, emails, phones, pronouns, emergency contacts.
+
+## Who Maintains
+- **Created by:** Nigel (Word/PDF via Dropbox)
+- **Kept current by:** PM, with updates from SM and department heads
+
+## Where It Lives
+| Platform | Path Pattern |
+|----------|-------------|
+| Dropbox | `productions/z[YY-YY]/[show]/_contact sheet/` |
+| ClickUp | Personnel fields on production task + People list |
+
+## Fields
+- Name, role, pronouns
+- Email, phone
+- Emergency contact
+- Department/area
+- Equity status (if applicable)
+
+## Update Triggers
+- Cast/crew assignment or change
+- Contact info correction (email, phone, address)
+- Personnel departure or replacement
+- Role reassignment
+
+## Cross-References
+When you update contacts, also check:
+- **Info sheet** (personnel section mirrors this)
+- **Crew calls** (names/roles pulled from here)
+- **Email distribution lists** (if maintained separately)
+
+## Audit Checklist
+- [ ] All names match across contact sheet, info sheet, crew call header
+- [ ] No stale entries from previous cast/crew
+- [ ] Emergency contacts present for all cast
+- [ ] Dropbox PDF matches current Word doc version
+
+---
+
+see also: `updating-production-calendars.md` · `updating-info-sheets.md`
+
+---
+<!-- ═══ MAW PROSE (original notes, preserved) ═══ -->
+
 Each production spreads calendar info across multiple platforms. This is the source of truth for what those platforms *are* and pointers for the current season productions versions.
 
 # The goal:
@@ -20,5 +66,3 @@ Nigel makes them; others to help keep them up to date (PM).
 # Default Structure
 
 see also: updating-production-calendars.md
-
-!!! ----- END OF MAW PROSE ----- !!!
