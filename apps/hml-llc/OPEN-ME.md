@@ -1,6 +1,8 @@
-# HML_LLC FileMaker v1 — Doc Tree (v2)
+# HML_LLC FileMaker v1 — Doc Tree (v2.1)
+
 This tree mirrors what you open in FileMaker. Each file = one menu destination.
 Open the tree, find the screen, build or edit from it.
+
 ```
 apps/hml-llc/
 │
@@ -21,19 +23,27 @@ apps/hml-llc/
 │   └── GLOBAL_USE_VARIABLES.md
 │
 ├── relationships/            ← Manage → Database → Relationships
-│   └── graph.md              ← one file: FK map + TO groups
+│   └── graph.md              ← THE source of truth: FK map, TO groups, all join logic
 │
 ├── layouts/                  ← Manage → Layouts
-│   ├── property-hub.md
-│   ├── loan-detail.md
-│   ├── transactions.md
-│   ├── payment-application.md
-│   ├── payoff.md
-│   ├── document-binder.md
-│   └── global-setup.md
+│   │
+│   │  Prefix = view type. Three FMP views = three doc templates.
+│   │  form-  = Form View (one record, portals, detail)
+│   │  table- = Table View (spreadsheet grid, column config)
+│   │  list-  = List View (scrollable row layout)
+│   │
+│   ├── form-property-hub.md
+│   ├── form-loan-detail.md
+│   ├── form-payment-application.md
+│   ├── form-payoff.md
+│   ├── form-document-binder.md
+│   ├── form-global-setup.md
+│   ├── table-expected-transactions.md
+│   ├── table-received-funds.md
+│   └── list-loan-browser.md
 │
 ├── scripts/                  ← Manage → Scripts
-│   ├── 00_APP/               ← folder in script workspace
+│   ├── 00_APP/
 │   │   ├── txn_Begin.md
 │   │   ├── txn_Commit.md
 │   │   └── txn_Rollback.md
@@ -44,25 +54,31 @@ apps/hml-llc/
 │       └── go-to-loan.md
 │
 ├── value-lists/              ← Manage → Value Lists
-│   └── all.md                ← one file, one table
+│   └── all.md
 │
 ├── calculations/             ← formula bodies (one per calc field)
 │   ├── Loans__calc_MonthlyPayment.fmcalc
 │   ├── Loans__calc_perDiemInterest.fmcalc
 │   └── ...
 │
-└── fixtures/                 ← test data (Golden Month etc.)
+└── fixtures/                 ← test data
     └── golden-month.md
 ```
-## How to use this tree
-1. Open FileMaker.
-2. Open the file in this tree that matches where you're working.
-3. Build what the file says. If it's wrong, fix the file.
+
+## Layout view types
+
+| Prefix | FMP Menu Path | What it documents | Template shape |
+|---|---|---|---|
+| `form-` | View as Form | Wireframe, portals, actions, design tokens | One record on screen |
+| `table-` | View as Table | Column config (field, width, sort), found set, filters | Spreadsheet mode |
+| `list-` | View as List | Row wireframe, body/header/footer parts, per-row fields | Scrollable rows |
+
 ## Build order (Phase 1)
+
 1. `tables/ReceivedFunds.md`
 2. `scripts/00_APP/txn_Begin.md` → `txn_Commit.md` → `txn_Rollback.md`
 3. `fixtures/golden-month.md` (import + verify $850 unapplied)
-4. `layouts/transactions.md` (table view surfaces)
-5. `layouts/loan-detail.md` (hub + portals)
-6. `layouts/property-hub.md` (loans portal)
-7. `layouts/payoff.md` (read-only print)
+4. `table-expected-transactions.md` + `table-received-funds.md`
+5. `form-loan-detail.md` (hub + portals)
+6. `form-property-hub.md` (loans portal)
+7. `form-payoff.md` (read-only print)
