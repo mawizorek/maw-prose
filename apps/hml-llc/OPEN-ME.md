@@ -1,3 +1,14 @@
+---
+theme: papyrus
+object-library: shared/themes/_objects.json
+notes: >
+  Theme metadata tag (STRICT). Every FMP app tree declares its theme here.
+  Renders read this slug and inline the resolved tokens at build time.
+  Omit the slug or set to "default-theme" and the grayscale default applies.
+  Object library points at the canonical shared set; renders MUST use these
+  components. Cold agents: check this block before rendering anything.
+---
+
 # HML_LLC FileMaker v1 — Doc Tree (v2.1)
 
 This tree mirrors what you open in FileMaker. Each file = one menu destination.
@@ -6,7 +17,7 @@ Open the tree, find the screen, build or edit from it.
 ```
 apps/hml-llc/
 │
-├── OPEN-ME.md                ← you are here (nav + build order)
+├── OPEN-ME.md                ← you are here (nav + build order + theme tag)
 │
 ├── tables/                   ← Manage → Database → Tables
 │   ├── Loans.md
@@ -23,7 +34,7 @@ apps/hml-llc/
 │   └── GLOBAL_USE_VARIABLES.md
 │
 ├── relationships/            ← Manage → Database → Relationships
-│   └── graph.md              ← THE source of truth: FK map, TO groups, all join logic
+│   └── README.md             ← THE source of truth: FK map, TO groups, all join logic
 │
 ├── layouts/                  ← Manage → Layouts
 │   │
@@ -34,6 +45,7 @@ apps/hml-llc/
 │   │
 │   ├── form-property-hub.md
 │   ├── form-loan-detail.md
+│   ├── form-loan-detail-render.html  ← VISUAL RENDER (what the wireframe looks like built)
 │   ├── form-payment-application.md
 │   ├── form-payoff.md
 │   ├── form-document-binder.md
