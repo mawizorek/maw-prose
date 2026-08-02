@@ -27,6 +27,6 @@ Nigel makes them; others to help keep them up to date (PM).
 
 # Default Structure
 
-see also: updating-contacts.md
+see also: updating-contact-sheets.md
 
 !!! ----- END OF MAW PROSE ----- !!!
