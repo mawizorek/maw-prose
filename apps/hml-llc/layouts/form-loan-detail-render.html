@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="visibility:hidden">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1060">
@@ -7,52 +7,42 @@
 <!--
   RENDER METADATA
   ===============
-  theme-slug: papyrus
+  theme-join: papyrus (resolved via shared/themes/_themes.json)
+  vectors:
+    color: papyrus (colors.tsv)
+    typography: papyrus (typography.tsv)
+    forms: papyrus (forms.tsv)
+    spacing: tight (spacing.tsv)
   theme-source: ../../OPEN-ME.md (frontmatter: theme: papyrus)
   object-library: shared/themes/_objects.json (schemaVersion 2)
   layout-source: form-loan-detail.md
   standard: filemaker/LAYOUT-RENDER-STANDARD.md (DD-R01..R06)
-  status: v1 initial render
+  status: v2 — dynamic theme join (no hardcoded tokens)
+
+  HOW THIS WORKS:
+  resolve.js loads ALL theme tokens from the 4-vector TSV grids at runtime.
+  Change a value in colors.tsv/typography.tsv/forms.tsv/spacing.tsv → it
+  lands here on next load. Zero values are copied into this file.
 
   OBJECTS USED (from _objects.json):
     cnt_page_shell, cnt_section_card, nav_back, tx_page_title,
     tx_field_label, fd_text_standard, fd_readonly_display,
     fd_dropdown_standard, row_tile_badge, btn_family, tx_badge
 -->
+
+<!-- Fonts: must match typography.papyrus row in typography.tsv -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- THEME RESOLVER: the JOIN. Loads 4 vectors from TSV grids, sets all CSS vars. -->
+<script src="https://raw.githubusercontent.com/mawizorek/ClickUp_apps/main/shared/themes/resolve.js"></script>
+
 <style>
-/* === THEME: PAPYRUS (inlined at build time per DD-R06) === */
+/* === LAYOUT-SPECIFIC CONSTANTS (not theme tokens, not in any grid) === */
 :root {
-  --bg: oklch(0.935 0.026 85);
-  --surface-1: oklch(0.965 0.020 85);
-  --surface-2: oklch(0.895 0.032 82);
-  --surface-3: oklch(0.855 0.038 80);
-  --border: oklch(0.78 0.042 78);
-  --field: oklch(0.975 0.018 85);
-  --text: oklch(0.30 0.045 60);
-  --text-soft: oklch(0.46 0.045 62);
-  --text-faint: oklch(0.60 0.038 65);
-  --accent: oklch(0.52 0.11 62);
-  --accent-2: oklch(0.56 0.11 42);
-  --accent-soft: oklch(0.88 0.05 75);
-  --on-accent: oklch(0.98 0.02 80);
-  --good: oklch(0.52 0.13 145);
-  --warn: oklch(0.62 0.13 70);
-  --bad: oklch(0.52 0.18 30);
-  --info: oklch(0.50 0.10 230);
-
-  /* Typography (from object library tx_* roles) */
-  --font-display: 'Gabarito', system-ui, sans-serif;
-  --font-body: 'Gabarito', system-ui, sans-serif;
-  --font-mono: 'IBM Plex Mono', 'SF Mono', monospace;
-
-  /* Spacing / density */
   --row-h: 30px;
   --cell-px: 8px;
   --cell-py: 4px;
-  --radius: 0px;
-  --radius-lg: 4px;
-  --shadow-out: 0 1px 3px oklch(0.30 0.02 60 / 0.12);
-  --shadow-in: inset 0 1px 2px oklch(0.30 0.02 60 / 0.10);
 }
 
 /* === RESET + PAGE SHELL (cnt_page_shell) === */
@@ -61,15 +51,15 @@ html, body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: var(--fs-body);
   line-height: 1.35;
-  width: 1060px;
-  overflow-x: hidden;
+  overflow-x: auto;
 }
 
 .layout {
   width: 1060px;
-  padding: 16px 24px;
+  padding: var(--pad-card) var(--gap-lg);
+  margin: 0 auto;
 }
 
 /* === HEADER (tx_page_title + nav_back) === */
@@ -77,16 +67,16 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 14px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--border);
+  margin-bottom: var(--gap-md);
+  padding-bottom: var(--gap-xs);
+  border-bottom: var(--border-w) solid var(--border);
 }
 .layout-header h1 {
   font-family: var(--font-display);
-  font-size: 18px;
+  font-size: var(--fs-lead);
   font-weight: 700;
   color: var(--text);
-  letter-spacing: -0.01em;
+  letter-spacing: var(--track-tight);
 }
 .layout-header h1::before {
   content: '';
@@ -94,17 +84,17 @@ html, body {
   width: 3px;
   height: 16px;
   background: var(--accent);
-  margin-right: 8px;
+  margin-right: var(--pad-cell);
   vertical-align: middle;
   border-radius: 1px;
 }
 .btn-back {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-xs);
   color: var(--accent);
   background: transparent;
-  border: 1px solid var(--border);
-  padding: 4px 10px;
+  border: var(--border-w) solid var(--border);
+  padding: var(--cell-py) var(--cell-px);
   cursor: pointer;
   border-radius: var(--radius);
 }
@@ -113,17 +103,17 @@ html, body {
 /* === SECTION CARD (cnt_section_card) === */
 .terms-card {
   background: var(--surface-2);
-  border: 1px solid var(--border);
+  border: var(--border-w) solid var(--border);
   border-top: 2px solid var(--accent-2);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-out);
-  padding: 12px 16px;
-  margin-bottom: 16px;
+  padding: var(--gap-md) var(--pad-card);
+  margin-bottom: var(--pad-card);
 }
 .terms-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 10px 16px;
+  gap: var(--gap-xs) var(--pad-card);
 }
 .terms-grid .field {
   display: flex;
@@ -131,40 +121,41 @@ html, body {
   gap: 2px;
 }
 .terms-grid .field label {
-  font-size: 10px;
+  font-size: var(--fs-xs);
   font-family: var(--font-mono);
   color: var(--text-soft);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--track-btn);
 }
 .terms-grid .field .val {
-  font-size: 13px;
+  font-size: var(--fs-body);
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
   color: var(--text);
 }
 .terms-grid .field .val.editable {
   background: var(--field);
-  border: 1px solid var(--border);
+  border: var(--border-w) solid var(--border);
   padding: 2px 6px;
   min-height: 22px;
+  border-radius: var(--radius);
 }
 .terms-grid .field .val.readonly {
   background: var(--surface-2);
   color: var(--text-soft);
   padding: 2px 6px;
-  border: 1px solid transparent;
+  border: var(--border-w) solid transparent;
 }
 
 /* Status pill (tx_badge) */
 .pill {
   display: inline-block;
-  font-size: 10px;
+  font-size: var(--fs-xs);
   font-family: var(--font-mono);
   font-weight: 600;
   text-transform: uppercase;
-  padding: 2px 8px;
-  border-radius: 2px;
+  padding: 2px var(--pad-cell);
+  border-radius: var(--radius);
 }
 .pill.active { background: var(--good); color: var(--on-accent); }
 .pill.upcoming { background: var(--warn); color: var(--on-accent); }
@@ -173,23 +164,23 @@ html, body {
 
 /* === PORTAL TABLE (row_tile_badge: rows state) === */
 .portal {
-  margin-bottom: 16px;
+  margin-bottom: var(--pad-card);
 }
 .portal-header {
   font-family: var(--font-display);
-  font-size: 12px;
+  font-size: var(--fs-sm);
   font-weight: 600;
   color: var(--text-soft);
   text-transform: uppercase;
   letter-spacing: 0.03em;
   padding: 6px 0 4px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: var(--border-w) solid var(--border);
 }
 .portal table {
   width: 100%;
   border-collapse: collapse;
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--fs-sm);
   font-variant-numeric: tabular-nums;
 }
 .portal th {
@@ -198,32 +189,26 @@ html, body {
   color: var(--text-soft);
   background: var(--surface-1);
   padding: var(--cell-py) var(--cell-px);
-  border-bottom: 1px solid var(--border);
+  border-bottom: var(--border-w) solid var(--border);
   height: var(--row-h);
-  font-size: 10px;
+  font-size: var(--fs-xs);
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
 .portal th.num { text-align: right; }
 .portal td {
   padding: var(--cell-py) var(--cell-px);
-  border-bottom: 1px solid var(--border);
+  border-bottom: var(--border-w) solid var(--border);
   height: var(--row-h);
   vertical-align: middle;
 }
-.portal td.num {
-  text-align: right;
-}
-.portal tr:nth-child(even) td {
-  background: var(--surface-2);
-}
+.portal td.num { text-align: right; }
+.portal tr:nth-child(even) td { background: var(--surface-2); }
 .portal tr.selected td {
   background: var(--accent-soft);
   border-left: 2px solid var(--accent-2);
 }
-.portal tr:hover td {
-  background: var(--accent-soft);
-}
+.portal tr:hover td { background: var(--accent-soft); }
 
 /* Portal status dots */
 .dot {
@@ -231,7 +216,7 @@ html, body {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  margin-right: 4px;
+  margin-right: var(--gap-xs);
   vertical-align: middle;
 }
 .dot.current { background: var(--good); }
@@ -242,19 +227,20 @@ html, body {
 /* === ACTION BAR (btn_family) === */
 .action-bar {
   display: flex;
-  gap: 10px;
-  padding-top: 10px;
-  border-top: 1px solid var(--border);
+  gap: var(--gap-xs);
+  padding-top: var(--gap-xs);
+  border-top: var(--border-w) solid var(--border);
 }
 .btn {
   font-family: var(--font-display);
-  font-size: 12px;
+  font-size: var(--fs-sm);
   font-weight: 600;
   padding: 6px 14px;
   border: none;
   cursor: pointer;
   box-shadow: var(--shadow-out);
   border-radius: var(--radius);
+  transition: transform var(--motion-fast) var(--ease), box-shadow var(--motion-fast) var(--ease);
 }
 .btn.primary {
   background: var(--accent);
@@ -267,7 +253,7 @@ html, body {
 .btn.secondary {
   background: transparent;
   color: var(--accent-2);
-  border: 1px solid var(--accent-2);
+  border: var(--border-w) solid var(--accent-2);
 }
 .btn.secondary:active {
   background: var(--surface-3);
@@ -276,11 +262,11 @@ html, body {
 
 /* === FOOTER (PK + version) === */
 .layout-footer {
-  margin-top: 14px;
-  padding-top: 8px;
-  border-top: 1px solid var(--border);
+  margin-top: var(--gap-md);
+  padding-top: var(--pad-cell);
+  border-top: var(--border-w) solid var(--border);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--fs-xs);
   color: var(--text-faint);
   display: flex;
   justify-content: space-between;
@@ -289,9 +275,9 @@ html, body {
 /* === CALC FIELD VISUAL (fd_readonly_display) === */
 .calc-row {
   display: flex;
-  gap: 12px;
-  margin-top: 10px;
-  padding-top: 8px;
+  gap: var(--gap-md);
+  margin-top: var(--gap-xs);
+  padding-top: var(--pad-cell);
   border-top: 1px dashed var(--border);
 }
 .calc-row .field .val {
@@ -307,7 +293,7 @@ html, body {
   <!-- HEADER -->
   <header class="layout-header">
     <h1>LOAN DETAIL</h1>
-    <button class="btn-back" onclick="alert('NAV/go-to-property')">← Property Hub</button>
+    <button class="btn-back" onclick="alert('NAV/go-to-property')">&#8592; Property Hub</button>
   </header>
 
   <!-- TERMS CARD -->
@@ -487,8 +473,8 @@ html, body {
 
   <!-- ACTION BAR -->
   <div class="action-bar">
-    <button class="btn primary" onclick="alert('SERVICING/apply-payment \u2192 opens form-payment-application')">Apply Payment</button>
-    <button class="btn secondary" onclick="alert('SERVICING/generate-payoff \u2192 creates new Payoff record')">Generate Payoff</button>
+    <button class="btn primary" onclick="alert('SERVICING/apply-payment')">Apply Payment</button>
+    <button class="btn secondary" onclick="alert('SERVICING/generate-payoff')">Generate Payoff</button>
   </div>
 
   <!-- FOOTER -->
@@ -505,6 +491,7 @@ html, body {
   "layout": "form-loan-detail",
   "context": "Loans",
   "theme": "papyrus",
+  "themeSource": "resolve.js → _themes.json → 4-vector TSV grids",
   "objectLibrary": "shared/themes/_objects.json",
   "objectsUsed": [
     "cnt_page_shell", "cnt_section_card", "nav_back",
@@ -555,23 +542,35 @@ html, body {
 }
 </script>
 
+<!-- THEME INIT: apply the join, reveal the page -->
+<script>
+THEMES.ready.then(function() {
+  return THEMES.applyTheme('papyrus');
+}).then(function() {
+  document.documentElement.style.visibility = 'visible';
+}).catch(function() {
+  // If theme fails to load, show content anyway with whatever resolved
+  document.documentElement.style.visibility = 'visible';
+});
+</script>
+
 <!-- DD-R02: Live controls -->
 <script>
-document.querySelectorAll('.val.editable').forEach(el => {
+document.querySelectorAll('.val.editable').forEach(function(el) {
   el.contentEditable = true;
-  el.addEventListener('focus', () => {
+  el.addEventListener('focus', function() {
     el.style.borderColor = 'var(--accent)';
     el.style.boxShadow = 'var(--shadow-in)';
   });
-  el.addEventListener('blur', () => {
+  el.addEventListener('blur', function() {
     el.style.borderColor = 'var(--border)';
     el.style.boxShadow = 'none';
   });
 });
 
-document.querySelectorAll('.portal tr').forEach(row => {
-  row.addEventListener('click', () => {
-    row.closest('tbody').querySelectorAll('tr').forEach(r => r.classList.remove('selected'));
+document.querySelectorAll('.portal tr').forEach(function(row) {
+  row.addEventListener('click', function() {
+    row.closest('tbody').querySelectorAll('tr').forEach(function(r) { r.classList.remove('selected'); });
     row.classList.add('selected');
   });
 });
