@@ -1,25 +1,20 @@
 # Organizations
 
-*Party records. 🥇 GOLDEN — parked, out of v1 scope. Verified 2026-07-31.*
+Manage → Database → Tables → Organizations
 
-**Grain: one company or entity.**
-
-Parked, and genuinely undesigned — only the primary key is settled. The open question is scope rather than fields: if the file only ever holds borrowers, this is `Borrowers` and the name should say so. If it holds anyone the LLC transacts with, it is `Organizations`. The lean is toward `Organizations`, on the reasoning that a narrower name is the harder one to widen later.
-
-Rename `CRM` to whichever wins before any `ExecuteSQL` references it.
+Grain: one company or entity. Parked, out of v1 scope.
 
 ## Fields
 
-| Field | Type | Key | Category |
-|---|---|---|---|
-| PrimaryKey | text-uuid | pk | key |
+| Field | Type | FMP Comment | TO | ⚠️ |
+|---|---|---|---|---|
+| PrimaryKey | text-uuid | Auto-generated unique identifier | | |
+| *(full field set unenumerated)* | | *Table is undesigned; listing plausible fields would imply design that doesn't exist* | | ⚠️ scope decision needed: Borrowers only or all transacting entities? |
+| CreationTimestamp | timestamp | Record creation timestamp (auto-enter) | | ⚠️ not yet confirmed on this table |
+| CreatedBy | text | Account name at record creation (auto-enter) | | |
+| ModificationTimestamp | timestamp | Last modification timestamp (auto-enter) | | |
+| ModifiedBy | text | Account name at last modification (auto-enter) | | |
 
-The full field set and the audit quad are unenumerated. Listing plausible ones here would make the table look designed when it is not.
+⚠️ Rename from `CRM` before any ExecuteSQL references it.
 
-## Relationships
-
-Referenced by `Loans.fkBorrower` (pending) and `PropertySUMMARIES.fkBorrower` (under review). `ReceivedFunds.fkBorrower` will point here too, nullable.
-
-## Open
-
-The scope decision above, then the field set.
+Full relationship context → [graph.md](../relationships/README.md)
