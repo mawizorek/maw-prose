@@ -1,80 +1,81 @@
 # Info Sheet
 
-> The master reference document for a production. Everything a company member needs to know about the show in one page.
+> Template: the master one-pager for a production.
 
-**Department:** PM
-**Steward:** Production Manager
-**Platform:** Dropbox (PDF export for distribution)
-**Frequency:** per-production (updated as details change)
+**Department:** PM · **Steward:** Production Manager · **Platform:** Dropbox (PDF for distribution)
 
-## Fields
+---
 
-### Identity
-- Production title
-- Playwright / author
-- Season designation (e.g. 26-27 Season, Show 2)
-- Producing organization (URITP / department)
+## TEMPLATE
+
+### [Production Title]
+**by [Playwright/Author]**\
+[Season Designation] · [Producing Organization]
+
+---
 
 ### Dates
-- Audition dates
-- First rehearsal date
-- Designer run date
-- Tech start date
-- Dress rehearsal dates
-- Performance dates (opening through closing)
-- Strike date
-- Post-mortem / debrief date
+
+| Milestone | Date(s) |
+|-----------|--------|
+| Auditions | [MM/DD] |
+| First Rehearsal | [MM/DD] |
+| Designer Run | [MM/DD] |
+| Tech Start | [MM/DD] |
+| Dress Rehearsals | [MM/DD – MM/DD] |
+| Opening | [MM/DD] |
+| Closing | [MM/DD] |
+| Strike | [MM/DD] |
+| Post-Mortem | [MM/DD] |
 
 ### Venue
-- Performance venue name
-- Rehearsal venue(s)
-- Venue address (if off-site)
 
-### Company (key roles only — full roster lives in contact sheet)
-- Director
-- Production Manager
-- Stage Manager
-- Technical Director
-- Scenic Designer
-- Lighting Designer
-- Sound Designer
-- Costume Designer
-- Props Designer/Manager
-- Music Director (if applicable)
-- Choreographer (if applicable)
+- **Performance:** [Venue Name]
+- **Rehearsal:** [Venue Name(s)]
+- **Address (if off-site):** [Street, City]
+
+### Company
+
+| Role | Name |
+|------|------|
+| Director | [Name] |
+| Production Manager | [Name] |
+| Stage Manager | [Name] |
+| Technical Director | [Name] |
+| Scenic Designer | [Name] |
+| Lighting Designer | [Name] |
+| Sound Designer | [Name] |
+| Costume Designer | [Name] |
+| Props Designer/Manager | [Name] |
+| Music Director | [Name or N/A] |
+| Choreographer | [Name or N/A] |
 
 ### Production Details
-- Estimated running time
-- Intermission (Y/N)
-- Cast size
-- Special requirements (live animals, weapons, pyro, fog, nudity, etc.)
-- Content advisories
+
+- **Running Time:** [X hrs Y min]
+- **Intermission:** [Y/N]
+- **Cast Size:** [#]
+- **Special Requirements:** [live animals, weapons, pyro, fog, nudity, etc. or None]
+- **Content Advisories:** [language, violence, etc. or None]
 
 ### Logistics
-- Rehearsal schedule pattern (days/times)
-- Performance schedule pattern
-- Ticket pricing / reservation info
+
+- **Rehearsal Schedule:** [Days, Times]
+- **Performance Schedule:** [Days, Times]
+- **Tickets:** [Price / reservation method]
+- **Program Copy Deadline:** [MM/DD]
+- **Marketing Materials Deadline:** [MM/DD]
+
+---
+
+## Published Version
+
+The distributed PDF omits:
 - Program copy deadline
 - Marketing materials deadline
+- Post-mortem date
 
-## Sources
-
-| Field group | Source |
-|-------------|--------|
-| Identity | Director / season planning (pre-season decisions) |
-| Dates | Production calendar (canonical) |
-| Venue | Facilities coordinator / department scheduling |
-| Company | Contact sheet (canonical for full roster) |
-| Production details | Director + designers (evolves through rehearsal) |
-| Logistics | PM + department policies |
-
-## Downstream
-
-- **Program copy** — pulls title, playwright, company, content advisories
-- **Marketing materials** — pulls title, dates, venue, running time
-- **Crew call** — references performance/tech dates from here (but canonical dates live in production calendar)
-- **Box office** — pulls performance dates, pricing, advisories
-- **Season brochure** — pulls identity + dates + venue for the public-facing summary
+All other fields print as-is.
 
 ---
 
