@@ -5,13 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HML_LLC Layout Viewer</title>
 <!--
-  PORTABLE LAYOUT RENDERER
-  ========================
+  PORTABLE LAYOUT RENDERER + THEME SANDBOX
+  =========================================
   Location: apps/hml-llc/viewer.html
   Purpose:  Discover all *.html render files in this app tree,
-            present a dropdown, render the selected layout below.
+            present a layout dropdown + theme dropdown,
+            render the selected layout below,
+            re-skin it live by resolving theme vectors from TSVs.
   
-  THEME-JOIN: papyrus (from OPEN-ME.md frontmatter)
+  DEFAULT THEME: papyrus (from OPEN-ME.md frontmatter)
+  THEME SOURCE: mawizorek/ClickUp_apps/shared/themes/
   REPO: mawizorek/maw-prose
   APP-ROOT: apps/hml-llc/
 -->
@@ -45,6 +48,7 @@ html, body {
   background: #2a2a2a;
   border-bottom: 1px solid #3a3a3a;
   flex-shrink: 0;
+  flex-wrap: wrap;
 }
 
 .toolbar-title {
@@ -58,8 +62,6 @@ html, body {
 }
 
 .toolbar select {
-  flex: 1;
-  max-width: 420px;
   font-family: 'IBM Plex Mono', monospace;
   font-size: 13px;
   background: #333;
@@ -73,6 +75,9 @@ html, body {
   outline: none;
   border-color: #6a6;
 }
+
+#layout-picker { flex: 1; max-width: 380px; }
+#theme-picker { min-width: 180px; }
 
 .toolbar .status {
   font-family: 'IBM Plex Mono', monospace;
@@ -91,6 +96,19 @@ html, body {
   border-radius: 4px;
   padding: 2px 6px;
   white-space: nowrap;
+  transition: all 200ms;
+}
+.toolbar .theme-badge.changed {
+  color: #e0a84f;
+  border-color: #e0a84f;
+}
+
+.toolbar label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .render-area {
@@ -150,7 +168,11 @@ html, body {
     <select id="layout-picker" disabled>
       <option value="">scanning...</option>
     </select>
-    <span class="theme-badge" id="theme-badge">theme: papyrus</span>
+    <label for="theme-picker">theme:</label>
+    <select id="theme-picker" disabled>
+      <option value="">loading themes...</option>
+    </select>
+    <span class="theme-badge" id="theme-badge">papyrus</span>
     <span class="status" id="status">loading</span>
   </div>
 
@@ -172,13 +194,120 @@ html, body {
   var APP_ROOT = 'apps/hml-llc';
   var SELF = 'viewer.html';
   var PAGES_BASE = 'https://mawizorek.github.io/maw-prose/';
+  var THEME_BASE = 'https://raw.githubusercontent.com/mawizorek/ClickUp_apps/main/shared/themes/';
+  var DEFAULT_THEME = 'papyrus';
 
   var picker = document.getElementById('layout-picker');
+  var themePicker = document.getElementById('theme-picker');
   var frame = document.getElementById('render-frame');
   var emptyState = document.getElementById('empty-state');
   var loading = document.getElementById('loading');
   var status = document.getElementById('status');
+  var themeBadge = document.getElementById('theme-badge');
 
+  // Theme data store
+  var themeIndex = null;
+  var vectors = { colors: null, typography: null, forms: null, spacing: null };
+
+  // ---- TSV PARSER ----
+  function parseTSV(text) {
+    var lines = text.trim().split('\n');
+    var headers = lines[0].split('\t');
+    var rows = [];
+    for (var i = 1; i < lines.length; i++) {
+      var cols = lines[i].split('\t');
+      var obj = {};
+      for (var j = 0; j < headers.length; j++) {
+        obj[headers[j]] = cols[j] || '';
+      }
+      rows.push(obj);
+    }
+    return { headers: headers, rows: rows };
+  }
+
+  function findRow(parsed, slug) {
+    for (var i = 0; i < parsed.rows.length; i++) {
+      if (parsed.rows[i].slug === slug) return parsed.rows[i];
+    }
+    return null;
+  }
+
+  // ---- THEME RESOLUTION ----
+  function resolveTheme(themeSlug) {
+    if (!themeIndex || !vectors.colors || !vectors.typography || !vectors.forms || !vectors.spacing) return null;
+
+    var themeDef = null;
+    for (var i = 0; i < themeIndex.themes.length; i++) {
+      if (themeIndex.themes[i].slug === themeSlug) { themeDef = themeIndex.themes[i]; break; }
+    }
+    if (!themeDef) return null;
+
+    var colorRow = findRow(vectors.colors, themeDef.color);
+    var typoRow = findRow(vectors.typography, themeDef.typography);
+    var formsRow = findRow(vectors.forms, themeDef.forms);
+    var spacingRow = findRow(vectors.spacing, themeDef.spacing);
+
+    var tokens = {};
+
+    // Colors (skip slug, name, mode columns)
+    if (colorRow) {
+      var skipCols = ['slug', 'name', 'mode'];
+      var colorHeaders = vectors.colors.headers;
+      for (var i = 0; i < colorHeaders.length; i++) {
+        var h = colorHeaders[i];
+        if (skipCols.indexOf(h) === -1) {
+          tokens[h] = colorRow[h];
+        }
+      }
+    }
+
+    // Typography (skip slug)
+    if (typoRow) {
+      var typoHeaders = vectors.typography.headers;
+      for (var i = 0; i < typoHeaders.length; i++) {
+        var h = typoHeaders[i];
+        if (h !== 'slug') tokens[h] = typoRow[h];
+      }
+    }
+
+    // Forms (skip slug)
+    if (formsRow) {
+      var formsHeaders = vectors.forms.headers;
+      for (var i = 0; i < formsHeaders.length; i++) {
+        var h = formsHeaders[i];
+        if (h !== 'slug') tokens[h] = formsRow[h];
+      }
+    }
+
+    // Spacing (skip slug)
+    if (spacingRow) {
+      var spacingHeaders = vectors.spacing.headers;
+      for (var i = 0; i < spacingHeaders.length; i++) {
+        var h = spacingHeaders[i];
+        if (h !== 'slug') tokens[h] = spacingRow[h];
+      }
+    }
+
+    return tokens;
+  }
+
+  function applyThemeToFrame(tokens) {
+    if (!tokens) return;
+    try {
+      var iframeDoc = frame.contentDocument || frame.contentWindow.document;
+      var root = iframeDoc.documentElement;
+      var keys = Object.keys(tokens);
+      for (var i = 0; i < keys.length; i++) {
+        if (tokens[keys[i]]) {
+          root.style.setProperty('--' + keys[i], tokens[keys[i]]);
+        }
+      }
+    } catch(e) {
+      // cross-origin or not loaded yet
+    }
+  }
+
+  // ---- LAYOUT DISCOVERY ----
   function discoverLayouts() {
     var url = 'https://api.github.com/repos/' + OWNER + '/' + REPO + '/git/trees/main?recursive=1';
     return fetch(url)
@@ -231,6 +360,40 @@ html, body {
     status.textContent = layouts.length + ' layouts';
   }
 
+  // ---- THEME LOADING ----
+  function loadThemeData() {
+    return Promise.all([
+      fetch(THEME_BASE + '_themes.json').then(function(r) { return r.json(); }),
+      fetch(THEME_BASE + 'colors.tsv').then(function(r) { return r.text(); }),
+      fetch(THEME_BASE + 'typography.tsv').then(function(r) { return r.text(); }),
+      fetch(THEME_BASE + 'forms.tsv').then(function(r) { return r.text(); }),
+      fetch(THEME_BASE + 'spacing.tsv').then(function(r) { return r.text(); })
+    ]).then(function(results) {
+      themeIndex = results[0];
+      vectors.colors = parseTSV(results[1]);
+      vectors.typography = parseTSV(results[2]);
+      vectors.forms = parseTSV(results[3]);
+      vectors.spacing = parseTSV(results[4]);
+      populateThemePicker();
+    });
+  }
+
+  function populateThemePicker() {
+    if (!themeIndex) return;
+    themePicker.innerHTML = '';
+
+    var themes = themeIndex.themes;
+    for (var i = 0; i < themes.length; i++) {
+      var opt = document.createElement('option');
+      opt.value = themes[i].slug;
+      opt.textContent = themes[i].name + (themes[i].status === 'draft' ? ' (draft)' : '');
+      if (themes[i].slug === DEFAULT_THEME) opt.selected = true;
+      themePicker.appendChild(opt);
+    }
+    themePicker.disabled = false;
+  }
+
+  // ---- RENDER ----
   function renderLayout(path) {
     if (!path) {
       frame.style.display = 'none';
@@ -243,13 +406,19 @@ html, body {
     loading.style.display = 'flex';
     frame.style.display = 'none';
 
-    // Use Pages URL directly (same origin, no CORS)
     var pageUrl = PAGES_BASE + path;
 
     frame.onload = function() {
       loading.style.display = 'none';
       frame.style.display = 'block';
       status.textContent = path.replace(APP_ROOT + '/', '');
+
+      // Apply selected theme override
+      var selectedTheme = themePicker.value;
+      if (selectedTheme && selectedTheme !== DEFAULT_THEME) {
+        var tokens = resolveTheme(selectedTheme);
+        applyThemeToFrame(tokens);
+      }
     };
     frame.onerror = function() {
       loading.style.display = 'none';
@@ -259,26 +428,45 @@ html, body {
     frame.src = pageUrl;
   }
 
+  // ---- EVENT LISTENERS ----
   picker.addEventListener('change', function() {
     renderLayout(picker.value);
   });
 
-  discoverLayouts()
-    .then(populatePicker)
-    .catch(function(err) {
-      status.textContent = 'scan failed';
-      picker.innerHTML = '<option>error: ' + err.message + '</option>';
-    });
+  themePicker.addEventListener('change', function() {
+    var slug = themePicker.value;
+    themeBadge.textContent = slug;
+    themeBadge.classList.toggle('changed', slug !== DEFAULT_THEME);
 
-  var params = new URLSearchParams(window.location.search);
-  var preselect = params.get('layout');
-  if (preselect) {
-    var fullPath = preselect.indexOf(APP_ROOT) === 0 ? preselect : APP_ROOT + '/' + preselect;
-    discoverLayouts().then(function() {
+    var tokens = resolveTheme(slug);
+    applyThemeToFrame(tokens);
+  });
+
+  // ---- INIT ----
+  Promise.all([
+    discoverLayouts().then(populatePicker),
+    loadThemeData()
+  ]).then(function() {
+    // Check URL params
+    var params = new URLSearchParams(window.location.search);
+    var preselect = params.get('layout');
+    var preTheme = params.get('theme');
+
+    if (preTheme && themePicker) {
+      themePicker.value = preTheme;
+      themeBadge.textContent = preTheme;
+      themeBadge.classList.toggle('changed', preTheme !== DEFAULT_THEME);
+    }
+
+    if (preselect) {
+      var fullPath = preselect.indexOf(APP_ROOT) === 0 ? preselect : APP_ROOT + '/' + preselect;
       picker.value = fullPath;
       renderLayout(fullPath);
-    });
-  }
+    }
+  }).catch(function(err) {
+    status.textContent = 'init failed';
+    console.error(err);
+  });
 
 })();
 </script>
