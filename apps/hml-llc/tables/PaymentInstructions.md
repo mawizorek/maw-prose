@@ -1,34 +1,24 @@
 # PaymentInstructions
 
-*How to pay us. 🥇 GOLDEN — the record-based design is agreed, the table is under review. Verified 2026-07-31.*
+Manage → Database → Tables → PaymentInstructions
 
-**Grain: one reusable "how to pay us" block.** Row-based, never a global.
-
-That last clause is the entire history of this table. Payment instructions used to live as globals on a fake global table, which meant there was exactly one of each and no way to have a mail block and a wire block and a Venmo block coexist. Making them records is what allows a payoff to reference the right one, and what allows a snapshot of it to be frozen onto the quote.
-
-**Real payment instructions are records in this file. They do not belong in a fixture, a repo, or a chat message.** The sample rows in `../fixtures/golden-month/` use `LENDER NAME` and an invented handle, and that is a rule rather than a courtesy — the ClickUp source these were first copied from also holds a routing number and an account number two lines below what got pasted.
+Grain: one reusable "how to pay us" block. Row-based, never a global.
 
 ## Fields
 
-| Field | Type | Key | Category | Status | Notes |
-|---|---|---|---|---|---|
-| PrimaryKey | text-uuid | pk | key | | |
-| CreationTimestamp | timestamp | audit | audit | | |
-| CreatedBy | text | audit | audit | | |
-| ModificationTimestamp | timestamp | audit | audit | | |
-| ModifiedBy | text | audit | audit | | |
-| InstructionLabel | text | plain | detail | | "Check by mail", "Wire" |
-| PayeeText | text | plain | detail | | |
-| DeliveryType | text | plain | detail | | mail / wire / ACH |
-| DeliveryDetailText | text | plain | detail | | |
-| SignatureReference | text | plain | detail | pending | container here, or a reference into the document module |
-| SortOrder | number | plain | detail | | |
-| IsActive | number | plain | detail | | |
+| Field | Type | FMP Comment | TO | ⚠️ |
+|---|---|---|---|---|
+| PrimaryKey | text-uuid | Auto-generated unique identifier | | |
+| InstructionLabel | text | Display name ("Check by mail", "Wire", "Venmo") | | |
+| PayeeText | text | Payee line for the instruction block | | |
+| DeliveryType | text | mail / wire / ACH | | |
+| DeliveryDetailText | text | Full delivery detail (address, routing info, handle) | | |
+| SignatureReference | text | Pointer to signature image or document | | ⚠️ pending: container here or reference into Documents? |
+| SortOrder | number | Numeric display sequence | | |
+| IsActive | number | 1 = active and available for selection | | |
+| CreationTimestamp | timestamp | Record creation timestamp (auto-enter) | | |
+| CreatedBy | text | Account name at record creation (auto-enter) | | |
+| ModificationTimestamp | timestamp | Last modification timestamp (auto-enter) | | |
+| ModifiedBy | text | Account name at last modification (auto-enter) | | |
 
-## Relationships
-
-None as an FK. `Payoffs.FrozenPaymentInstructions` takes a snapshot of the chosen row at issue and keeps it — the absence of a relationship is what makes the freeze real.
-
-## Open
-
-Confirm this table as the canonical record-based source; its status is still under review. Decide whether `SignatureReference` is a container on this table or a pointer into the document module, which is the same fork the whole document layer is waiting on.
+Full relationship context → [graph.md](../relationships/README.md)
