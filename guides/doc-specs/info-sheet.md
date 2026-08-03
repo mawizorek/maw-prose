@@ -1,7 +1,5 @@
 # Info Sheet
 
-> The master one-pager for a production: who, what, when, where. Distributed to full company at first rehearsal.
-
 **Department:** PM  
 **Steward:** Production Manager  
 **Platform:** Dropbox (`.docx` working file, PDF for distribution)  
@@ -124,27 +122,6 @@ Include only when applicable to the production:
 - Date format: `Weekday, Month DD` (no year, implied by header)
 - Single page strongly preferred; two pages acceptable for complex shows
 - University/department branding at top (logo or text header)
-
----
-
-## Sources
-
-| Field | Source |
-|-------|--------|
-| Title, playwright | Season selection (Artistic Director decision) |
-| Slot, course codes | Registrar / department schedule |
-| Creative team | Department head assignments |
-| Production team | PM assignments |
-| Key dates | Production calendar (master schedule) |
-| Venue | Space allocation (TD / facilities) |
-
-## Downstream
-
-- **Contact sheet**: pulls production title, creative/production team names
-- **Crew call**: pulls key dates, venue
-- **Program**: pulls title, playwright, creative team, cast
-- **Marketing materials**: pulls title, dates, venue, content advisories
-- **Course syllabus**: pulls key dates, course codes
 
 ---
 
