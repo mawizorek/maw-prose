@@ -1,38 +1,50 @@
-# Doc Specs
+# 🪦 TOMBSTONE — Doc Specs
 
-*What a document contains. Not how to update it, not when to send it. Just the fields.*
+**This folder is RETIRED as of 2026-08-07.** Michael: *"The one inside URITP docs is definitely the
+one I want to keep. The one in MAW pros is functionally dead, so I never want to see it again."*
 
-Each file in this folder is a **field-level definition** of one production document type. When a new SM asks "what goes in a crew call?" you hand them the markdown. When an agent asks "which docs contain date fields?" you filter the CU registry.
+## Canonical home
 
-## How to use these
+**`mawizorek/uritp-docs` → `doc-specs/`**
 
-1. **Creating a new production doc:** open the spec, copy the field list, fill in your show's values.
-2. **Auditing an existing doc:** compare the live document against its spec. Missing fields = gaps. Extra fields = candidates for the spec (file a PR or flag it).
-3. **Adding a new doc type:** copy `_TEMPLATE.md`, fill in the fields from a real instance (not from imagination), and PR it.
+🚫 **Do not read the specs in this folder. Do not update them. Do not point anything at them.**
 
-## Architecture
+## What moved
 
-These specs are one layer of a three-part system:
+All four specs that existed only here were migrated to `uritp-docs/doc-specs/` on 2026-08-07 and
+re-authored to that site's frontmatter contract:
 
-| Layer | Home | Question it answers |
-|-------|------|--------------------|
-| **Spec** (here) | Git | What fields does this doc type contain? |
-| **Registry** | ClickUp list | Which doc types exist, who stewards them, how to filter? |
-| **Schema** (future) | FMP | When Field X changes, which instances need updating? |
+| Spec | New home |
+|---|---|
+| `contact-sheet.md` | `uritp-docs/doc-specs/contact-sheet.md` |
+| `crew-call.md` | `uritp-docs/doc-specs/crew-call.md` |
+| `letterhead.md` | `uritp-docs/doc-specs/letterhead.md` |
+| `production-calendar.md` | `uritp-docs/doc-specs/production-calendar.md` |
+| `info-sheet.md` | **superseded** — `uritp-docs` already held a newer, larger version |
 
-Full architecture: [`../production-management/doc-spec-architecture.md`](../production-management/doc-spec-architecture.md)
+**The files are left in place rather than deleted**, per the house rule that a retired thing gets a
+tombstone and not a hole. They are frozen. The canonical copies are the ones in `uritp-docs`.
 
-## Rules
+## Why this folder existed and why it stopped
 
-- **One file per document type.** No multi-doc files, no department subfolders.
-- **Write specs from REAL documents, not theory.** If you haven't held a real instance of this doc type, don't spec it yet.
-- **Fields only, not prose.** These are reference cards, not essays. A spec that takes more than 90 seconds to scan has drifted.
-- **Sources and downstream are mandatory.** A field without a source is a field nobody knows how to fill. A doc without downstream connections is a doc nobody reads.
+It was the v1 of the doc-spec system and it worked. The migration to `uritp-docs` started, moved
+`info-sheet` across, and **stalled with four specs still living only here** — which is why a sweep on
+2026-08-07 found two live folders both claiming the same job, each with a README stating an exclusive
+contract, neither mentioning the other.
 
-## Folder contract
+⚠️ **The live consequence, recorded because it is the instructive part:**
+`brain-config/hooks/production-doc-audit.md` resolved its spec source to this folder from 2026-08-02
+to 2026-08-07. **Every audit in that window compared production documents against specs in the dead
+repo and reported clean.** A freshness tool reading a retired source is worse than no tool. The hook
+was repointed at v1.1.
 
-This folder answers ONE question: **WHAT does a document contain?**
+**A stalled migration looks exactly like duplication.** The tell is that one copy is growing and the
+other is not. Check which before calling either one dead — and check for orphans before culling,
+because four of the five files here had no counterpart at all.
 
-Sibling folders answer different questions:
-- `production-management/` — HOW to maintain things (process guides)
-- `production-phases/` — WHEN things happen (timeline reference)
+## Still to do
+
+- The `Spec URL` custom field on the doc-type tasks in the ClickUp **Document TEMPLATES** list
+  (`901319214267`) may still point here. **A `Spec URL` is data, not truth** — if it names this
+  folder, it is stale.
+- `brain-config/hooks/doc-destroyer-reconcile.md` may carry the same retired coordinate.
