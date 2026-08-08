@@ -1,21 +1,17 @@
 id	Field_Name	Type	Notes
 NORMALIZED FIELDS			
-1	PrintedAt	Timestamp	
-2	Edition	Text	FIRST | REVISED | UPDATED. Styled via STYLES domain watermark
+{.conf}	PrintedAt	Timestamp	
+2	fkVersion	Text	FIRST | REVISED | UPDATED. Styled via STYLES domain watermark
 3	EditionNumber	Number	Sequence within the calendar
-4	OutputSize	Text	SNAPSHOT from the preset - a preset can change later
-5	WeekStartDay	Number	SNAPSHOT. 1=Sun ... 7=Sat. Which grid this run actually used
-6	date_CalendarStart	Date	SNAPSHOT. The WeekStartDay falling on or before PRODUCTIONS::DateFirstRehearsal
-7	ExportPath	Text	<Show>_Calendar_<YYYYMMDD> convention
-8	EventRowCount	Number	What was on the page at print time
-9	Notes	Text	Why this reissue happened. Usually a staffing change
+4	OutputSize	Text	Snapshotted from the preset - a preset can change later
+5	ExportPath	Text	<Show>_Calendar_<YYYYMMDD> convention
+6	EventRowCount	Number	What was on the page at print time
+7	Notes	Text	Why this reissue happened. Usually a staffing change
+{.conf}	date_CalendarStart		
+{.conf}	bool_MondayStart	Number	default=0
 RELATIONSHIPS			
 	fkCalendar		
 	fkPreset		Which saved export settings produced this run
+	fkVersion		thie index of actual exports - connected to a shared EDITION and touched by other record types too
 AUDIT FIELDS			
-	PrimaryKey	Text	
-	CreationTimestamp	Timestamp	
-	CreatedBy	Text	
-	ModificationTimestamp	Timestamp	
-	ModifiedBy	Text	
-- EOF -			
+8	[[Audit Fields](@audit-fields)]{.hi}		
