@@ -1,8 +1,17 @@
-sort	Field_Name	Type	Notes
-1	PrimaryKey	Text	UUID, auto-enter, unique, can't modify
-2	fkCalendar	Text	Parent is the CALENDAR, not the production
-3	Week_Number	Number	Indexed
-4	Week_START_DATE	Date	Indexed
-5	PAGE_BREAK	Number	Print concern, which is why WEEKS belongs to the calendar
-6	IsPrePro	Number	
-7	[[Audit Fields](@audit-fields)]{.hi}		
+id	Field_Name	Type	Notes
+NORMALIZED FIELDS			
+1	Week_Number	Number	Indexed. Sequence within THIS build of the grid
+2	Week_START_DATE	Date	Indexed. Falls on the preset's WeekStartDay
+3	PAGE_BREAK	Number	Print concern - which is why WEEKS belongs to the print layer
+4	IsPrePro	Number	
+RELATIONSHIPS			
+	fkCalendar		
+CHILDREN			
+	< WORKDAYS		Seven per week. Generated, never typed
+AUDIT FIELDS			
+	PrimaryKey	Text	
+	CreationTimestamp	Timestamp	
+	CreatedBy	Text	
+	ModificationTimestamp	Timestamp	
+	ModifiedBy	Text	
+- EOF -			

@@ -2,18 +2,16 @@ id	Field_Name	Type	Options	Notes
 NORMALIZED FIELDS				
 1	date_NeededFirst	Date		PAGE BOUND, not a schedule fact. Lower edge of the grid (pre-pro exists)
 2	date_NeededLast	Date		PAGE BOUND. Legacy fed this into CalendarDaysNeeded - it sized the grid
-3	date_CalendarStart	Calculation	Unstored	⚠️ YOU DELETED THIS. Sunday (or Monday) of the week of PRODUCTIONS::DateFirstRehearsal. WEEKS generation needs it
-4	bool_StartOnMonday	Number	Auto-enter Data	⚠️ ALSO DELETED. Real boolean. Legacy startOnMon was TEXT compared against = 1
-5	bool_AddPreProWeek	Number	Auto-enter Data	default = 0
-6	HIDE_Start	Date		Greys OUT a date range entirely - it stamps HideFromCalendar on WORKDAYS so those days do not print
-7	HIDE_End	Date		Legacy use: The Secretary hid 3/7-3/13/27 = SPRING BREAK. That is what they are for. KEEP THEM
+3	bool_AddPreProWeek	Number	Auto-enter Data	default = 0
+4	HIDE_Start	Date		Greys OUT a date range entirely - stamps HideFromCalendar on WORKDAYS so those days do not print
+5	HIDE_End	Date		Legacy use: The Secretary hid 3/7-3/13/27 = SPRING BREAK. That is what they are for
 RELATIONSHIP				
 	fkProduction			First rehearsal + opening are READ THROUGH THIS. Never copied down
-	fkSemester			⚠️ SEE NOTES - semester is a property of the CALENDAR, not the production. Two calendars = two semesters, one show
+	fkSemester			Property of the CALENDAR, not the production. Two calendars = two semesters, one show
 CHILDREN				
-	< WEEKS			Week 1 is only meaningful relative to a calendar start
+	< WEEKS			⚠️ REBUILT per print now, not stored once - see PRODUCTION_CALENDARS.md
 	< CALENDAR_EMPHASIS			N typed callouts. Replaced the highlight/lowlight range fields
-	< PRINT_SESSIONS			One row per export. Edition lives there
+	< PRINT_SESSIONS			One row per export. Edition + the week-start used live there
 AUDIT FIELDS				
 	PrimaryKey	Text		
 	CreationTimestamp	Timestamp		
@@ -21,3 +19,7 @@ AUDIT FIELDS
 	ModificationTimestamp	Timestamp		
 	ModifiedBy	Text		
 - EOF -				
+				
+MOVED OUT				
+	~~date_CalendarStart~~			→ PRINT_PRESETS (config) + PRINT_SESSIONS (snapshot). Derived from WeekStartDay at print time
+	~~bool_StartOnMonday~~			DEAD. A boolean cannot express Tuesday. → PRINT_PRESETS.WeekStartDay (1-7)
