@@ -1,9 +1,9 @@
-sort	Field Name		Notes
-1	TITLE		
-2	TITLE_SHORT		
-3	FIRST_REHEARSAL		
-4	LAST_DATE_NEEDED		
-5	ADD_PRE_PRO_WEEK		
+sort	Field_Name	Type	Notes
+1	Title		
+2	Title_Short		
+3	First_Rehearsal		
+4	Last_Date_Needed		
+5	Add_PrePro_Week		
 6			
 7			
-8			
+8	[[Audit Fields](@audit-fields)]{.hi}		
