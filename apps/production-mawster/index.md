@@ -1,5 +1,5 @@
 ---
-id: home
+id: production-mawster
 title: Production MAWster
 type: index
 status: public

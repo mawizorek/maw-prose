@@ -8,8 +8,6 @@ order: 10
 nav: collapsed
 summary: What's next?
 data:
-    catalog
-data:
   schedule:
     file: build-sheet.tsv  # revision_log?
     caption: What's next?   # optional
