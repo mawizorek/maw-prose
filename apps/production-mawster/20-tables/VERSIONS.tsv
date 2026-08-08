@@ -1,0 +1,13 @@
+status	Field_Name	Type	Options	Notes
+NORMALIZED FIELDS				
+{.conf}	ID	Text	[auot-calc]{.tbc}	Sequence within the calendar AND edition. A, B, C - or I, II, III - type inputs.
+RELATIONSHIPS				
+{.conf}	fkCalendar	Text	[stamped]{.hi}	stamped.
+{.conf}	fkSuperseededBy			
+	< Versions			
+ASSUMED from RELATIONSHIPS				
+	( fkProduction )			from fkEdition < not actually stored here tho?>
+AUDIT FIELDS				
+	Cretaed date actually useful here!!!			
+	[[Audit Fields](@audit-fields)]{.hi}			
+- EOF -				
