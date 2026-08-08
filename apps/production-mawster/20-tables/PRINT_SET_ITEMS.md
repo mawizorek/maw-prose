@@ -6,6 +6,9 @@ status: public
 order: 10
 revised: Aug 2026
 summary: One output in a print set. Where overrides live.
+data:
+  catalog:
+    file: PRINT_SET_ITEMS.tsv
 ---
 
 # PRINT_SET_ITEMS
@@ -41,4 +44,4 @@ A calendar has no `ShowVacancies`; a contact sheet has no `WeekStartDay`. The pr
 
 ## Fields
 
-See [PRINT_SET_ITEMS.tsv](./PRINT_SET_ITEMS.tsv).
+!!! data "catalog"

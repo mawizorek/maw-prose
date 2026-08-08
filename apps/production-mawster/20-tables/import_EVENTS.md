@@ -7,6 +7,9 @@ order: 10
 # nav: collapsed
 revised: Aug 2026
 summary: Raw ClickUp pulls, append-only.
+data:
+  catalog:
+    file: import_EVENTS.tsv
 ---
 
 # import_EVENTS
@@ -76,4 +79,4 @@ code that should not exist here.
 
 ## Fields
 
-See [import_EVENTS.tsv](./import_EVENTS.tsv).
+!!! data "catalog"
