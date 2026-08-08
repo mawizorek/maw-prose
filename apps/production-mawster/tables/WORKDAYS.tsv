@@ -6,8 +6,8 @@ sort	Field_Name	Type	Notes
 5	Workday_SORT	Number	
 6	DisplayAsTitle	Text	
 7	ColloquialDate	Calculation	Unstored. Resolves month colour via STYLES on MonthNum
-8	HideFromCalendar	Number	Stamped at generation from the calendar's HIDE range
-9	Highlight	Number	Stamped at generation from the calendar's HIGHLIGHT range
-10	Lowlight	Number	Stamped at generation from the calendar's LOWLIGHT range
-11	Manual_Override	Date	Escape hatch, legacy parity
-12	[[Audit Fields](@audit-fields)]{.hi}		
+8	HideFromCalendar	Number	STAMPED at generation from the calendar's HIDE range. Existence, not styling
+9	Manual_Override	Date	Escape hatch, legacy parity
+10	[[Audit Fields](@audit-fields)]{.hi}		
+11			
+12	EMPHASIS	--	NOT a field. Resolved LIVE via a sorted relationship to CALENDAR_EMPHASIS (Priority, then span). Layout reads the first related row
