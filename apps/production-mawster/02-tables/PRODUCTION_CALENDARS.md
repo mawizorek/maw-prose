@@ -19,6 +19,7 @@ summary: Joining entity to output.
 - WEEKS hangs off THIS table, not PRODUCTIONS. Week 1 is only meaningful relative to a calendar's start.
 - ⚠️ `StartOnMonday` is a real boolean. Legacy `startOnMon` was TEXT compared against `= 1`, so typing "Yes" silently flipped the week.
 
+<!---
 ## The page bounds live here
 
 `DateNeededFirst` / `DateNeededLast` are **page dimensions**, not schedule facts — nothing happens on "last date needed." The legacy file fed it straight into `CalendarDaysNeeded`, which sized the grid. Two calendars for one show need different bounds and share one first rehearsal, which is the proof.
@@ -33,6 +34,7 @@ summary: Joining entity to output.
 - **Watermark** moved to PRINT_SESSIONS — it belongs to a print run, not a calendar.
 - **Export settings** moved to PRINT_PRESETS.
 
+--->
 ## Fields
 
 See [PRODUCTION_CALENDARS.tsv](./PRODUCTION_CALENDARS.tsv).

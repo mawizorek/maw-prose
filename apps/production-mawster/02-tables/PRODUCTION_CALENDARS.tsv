@@ -1,16 +1,12 @@
-id	Field_Name	Type	Notes
-NORMALIZED FIELDS			
-1	Semester		
-2	DateNeededFirst	Date	PAGE BOUND, not a schedule fact. Lower edge of the grid (pre-pro exists)
-3	DateNeededLast	Date	PAGE BOUND. Legacy fed this into CalendarDaysNeeded - it sized the grid
-4	Calendar_START	Calculation	UNSTORED, across the relationship: Sunday (or Monday) of the week of PRODUCTIONS::DateFirstRehearsal
-5	StartOnMonday	Number	BOOLEAN. Legacy startOnMon was TEXT compared against = 1
-6	AddPreProWeek	Number	
-7	HIDE_Start	Date	Stays HERE. Hide is existence, not styling - stamps HideFromCalendar on WORKDAYS
-8	HIDE_End	Date	
-RELATIONSHIPS			
-	fkProduction		First rehearsal + opening are READ THROUGH THIS. Never copied down
-	< CALENDAR_EMPHASIS		N typed callouts. Replaced the highlight/lowlight range fields
-	< WEEKS		
-AUDIT FIELDS			
-9	[[Audit Fields](@audit-fields)]{.hi}		
+id	Field_Name	Type	Options	Notes
+NORMALIZED FIELDS				
+2	date_NeededFirst	Date		PAGE BOUND, not a schedule fact. Lower edge of the grid (pre-pro exists)
+3	date_NeededLast	Date		PAGE BOUND. Legacy fed this into CalendarDaysNeeded - it sized the grid
+6	bool_AddPreProWeek	Number	Auto-enter Data	default = 0
+7	HIDE_Start	Date		Stays HERE. Hide is existence, not styling - stamps HideFromCalendar on WORKDAYS
+8	HIDE_End	Date		<!! NOT ACTUALY  SURE WHAT THESE TWO FIELDS ARE FOR? DELET THEM?>!!
+RELATIONSHIP				
+	fkSemester <isn't thjis PRODCUTION and not CALENDAR????>			(still derivable from Openign date?????) but automatic and then manual edit sticks from there but its' def  a relaitonshiP)
+	fkProduction			First rehearsal + opening are READ THROUGH THIS. Never copied down
+AUDIT FIELDS				
+9	[[Audit Fields](@audit-fields)]{.hi}			<expand this to be like PRODCUTIONS or whatever the default 5 filemaker fileds are>

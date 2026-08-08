@@ -7,6 +7,8 @@ NORMALIZED FIELDS
 5	PDF_Path	Text	<Show>_Calendar_<YYYYMMDD> convention
 6	EventRowCount	Number	What was on the page at print time
 7	Notes	Text	Why this reissue happened. Usually a staffing change
+	date_CalendarStart		
+	bool_MondayStart	Number	default=0
 RELATIONSHIPS			
 	fkCalendar		
 	fkPreset		Which saved export settings produced this run
