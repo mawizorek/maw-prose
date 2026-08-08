@@ -1,7 +1,7 @@
 ---
 id: user-experience
 title: UX
-type: idn
+type: index
 status: public
 order: 10
 revised: Aug 2026
