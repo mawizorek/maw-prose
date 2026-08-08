@@ -1,0 +1,17 @@
+sort	Field_Name	Type	Notes
+1	PrimaryKey	Text	UUID, auto-enter, unique, can't modify
+2	fkCalendar	Text	
+3	AnchorMode	Text	range | event
+4	Label	Text	Prints in the legend. Not decoration
+5	fkStyle	Text	STYLES row, domain emphasis
+6	Priority	Number	Default 10, increment by 10. Highest wins; tie goes to narrowest span
+7	DateStart	Date	Typed. range mode only
+8	DateEnd	Date	Typed. Must be >= DateStart
+9	fkStandardEvent	Text	event mode only. Matches EVERY event of this type in the production
+10	PadBefore	Number	Days to extend backward from the anchor
+11	PadAfter	Number	Days to extend forward from the anchor
+12	ResolvedStart	Calculation	Unstored. Typed date, or earliest matched event minus PadBefore
+13	ResolvedEnd	Calculation	Unstored. Typed date, or latest matched event plus PadAfter
+14	SpanDays	Calculation	Unstored. Tiebreaker for the sort
+15	MatchCount	Calculation	Unstored. event mode: how many events matched. 0 = the row does nothing
+16	[[Audit Fields](@audit-fields)]{.hi}		
