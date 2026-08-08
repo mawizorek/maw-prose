@@ -1,0 +1,16 @@
+id	Field_Name	Type	Options	Notes
+NORMALIZED FIELDS				
+1	Name	Text	Indexed	
+2	NameShort	Text		⚠️ PRODUCTIONS.TitleShort is Indexed + Unique. Make this match or the convention is already inconsistent
+3	NameDisplay	Text	Indexed, Auto-Enter Calculation	
+RELATIONSHIP				
+	fkLocationType	Text		
+CHILDREN				
+	< EVENTS			⬜ NOT BUILT. A rehearsal happens in a ROOM - see LOCATIONS.md
+AUDIT FIELDS				
+	PrimaryKey	Text		
+	CreationTimestamp	Timestamp		
+	CreatedBy	Text		
+	ModificationTimestamp	Timestamp		
+	ModifiedBy	Text		
+- EOF -				

@@ -1,0 +1,16 @@
+id	Field_Name	Type	Options	Notes
+NORMALIZED FIELDS				
+1	Name	Text	Indexed	
+2	NameShort	Text		
+3	NameDisplay	Text	Indexed, Auto-Enter Calculation	
+4	media_LogoWide	Container		Legacy SETUP::VenueLOGO lived as a global. This is the right home
+5	media_LogoSquare	Container		
+CHILDREN				
+	< PRODUCTIONS			via fkProducer
+AUDIT FIELDS				
+	PrimaryKey	Text		
+	CreationTimestamp	Timestamp		
+	CreatedBy	Text		
+	ModificationTimestamp	Timestamp		
+	ModifiedBy	Text		
+- EOF -				

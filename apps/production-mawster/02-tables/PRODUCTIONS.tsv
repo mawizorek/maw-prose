@@ -10,8 +10,12 @@ INTEGRATION KEYS
 8	cuProductionID	Text		Indexed. Empty until the API pull. Rename-proof successor
 RELATIONSHIP				
 	fkProducer	Text		
-	fkVenue	Text		
+	fkVenue	Text		⚠️ Is a VENUE a LOCATION with fkLocationType = venue? Two tables for one concept if not
 	fkCourse	Text		What is the course number that the actors in the course should enroll in?
+CHILDREN				
+	< PRODUCTION_CALENDARS			One per semester/time block. Page bounds live THERE
+	< EVENTS			Canonical event set. Upsert key is TaskID + fkProduction
+	< ASSIGNMENTS			Director, designers, crew. Roles are NOT fields here
 AUDIT FIELDS				
 	PrimaryKey	Text		
 	CreationTimestamp	Timestamp		

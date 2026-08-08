@@ -1,12 +1,23 @@
 id	Field_Name	Type	Options	Notes
 NORMALIZED FIELDS				
-2	date_NeededFirst	Date		PAGE BOUND, not a schedule fact. Lower edge of the grid (pre-pro exists)
-3	date_NeededLast	Date		PAGE BOUND. Legacy fed this into CalendarDaysNeeded - it sized the grid
-6	bool_AddPreProWeek	Number	Auto-enter Data	default = 0
-7	HIDE_Start	Date		Stays HERE. Hide is existence, not styling - stamps HideFromCalendar on WORKDAYS
-8	HIDE_End	Date		<!! NOT ACTUALY  SURE WHAT THESE TWO FIELDS ARE FOR? DELET THEM?>!!
+1	date_NeededFirst	Date		PAGE BOUND, not a schedule fact. Lower edge of the grid (pre-pro exists)
+2	date_NeededLast	Date		PAGE BOUND. Legacy fed this into CalendarDaysNeeded - it sized the grid
+3	date_CalendarStart	Calculation	Unstored	⚠️ YOU DELETED THIS. Sunday (or Monday) of the week of PRODUCTIONS::DateFirstRehearsal. WEEKS generation needs it
+4	bool_StartOnMonday	Number	Auto-enter Data	⚠️ ALSO DELETED. Real boolean. Legacy startOnMon was TEXT compared against = 1
+5	bool_AddPreProWeek	Number	Auto-enter Data	default = 0
+6	HIDE_Start	Date		Greys OUT a date range entirely - it stamps HideFromCalendar on WORKDAYS so those days do not print
+7	HIDE_End	Date		Legacy use: The Secretary hid 3/7-3/13/27 = SPRING BREAK. That is what they are for. KEEP THEM
 RELATIONSHIP				
-	fkSemester <isn't thjis PRODCUTION and not CALENDAR????>			(still derivable from Openign date?????) but automatic and then manual edit sticks from there but its' def  a relaitonshiP)
 	fkProduction			First rehearsal + opening are READ THROUGH THIS. Never copied down
+	fkSemester			⚠️ SEE NOTES - semester is a property of the CALENDAR, not the production. Two calendars = two semesters, one show
+CHILDREN				
+	< WEEKS			Week 1 is only meaningful relative to a calendar start
+	< CALENDAR_EMPHASIS			N typed callouts. Replaced the highlight/lowlight range fields
+	< PRINT_SESSIONS			One row per export. Edition lives there
 AUDIT FIELDS				
-9	[[Audit Fields](@audit-fields)]{.hi}			<expand this to be like PRODCUTIONS or whatever the default 5 filemaker fileds are>
+	PrimaryKey	Text		
+	CreationTimestamp	Timestamp		
+	CreatedBy	Text		
+	ModificationTimestamp	Timestamp		
+	ModifiedBy	Text		
+- EOF -				
