@@ -23,7 +23,6 @@ studnet theatrre?
 Ogunquit Playhouse
 Broadway?
 stidnet theatre?
---->
 
 ## 🔴 TWO DATES, EVER
 
@@ -47,6 +46,7 @@ stidnet theatre?
 ⚠️ The legacy file could not make this distinction: it had no PRODUCTIONS table, every date was a global on a one-record singleton, so "which entity owns this" was unanswerable. The duplication was inherited confusion, not a design choice.
 
 ## Fields
+--->
 
 See [PRODUCTIONS.tsv](./PRODUCTIONS.tsv).
 
