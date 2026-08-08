@@ -1,15 +1,15 @@
 id	Field_Name	Type	Notes
 NORMALIZED FIELDS			
 1	DATE	Date	Indexed
-2	Workday_TITLE	Text	
-3	Workday_SORT	Number	
+2	Workday_TITLE	Text	Production Day | Pre-Pro | Unscheduled
+3	Workday_SORT	Number	Sequential, stamped after a date sort. Print order independent of date
 4	DisplayAsTitle	Text	
 5	HideFromCalendar	Number	STAMPED at generation from the calendar's HIDE range. Existence, not styling
 6	Manual_Override	Date	Escape hatch, legacy parity
 RELATIONSHIPS			
 	fkWeek		
-	< EVENTS		by DATE, stamped at import
-	< CALENDAR_EMPHASIS		LIVE, sorted Priority then span. Layout reads the FIRST related row. NOT a stored flag
+	< EVENTS|span		RANGE: DATE >= Start_DATE, DATE <= End_DATE, fkCalendar =. A span is ONE row seen by every day it covers
+	< CALENDAR_EMPHASIS		RANGE, sorted Priority then span. Layout reads the FIRST related row. NOT a stored flag
 CALCULATIONS			
 7	ColloquialDate	Calculation	Unstored. Month colour via STYLES on MonthNum
 AUDIT FIELDS			

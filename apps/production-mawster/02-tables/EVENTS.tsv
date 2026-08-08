@@ -1,14 +1,19 @@
-sort	Field_Name	Type	Notes
-1	PrimaryKey	Text	UUID, auto-enter, unique, can't modify
-2	TaskID	Text	Indexed. Half the upsert key
-3	fkProduction	Text	Indexed. The other half. NEVER upsert on TaskID alone
-4	fkStandardEvent	Text	Nullable. Crosswalk result. The season-report spine
-5	Event_Name	Text	
-6	Start_TIMESTAMP	Timestamp	Stored
-7	End_TIMESTAMP	Timestamp	Stored
-8	AllDay	Number	
-9	fkWorkday	Text	Stamped at import from DATE. Empty = UNSCHEDULED
-10	fkStyle	Text	STYLES row, domain event-status
-11	LastImportSession	Text	Which session last wrote this row
-12	WatchHash_Current	Text	Copied from the winning import row. Cheap change detection
-13	[[Audit Fields](@audit-fields)]{.hi}		
+id	Field_Name	Type	Notes
+NORMALIZED FIELDS			
+1	Event_Name	Text	Cleaned. Raw stays in import_EVENTS.Raw_Payload
+2	Start_DATE	Date	Indexed. Date-only, derived at import. Left edge of the range join
+3	End_DATE	Date	Indexed. 🔴 NEVER EMPTY - single-day events set it = Start_DATE or they vanish from every portal
+4	Start_TIMESTAMP	Timestamp	Stored. Time-of-day display
+5	End_TIMESTAMP	Timestamp	Stored
+6	AllDay	Number	
+7	TaskID	Text	Indexed. Half the upsert key
+8	WatchHash_Current	Text	Copied from the winning import row. Cheap change detection
+9	LastImportSession	Text	Which session last wrote this row
+RELATIONSHIPS			
+	fkProduction		Indexed. Other half of the upsert key. NEVER upsert on TaskID alone
+	fkCalendar		Resolved at import. A production can have two calendars - stops a spring event printing on a fall grid
+	fkStandardEvent		Nullable. Crosswalk result. The season-report spine
+	fkStyle		STYLES row, domain event-status
+	> WORKDAYS|span		RANGE join: DATE >= Start_DATE, DATE <= End_DATE, fkCalendar =. NOT a stamped fkWorkday
+AUDIT FIELDS			
+10	[[Audit Fields](@audit-fields)]{.hi}		
