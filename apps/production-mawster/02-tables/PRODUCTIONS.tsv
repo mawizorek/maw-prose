@@ -6,8 +6,8 @@ NORMALIZED FIELDS
 3	DateFirstRehearsal	Date	Indexed	TYPED, never derived. Contractual fact about the show. Calendar_START measures from it
 4	DateOpening	Date	Indexed	TYPED. The production milestone. Season-report axis + value-list sort
 INTEGRATION KEYS				
-7	CU_ProductionToken	Text		Indexed. EXACT ClickUp label string. A rename in CU breaks the join SILENTLY
-8	CU_ProductionID	Text		Indexed. Empty until the API pull. Rename-proof successor
+7	cuProductionToken	Text		Indexed. EXACT ClickUp label string. A rename in CU breaks the join SILENTLY
+8	cuProductionID	Text		Indexed. Empty until the API pull. Rename-proof successor
 RELATIONSHIP				
 	fkProducer	Text		
 	fkVenue	Text		
