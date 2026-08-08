@@ -26,12 +26,12 @@ summary: Tables index.
 
 [[PRODUCTIONS](@table-productions)]{.tbc}  
 - Normalized vectors for each Production. 
-[[VENUES](@venues)]{.tbc}  
-[[PRODUCER_INFO](@producer-info)]{.tbc}
+[[VENUES](@table-venues)]{.tbc}  
+[[PRODUCER_INFO](@table-producer-info)]{.tbc}
 
 ### For the Production __Calendars__  
 
-[[PRODUCTION_CALENDARS](@production-calendars)]{.tbc}
+[[PRODUCTION_CALENDARS](@table-production-calendars)]{.tbc}
 - One calendar per production (usually - exepctions might be the same production in two different time blocks).  
 - Joining entity to output.
 
@@ -41,8 +41,8 @@ summary: Tables index.
 - For defining custom events. *Nothing* in the app should break if there are no standard events. That is to say that all imported events are handled elegantly regardless of it's existance in STANDARD_EVENTS. But STANDARD_EVENTS should automatically be linked during import and might SKIN additionally or help us export specialized reports or create workflow notes from canonical definitions.
 
 
-[EVENTS]
-[import_SESSIONS]
+[[EVENTS](@table-events)]{.tbc}
+[[import_SESSIONS](@table-import-sessions)]{.tbc}
 - see also {#import-events}
 
 
