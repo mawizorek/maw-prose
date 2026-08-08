@@ -2,12 +2,11 @@ status	Field_Name	Type	Options	Notes
 NORMALIZED FIELDS				
 {.conf}	ID	Text	[auot-calc]{.tbc}	Sequence within the calendar AND edition. A, B, C - or I, II, III - type inputs.
 RELATIONSHIPS				
-{.conf}	fkCalendar	Text	[stamped]{.hi}	stamped.
-{.conf}	fkSuperseededBy			
-	< Versions			
+{.conf}	fkEdition	Text	[stamped]{.hi}	stamped.
 ASSUMED from RELATIONSHIPS				
-	( fkProduction )			from fkEdition < not actually stored here tho?>
+	( fkProduction )	( assumed )		from fkEdition < not actually stored here tho?>
+	( Superseeded by )	( assumed )		based on (if last version) maybe graduate to a real field if we find a need for it. but EDITIONS will have a self_SucceededBy relationship already
 AUDIT FIELDS				
-	Cretaed date actually useful here!!!			
-	[[Audit Fields](@audit-fields)]{.hi}			
+{.conf}	Cretaed date actually useful here!!!			
+{.conf}	[[Audit Fields](@audit-fields)]{.hi}			
 - EOF -				
