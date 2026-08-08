@@ -5,7 +5,7 @@ type: reference
 status: public
 order: 10
 revised: Aug 2026
-summary: Places. Rooms, theatres, shops, off-campus.
+summary: Places. Venues, rooms, shops, off-campus.
 ---
 
 # Locations
@@ -13,19 +13,23 @@ summary: Places. Rooms, theatres, shops, off-campus.
 !!! abstract "Grain"
     One physical place we can point at. Todd Theatre, the scene shop, Rehearsal 2.
 
-## 🔴 Is a VENUE a LOCATION?
+## 🔒 RULED 2026-08-08 — VENUES is dead, it lives here
 
-`PRODUCTIONS.fkVenue` points at a **VENUES** table that is also in the index. **A venue is a location whose `fkLocationType` = venue.** Two tables for one concept is the second-claimant problem, and it is the third time it has come up today.
+Michael: *"venues is my elevation of locations — for when we get into assigning events to rooms."*
 
-**Recommendation: kill VENUES, point `fkVenue` at LOCATIONS.** Keep the field name `fkVenue` — it says WHICH ROLE the location plays for this production, which is real information the join needs.
+⭐ **LOCATIONS is not a rename of VENUES, it is the LEVEL BELOW it.** A venue is the building you produce in; a room is where a call actually happens. One table holds both, distinguished by `fkLocationType`.
 
-## The bigger use nobody has claimed yet
+- `PRODUCTIONS.fkVenue` → LOCATIONS. **The field name stays** — it states which ROLE the location plays for this production, which is real information the join needs.
+- 🚫 Do not create a separate VENUES table. Two tables for one concept is the second-claimant problem; this session killed four instances of that shape.
 
-⬜ **EVENTS have locations.** A rehearsal happens in a room; a load-in happens on a stage. The legacy calendar had NO location on an event at all, which is why the printed grid can't answer "where is this call."
+## Why the table exists at all: events in rooms
 
-- That is a genuine feature the old app never had, and it is one field: `EVENTS.fkLocation`.
-- ⚠️ **ClickUp probably does not emit it.** Verify against a live export before promising it — if the task carries no location, this stays a manual field and cannot be part of the import.
-- Crew calls need `report location` (Milo's open question). If crew calls ever land, they resolve here.
+⬜ **`EVENTS.fkLocation` is the stated destination**, not a nice-to-have. "Assigning events to rooms" is Michael's own reason for elevating this.
+
+- The legacy calendar had **no location on an event**, which is why the printed grid cannot answer *"where is this call."*
+- ⚠️ **Unverified: whether ClickUp emits a location on an event task.** If it does not, this is a manual field and cannot be part of the import. Check a live export before promising it.
+- Crew calls need a `report location` (Milo's open question). If crew calls ever land, they resolve here.
+- Room assignment implies **conflict detection** eventually — two events, one room, one time. Not v1, but it is the reason a room is an entity rather than a text field.
 
 ## Fields
 

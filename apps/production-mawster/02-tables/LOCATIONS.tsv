@@ -1,12 +1,13 @@
 id	Field_Name	Type	Options	Notes
 NORMALIZED FIELDS				
 1	Name	Text	Indexed	
-2	NameShort	Text		⚠️ PRODUCTIONS.TitleShort is Indexed + Unique. Make this match or the convention is already inconsistent
+2	NameShort	Text		⚠️ PRODUCTIONS.TitleShort is Indexed + Unique. Match it or the convention is already inconsistent
 3	NameDisplay	Text	Indexed, Auto-Enter Calculation	
 RELATIONSHIP				
-	fkLocationType	Text		
+	fkLocationType	Text		venue | rehearsal room | shop | storage | off-campus
 CHILDREN				
-	< EVENTS			⬜ NOT BUILT. A rehearsal happens in a ROOM - see LOCATIONS.md
+	< PRODUCTIONS			via fkVenue. RULED 2026-08-08 - a venue IS a location, no separate VENUES table
+	< EVENTS			⬜ via fkLocation. NOT BUILT. This is the stated reason the table exists - see the .md
 AUDIT FIELDS				
 	PrimaryKey	Text		
 	CreationTimestamp	Timestamp		

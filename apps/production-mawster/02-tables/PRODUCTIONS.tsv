@@ -10,7 +10,7 @@ INTEGRATION KEYS
 {.conf}	cuProductionID	Text		Indexed. Empty until the API pull. Rename-proof successor
 RELATIONSHIP				
 {.conf}	fkProducer	Text		
-{.conf}	fkVenue	Text		⚠️ Is a VENUE a LOCATION with fkLocationType = venue? Two tables for one concept if not
+{.conf}	fkVenue	Text		→ LOCATIONS (fkLocationType = venue). RULED 2026-08-08: no separate VENUES table. Field name kept - it says which ROLE the location plays
 {.conf}	fkCourse	Text		What is the course number that the actors in the course should enroll in?
 CHILDREN				
 	< PRODUCTION_CALENDARS			One per semester/time block. Page bounds live THERE
