@@ -1,23 +1,23 @@
-id	Field_Name	Type	Options	Notes
-NORMALIZED FIELDS				
-1	date_NeededFirst	Date		PAGE BOUND, not a schedule fact. Lower edge of the grid (pre-pro exists)
-2	date_NeededLast	Date		PAGE BOUND. Legacy fed this into CalendarDaysNeeded - it sized the grid
-3	bool_AddPreProWeek	Number	Auto-enter Data	default = 0
-RELATIONSHIP				
-	fkProduction			First rehearsal + opening are READ THROUGH THIS. Never copied down
-	fkSemester			Property of the CALENDAR, not the production. Two calendars = two semesters, one show
-CHILDREN				
-	< WEEKS			⚠️ REBUILT per print now, not stored once - see the .md
-	< CALENDAR_EMPHASIS			N typed callouts. Replaced the highlight/lowlight range fields
-	< PRINT_SESSIONS			One row per export. Edition + the week-start actually used live there
-AUDIT FIELDS				
-	PrimaryKey	Text		
-	CreationTimestamp	Timestamp		
-	CreatedBy	Text		
-	ModificationTimestamp	Timestamp		
-	ModifiedBy	Text		
-- EOF -				
-				
-MOVED OUT (2026-08-08, MW: these are PRINT specs)				
-	~~date_CalendarStart~~			→ PRINT_PRESETS (config) + PRINT_SESSIONS (snapshot). Derived from WeekStartDay
-	~~bool_StartOnMonday~~			DEAD. A boolean cannot express TUESDAY. → PRINT_PRESETS.WeekStartDay (1-7)
+status	sort	Field_Name	Type	Options	Notes
+NORMALIZED FIELDS					
+{.conf}	1	date_NeededFirst	Date		PAGE BOUND, not a schedule fact. Lower edge of the grid (pre-pro exists)
+{.conf}	2	date_NeededLast	Date		PAGE BOUND. Legacy fed this into CalendarDaysNeeded - it sized the grid
+{.conf}	3	bool_AddPreProWeek	Number	Auto-enter Data	default = 0
+RELATIONSHIP					
+{.conf}		fkProduction			First rehearsal + opening are READ THROUGH THIS. Never copied down
+{.gap}		fkSemester			Property of the CALENDAR, not the production. Two calendars = two semesters, one show
+CHILDREN					
+		< WEEKS			REBUILT per print now, not stored once - see the .md
+		< CALENDAR_EMPHASIS			N typed callouts. Replaced the highlight/lowlight range fields
+		< PRINT_SESSIONS			One row per export. Edition + the week-start actually used live there
+AUDIT FIELDS					
+{.conf}		PrimaryKey	Text		
+{.conf}		CreationTimestamp	Timestamp		
+{.conf}		CreatedBy	Text		
+{.conf}		ModificationTimestamp	Timestamp		
+{.conf}		ModifiedBy	Text		
+- EOF -					
+					
+MOVED OUT (2026-08-08, MW: these are PRINT specs)					<can you comment these rows so they never actualyl render?????<
+		~~date_CalendarStart~~			→ PRINT_PRESETS (config) + PRINT_SESSIONS (snapshot). Derived from WeekStartDay
+		~~bool_StartOnMonday~~			DEAD. A boolean cannot express TUESDAY. → PRINT_PRESETS.WeekStartDay (1-7)
