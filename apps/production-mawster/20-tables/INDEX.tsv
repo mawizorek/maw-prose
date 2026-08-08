@@ -1,0 +1,30 @@
+id	Table_Name	Source	Notes	< Occurances >
+SETUP TABLES				
+{.conf}	PRODUCTIONS	FileMaker		
+{.conf} {.gap}	ROLES	FileMaker		
+{.conf} {.gap}	WEEKS	FileMaker		
+{.conf}	PRODUCERS	FileMaker		
+NORMALIZED TABLES				
+{.conf} {.gap}	EVENTS	FileMaker		
+{.conf} {.gap}	PRODUCTION_CALENDARS	FileMaker		
+{.conf} {.gap}	LOCATIONS	FileMaker		
+{.conf} {.gap}		FileMaker		
+EXPORT TABLES				
+{.conf} {.gap}	PRINT_SESSIONS	FileMaker		
+{.conf} {.gap}	EDITIONS	FileMaker		
+{.conf} {.gap}	VERSIONS	FileMaker		
+{.conf} {.gap}	PRINT_PRESETS	FileMaker		
+{.conf} {.gap}	PRINT_SETS	FileMaker		
+{.conf} {.gap}	PRINT_SET_ITEMS	FileMaker		
+{.conf} {.gap}		FileMaker		
+{.conf} {.gap}		FileMaker		
+GLOBALS AND UTILITY				
+{.conf} {.gap}	GLOBAL_USE_VARIABLES	FileMaker		
+AUDIT FIELDS	GLOBAL_EXPORT_VARIABLES	FileMaker		
+{.conf} {.gap}		FileMaker		
+ESSENTIALLY VALUE LISTS				
+{.conf} {.gap}	LOCATION_TYPES	FileMaker	don't try to make it a value list.	
+{.conf} {.gap}		FileMaker		
+{.conf} {.gap}		FileMaker		
+{.conf} {.gap}		FileMaker		
+- EOF -				

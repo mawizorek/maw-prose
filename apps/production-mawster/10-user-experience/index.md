@@ -18,10 +18,10 @@ summary: Treat this like the most consice "Quick User Guide" for how we expect t
 1. Navigate to EDITION.
 2. [Print Current Version]{.button} or [Create New Version]{.button}
 
-!!! warning "Creating new EVENTS_WORKDAYS join."
+???+ warning "Automated Script: create_current_EVENTS_WORKDAYS"
     This automatically generates a fresh set of EVENTS_WORKDAYS. The old set is retained, but superseeded with the new version.
 
-!!! quote "Print Menu [A layout]{.hi}"
+!!! quote "Print Menu [a *form* layout TO: PRINT_SETS]{.hi}"
     - Print a [Saved [SET](@table-print-sets)]{.button}
     - Manual print from 
     

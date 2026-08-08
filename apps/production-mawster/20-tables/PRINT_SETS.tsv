@@ -6,9 +6,9 @@ NORMALIZED FIELDS
 {.conf}	bool_DefaultRecord	Number	Auto-enter Data	default = 0 for new sets. BUT each pCalendar may set a DEFAULT set from their print pages
 RELATIONSHIP				
 AUDIT FIELDS				
-	PrimaryKey	Text		
-	CreationTimestamp	Timestamp		
-	CreatedBy	Text		
-	ModificationTimestamp	Timestamp		
-	ModifiedBy	Text		
+{.conf}	PrimaryKey	Text		
+{.conf}	CreationTimestamp	Timestamp		
+{.conf}	CreatedBy	Text		
+{.conf}	ModificationTimestamp	Timestamp		
+{.conf}	ModifiedBy	Text		
 - EOF -				

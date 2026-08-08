@@ -1,7 +1,7 @@
 id	Field_Name	Type	Options	Notes
 NORMALIZED FIELDS				
-1	SortOrder	Number		Order the outputs are produced in
-2	DocumentType	Text		calendar | contact-sheet | agenda. Decides WHICH overrides apply
+{.conf}	Sort	Number		Order the outputs are produced in
+{.conf}	NameLocal	Text		what it's called in this set. auto in from the canonical then never auto-ed again
 OVERRIDES - empty means INHERIT from the preset				
 3	ovr_OutputSize	Text		11x17 | 8.5x11. Empty = preset's value
 4	ovr_WeekStartDay	Number		1-7. calendar only
@@ -11,6 +11,7 @@ OVERRIDES - empty means INHERIT from the preset
 8	bool_IncludeContactInfo	Number		🔒 PII. Phones/emails on the page. Snapshots to PRINT_SESSIONS
 9	bool_Anonymize	Number		🔒 PII. Names only, no contact details. Snapshots to PRINT_SESSIONS
 RELATIONSHIP				
+	fkDocument			back to the canonical DOC index. Decides WHICH overrides apply (based on <defa
 	fkPrintSet			
 	fkPreset			The HOW. Everything not overridden above resolves from here
 	fkEdition			Prelim | For Bid Only | Final. A PRINT is a VERSION of an edition

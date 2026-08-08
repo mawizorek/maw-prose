@@ -1,22 +1,19 @@
 id	Field_Name	Type	Notes
 NORMALIZED FIELDS			
-1	Name	Text	11x17 Full Company, Light Lab Only, Agenda
-2	OutputSize	Text	11x17 | 8.5x11 | agenda
-3	WeekStartDay	Number	1=Sun ... 7=Sat. NOT a boolean - TUESDAY is a real answer (Monday is the dark day)
-4	UseShortTitle	Number	
-5	ShowLegend	Number	Prints the CALENDAR_EMPHASIS labels. Legacy had no legend
-6	DepartmentFilter	Text	TBC - needs a department field on EVENTS first
-7	IncludeUnscheduled	Number	The UNSCHEDULED block at the top of week one
-8	ExportFolder	Text	Relative. Never absolute - Get(FilePath) resolves the file
-9	IsDefault	Number	1 = the preset the print button reaches for
+{.conf}	Name	Text	11x17 Full Company, Light Lab Only, Agenda
+{.conf}	vl_OutputSize	Text	11x17 | 8.5x11 | agenda
+{.conf}	WeekStartDay	Number	1=Sun ... 7=Sat. default = 1, SUNDAY
+{.conf}	bool_UseShortTitle	Number	default = 1
+{.conf}	bool_ShowLegend	Number	default = 1 | Prints the CALENDAR_EMPHASIS labels. Legacy had no legend
+    {.tbc}	DepartmentFilter	Text	TBC - needs a department field on EVENTS first
+{.conf}	bool_IncludeUnscheduled	Number	default = 1 | The UNSCHEDULED block at the top of week one
+{.conf}	ExportFolder	Text	Relative. Never absolute - Get(FilePath) resolves the file
 RELATIONSHIPS			
-	fkCalendar		NULLABLE. Null = house preset, reusable across productions
-CHILDREN			
-	< PRINT_SESSIONS		Each run snapshots this preset's values
+    {.tbc}	< PRINT_SESSIONS		Each run snapshots this preset's values
 AUDIT FIELDS			
-	PrimaryKey	Text	
-	CreationTimestamp	Timestamp	
-	CreatedBy	Text	
-	ModificationTimestamp	Timestamp	
-	ModifiedBy	Text	
+{.conf}	PrimaryKey	Text	
+{.conf}	CreationTimestamp	Timestamp	
+{.conf}	CreatedBy	Text	
+{.conf}	ModificationTimestamp	Timestamp	
+{.conf}	ModifiedBy	Text	
 - EOF -			
