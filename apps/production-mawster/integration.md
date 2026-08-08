@@ -6,12 +6,10 @@ status: public
 order: 20
 nav: collapsed
 revised: 2026-08
-summary: How events and assignments get here.
+summary: ClickUp AUTHORS. This app RENDERS. The list is the work; the PDF is the byproduct.
 ---
 
 # ClickUp Integration
-
-**ClickUp AUTHORS. This app RENDERS.** The list is the work; the PDF is the byproduct.
 
 ## The pipe
 
@@ -46,5 +44,5 @@ summary: How events and assignments get here.
 - ⬜ **Multi-label exposure.** `URITP Productions` is multi-select, so one event task can carry two shows. Handled by per-production views + a compound upsert key — **verify against a live CSV.**
 - ⬜ Do CSV multi-value labels come back comma-separated inside one quoted cell, and do any show titles contain commas?
 - ⬜ Event classification: a CU-side canonical-type dropdown was declined, so a **crosswalk** (raw name → `fkStandardEvent`) with an unmatched queue carries it. Learns instead of guessing.
-- ⬜ **ClickUp does not emit a LOCATION on an event task today.** Ruled 2026-08-08: not going there yet, but [[LOCATIONS](@table-locations)] is built so it can. A future upgrade, not a v1 gap.
+- ⬜ **ClickUp does not emit a LOCATION on an event task today.** Ruled 2026-08-08: not going there yet, but [[LOCATIONS](@table-locations)] is built so it can.
 - ⬜ Crew calls — third document, or a view of the calendar? A call carries person, role, call time, report location.
