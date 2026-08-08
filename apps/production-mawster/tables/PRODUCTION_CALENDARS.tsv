@@ -7,10 +7,6 @@ sort	Field_Name	Type	Notes
 6	Calendar_START	Calculation	Sunday (or Monday) of the first rehearsal week
 7	StartOnMonday	Number	BOOLEAN. Legacy startOnMon was TEXT compared against = 1
 8	AddPreProWeek	Number	
-9	HIDE_Start	Date	Range. Stamps the flag on WORKDAYS at generation
+9	HIDE_Start	Date	Stays HERE. Hide is existence, not styling - stamps HideFromCalendar on WORKDAYS
 10	HIDE_End	Date	
-11	HIGHLIGHT_Start	Date	
-12	HIGHLIGHT_End	Date	
-13	LOWLIGHT_Start	Date	
-14	LOWLIGHT_End	Date	
-15	[[Audit Fields](@audit-fields)]{.hi}		
+11	[[Audit Fields](@audit-fields)]{.hi}		
