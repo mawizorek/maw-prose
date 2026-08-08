@@ -1,0 +1,10 @@
+status	Field_Name	Type	Options	Notes
+NORMALIZED FIELDS				
+	g_pkDefualtPrintSet	Text		<a print set defined with NO production assigned so that can be assumed at menu enter>
+AUDIT FIELDS				
+	PrimaryKey	Text		
+	CreationTimestamp	Timestamp		
+	CreatedBy	Text		
+	ModificationTimestamp	Timestamp		
+	ModifiedBy	Text		
+- EOF -				
