@@ -1,0 +1,525 @@
+---
+id: scripts
+title: Scripts
+type: reference
+status: public
+# order: 90
+nav: collapsed
+revised: 2026-08
+summary: Scripts import.
+---
+
+# Scripts (pasted)
+
+<!---
+<<!! What's our take on the html export of the fmp DDR scirpt page. We can highjack our own renderer and make this read better and eventually run alongside this dociumentaiton in an actual publish???????>>
+--->
+
+Script Hierarchy
+
+-
+IMPORTing FUNCTIONS
+import Records
+REPLACE THE SET
+Delete EMPTY
+REMOVE ShortName
+remove notes
+WORKDAY_ID Assign
+Create multDaysAtImport
+Delete ClickUp Rows
+AUTO_WorkdayID
+CREATE_multipleDays
+updatePreproCounter
+updateUnscheduledCounter
+-
+pre-production schedule
+Production WORKDAY
+CREATE PRODUCTION WORKDAYS
+checkHideWorkday
+checkHIGHlight
+checkLOWlight
+Workday Sort INPUT
+Workday_CalendarStart
+-
+SORT Functions
+Sort by DATE
+Sort by SORT
+Delete ALL
+PRINTs
+PRINT_SETUPS
+PRINT_SETUP 8.5x11 portraitORlandscape
+PRINT_SETUP 11x17 portraitORlandscape
+PRINT Sort and Starts
+showNecessaryRecords
+showRelevantDates
+end PRINT
+EXPORTS
+exportORprint
+EXPORT Calendar Set
+PRINT Calendar Set
+-
+CLEANUP Functions
+Layout Triggers
+Events Agenda View SORT
+-
+-
+FCCalendar Addon
+FCCalendar Public
+FCCalendar Buttons - Buttons for the Addon UI
+FCCalendar Add Event Button
+FCCalendar Navigation Button
+FCCalendar Set View Button
+FCCalendar Close Event Card Window Button
+FCCalendar Delete Event Button
+FCCalendar Button Show Config
+FCCalendar Event Handlers - Respond To Addon Events
+FCCalendarEvents
+FCCalendarSchema
+FCCalendarFind
+FCCalendarSaveConfig
+FCCalendar API - Send Messages To Addon
+FCCalendar Add Event
+FCCalendar Navigation
+FCCalendar View Change
+FCCalendar Refresh
+FCCalendar Private
+FCCalendar Get WebViewer Object Name
+FCCalendar Addon Developer Only
+FCCalendar Clear Dev Flag
+FCCalendar Load Calendar
+FCSetDefaultDayOfWeek
+__FCClearDefaultDayOfWeek
+FCCalendar Import Sample Data
+FCCalendarUpdateCalendarHTML
+COLOR TEXT
+TextColorHex
+color_Text
+ColorMONTHStyle
+ColorSTATUSStyle
+openCOLORS
+removeTextFormatting
+updateEventSTYLE
+updateWORKDAYcolor
+refreshFilePath
+stored production INFO
+Secretary INFO
+Big Love INFO
+TIME Reading INFO
+TIME INFO
+KAYFABE Info
+One Acts INFO
+
+Next Script: [AUTO_WorkdayID]
+Script Name	-
+Run script with full access privileges	Off
+Siri Shortcut Visible	Off
+Include In Menu	Yes
+Layouts that use this script	
+Scripts that use this script	
+Script Definition
+Script Steps	
+Fields used in this script	
+Scripts used in this script	
+Layouts used in this script	
+Tables used in this script	
+Table occurrences used by this script	
+Custom Functions used by this script	
+Custom menu set used by this script	
+
+Previous Script: [-]
+Next Script: [CREATE_multipleDays]
+Script Name	AUTO_WorkdayID
+Run script with full access privileges	Off
+Siri Shortcut Visible	Off
+Include In Menu	Yes
+Layouts that use this script	
+Scripts that use this script	
+WORKDAY_ID Assign
+Script Definition
+Script Steps	
+If [ ProductionCalendar Format::Manual WORKDAY Override = "" ]
+Set Variable [ $~unscheduled; Value:GetAsText ( SETUP::UNSCHEDULED Date ) ]
+Set Variable [ $~PreproDate; Value:GetAsDate ( $~unscheduled ) + If ( SETUP::importPreProCounter <= SETUP::NumberOfRecordsPerPortal ; 1 ; If (SETUP::importPreProCounter <= (SETUP::NumberAvailablePreProRecords * 2) ; 2 ; If (SETUP::importPreProCounter <= (SETUP::NumberAvailablePreProRecords * 3) ; 3 ; 4 ) ) ) ]
+#if no DATES, then UNSCHEUDLED
+If [ ProductionCalendar Format::NoDates = 2 ]
+Perform Script [ “updateUnscheduledCounter” ]
+Set Field [ ProductionCalendar Format::WORKDAY_ID; $~unscheduled ]
+Exit Script [ ]
+#if "BEFORE" then pile into pre-pro days
+Else If [ ProductionCalendar Format::ProductionPeriod = "BEFORE" ]
+#do a script: SORT into pre-pro day
+Set Field [ ProductionCalendar Format::WORKDAY_ID; $~PreproDate ]
+Perform Script [ “updatePreproCounter” ]
+End If
+Else
+Set Field [ ProductionCalendar Format::WORKDAY_ID; ProductionCalendar Format::Manual WORKDAY Override ]
+End If
+Set Field [ ProductionCalendar Format::Manual WORKDAY Override; "" ]
+Fields used in this script	
+ProductionCalendar Format::Manual WORKDAY Override
+SETUP::UNSCHEDULED Date
+SETUP::importPreProCounter
+SETUP::NumberOfRecordsPerPortal
+SETUP::NumberAvailablePreProRecords
+ProductionCalendar Format::NoDates
+ProductionCalendar Format::WORKDAY_ID
+ProductionCalendar Format::ProductionPeriod
+Scripts used in this script	
+updateUnscheduledCounter
+updatePreproCounter
+Layouts used in this script	
+Tables used in this script	
+Table occurrences used by this script	
+Custom Functions used by this script	
+Custom menu set used by this script	
+
+Previous Script: [AUTO_WorkdayID]
+Next Script: [updatePreproCounter]
+Script Name	CREATE_multipleDays
+Run script with full access privileges	Off
+Siri Shortcut Visible	Off
+Include In Menu	No
+Layouts that use this script	
+Scripts that use this script	
+Create multDaysAtImport
+Script Definition
+Script Steps	
+If [ ProductionCalendar Format::NoDates = -1 ]
+Set Field [ ProductionCalendar Format::autoGenerated; 1 ]
+Set Variable [ $numDuplicates; Value:GetAsNumber ( ProductionCalendar Format::END DATE calc ) - GetAsNumber ( ProductionCalendar Format::START DATE calc ) ]
+Set Variable [ $c; Value:1 ]
+Loop
+Duplicate Record/Request
+Set Field [ ProductionCalendar Format::autoGenerated; 1 ]
+Set Field [ ProductionCalendar Format::WORKDAY_ID; GetAsNumber ( GetAsNumber ( ProductionCalendar Format::WORKDAY_ID ) + $c ) ]
+Exit Loop If [ $c = $numDuplicates ]
+Set Variable [ $c; Value:$c+1 ]
+End Loop
+End If
+Fields used in this script	
+ProductionCalendar Format::NoDates
+ProductionCalendar Format::autoGenerated
+ProductionCalendar Format::END DATE calc
+ProductionCalendar Format::START DATE calc
+ProductionCalendar Format::WORKDAY_ID
+Scripts used in this script	
+Layouts used in this script	
+Tables used in this script	
+Table occurrences used by this script	
+Custom Functions used by this script	
+Custom menu set used by this script	
+
+Previous Script: [CREATE_multipleDays]
+Next Script: [updateUnscheduledCounter]
+Script Name	updatePreproCounter
+Run script with full access privileges	Off
+Siri Shortcut Visible	Off
+Include In Menu	Yes
+Layouts that use this script	
+Scripts that use this script	
+AUTO_WorkdayID
+Script Definition
+Script Steps	
+// Show Custom Dialog [ Title: "new prepro event"; Message: "total: " & SETUP::importPreProCounter; Default Button: “OK”, Commit: “Yes”; Button 2: “Cancel”, Commit: “No” ]
+Set Field [ SETUP::importPreProCounter; SETUP::importPreProCounter + 1 ]
+Fields used in this script	
+SETUP::importPreProCounter
+Scripts used in this script	
+Layouts used in this script	
+Tables used in this script	
+Table occurrences used by this script	
+Custom Functions used by this script	
+Custom menu set used by this script	
+
+Previous Script: [updatePreproCounter]
+Next Script: [-]
+Script Name	updateUnscheduledCounter
+Run script with full access privileges	Off
+Siri Shortcut Visible	Off
+Include In Menu	Yes
+Layouts that use this script	
+Scripts that use this script	
+AUTO_WorkdayID
+Script Definition
+Script Steps	
+// Show Custom Dialog [ Title: "new unscheduled event"; Message: "total: " & SETUP::CounterUnscheduledEvents; Default Button: “OK”, Commit: “Yes”; Button 2: “Cancel”, Commit: “No” ]
+Set Field [ SETUP::CounterUnscheduledEvents; SETUP::CounterUnscheduledEvents + 1 ]
+Fields used in this script	
+SETUP::CounterUnscheduledEvents
+Scripts used in this script	
+Layouts used in this script	
+Tables used in this script	
+Table occurrences used by this script	
+Custom Functions used by this script	
+Custom menu set used by this script	
+
+Previous Script: [updateUnscheduledCounter]
+Next Script: [pre-production schedule]
+Script Name	-
+Run script with full access privileges	Off
+Siri Shortcut Visible	Off
+Include In Menu	No
+Layouts that use this script	
+Scripts that use this script	
+Script Definition
+Script Steps	
+Fields used in this script	
+Scripts used in this script	
+Layouts used in this script	
+Tables used in this script	
+Table occurrences used by this script	
+Custom Functions used by this script	
+Custom menu set used by this script	
+
+Previous Script: [-]
+Next Script: [-]
+Script Name	pre-production schedule
+Run script with full access privileges	Off
+Siri Shortcut Visible	Off
+Include In Menu	No
+Layouts that use this script	
+Scripts that use this script	
+Script Definition
+Script Steps	
+Set Variable [ $~offset; Value:Get ( ScriptParameter ) ]
+Set Field [ ProductionCalendar Format::WORKDAY_ID; GetAsDate ( SETUP::UNSCHEDULED Date ) + $~offset ]
+Fields used in this script	
+SETUP::UNSCHEDULED Date
+ProductionCalendar Format::WORKDAY_ID
+Scripts used in this script	
+Layouts used in this script	
+Tables used in this script	
+Table occurrences used by this script	
+Custom Functions used by this script	
+Custom menu set used by this script	
+
+Previous Script: [pre-production schedule]
+Next Script: [Delete ALL]
+Script Name	-
+Run script with full access privileges	Off
+Siri Shortcut Visible	Off
+Include In Menu	Yes
+Layouts that use this script	
+Scripts that use this script	
+Script Definition
+Script Steps	
+Fields used in this script	
+Scripts used in this script	
+Layouts used in this script	
+Tables used in this script	
+Table occurrences used by this script	
+Custom Functions used by this script	
+Custom menu set used by this script	
+
+Previous Script: [-]
+Next Script: [-]
+Script Name	Delete ALL
+Run script with full access privileges	Off
+Siri Shortcut Visible	Off
+Include In Menu	Yes
+Layouts that use this script	
+Scripts that use this script	
+Script Definition
+Script Steps	
+Show All Records
+Delete All Records
+Fields used in this script	
+Scripts used in this script	
+Layouts used in this script	
+Tables used in this script	
+Table occurrences used by this script	
+Custom Functions used by this script	
+Custom menu set used by this script	
+
+Previous Script: [Delete ALL]
+Next Script: [ColorMONTHStyle]
+Script Name	-
+Run script with full access privileges	Off
+Siri Shortcut Visible	Off
+Include In Menu	Yes
+Layouts that use this script	
+Scripts that use this script	
+Script Definition
+Script Steps	
+Fields used in this script	
+Scripts used in this script	
+Layouts used in this script	
+Tables used in this script	
+Table occurrences used by this script	
+Custom Functions used by this script	
+Custom menu set used by this script	
+
+Previous Script: [-]
+Next Script: [ColorSTATUSStyle]
+Script Name	ColorMONTHStyle
+Run script with full access privileges	Off
+Siri Shortcut Visible	Off
+Include In Menu	Yes
+Layouts that use this script	
+Scripts that use this script	
+Script Definition
+Script Steps	
+Set Field [ MonthStyles::Color; TextColor ( MonthStyles::Color ; RGB ( MonthStyles::R ; MonthStyles::G ; MonthStyles::B ) ) ]
+Fields used in this script	
+MonthStyles::Color
+MonthStyles::R
+MonthStyles::G
+MonthStyles::B
+Scripts used in this script	
+Layouts used in this script	
+Tables used in this script	
+Table occurrences used by this script	
+Custom Functions used by this script	
+Custom menu set used by this script	
+
+Previous Script: [ColorMONTHStyle]
+Next Script: [openCOLORS]
+Script Name	ColorSTATUSStyle
+Run script with full access privileges	Off
+Siri Shortcut Visible	Off
+Include In Menu	Yes
+Layouts that use this script	
+Scripts that use this script	
+Script Definition
+Script Steps	
+Set Variable [ $Color; Value:EventStylesIMPORT_Statuses::Color ]
+Set Variable [ $R; Value:EventStylesIMPORT_Statuses::R ]
+Set Variable [ $G; Value:EventStylesIMPORT_Statuses::G ]
+Set Variable [ $B; Value:EventStylesIMPORT_Statuses::B ]
+// Show Custom Dialog [ Title: "success!"; Message: "color: " & $Color & " ( R: " & $R & " G: " & $G & " B: " & $B & " )"; Default Button: “OK”, Commit: “Yes”; Button 2: “Cancel”, Commit: “No” ]
+Set Field [ EventStylesIMPORT_Statuses::Color; TextColor ( $Color ; RGB ( $R ; $G ; $R ) ) ]
+Perform Script [ “updateEventSTYLE” ]
+Fields used in this script	
+EventStylesIMPORT_Statuses::Color
+EventStylesIMPORT_Statuses::R
+EventStylesIMPORT_Statuses::G
+EventStylesIMPORT_Statuses::B
+Scripts used in this script	
+updateEventSTYLE
+Layouts used in this script	
+Tables used in this script	
+Table occurrences used by this script	
+Custom Functions used by this script	
+Custom menu set used by this script	
+
+Previous Script: [ColorSTATUSStyle]
+Next Script: [removeTextFormatting]
+Script Name	openCOLORS
+Run script with full access privileges	Off
+Siri Shortcut Visible	Off
+Include In Menu	Yes
+Layouts that use this script	
+Scripts that use this script	
+Script Definition
+Script Steps	
+Open File [ “ColorsSwatch” ]
+Fields used in this script	
+Scripts used in this script	
+Layouts used in this script	
+Tables used in this script	
+Table occurrences used by this script	
+Custom Functions used by this script	
+Custom menu set used by this script	
+
+Previous Script: [openCOLORS]
+Next Script: [updateEventSTYLE]
+Script Name	removeTextFormatting
+Run script with full access privileges	Off
+Siri Shortcut Visible	Off
+Include In Menu	No
+Layouts that use this script	
+Scripts that use this script	
+Script Definition
+Script Steps	
+Set Field [ SETUP_EXPORT::FilePathName; TextStyleRemove ( SETUP_EXPORT::FilePathName ; AllStyles ) ]
+Set Field [ SETUP_EXPORT::FilePathName; TextColorRemove ( SETUP_EXPORT::FilePathName ) ]
+Fields used in this script	
+SETUP_EXPORT::FilePathName
+Scripts used in this script	
+Layouts used in this script	
+Tables used in this script	
+Table occurrences used by this script	
+Custom Functions used by this script	
+Custom menu set used by this script	
+
+Previous Script: [removeTextFormatting]
+Next Script: [updateWORKDAYcolor]
+Script Name	updateEventSTYLE
+Run script with full access privileges	Off
+Siri Shortcut Visible	Off
+Include In Menu	Yes
+Layouts that use this script	
+Scripts that use this script	
+ColorSTATUSStyle
+Script Definition
+Script Steps	
+Go to Layout [ “Events IMPORT” (ProductionCalendar Format) ]
+Show All Records
+Go to Record/Request/Page [ First ]
+Loop
+Set Field [ ProductionCalendar Format::Event Name; TextColor ( ProductionCalendar Format::Event Name ; RGB ( EventStylesIMPORT_Statuses 2::R ; EventStylesIMPORT_Statuses 2::G ; EventStylesIMPORT_Statuses 2::B ) ) ]
+Go to Record/Request/Page [ Next; Exit after last ]
+End Loop
+Go to Layout [ original layout ]
+Fields used in this script	
+ProductionCalendar Format::Event Name
+EventStylesIMPORT_Statuses 2::R
+EventStylesIMPORT_Statuses 2::G
+EventStylesIMPORT_Statuses 2::B
+Scripts used in this script	
+Layouts used in this script	
+Events IMPORT
+Tables used in this script	
+Table occurrences used by this script	
+Custom Functions used by this script	
+Custom menu set used by this script	
+
+Previous Script: [updateEventSTYLE]
+Next Script: [refreshFilePath]
+Script Name	updateWORKDAYcolor
+Run script with full access privileges	Off
+Siri Shortcut Visible	Off
+Include In Menu	Yes
+Layouts that use this script	
+Scripts that use this script	
+Script Definition
+Script Steps	
+Set Field [ ]
+Set Variable [ $variable; Value:Prodution WORKDAYS::ColloqiualDate ]
+Set Variable [ $R; Value:MonthStyles 2::R ]
+Set Variable [ $G; Value:MonthStyles 2::G ]
+Set Variable [ $B; Value:MonthStyles 2::B ]
+Show Custom Dialog [ Title: "success!"; Message: "variable: " & $variable & " ( R: " & $R & " G: " & $G & " B: " & $B & " )"; Default Button: “OK”, Commit: “Yes”; Button 2: “Cancel”, Commit: “No” ]
+Set Field [ Prodution WORKDAYS::ColloqiualDate; TextColor ( $variable ; RGB ( $R ; $G ; $R ) ) ]
+Fields used in this script	
+Prodution WORKDAYS::ColloqiualDate
+MonthStyles 2::R
+MonthStyles 2::G
+MonthStyles 2::B
+Scripts used in this script	
+Layouts used in this script	
+Tables used in this script	
+Table occurrences used by this script	
+Custom Functions used by this script	
+Custom menu set used by this script	
+
+Previous Script: [updateWORKDAYcolor]
+Script Name	refreshFilePath
+Run script with full access privileges	Off
+Siri Shortcut Visible	Off
+Include In Menu	Yes
+Layouts that use this script	
+Scripts that use this script	
+Script Definition
+Script Steps	
+Go to Layout [ “SETUP_EXPORT” (SETUP_EXPORT) ]
+Delete All Records [ No dialog ]
+New Record/Request
+Fields used in this script	
+Scripts used in this script	
+Layouts used in this script	
+SETUP_EXPORT
+Tables used in this script	
+Table occurrences used by this script	
+Custom Functions used by this script	
+Custom menu set used by this script	
