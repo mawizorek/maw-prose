@@ -1,12 +1,14 @@
-sort	Field_Name	Type	Notes
-1	PrimaryKey	Text	UUID, auto-enter, unique, can't modify
-2	Domain	Text	month | event-status | watermark
-3	StyleKey	Text	Indexed. MonthNum for month rows, CU status token for event rows, FIRST/REVISED/UPDATED for watermark
-4	Label	Text	Human name
-5	Hex	Text	TEXT, not Number. Legacy bug: letters cannot live in a Number field
-6	R	Calculation	Unstored, HexToRGB ( Hex ; "r" )
-7	G	Calculation	Unstored, HexToRGB ( Hex ; "g" )
-8	B	Calculation	Unstored, HexToRGB ( Hex ; "b" )
-9	Italic	Number	
-10	SortOrder	Number	
-11	[[Audit Fields](@audit-fields)]{.hi}		
+id	Field_Name	Type	Notes
+NORMALIZED FIELDS			
+1	Domain	Text	month | event-status | watermark | emphasis
+2	StyleKey	Text	Indexed. MonthNum for month, CU status token for event-status, FIRST/REVISED/UPDATED for watermark, slug for emphasis
+3	Label	Text	Human name. Feeds the printed legend
+4	Hex	Text	TEXT, not Number. Legacy MonthStyles.Hex was a Number field - letters cannot live there
+5	Italic	Number	
+6	SortOrder	Number	
+CALCULATIONS			
+7	R	Calculation	Unstored, HexToRGB ( Hex ; "r" )
+8	G	Calculation	Unstored, HexToRGB ( Hex ; "g" )
+9	B	Calculation	Unstored, HexToRGB ( Hex ; "b" )
+AUDIT FIELDS			
+10	[[Audit Fields](@audit-fields)]{.hi}		

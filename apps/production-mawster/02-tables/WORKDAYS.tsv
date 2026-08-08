@@ -1,13 +1,16 @@
-sort	Field_Name	Type	Notes
-1	PrimaryKey	Text	UUID, auto-enter, unique, can't modify
-2	fkWeek	Text	
-3	DATE	Date	Indexed
-4	Workday_TITLE	Text	
-5	Workday_SORT	Number	
-6	DisplayAsTitle	Text	
-7	ColloquialDate	Calculation	Unstored. Resolves month colour via STYLES on MonthNum
-8	HideFromCalendar	Number	Stamped at generation from the calendar's HIDE range
-9	Highlight	Number	Stamped at generation from the calendar's HIGHLIGHT range
-10	Lowlight	Number	Stamped at generation from the calendar's LOWLIGHT range
-11	Manual_Override	Date	Escape hatch, legacy parity
-12	[[Audit Fields](@audit-fields)]{.hi}		
+id	Field_Name	Type	Notes
+NORMALIZED FIELDS			
+1	DATE	Date	Indexed
+2	Workday_TITLE	Text	
+3	Workday_SORT	Number	
+4	DisplayAsTitle	Text	
+5	HideFromCalendar	Number	STAMPED at generation from the calendar's HIDE range. Existence, not styling
+6	Manual_Override	Date	Escape hatch, legacy parity
+RELATIONSHIPS			
+	fkWeek		
+	< EVENTS		by DATE, stamped at import
+	< CALENDAR_EMPHASIS		LIVE, sorted Priority then span. Layout reads the FIRST related row. NOT a stored flag
+CALCULATIONS			
+7	ColloquialDate	Calculation	Unstored. Month colour via STYLES on MonthNum
+AUDIT FIELDS			
+8	[[Audit Fields](@audit-fields)]{.hi}		

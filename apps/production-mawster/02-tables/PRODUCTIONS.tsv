@@ -2,14 +2,17 @@ id	Field_Name	Type	Notes
 NORMALIZED FIELDS			
 1	Title		
 2	TitleShort		
-3	DateFirstRehearsal		
-4	DateNeededLast		
-5	DateNeededFirst		
-6			
+3	DateFirstRehearsal		⚠️ Also on PRODUCTION_CALENDARS. Pick ONE home - two claimants is the disease
+4	DateNeededLast		⚠️ Same
+5	DateNeededFirst		⚠️ Same
+6	DateOpening	Date	The production milestone. Season-report axis + value-list sort
 7			
+INTEGRATION KEYS			
+8	CU_ProductionToken	Text	Indexed. EXACT ClickUp label string. A rename in CU breaks the join SILENTLY
+9	CU_ProductionID	Text	Indexed. Empty until the API pull. Rename-proof successor
 RELATIONSHIPS			
+	fkVenue		
 	fkCourse		What is the course number that the actors in the course should enroll in?
 			
-			
 AUDIT FIELDS			
-8	[[Audit Fields](@audit-fields)]{.hi}		
+10	[[Audit Fields](@audit-fields)]{.hi}		
