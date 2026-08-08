@@ -1,0 +1,18 @@
+id	Field_Name	Type	Options	Notes
+NORMALIZED FIELDS				
+1	Name	Text	Indexed	Full Company Packet, Designer Set, Scratch
+2	bool_IsScratch	Number	Auto-enter Data	1 = THE working set. Never saved, always overwritten. One per calendar
+3	bool_IsDefaultTemplate	Number	Auto-enter Data	1 = the set SCRATCH resets FROM. One per calendar
+4	Notes	Text		
+RELATIONSHIP				
+	fkCalendar			NULLABLE. Null = a house set reusable across productions
+CHILDREN				
+	< PRINT_SET_ITEMS			One row per output. Overrides live THERE, not here
+	< PRINT_SESSIONS			Running N items writes N receipts sharing one run stamp
+AUDIT FIELDS				
+	PrimaryKey	Text		
+	CreationTimestamp	Timestamp		
+	CreatedBy	Text		
+	ModificationTimestamp	Timestamp		
+	ModifiedBy	Text		
+- EOF -				
