@@ -6,14 +6,12 @@ status: public
 order: 16
 nav: collapsed
 revised: 2026-08
-summary: The projection is never edited. The engine does the work.
+summary: LOCKED 2026-08-08 — there are NO manual edits to the projection layer, ever. The engine covers it.
 ---
 
 # Projection law
 
-🔒 **LOCKED 2026-08-08 (Michael): there are NO manual edits to the projection layer. Ever.**
-
-> *"let's just not plan to do ManualEdits and have a formatting engine that is robust enough to get what I need done."*
+> *"let's just not plan to do ManualEdits and have a formatting engine that is robust enough to get what I need done."* — Michael, 2026-08-08
 
 ## The rule
 

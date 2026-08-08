@@ -5,9 +5,8 @@ type: index
 status: public
 order: 70
 nav: collapsed
-revised: Aug 2026
-summary: Script index.
+revised: 2026-08
+summary: Script index. Naming, folder groups, and what each routine owns.
 ---
 
-# Tables
-
+# Scripts
