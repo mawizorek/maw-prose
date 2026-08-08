@@ -3,8 +3,6 @@ NORMALIZED FIELDS
 1	date_NeededFirst	Date		PAGE BOUND, not a schedule fact. Lower edge of the grid (pre-pro exists)
 2	date_NeededLast	Date		PAGE BOUND. Legacy fed this into CalendarDaysNeeded - it sized the grid
 3	bool_AddPreProWeek	Number	Auto-enter Data	default = 0
-4	HIDE_Start	Date		Greys OUT a date range entirely - stamps HideFromCalendar on WORKDAYS so those days do not print
-5	HIDE_End	Date		Legacy use: The Secretary hid 3/7-3/13/27 = SPRING BREAK. That is what they are for
 RELATIONSHIP				
 	fkProduction			First rehearsal + opening are READ THROUGH THIS. Never copied down
 	fkSemester			Property of the CALENDAR, not the production. Two calendars = two semesters, one show
