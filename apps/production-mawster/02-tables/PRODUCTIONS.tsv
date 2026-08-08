@@ -1,18 +1,21 @@
-id	Field_Name	Type	Notes
-NORMALIZED FIELDS			
-1	Title		
-2	TitleShort		
-3	DateFirstRehearsal	Date	TYPED, never derived. Contractual fact about the show. Calendar_START measures from it
-4	DateOpening	Date	TYPED. The production milestone. Season-report axis + value-list sort
-5			
-6			
-INTEGRATION KEYS			
-7	CU_ProductionToken	Text	Indexed. EXACT ClickUp label string. A rename in CU breaks the join SILENTLY
-8	CU_ProductionID	Text	Indexed. Empty until the API pull. Rename-proof successor
-RELATIONSHIPS			
-	fkVenue		
-	fkCourse		What is the course number that the actors in the course should enroll in?
-	< PRODUCTION_CALENDARS		One per semester/time block. Page bounds live THERE
-	< ASSIGNMENTS		Director, designers, crew. Roles are NOT fields here
-AUDIT FIELDS			
-9	[[Audit Fields](@audit-fields)]{.hi}		
+id	Field_Name	Type	Options	Notes
+NORMALIZED FIELDS				
+1	Title	Text	Indexed	
+2	TitleShort	Text	Indexed, Unique, Allow Override, Message	
+	TitleDisplay	Text	Auto-Enter Calculation	
+3	DateFirstRehearsal	Date	Indexed	TYPED, never derived. Contractual fact about the show. Calendar_START measures from it
+4	DateOpening	Date	Indexed	TYPED. The production milestone. Season-report axis + value-list sort
+INTEGRATION KEYS				
+7	CU_ProductionToken	Text		Indexed. EXACT ClickUp label string. A rename in CU breaks the join SILENTLY
+8	CU_ProductionID	Text		Indexed. Empty until the API pull. Rename-proof successor
+RELATIONSHIP				
+	fkProducer	Text		
+	fkVenue	Text		
+	fkCourse	Text		What is the course number that the actors in the course should enroll in?
+AUDIT FIELDS				
+	PrimaryKey	Text		
+	CreationTimestamp	Timestamp		
+	CreatedBy	Text		
+	ModificationTimestamp	Timestamp		
+	ModifiedBy	Text		
+- EOF -				
