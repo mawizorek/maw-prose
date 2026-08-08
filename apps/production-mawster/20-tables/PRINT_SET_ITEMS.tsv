@@ -1,0 +1,23 @@
+id	Field_Name	Type	Options	Notes
+NORMALIZED FIELDS				
+1	SortOrder	Number		Order the outputs are produced in
+2	DocumentType	Text		calendar | contact-sheet | agenda. Decides WHICH overrides apply
+OVERRIDES - empty means INHERIT from the preset				
+3	ovr_OutputSize	Text		11x17 | 8.5x11. Empty = preset's value
+4	ovr_WeekStartDay	Number		1-7. calendar only
+5	ovr_ShowLegend	Number		
+6	ovr_SectionFilter	Text		contact-sheet only. cast | crew | full company
+7	ovr_ShowVacancies	Number		contact-sheet only. Print the empty ASM slots or not
+8	bool_IncludeContactInfo	Number		🔒 PII. Phones/emails on the page. Snapshots to PRINT_SESSIONS
+9	bool_Anonymize	Number		🔒 PII. Names only, no contact details. Snapshots to PRINT_SESSIONS
+RELATIONSHIP				
+	fkPrintSet			
+	fkPreset			The HOW. Everything not overridden above resolves from here
+	fkEdition			Prelim | For Bid Only | Final. A PRINT is a VERSION of an edition
+AUDIT FIELDS				
+	PrimaryKey	Text		
+	CreationTimestamp	Timestamp		
+	CreatedBy	Text		
+	ModificationTimestamp	Timestamp		
+	ModifiedBy	Text		
+- EOF -				
