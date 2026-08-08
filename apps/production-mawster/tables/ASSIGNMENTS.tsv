@@ -1,0 +1,14 @@
+sort	Field_Name	Type	Notes
+1	PrimaryKey	Text	UUID, auto-enter, unique, can't modify
+2	fkProduction	Text	
+3	fkRole	Text	
+4	fkPerson	Text	NULLABLE. Empty = a real planned vacancy that still prints
+5	RoleTitle_Override	Text	Per-show wording, incl. course-code prefix
+6	Section	Text	Defaults from ROLES.DefaultSection
+7	SortOrder	Number	Defaults from ROLES.DefaultSort
+8	Calls	Text	always | never | from tech | fittings
+9	Reports	Text	always | never | from tech | fittings
+10	IsChannel	Number	1 = non-person routing row (Production email, SM email)
+11	SharedToDropbox	Number	1 = printed italic on the contact sheet. Typography carries data
+12			
+13	[[Audit Fields](@audit-fields)]{.hi}		
