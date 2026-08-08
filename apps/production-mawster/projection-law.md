@@ -4,20 +4,17 @@ title: Projection Law
 type: reference
 status: public
 order: 16
-nav: collapsed
 revised: 2026-08
-summary: The projection is never edited. The engine does the work.
+summary: LOCKED 2026-08-08 — there are NO manual edits to the projection layer, ever.
 ---
 
 # Projection law
 
-🔒 **LOCKED 2026-08-08 (Michael): there are NO manual edits to the projection layer. Ever.**
-
-> *"let's just not plan to do ManualEdits and have a formatting engine that is robust enough to get what I need done."*
+> *"let's just not plan to do ManualEdits and have a formatting engine that is robust enough to get what I need done."* — Michael, 2026-08-08
 
 ## The rule
 
-[[WEEKS](@table-weeks)] · [[WORKDAYS](@table-workdays)] · [[EVENTS_workday](@table-events-workday)]{.tbc} are **100% derived.** Delete-and-rebuild, always, on any trigger. No flags, no preservation pass, no reconciliation, no verify-before-commit step. **Nothing is ever lost because nothing is ever authored there.**
+[[WEEKS](@table-weeks)] · [[WORKDAYS](@table-workdays)] · [[EVENTS_workday](@table-events-workday)] are **100% derived.** Delete-and-rebuild, always, on any trigger. No flags, no preservation pass, no reconciliation, no verify-before-commit step. **Nothing is ever lost because nothing is ever authored there.**
 
 The `ManualEdit` flag is **killed before it shipped** — and killing it removes the whole machine it needed: a preservation pass on rebuild, a divergence report, an accept/discard decision per row. That machinery existed only to protect edits that now cannot happen.
 
@@ -33,7 +30,7 @@ The pressure that creates spot-edits is real. Refusing the edits means the engin
 | "this week needs a page break here" | `PAGE_BREAK` is generated; the RULE that sets it belongs on the preset |
 | "this day is too crowded to fit" | overflow behaviour in the layout, not a hand-trimmed cell |
 | "the name is too long for the cell" | `UseShortTitle` + a length-aware display calc |
-| "drop this event from this one printout" | a [[PRINT_PRESETS](@table-print-presets)] FILTER (the legacy agenda already did exactly this to hide rehearsals) |
+| "drop this event from this one printout" | a [[PRINT_SET_ITEMS](@table-print-set-items)] override or a [[PRINT_PRESETS](@table-print-presets)] filter (the legacy agenda already did exactly this to hide rehearsals) |
 | "a typo in an event name" | fix it in **ClickUp**, reimport. ClickUp authors. |
 
 🔴 **The last row is the load-bearing one.** Every "just let me fix it on the page" is really a request to author data in the render layer, which is the architecture locked on 2026-08-07: **ClickUp authors, FileMaker renders.**

@@ -4,7 +4,6 @@ title: Productions
 type: reference
 status: public
 order: 10
-# nav: collapsed
 revised: Aug 2026
 summary: Productions records.
 ---
@@ -50,4 +49,6 @@ stidnet theatre?
 
 See [PRODUCTIONS.tsv](./PRODUCTIONS.tsv).
 
-Full relationship context → [graph.md](../relationships/README.md)
+<!--- Full relationship context → a relationships/ folder that does not exist yet.
+      Link removed 2026-08-08: it was the build's only broken FILE link. The
+      CHILDREN section of the .tsv carries the same information for now. --->

@@ -4,9 +4,8 @@ title: Build & Use Workflow
 type: reference
 status: public
 order: 15
-nav: collapsed
 revised: 2026-08
-summary: Manual first, import skins on top.
+summary: Manual input comes first. Import skins on top and never authors.
 ---
 
 # Workflow
@@ -30,7 +29,7 @@ Derive the date from events and you have a circle: events need workdays to land 
 | 3 | Generate the grid. | [[WEEKS](@table-weeks)] → [[WORKDAYS](@table-workdays)] | generated, never typed |
 | 4 | Add callouts. Tech week, breaks, residencies. | [[CALENDAR_EMPHASIS](@table-calendar-emphasis)] | typed |
 | 5 | **Import.** Events land on days that already exist. | [[import_SESSIONS](@table-import-sessions)] → [[import_EVENTS](@table-import-events)] → [[EVENTS](@table-events)] | imported |
-| 6 | Print. | [[PRINT_PRESETS](@table-print-presets)] → [[PRINT_SESSIONS](@table-print-sessions)] | generated |
+| 6 | Print. | [[PRINT_SETS](@table-print-sets)] → [[PRINT_SESSIONS](@table-print-sessions)] | generated |
 
 Steps 1–4 are a working app with zero imports. That is deliberate: a calendar with a grid and no events is still printable, and it is how you find a wrong start date before 121 event records are sitting on it.
 
@@ -43,7 +42,7 @@ The import layer may **only**:
 - create/update [[EVENTS](@table-events)] (upsert on `TaskID` + `fkProduction`)
 - resolve `fkStyle` from the raw ClickUp status token
 - resolve `fkStandardEvent` via the crosswalk
-- rebuild [[EVENTS_workday](@table-events-workday)]{.tbc} as the last step
+- rebuild [[EVENTS_workday](@table-events-workday)] as the last step
 
 It may **never** write first rehearsal, opening, page bounds, or emphasis rows. Those are human decisions.
 
