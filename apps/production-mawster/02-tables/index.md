@@ -31,13 +31,17 @@ summary: Tables index.
 [[PRODUCER_INFO](@table-producer-info)]{.tbc}
 
 [[STYLES](@table-styles)]{.tbc}
-- One colour table. Domains: month | event-status | watermark.
+- One colour table. Domains: month | event-status | watermark | emphasis.
 
 ### For the Production __Calendars__  
 
 [[PRODUCTION_CALENDARS](@table-production-calendars)]{.tbc}
 - One calendar per production (usually - exceptions might be the same production in two different time blocks).  
 - Joining entity to output.
+
+[[CALENDAR_EMPHASIS](@table-calendar-emphasis)]{.tbc}
+- N typed callouts per calendar. `range` mode = typed dates; `event` mode = anchored to a STANDARD_EVENT so it survives a reschedule.
+- Priority-resolved. Replaced the fixed highlight/lowlight pairs.
 
 [[WEEKS](@table-weeks)]{.tbc}  
 - Parent is the CALENDAR, not the production.
@@ -46,6 +50,7 @@ summary: Tables index.
 
 [[STANDARD_EVENTS](@table-standard-events)]{.tbc}  
 - For defining custom events. *Nothing* in the app should break if there are no standard events. That is to say that all imported events are handled elegantly regardless of its existence in STANDARD_EVENTS. But STANDARD_EVENTS should automatically be linked during import and might SKIN additionally or help us export specialized reports or create workflow notes from canonical definitions.
+- ⭐ Also the anchor for `event`-mode emphasis.
 
 
 [[EVENTS](@table-events)]{.tbc}
@@ -63,8 +68,10 @@ summary: Tables index.
 
 ## Exporting
 
+[[PRINT_PRESETS](@table-print-presets)]{.tbc}
+- Saved export settings. The TEMPLATE, reusable across productions.
 [[PRINT_SESSIONS](@table-print-sessions)]{.tbc}
-- One export. **Edition lives here**, never on an import.
+- One export that happened. **Edition lives here**, never on an import. Carries `fkPreset`.
 
 
 ## External Data Sources (EDS)

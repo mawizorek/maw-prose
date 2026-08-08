@@ -57,6 +57,7 @@ Replaces `HIGHLIGHT_Start/End` + `LOWLIGHT_Start/End` on PRODUCTION_CALENDARS. "
 - `Label` is not decoration: it is **what makes a printed legend possible.** The legacy file had no legend, so every colour on the 11x17 was tribal knowledge.
 - `HIDE` deliberately did NOT move here. Hide changes which records EXIST in the found set; emphasis only styles records that are already there. Different verb, so hide stays a stamped flag on WORKDAYS driven by a range pair on the calendar. ⚠️ The names "hide" and "lowlight" sound like one idea at two strengths and are built differently on purpose.
 - ⚠️ **Lineage tradeoff:** live resolution means reprinting an old PRINT_SESSIONS row renders with TODAY's emphasis rows, not the ones in effect at print time. Accepted; the paper was never authoritative.
+- 🪦 Legacy scripts `checkHIGHlight` / `checkLOWlight` are replaced by this relationship. `checkHideWorkday` survives.
 
 ## Fields
 

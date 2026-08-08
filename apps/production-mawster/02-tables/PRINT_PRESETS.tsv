@@ -1,0 +1,14 @@
+id	Field_Name	Type	Notes
+NORMALIZED FIELDS			
+1	Name	Text	11x17 Full Company, Light Lab Only, Agenda
+2	OutputSize	Text	11x17 | 8.5x11 | agenda
+3	UseShortTitle	Number	
+4	ShowLegend	Number	Prints the CALENDAR_EMPHASIS labels. Legacy had no legend
+5	DepartmentFilter	Text	TBC - needs a department field on EVENTS first
+6	IncludeUnscheduled	Number	The UNSCHEDULED block at the top of week one
+7	ExportFolder	Text	Relative. Never absolute - Get(FilePath) resolves the file
+8	IsDefault	Number	1 = the preset the print button reaches for
+RELATIONSHIPS			
+	fkCalendar		NULLABLE. Null = house preset, reusable across productions
+AUDIT FIELDS			
+9	[[Audit Fields](@audit-fields)]{.hi}		
