@@ -32,13 +32,13 @@ summary: Tables index.
 ### For the Production __Calendars__  
 
 [[PRODUCTION_CALENDARS](@table-production-calendars)]{.tbc}
-- One calendar per production (usually - exepctions might be the same production in two different time blocks).  
+- One calendar per production (usually - exceptions might be the same production in two different time blocks).  
 - Joining entity to output.
 
 [[WEEKS](@table-weeks)]{.tbc}  
 
 [[STANDARD_EVENTS](@table-standard-events)]{.tbc}  
-- For defining custom events. *Nothing* in the app should break if there are no standard events. That is to say that all imported events are handled elegantly regardless of it's existance in STANDARD_EVENTS. But STANDARD_EVENTS should automatically be linked during import and might SKIN additionally or help us export specialized reports or create workflow notes from canonical definitions.
+- For defining custom events. *Nothing* in the app should break if there are no standard events. That is to say that all imported events are handled elegantly regardless of its existence in STANDARD_EVENTS. But STANDARD_EVENTS should automatically be linked during import and might SKIN additionally or help us export specialized reports or create workflow notes from canonical definitions.
 
 
 [[EVENTS](@table-events)]{.tbc}
