@@ -1,0 +1,15 @@
+id	Field_Name	Type	Notes
+NORMALIZED FIELDS			
+1	Title		
+2	TitleShort		
+3	DateFirstRehearsal		
+4	DateNeededLast		
+5	DateNeededFirst		
+6			
+7			
+RELATIONSHIPS			
+	fkCourse		What is the course number that the actors in the course should enroll in?
+			
+			
+AUDIT FIELDS			
+8	[[Audit Fields](@audit-fields)]{.hi}		

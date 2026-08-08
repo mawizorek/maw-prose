@@ -1,0 +1,11 @@
+sort	Field_Name	Type	Notes
+1	PrimaryKey	Text	UUID, auto-enter, unique, can't modify
+2	fkCalendar	Text	
+3	PrintedAt	Timestamp	
+4	Edition	Text	FIRST | REVISED | UPDATED. Styled via STYLES domain watermark
+5	EditionNumber	Number	Sequence within the calendar
+6	OutputSize	Text	11x17 | 8.5x11 | agenda
+7	PDF_Path	Text	<Show>_ContactSheet_<YYYYMMDD> convention
+8	EventRowCount	Number	What was on the page at print time
+9	Notes	Text	Why this reissue happened. Usually a staffing change
+10	[[Audit Fields](@audit-fields)]{.hi}		
