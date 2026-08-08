@@ -1,0 +1,17 @@
+id	Field_Name	Type	Notes
+NORMALIZED FIELDS			
+{.conf}	PrintedAt	Timestamp	
+2	fkVersion	Text	FIRST | REVISED | UPDATED. Styled via STYLES domain watermark
+3	EditionNumber	Number	Sequence within the calendar
+4	OutputSize	Text	Snapshotted from the preset - a preset can change later
+5	ExportPath	Text	<Show>_Calendar_<YYYYMMDD> convention
+6	EventRowCount	Number	What was on the page at print time
+7	Notes	Text	Why this reissue happened. Usually a staffing change
+{.conf}	date_CalendarStart		
+{.conf}	bool_MondayStart	Number	default=0
+RELATIONSHIPS			
+	fkCalendar		
+	fkPreset		Which saved export settings produced this run
+	fkVersion		thie index of actual exports - connected to a shared EDITION and touched by other record types too
+AUDIT FIELDS			
+8	[[Audit Fields](@audit-fields)]{.hi}		
