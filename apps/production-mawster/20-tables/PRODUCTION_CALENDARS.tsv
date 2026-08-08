@@ -5,6 +5,7 @@ NORMALIZED FIELDS
 {.conf}	3	bool_AddPreProWeek	Number	Auto-enter Data	default = 0
 RELATIONSHIP					
 {.conf}		fkProduction			First rehearsal + opening are READ THROUGH THIS. Never copied down
+{.conf}		fkDefaultPrintSet			
 {.gap}		fkSemester			Property of the CALENDAR, not the production. Two calendars = two semesters, one show
 CHILDREN					
 		< WEEKS			REBUILT per print now, not stored once - see the .md
