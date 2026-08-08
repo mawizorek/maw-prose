@@ -7,6 +7,10 @@ order: 10
 # nav: collapsed
 revised: 2026-08
 summary: One production. Two dates, ever — everything else about a show is a join.
+data:
+  catalog:
+    file: PRODUCTIONS.tsv
+    caption: PRODUCTIONS field menu
 ---
 
 # Productions
@@ -48,4 +52,4 @@ stidnet theatre?
 
 ## Fields
 
-See [PRODUCTIONS.tsv](./PRODUCTIONS.tsv).
+!!! data "catalog"

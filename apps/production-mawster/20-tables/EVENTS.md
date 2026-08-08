@@ -6,6 +6,10 @@ status: public
 order: 10
 revised: Aug 2026
 summary: The current, printable event set. One row per event.
+data:
+  catalog:
+    file: EVENTS.tsv
+    caption: EVENTS field menu
 ---
 
 # Events
@@ -54,4 +58,4 @@ Every day inside the span sees the event, from ONE stored row. Same pattern as C
 
 ## Fields
 
-See [EVENTS.tsv](./EVENTS.tsv).
+!!! data "catalog"

@@ -7,6 +7,10 @@ order: 10
 # nav: collapsed
 revised: Aug 2026
 summary: Roles in production.
+data:
+  catalog:
+    file: ROLES.tsv
+    caption: ROLES field menu
 ---
 
 # Production Roles
@@ -22,4 +26,4 @@ summary: Roles in production.
 
 ## Fields
 
-See [ROLES.tsv](./ROLES.tsv).
+!!! data "catalog"

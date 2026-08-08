@@ -6,6 +6,10 @@ status: public
 order: 10
 revised: Aug 2026
 summary: Joining entity to output.
+data:
+  catalog:
+    file: PRODUCTION_CALENDARS.tsv
+    caption: PRODUCTION_CALENDARS field menu
 ---
 
 # PRODUCTION_CALENDARS
@@ -53,4 +57,4 @@ Three layers:
 
 ## Fields
 
-See [PRODUCTION_CALENDARS.tsv](./PRODUCTION_CALENDARS.tsv).
+!!! data "catalog"

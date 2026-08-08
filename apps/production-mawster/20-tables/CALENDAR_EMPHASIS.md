@@ -6,6 +6,10 @@ status: public
 order: 10
 revised: Aug 2026
 summary: N typed callouts per calendar. Replaces the fixed highlight/lowlight pairs.
+data:
+  catalog:
+    file: CALENDAR_EMPHASIS.tsv
+    caption: CALENDAR_EMPHASIS field menu
 ---
 
 # CALENDAR_EMPHASIS
@@ -61,4 +65,4 @@ Replaces `HIGHLIGHT_Start/End` + `LOWLIGHT_Start/End` on PRODUCTION_CALENDARS. "
 
 ## Fields
 
-See [CALENDAR_EMPHASIS.tsv](./CALENDAR_EMPHASIS.tsv).
+!!! data "catalog"
