@@ -26,6 +26,19 @@ summary: Tables index.
 
 #### [[SETUP](@table-setup)]{.tbc}
 
+### GLOBALS
+
+
+
+
 ## External Data Sources (EDS)
+
+### ClickUp Integration/IMPORT layer
+
+#### [[EVENTS]]
+
+#### Import Sessions
+
+### Other Filemaker Builds
 
 #### [[FISCAL_YEARS](@table-fiscal-years)]{.tbc}
