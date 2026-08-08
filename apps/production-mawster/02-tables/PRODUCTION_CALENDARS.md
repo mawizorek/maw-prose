@@ -33,17 +33,17 @@ Hide is **existence**, not styling: it changes which records are in the found se
 - 🪦 **The boolean is dead.** It cannot express **Tuesday**, which is the actual answer — a theatre week runs Tue→Mon because Monday is the dark day. Sunday-or-Monday was never the real domain, and the legacy `startOnMon` (a TEXT field compared against `= 1`) was wrong twice over.
 - `date_CalendarStart` is derived: the `WeekStartDay` falling on or before `PRODUCTIONS::DateFirstRehearsal`.
 
-⚠️ **The consequence is structural: WEEKS and WORKDAYS become DISPOSABLE.** The same calendar rendered Tue-start vs Sun-start produces different week rows, so the grid cannot be generated once and reused. It is rebuilt per print, exactly like `EVENTS_workday`.
+⚠️ **The consequence is structural: WEEKS and WORKDAYS are DISPOSABLE.** The same calendar rendered Tue-start vs Sun-start produces different week rows, so the grid cannot be generated once and reused. It is rebuilt per print, exactly like `EVENTS_workday`.
 
-That sharpens the whole model into three layers:
+Three layers:
 
 | Layer | Tables | Rule |
 |---|---|---|
 | **Canonical** | PRODUCTIONS · PRODUCTION_CALENDARS · EVENTS · CALENDAR_EMPHASIS · ROLES · ASSIGNMENTS · LOCATIONS · PRODUCERS | typed, edited, holds identity |
-| **Projection** | WEEKS · WORKDAYS · EVENTS_workday | generated, disposable, rebuilt, never the source of truth |
+| **Projection** | WEEKS · WORKDAYS · EVENTS_workday | generated, disposable, rebuilt, **NEVER edited** |
 | **Archive** | import_EVENTS · import_SESSIONS · PRINT_SESSIONS | append-only, never trashed |
 
-⚠️ **Watch item:** a `ManualEdit` spot edit on `EVENTS_workday` is wiped by a grid rebuild — and now a PRESET change triggers a rebuild too, not just an import. The flag has to survive both.
+🔒 **The projection is never hand-edited** — see [projection-law.md](@projection-law). Rebuild is therefore a dumb delete-and-regenerate with no preservation pass.
 
 ## What is NOT here
 
