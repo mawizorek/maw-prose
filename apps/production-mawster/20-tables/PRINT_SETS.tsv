@@ -1,14 +1,10 @@
 id	Field_Name	Type	Options	Notes
 NORMALIZED FIELDS				
 {.conf}	Name	Text	Indexed	Full Company Packet, Designer Set, Scratch
-{.conf}	bool_IsScratch	Number	Auto-enter Data	the ACTUAL landing page for ANY print job. May only ever be ONE
-bool_IsDefaultTemplate	bool_IsDefaultTemplate	Number	Auto-enter Data	default = 0 for new sets. BUT each pCalendar may set a DEFAULT set from their print pages
-4	Notes	Text		
+{.conf}	bool_RevertRecord			default = 0. Saves the curent Print Set in some automatic loop that then allows for a "revert settings" button.
+{.conf}	bool_ScratchRecord	Number	Auto-enter Data	default = 0. The landing page for a one-off print. Stored per file and continually latching. just another option alongside "go to defaults, or revert settings"
+{.conf}	bool_DefaultRecord	Number	Auto-enter Data	default = 0 for new sets. BUT each pCalendar may set a DEFAULT set from their print pages
 RELATIONSHIP				
-	fkCalendar			NULLABLE. Null = a house set reusable across productions
-CHILDREN				
-	< PRINT_SET_ITEMS			One row per output. Overrides live THERE, not here
-	< PRINT_SESSIONS			Running N items writes N receipts sharing one run stamp
 AUDIT FIELDS				
 	PrimaryKey	Text		
 	CreationTimestamp	Timestamp		
