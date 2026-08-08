@@ -1,9 +1,9 @@
-sort	Field_Name	Options	Comments
-1	Title		
-2	TitleShort		
-3	fkPerson		
-4			
-5			
+sort	Field_Name	Type	Notes
+1	PrimaryKey	Text	UUID, auto-enter, unique, can't modify
+2	Title	Text	Lighting Designer, ASM, Run Crew / LX
+3	TitleShort	Text	
+4	DefaultSection	Text	Default contact-sheet section. Overridable per assignment
+5	DefaultSort	Number	Within-section seniority default
 6			
 7			
-8			
+8	[[Audit Fields](@audit-fields)]{.hi}		
