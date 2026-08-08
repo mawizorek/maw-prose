@@ -42,6 +42,7 @@ summary: Tables index.
 [[CALENDAR_EMPHASIS](@table-calendar-emphasis)]{.tbc}
 - N typed callouts per calendar. `range` mode = typed dates; `event` mode = anchored to a STANDARD_EVENT so it survives a reschedule.
 - Priority-resolved. Replaced the fixed highlight/lowlight pairs.
+! use this for "HIDE" as well!!!
 
 [[WEEKS](@table-weeks)]{.tbc}  
 - Parent is the CALENDAR, not the production.
