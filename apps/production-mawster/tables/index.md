@@ -20,25 +20,45 @@ summary: Tables index.
 
 ## Defined in this file
 
-#### [[PRODUCTIONS](@table-productions)]{.tbc}
-
-#### [[WEEKS](@table-weeks)]{.tbc}
-
-#### [[SETUP](@table-setup)]{.tbc}
-
 ### GLOBALS
 
+### SETUP
 
+[[SETUP](@table-setup)]{.tbc}  
+
+[[PRODUCTIONS](@table-productions)]{.tbc}  
+[[VENUES](@venues)]{.tbc}  
+[[]]
+
+### For the Production __Calendars__  
+
+[[WEEKS](@table-weeks)]{.tbc}  
+
+[[STANDARD_EVEMTS]]  
+- For defining custom events. *Nothing* in the app should break if there are no standard events. That is to say that all imported events are handled elegantly regardless of it's existance in STANDARD_EVENTS. But STANDARD_EVENTS should automatically be linked during import and might SKIN additionally or help us export specialized reports or create workflow notes from canonical definitions.
+
+#### Importing Calendar Events
+
+[import_EVENTS]
+[import_SESSIONS]
 
 
 ## External Data Sources (EDS)
 
 ### ClickUp Integration/IMPORT layer
 
-#### [[EVENTS]]
+[EVENTS]
+
+!!! tip "The real unlock of the app"
+    This 
 
 #### Import Sessions
 
+
+
+
 ### Other Filemaker Builds
 
-#### [[FISCAL_YEARS](@table-fiscal-years)]{.tbc}
+[[FISCAL_YEARS](@table-fiscal-years)]{.tbc}
+
+[[]]
