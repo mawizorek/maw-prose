@@ -27,10 +27,14 @@ summary: Tables index.
 [[SETUP](@table-setup)]{.tbc}  
 
 [[PRODUCTIONS](@table-productions)]{.tbc}  
+- Normalized vectors for each Production. 
 [[VENUES](@venues)]{.tbc}  
-[[]]
+[[PRODUCER_INFO](@producer-info)]{.tbc}
 
 ### For the Production __Calendars__  
+
+[[PRODUCTION_CALENDARS](@production-calendars)]{.tbc}
+- One calendar per produciton (usually). Joining entity to output.
 
 [[WEEKS](@table-weeks)]{.tbc}  
 
