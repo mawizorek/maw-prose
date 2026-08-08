@@ -1,7 +1,7 @@
 sort	Field_Name	Type	Notes
 1	PrimaryKey	Text	UUID, auto-enter, unique, can't modify
-2	Domain	Text	month | event-status | watermark
-3	StyleKey	Text	Indexed. MonthNum for month rows, CU status token for event rows, FIRST/REVISED/UPDATED for watermark
+2	Domain	Text	month | event-status | watermark | emphasis
+3	StyleKey	Text	Indexed. MonthNum for month rows, CU status token for event rows, FIRST/REVISED/UPDATED for watermark, slug for emphasis
 4	Label	Text	Human name
 5	Hex	Text	TEXT, not Number. Legacy bug: letters cannot live in a Number field
 6	R	Calculation	Unstored, HexToRGB ( Hex ; "r" )
