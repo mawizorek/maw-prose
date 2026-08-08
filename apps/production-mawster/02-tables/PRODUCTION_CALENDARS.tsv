@@ -1,15 +1,16 @@
 id	Field_Name	Type	Notes
 NORMALIZED FIELDS			
 1	Semester		
-2	Calendar_START	Calculation	Sunday (or Monday) of the first rehearsal week
-3	StartOnMonday	Number	BOOLEAN. Legacy startOnMon was TEXT compared against = 1
-4	AddPreProWeek	Number	
-5	HIDE_Start	Date	Stays HERE. Hide is existence, not styling - stamps HideFromCalendar on WORKDAYS
-6	HIDE_End	Date	
-7			
+2	DateNeededFirst	Date	PAGE BOUND, not a schedule fact. Lower edge of the grid (pre-pro exists)
+3	DateNeededLast	Date	PAGE BOUND. Legacy fed this into CalendarDaysNeeded - it sized the grid
+4	Calendar_START	Calculation	UNSTORED, across the relationship: Sunday (or Monday) of the week of PRODUCTIONS::DateFirstRehearsal
+5	StartOnMonday	Number	BOOLEAN. Legacy startOnMon was TEXT compared against = 1
+6	AddPreProWeek	Number	
+7	HIDE_Start	Date	Stays HERE. Hide is existence, not styling - stamps HideFromCalendar on WORKDAYS
+8	HIDE_End	Date	
 RELATIONSHIPS			
-	fkProduction		
+	fkProduction		First rehearsal + opening are READ THROUGH THIS. Never copied down
 	< CALENDAR_EMPHASIS		N typed callouts. Replaced the highlight/lowlight range fields
 	< WEEKS		
 AUDIT FIELDS			
-8	[[Audit Fields](@audit-fields)]{.hi}		
+9	[[Audit Fields](@audit-fields)]{.hi}		
