@@ -1,17 +1,17 @@
 id	Field_Name	Type	Options	Notes
 NORMALIZED FIELDS				
-1	Title	Text	Indexed	
-2	TitleShort	Text	Indexed, Unique, Allow Override, Message	
-	TitleDisplay	Text	Auto-Enter Calculation	
-3	DateFirstRehearsal	Date	Indexed	TYPED, never derived. Contractual fact about the show. Calendar_START measures from it
-4	DateOpening	Date	Indexed	TYPED. The production milestone. Season-report axis + value-list sort
+{.conf}	Title	Text	Indexed	
+{.conf}	TitleShort	Text	Indexed, Unique, Allow Override, Message	
+{.conf}	TitleDisplay	Text	Auto-Enter Calculation	
+{.conf}	date_FirstRehearsal	Date	Indexed	TYPED, never derived. Contractual fact about the show. Calendar_START measures from it
+{.conf}	date_Opening	Date	Indexed	TYPED. The production milestone. Season-report axis + value-list sort
 INTEGRATION KEYS				
-7	cuProductionToken	Text		Indexed. EXACT ClickUp label string. A rename in CU breaks the join SILENTLY
-8	cuProductionID	Text		Indexed. Empty until the API pull. Rename-proof successor
+{.conf}	cuProductionToken	Text		Indexed. EXACT ClickUp label string. A rename in CU breaks the join SILENTLY
+{.conf}	cuProductionID	Text		Indexed. Empty until the API pull. Rename-proof successor
 RELATIONSHIP				
-	fkProducer	Text		
-	fkVenue	Text		⚠️ Is a VENUE a LOCATION with fkLocationType = venue? Two tables for one concept if not
-	fkCourse	Text		What is the course number that the actors in the course should enroll in?
+{.conf}	fkProducer	Text		
+{.conf}	fkVenue	Text		⚠️ Is a VENUE a LOCATION with fkLocationType = venue? Two tables for one concept if not
+{.conf}	fkCourse	Text		What is the course number that the actors in the course should enroll in?
 CHILDREN				
 	< PRODUCTION_CALENDARS			One per semester/time block. Page bounds live THERE
 	< EVENTS			Canonical event set. Upsert key is TaskID + fkProduction

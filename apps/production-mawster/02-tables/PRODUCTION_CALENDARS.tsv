@@ -21,3 +21,4 @@ AUDIT FIELDS
 MOVED OUT (2026-08-08, MW: these are PRINT specs)					<can you comment these rows so they never actualyl render?????<
 		~~date_CalendarStart~~			→ PRINT_PRESETS (config) + PRINT_SESSIONS (snapshot). Derived from WeekStartDay
 		~~bool_StartOnMonday~~			DEAD. A boolean cannot express TUESDAY. → PRINT_PRESETS.WeekStartDay (1-7)
+- EOF -					
