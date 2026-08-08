@@ -1,0 +1,18 @@
+id	Field_Name	Type	Options	Notes
+NORMALIZED FIELDS				
+{.tbc}	DATE	Date	Indexed	The day this row represents
+{.tbc}	DayIndex	Number		"day 2 of 3". Counts WORKING days - hidden days are skipped
+{.tbc}	DayCount	Number		Total working days in the span
+{.tbc}	SortOrder	Number		Within the day
+RELATIONSHIP				
+	fkEvent			→ EVENTS. The identity lives there, never here
+	fkWorkday			→ WORKDAYS. Stamped at rebuild
+	fkCalendar			Which grid this projection belongs to
+	fkImportSession			Which rebuild produced this row
+AUDIT FIELDS				
+	PrimaryKey	Text		
+	CreationTimestamp	Timestamp		
+	CreatedBy	Text		
+	ModificationTimestamp	Timestamp		
+	ModifiedBy	Text		
+- EOF -				
