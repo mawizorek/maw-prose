@@ -1,9 +1,9 @@
-/* ParamGetText ( json ; key ; default )
-   Text value when the key is present, otherwise default.
-   Present-but-empty returns empty, not the default. */
+/* ParamGetText ( json ; key ; fallback )
+   Text value when the key is present, otherwise fallback.
+   Present-but-empty returns empty, not the fallback. */
 
 Case (
     ParamHas ( json ; key ) ;
     JSONGetElement ( json ; key ) ;
-    default
+    fallback
 )
