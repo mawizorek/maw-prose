@@ -5,8 +5,12 @@ NORMALIZED FIELDS
 RELATIONSHIPS				
 {.conf}	fkCalendar	Text	[stamped]{.hi}	stamped.
 {.conf}	fkSuperseededBy			
-	< Versions			
+CHILDREN				
+	< Version			
 AUDIT FIELDS				
-	Cretaed date actually useful here!!!			
+	PrimaryKey			
 	[[Audit Fields](@audit-fields)]{.hi}			
+				
+				
+	< Versions			
 - EOF -				

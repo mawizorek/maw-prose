@@ -26,5 +26,12 @@ ESSENTIALLY VALUE LISTS
 {.conf} {.gap}	LOCATION_TYPES	FileMaker	don't try to make it a value list.	
 {.conf} {.gap}		FileMaker		
 {.conf} {.gap}		FileMaker		
+COME BACK TO				
+.conf} {.gap}	ASSIGNMENTS	FileMaker		
+.conf} {.gap}	CALENDAR_EMPHASIS	FileMaker		
+.conf} {.gap}		FileMaker		
+.conf} {.gap}		FileMaker		
+CUT?				
+.conf} {.gap}		FileMaker		
 {.conf} {.gap}		FileMaker		
 - EOF -				
