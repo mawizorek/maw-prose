@@ -1,0 +1,8 @@
+/* ParamGetBoolean ( json ; key ; default )
+   1 or 0 when the key is present, otherwise the coerced default. */
+
+Case (
+    ParamHas ( json ; key ) ;
+    GetAsNumber ( JSONGetElement ( json ; key ) ) ≠ 0 ;
+    GetAsNumber ( default ) ≠ 0
+)

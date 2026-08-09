@@ -1,0 +1,8 @@
+/* PText ( key ; value )
+   One text element for Param ( List ( ... ) ). */
+
+JSONSetElement ( "{}" ;
+    [ "key" ; key ; JSONString ] ;
+    [ "type" ; "text" ; JSONString ] ;
+    [ "value" ; value ; JSONString ]
+)

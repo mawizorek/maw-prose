@@ -8,6 +8,11 @@ Settled calls about this repo and its contents. **One line each, newest first.**
 
 ---
 
+## This repo · 2026-08-09
+
+- **D-038** — **The menu-mirror depth exemption is not limited to `apps/`.** It applies wherever the extra levels copy an application's own object types, which is why `standards/filemaker/custom-functions/json-params/` is legal at four segments. The test is unchanged and still narrow: could you read every folder name off the application's own menu? Custom functions are a FileMaker object type, so yes. Invent a level with no counterpart in the app and the cap is back on. *(Extends the exemption written into `CONVENTIONS.md`, which scoped it to `apps/`.)*
+- **D-037** — **Cross-app FileMaker definitions are canonical here, and installed copies audit against them.** A custom function cannot be shared between FileMaker files, so there is no way to keep two installs identical and nothing should pretend otherwise. Instead one definition lives in `standards/filemaker/`, each app holds a pointer rather than a copy, and a conformance fixture beside the definition lets a solution test its own local functions and find out it has drifted. Behaviour is compared, never a version constant: FileMaker cannot read its own function bodies at runtime, so a stamp is a label nobody bumps. Self-audit for now, meaning the app pulls the fixture from this public repo with `Insert from URL` and no credential.
+
 ## This repo · 2026-07-30
 
 - **D-036** — The Vectorworks research findings migrate as **lookup notes, not a numbered register.** `F-NNN` numbering dropped: nobody looks up F-011, they look up how to get a list out of a file, so the filename carries the question.
@@ -24,7 +29,7 @@ Settled calls about this repo and its contents. **One line each, newest first.**
 - **D-028** — Dropped `practice/`. A production history is a record set; FileMaker owns it.
 - **D-027** — `guides/` and `standards/` both stay, with the boundary test written into `CONVENTIONS.md` so placement is never a judgment call.
 - **D-026** — Replaced the old "never numbers in prose" rule: **if you would put it on a drawing it lives in the model; if you would tell it to a new hire on their first walk, it lives in the notes.**
-- **D-025** — Prose lives in `maw-prose`, private, Michael is the only distribution gate. Level 1 is artifact type and depth is capped at two levels. ~~The taxonomy is front matter.~~ **Superseded by D-030: there is no front matter. The taxonomy lives in the prose and the paths, and finding things is a matter of reading rather than querying.**
+- **D-025** — Prose lives in `maw-prose`, private, Michael is the only distribution gate. Level 1 is artifact type and depth is capped at two levels. ~~The taxonomy is front matter.~~ **Superseded by D-030: there is no front matter. The taxonomy lives in the prose and the paths, and finding things is a matter of reading rather than querying.** ⚠️ **The word "private" in this line is not true of the repo as it stands and has not been ruled on.**
 - **D-025b** — FileMaker holds **records**, this repo holds **source**. An FMP record may carry a repo path; the repo never holds a copy of a record.
 
 ## Vectorworks · 2026-07-16

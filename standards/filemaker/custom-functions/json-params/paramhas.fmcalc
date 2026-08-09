@@ -1,0 +1,10 @@
+/* ParamHas ( json ; key )
+   Distinguish a missing key from a present-but-empty value.
+   The ¶ wrapping is what stops "note" matching "notes". */
+
+Let (
+    [
+        _keys = JSONListKeys ( json ; "" )
+    ] ;
+    PatternCount ( ¶ & _keys & ¶ ; ¶ & key & ¶ ) > 0
+)
