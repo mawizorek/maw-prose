@@ -1,0 +1,40 @@
+/* Param ( elementList )
+   Combine a return-delimited list of helper elements into one JSON object.
+   Call as: Param ( List ( PText ( ... ) ; PNum ( ... ) ) )
+   Requires While ( ) — FileMaker 19.6 or later. */
+
+Let (
+    [
+        _count = ValueCount ( elementList )
+    ] ;
+    While (
+        [
+            _i = 1 ;
+            _json = "{}" ;
+            _row = "" ;
+            _key = "" ;
+            _type = ""
+        ] ;
+        _i ≤ _count ;
+        [
+            _row = GetValue ( elementList ; _i ) ;
+            _key = JSONGetElement ( _row ; "key" ) ;
+            _type = JSONGetElement ( _row ; "type" ) ;
+            _json = Case (
+                IsEmpty ( _row ) or IsEmpty ( _key ) ;
+                _json ;
+                _type = "text" ;
+                JSONSetElement ( _json ; _key ; JSONGetElement ( _row ; "value" ) ; JSONString ) ;
+                _type = "number" ;
+                JSONSetElement ( _json ; _key ; JSONGetElement ( _row ; "value" ) ; JSONNumber ) ;
+                _type = "boolean" ;
+                JSONSetElement ( _json ; _key ; JSONGetElement ( _row ; "value" ) ; JSONBoolean ) ;
+                _type = "json" ;
+                JSONSetElement ( _json ; _key ; JSONGetElement ( _row ; "value" ) ; JSONRaw ) ;
+                _json
+            ) ;
+            _i = _i + 1
+        ] ;
+        _json
+    )
+)

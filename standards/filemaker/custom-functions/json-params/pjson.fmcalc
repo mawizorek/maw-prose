@@ -1,0 +1,9 @@
+/* PJSON ( key ; jsonValue )
+   Attach already-valid JSON as a nested element.
+   Only use when jsonValue is already valid JSON. */
+
+JSONSetElement ( "{}" ;
+    [ "key" ; key ; JSONString ] ;
+    [ "type" ; "json" ; JSONString ] ;
+    [ "value" ; jsonValue ; JSONRaw ]
+)
