@@ -1,37 +1,26 @@
 ---
-id: production-mawster
-title: Production MAWster
-theme: database
-type: index
-status: public
-order: 0
-nav: collapsed
+id: production-mawster-moved
+title: Production MAWster (MOVED)
+type: reference
+status: hidden
+order: 9999
+nav: hidden
 revised: 2026-08
-summary: The production calendar + contacts app. ClickUp AUTHORS, this app RENDERS.
+summary: MOVED to mawizorek/uritp-docs → production-mawster/. Nothing here is canonical.
 ---
 
-# Production MAWster
+# 🪦 Production MAWster — MOVED
 
-## Why it was rebuilt
+**Canonical home: `mawizorek/uritp-docs` → `production-mawster/`.**
 
-The previous file held exactly **one production at a time** — `SETUP` was 20 fields, 1 record, almost entirely global storage, with six hardcoded scripts swapping those globals per show. Full pass: [[legacy script review](@legacy-script-review)].
+Moved by Michael 2026-08-08 so the tree renders on a known path. Nothing in this folder is canonical; do not read, edit, or build against it.
 
-## Three layers
+## Why this stub exists rather than an empty folder
 
-| Layer | Tables | Rule |
-|---|---|---|
-| **Canonical** | [[PRODUCTIONS](@table-productions)] · [[PRODUCTION_CALENDARS](@table-production-calendars)] · [[EVENTS](@table-events)] · [[CALENDAR_EMPHASIS](@table-calendar-emphasis)] · [[ROLES](@table-roles)] · [[ASSIGNMENTS](@table-assignments)] · [[LOCATIONS](@table-locations)] · [[PRODUCERS](@table-producers)] · [[STYLES](@table-styles)] | typed, edited, holds identity |
-| **Projection** | [[WEEKS](@table-weeks)] · [[WORKDAYS](@table-workdays)] · [[EVENTS_workday](@table-events-workday)]{.tbc} | generated, disposable, **never edited** — see [[Projection Law](@projection-law)] |
-| **Archive** | [[import_EVENTS](@table-import-events)] · [[import_SESSIONS](@table-import-sessions)] · [[PRINT_PRESETS](@table-print-presets)] · [[PRINT_SESSIONS](@table-print-sessions)] | append-only, never trashed |
+On 2026-08-08 two documents (`device-handoff.md`, a revised `build-sheet.md`) were written to THIS path *after* the move, because the write target was carried forward from earlier in the same session instead of being re-derived. Git creates a directory on write, so **a misplaced write cannot fail** — it forks the tree silently. Those files have been landed in `uritp-docs` and deleted from here.
 
-## Start here
+**The lesson, and the reason it is written down here where the mistake happened:** the Repo Referent Gate's rule applies to PATHS inside a repo, not only to repo names. A run of successful writes to a path is not evidence the next one belongs there. Re-derive at subject-turn, and treat a directory listing that disagrees with your last read as a **changed tree**, never as cache latency.
 
-- [[Tables](@tables)] — the schema
-- [[UX](@user-experience)] — how the app is meant to be used
-- [[Build & Use Workflow](@workflow)] — order of operations, manual-first
-- [[ClickUp Integration](@integration)] — the pipe and its open questions
-- [[Device Handoff](@device-handoff)] — desktop ↔ iPad ↔ phone, and the open-log
-- [[Projection Law](@projection-law)] — why nothing in the projection layer is hand-edited
-- [[Data standards](@data-standards)] — naming conventions
+## Also here
 
-Decision history: **Production MAWster FMP — Decision Log** (ClickUp).
+`apps/production-mawster-no-use/` holds the pre-move copy of the tree. Michael's naming, Michael's call whether it gets culled. See [`MOVED.md`](../production-mawster-no-use/MOVED.md) there.
