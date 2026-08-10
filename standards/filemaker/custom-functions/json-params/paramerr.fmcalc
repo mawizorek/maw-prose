@@ -1,0 +1,16 @@
+/* ParamErr ( code ; where ; comment )
+   The standard FAILURE return. Install LAST - it composes
+   Param, PBool, PNum and PText.
+
+   ok is 0 unconditionally and is NOT derived from code.
+   A validation failure has no FileMaker error number, so it
+   passes code 0 - and 0 must never read as success. */
+
+Param (
+    List (
+        PBool ( "ok"      ; 0 ) ;
+        PNum  ( "error"   ; code ) ;
+        PText ( "where"   ; where ) ;
+        PText ( "comment" ; comment )
+    )
+)
