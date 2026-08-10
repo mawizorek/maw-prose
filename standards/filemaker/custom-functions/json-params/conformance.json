@@ -1,9 +1,10 @@
 {
   "family": "json-params",
-  "version": "1.0.0",
-  "updated": "2026-08-09",
+  "version": "1.1.0",
+  "updated": "2026-08-10",
   "source": "mawizorek/maw-prose · standards/filemaker/custom-functions/json-params/",
   "how": "Evaluate each calc against the LOCAL custom functions and compare the result to expect as text. A file running stale definitions fails regardless of the version it claims.",
+  "note": "Multi-key vectors read ONE value back through a family reader rather than comparing a whole JSON string. Key ORDER in a FileMaker-built object is not something this fixture asserts, and a vector that depended on it would fail for a reason that has nothing to do with the function under test.",
   "functions": [
     "PText",
     "PNum",
@@ -13,7 +14,8 @@
     "ParamHas",
     "ParamGetText",
     "ParamGetNumber",
-    "ParamGetBoolean"
+    "ParamGetBoolean",
+    "ParamErr"
   ],
   "vectors": [
     {
@@ -87,6 +89,24 @@
       "asserts": "ParamGetBoolean coerces its default when the key is missing",
       "calc": "ParamGetBoolean ( \"{}\" ; \"x\" ; 3 )",
       "expect": "1"
+    },
+    {
+      "id": "V13",
+      "asserts": "ParamErr reports failure. The default of 1 also proves the ok key is PRESENT — a missing key would return the default and pass a naive check.",
+      "calc": "ParamGetBoolean ( ParamErr ( 401 ; \"Perform Find\" ; \"\" ) ; \"ok\" ; 1 )",
+      "expect": "0"
+    },
+    {
+      "id": "V14",
+      "asserts": "DESIGN GUARD — ok is NOT derived from code. A validation failure carries no FileMaker error number and passes 0; if anyone 'simplifies' ParamErr to compute ok from code, this is the vector that catches it and the caller stops seeing its own failures.",
+      "calc": "ParamGetBoolean ( ParamErr ( 0 ; \"FIND · Values\" ; \"mode is required\" ) ; \"ok\" ; 1 )",
+      "expect": "0"
+    },
+    {
+      "id": "V15",
+      "asserts": "ParamErr carries the error number back as a NUMBER, readable by the family",
+      "calc": "ParamGetNumber ( ParamErr ( 401 ; \"Perform Find\" ; \"\" ) ; \"error\" ; -1 )",
+      "expect": "401"
     }
   ]
 }
