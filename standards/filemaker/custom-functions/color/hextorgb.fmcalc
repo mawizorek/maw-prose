@@ -1,0 +1,43 @@
+Let ( [
+	_map = "0123456789ABCDEF" ;
+
+	_in = Upper ( Substitute ( Trim ( hex ) ; [ "#" ; "" ] ; [ " " ; "" ] ) ) ;
+	_len = Length ( _in ) ;
+	_clean = _len > 0 and Length ( Filter ( _in ; _map ) ) = _len ;
+
+	_h = Case (
+		_len = 3 ;
+		Middle ( _in ; 1 ; 1 ) & Middle ( _in ; 1 ; 1 ) &
+		Middle ( _in ; 2 ; 1 ) & Middle ( _in ; 2 ; 1 ) &
+		Middle ( _in ; 3 ; 1 ) & Middle ( _in ; 3 ; 1 ) ;
+		_in
+	) ;
+
+	_ok = _clean and Length ( _h ) = 6 ;
+
+	_n1 = Position ( _map ; Middle ( _h ; 1 ; 1 ) ; 1 ; 1 ) - 1 ;
+	_n2 = Position ( _map ; Middle ( _h ; 2 ; 1 ) ; 1 ; 1 ) - 1 ;
+	_n3 = Position ( _map ; Middle ( _h ; 3 ; 1 ) ; 1 ; 1 ) - 1 ;
+	_n4 = Position ( _map ; Middle ( _h ; 4 ; 1 ) ; 1 ; 1 ) - 1 ;
+	_n5 = Position ( _map ; Middle ( _h ; 5 ; 1 ) ; 1 ; 1 ) - 1 ;
+	_n6 = Position ( _map ; Middle ( _h ; 6 ; 1 ) ; 1 ; 1 ) - 1 ;
+
+	_r = _n1 * 16 + _n2 ;
+	_g = _n3 * 16 + _n4 ;
+	_b = _n5 * 16 + _n6
+] ;
+	Case (
+		not _ok ;
+		JSONSetElement ( "{}" ;
+			[ "ok" ; False ; JSONBoolean ] ;
+			[ "error" ; "expected 3 or 6 hex digits" ; JSONString ]
+		) ;
+
+		JSONSetElement ( "{}" ;
+			[ "ok" ; True ; JSONBoolean ] ;
+			[ "r" ; _r ; JSONNumber ] ;
+			[ "g" ; _g ; JSONNumber ] ;
+			[ "b" ; _b ; JSONNumber ]
+		)
+	)
+)
