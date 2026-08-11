@@ -3,7 +3,7 @@ Let ( [
 
 	_in = Upper ( Substitute ( Trim ( hex ) ; [ "#" ; "" ] ; [ " " ; "" ] ) ) ;
 	_len = Length ( _in ) ;
-	_clean = Length ( Filter ( _in ; _map ) ) = _len and _len > 0 ;
+	_clean = _len > 0 and Length ( Filter ( _in ; _map ) ) = _len ;
 
 	_h = Case (
 		_len = 3 ;
@@ -15,9 +15,16 @@ Let ( [
 
 	_ok = _clean and Length ( _h ) = 6 ;
 
-	_r = ( Position ( _map ; Middle ( _h ; 1 ; 1 ) ; 1 ; 1 ) - 1 ) * 16 + ( Position ( _map ; Middle ( _h ; 2 ; 1 ) ; 1 ; 1 ) - 1 ) ;
-	_g = ( Position ( _map ; Middle ( _h ; 3 ; 1 ) ; 1 ; 1 ) * 16 ) - 16 + ( Position ( _map ; Middle ( _h ; 4 ; 1 ) ; 1 ; 1 ) - 1 ) ;
-	_b = ( Position ( _map ; Middle ( _h ; 5 ; 1 ) ; 1 ; 1 ) * 16 ) - 16 + ( Position ( _map ; Middle ( _h ; 6 ; 1 ) ; 1 ; 1 ) - 1 )
+	_n1 = Position ( _map ; Middle ( _h ; 1 ; 1 ) ; 1 ; 1 ) - 1 ;
+	_n2 = Position ( _map ; Middle ( _h ; 2 ; 1 ) ; 1 ; 1 ) - 1 ;
+	_n3 = Position ( _map ; Middle ( _h ; 3 ; 1 ) ; 1 ; 1 ) - 1 ;
+	_n4 = Position ( _map ; Middle ( _h ; 4 ; 1 ) ; 1 ; 1 ) - 1 ;
+	_n5 = Position ( _map ; Middle ( _h ; 5 ; 1 ) ; 1 ; 1 ) - 1 ;
+	_n6 = Position ( _map ; Middle ( _h ; 6 ; 1 ) ; 1 ; 1 ) - 1 ;
+
+	_r = _n1 * 16 + _n2 ;
+	_g = _n3 * 16 + _n4 ;
+	_b = _n5 * 16 + _n6
 ] ;
 	Case (
 		not _ok ;
