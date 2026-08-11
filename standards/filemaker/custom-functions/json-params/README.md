@@ -18,4 +18,4 @@ There is no packaged clipboard snippet. Installing is nine manual pastes, and un
 
 There is no runner script published here. Each solution writes its own against `conformance.json` and reports into whatever its utility-report surface is called. If a second app writes one, the two should be compared and the better one described here.
 
-`standards/filemaker/` above this folder has no README of its own.
+~~`standards/filemaker/` above this folder has no README of its own.~~ Closed 2026-08-11 — the shelf README exists and indexes both families.
