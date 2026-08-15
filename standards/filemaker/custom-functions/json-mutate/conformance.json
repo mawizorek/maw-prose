@@ -1,0 +1,72 @@
+{
+  "family": "json-mutate",
+  "version": "1.0.0",
+  "updated": "2026-08-15",
+  "source": "mawizorek/maw-prose · standards/filemaker/custom-functions/json-mutate/",
+  "how": "Evaluate each calc against the LOCAL custom function and compare the result to expect as text. A file running a stale definition fails regardless of the version it claims.",
+  "functions": [
+    "JSONUpsert"
+  ],
+  "vectors": [
+    {
+      "id": "V01",
+      "asserts": "auto kind overwrites an existing text key and leaves siblings untouched",
+      "calc": "JSONUpsert ( \"{\\\"a\\\":\\\"1\\\",\\\"b\\\":\\\"2\\\"}\" ; \"a\" ; \"9\" ; \"\" )",
+      "expect": "{\"a\":\"9\",\"b\":\"2\"}"
+    },
+    {
+      "id": "V02",
+      "asserts": "auto kind keeps a number a number",
+      "calc": "JSONUpsert ( \"{\\\"n\\\":5}\" ; \"n\" ; 9 ; \"\" )",
+      "expect": "{\"n\":9}"
+    },
+    {
+      "id": "V03",
+      "asserts": "auto kind keeps a boolean a boolean; value 0 becomes false",
+      "calc": "JSONUpsert ( \"{\\\"b\\\":true}\" ; \"b\" ; 0 ; \"\" )",
+      "expect": "{\"b\":false}"
+    },
+    {
+      "id": "V04",
+      "asserts": "TYPE-PRESERVATION GUARD — a text \"14\" stays text under auto and is not coerced to a number",
+      "calc": "JSONUpsert ( \"{\\\"x\\\":\\\"14\\\"}\" ; \"x\" ; \"20\" ; \"\" )",
+      "expect": "{\"x\":\"20\"}"
+    },
+    {
+      "id": "V05",
+      "asserts": "an explicit kind overrides the inferred type — force number onto a text-stored value",
+      "calc": "JSONUpsert ( \"{\\\"x\\\":\\\"14\\\"}\" ; \"x\" ; \"20\" ; \"number\" )",
+      "expect": "{\"x\":20}"
+    },
+    {
+      "id": "V06",
+      "asserts": "a brand-new key under auto has no existing type and lands as text",
+      "calc": "JSONUpsert ( \"{\\\"a\\\":\\\"1\\\"}\" ; \"new\" ; \"7\" ; \"\" )",
+      "expect": "{\"a\":\"1\",\"new\":\"7\"}"
+    },
+    {
+      "id": "V07",
+      "asserts": "ENCODING GUARD — explicit boolean 0 is JSON false. Fails if the not-equal operator was transcoded.",
+      "calc": "JSONUpsert ( \"{}\" ; \"f\" ; 0 ; \"boolean\" )",
+      "expect": "{\"f\":false}"
+    },
+    {
+      "id": "V08",
+      "asserts": "explicit boolean coerces any non-zero value to true",
+      "calc": "JSONUpsert ( \"{}\" ; \"f\" ; 7 ; \"boolean\" )",
+      "expect": "{\"f\":true}"
+    },
+    {
+      "id": "V09",
+      "asserts": "json kind attaches raw nested JSON rather than stringifying it",
+      "calc": "JSONUpsert ( \"{}\" ; \"a\" ; JSONSetElement ( \"[]\" ; [ \"[0].id\" ; \"z\" ; JSONString ] ) ; \"json\" )",
+      "expect": "{\"a\":[{\"id\":\"z\"}]}"
+    },
+    {
+      "id": "V10",
+      "asserts": "non-destructive across a mixed-type object — one key overwritten, the other keys and their types intact",
+      "calc": "JSONUpsert ( \"{\\\"a\\\":\\\"1\\\",\\\"n\\\":5,\\\"b\\\":true}\" ; \"n\" ; 9 ; \"\" )",
+      "expect": "{\"a\":\"1\",\"n\":9,\"b\":true}"
+    }
+  ]
+}
