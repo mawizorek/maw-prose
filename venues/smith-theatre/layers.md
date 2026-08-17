@@ -1,9 +1,14 @@
 # Smith Theatre — layers
 
-*All 29 Vectorworks design layers, grouped by elevation band. Working draft. Source: the* URITP VWX Smith Theatre BASE FILE Worksheets *sheet; checked 2026-07-16.*
-
 `venue-base` layers are authored once in the master file. `department` layers are the thin per-discipline consumers that reference it.
 
+These are the master layers.
+
+Geometry for the building canonically lives as 3D symbols. The intent is to project each of these as hidden line 
+
+
+
+<!---
 ## `3 CATWALK` — catwalk and high steel
 
 | Layer | Dept | Scope | 2D | 3D | Status |
@@ -76,3 +81,6 @@ Three rows have no elevation band — `>import 3D`, `VID - REP`, and `2D 2 [SPAC
 Elevation lives in the layer, never in a class. Layers answer *where, whose, what height*; classes answer *what kind of thing*.
 
 All design layers share one scale, so referenced viewports line up.
+
+
+--->
