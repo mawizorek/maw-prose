@@ -1,8 +1,8 @@
 # How our Vectorworks files are set up
 
-*Read this before you open a show file. Ten minutes here saves you a day of drafting into the wrong place. Checked 2026-07-16.*
+*Read this before you open a show file. Ten minutes here saves you a day of drafting into the wrong place. Checked 2026-09-10.*
 
-Venue specifics are separate: [Smith Theatre](../../venues/smith-theatre/) has the room, the layer list, and the classes.
+**This package is about Vectorworks, not about any one room.** Layer lists, class trees, load limits and reference-plane quirks are properties of a venue and live in that venue's own notes. What is here is the grammar: the conventions that are true in any building.
 
 Also in this package: [getting data out](./getting-data-out.md) · [resources and symbols](./resources-and-symbols.md) · [sheets and drawing sets](./sheets-and-drawing-sets.md).
 
@@ -18,7 +18,7 @@ A class is not a linestyle bucket. Pen weight and fill are drafting attributes, 
 
 Class names use dashes, up to four parts: `Steel-Beam`, `Masking-Traveler`. The dash is functional — it drives the nesting you see in the Navigation and Organization palettes. `Steel_Beam` and `Steel Beam` will not nest.
 
-**Heads up on the vendor docs.** Vectorworks Spotlight tells you to keep layers lean and put rigging, positions, and instruments all on one layer. We do not do that, and it is deliberate: Spotlight assumes one designer's plot, and ours is a multi-department master that other files reference, so department has to be visible in the layer structure or the reference model below has nothing to hook onto. Expect roughly 29 layers, not six.
+**Heads up on the vendor docs.** Vectorworks Spotlight tells you to keep layers lean and put rigging, positions, and instruments all on one layer. We do not do that, and it is deliberate: Spotlight assumes one designer's plot, and ours is a multi-department master that other files reference, so department has to be visible in the layer structure or the reference model below has nothing to hook onto. Expect dozens of layers, not six.
 
 ## You are probably working in a file that references the master
 
@@ -40,11 +40,9 @@ Do not move the origin.
 
 ## Watch the reference plane
 
-A venue's walls are not where the nominal dimensions say they are, and which surface you measure from can change with elevation.
+A venue's walls are not where the nominal dimensions say they are, and which surface you measure from can change with elevation. A dimension that is right at deck level can be wrong at the catwalk, and nothing in the drawing warns you.
 
-At Smith: deck measures off the interior trim face, mezzanine and catwalks off the nominal wall structure. So a dimension that is right at deck level is wrong at the catwalk, and nothing in the drawing warns you.
-
-Every venue package carries a note like that. Read it before you trust a dimension. Smith's is in [the-room.md](../../venues/smith-theatre/the-room.md).
+**Every venue package carries a note about its own reference planes. Read it before you trust a dimension.** That note is a venue fact and lives with the venue, not here.
 
 ## Symbols
 
@@ -68,13 +66,13 @@ Vectorworks also has built-in **Standard Naming** for layers, classes and viewpo
 
 If you would put it on a drawing, it lives in the model. A transcribed dimension in a document goes stale the moment someone edits the file.
 
-If you would tell it to a new hire on their first walk of the space, it lives in these notes. A load rating, a beam position, a trim behaviour, a datum convention — those are properties of the building. They do not change when someone edits a file, and burying them somewhere that needs a license to open is how they get lost.
+If you would tell it to a new hire on their first walk of the space, it lives in the venue's notes. A load rating, a beam position, a trim behaviour, a datum convention — those are properties of the building. They do not change when someone edits a file, and burying them somewhere that needs a license to open is how they get lost.
 
 ## The DWG hedge
 
-The file you are working from was built in Educational, so it will have to be re-created in a licensed version. The hedge is a DWG export: with resources embedded and cleanly laid out, a re-import de-skins the file but brings the content back.
+A file built in Vectorworks Educational has to be re-created in a licensed version before it can be used professionally. The hedge is a DWG export: with resources embedded and cleanly laid out, a re-import de-skins the file but brings the content back.
 
-So keep resources embedded, keep them laid out, keep class names clean. That discipline is the only thing making the rebuild survivable, and it costs nothing while you work.
+So keep resources embedded, keep them laid out, keep class names clean. That discipline is the only thing making a rebuild survivable, and it costs nothing while you work.
 
 **On a DWG round-trip, a DWG "layer" maps to a Vectorworks CLASS, not a layer.** Map them deliberately and save the mapping set. Symbols, plug-ins and groups export as blocks — symbol blocks keep their name, others go generic unless named in the Object Info Data tab. Vectorworks imports DWG v2.5 through 2025 and exports v12 through 2025. Expect de-classing and renaming on the round trip; clean class names, named plug-ins, and embedded resources are what make the re-import survivable.
 
@@ -82,6 +80,6 @@ So keep resources embedded, keep them laid out, keep class names clean. That dis
 
 ## What is not locked yet
 
-Three things are drafted but not ratified. If you need them, ask rather than assume.
+The **class tree** and the **sheet numbering** scheme are drafted, not ratified — see [sheets and drawing sets](./sheets-and-drawing-sets.md) for the model the numbering follows. Ask before treating either as settled.
 
-The **class tree** is a proposal — [the list](../../venues/smith-theatre/classes.md). **Sheet numbering** is drafted from the department-prefix scheme — [the model it follows](./sheets-and-drawing-sets.md). The **house layer list** is a working draft, and nine of its 29 rows have no status.
+And the per-venue **layer list** is never settled here by definition: it is an inventory of one building, so it lives in that venue's notes.
