@@ -10,10 +10,14 @@ notes: >
   Cold agents: check this block before rendering anything.
 ---
 
-# MAW Documents (Personal Document Library) — Doc Tree (v1.0)
+# MAW Documents (Personal Document Library) — Doc Tree (v1.1)
 
 This tree mirrors what you open in FileMaker. Each file = one menu destination.
 Open the tree, find the screen, build or edit from it.
+
+📖 **Read it in a browser:**
+[docs-viewer.html](https://mawizorek.github.io/maw-prose/apps/maw-documents/docs-viewer.html)
+— sidebar nav over every page below, tables and all. Deep-links per page.
 
 **What this app is.** A single-user, local-first personal digital library + document
 repository + file logistics layer. One library engine underneath, binder-style lenses
@@ -39,6 +43,7 @@ a *Reflected on* line, and that line names a file in this tree.
 apps/maw-documents/
 │
 ├── OPEN-ME.md              ← you are here (nav + build order + theme tag)
+├── docs-viewer.html        ← DOC READER (renders every .md below, in a browser)
 ├── README.md               ← what the app is, who it is for, what it refuses to be
 ├── schema-notes.md         ← the spine: grain, layers, and the rules that hold it together
 ├── design-decisions.md     ← index of settled rulings → pointers to the ClickUp log
@@ -47,20 +52,39 @@ apps/maw-documents/
 ├── changelog.md            ← structural changes to this documentation set
 │
 ├── tables/                 ← Manage → Database → Tables
-│   ├── Documents.md                ← the bibliographic / intellectual identity
 │   ├── BibliographicDetails.md     ← 1:1 extension, book facts only
-│   ├── DocumentCopies.md           ← the physical or digital object you hold
-│   ├── People.md                   ← name-authority record
 │   ├── ContributorRoles.md         ← author / editor / translator / illustrator
+│   ├── CopyLoans.md                ← possession over time, both directions
+│   ├── DocumentCopies.md           ← the physical or digital object you hold
 │   ├── DocumentPeople.md           ← the contribution join (role lives HERE)
+│   ├── Documents.md                ← the bibliographic / intellectual identity
 │   ├── Organizations.md            ← one authority: publishers, vendors, libraries
-│   ├── Purchases.md                ← the order
+│   ├── People.md                   ← name-authority record
 │   ├── PurchaseLines.md            ← what was in the order
-│   └── CopyLoans.md                ← possession over time, both directions
+│   └── Purchases.md                ← the order
 │
 └── relationships/          ← Manage → Database → Relationships
     └── README.md           ← THE source of truth: FK map, TO groups, join logic
 ```
+
+✅ **This map was verified against a live directory listing, and it is alphabetical inside
+`tables/` because that is the order the filesystem returns.** It is not hand-maintained —
+regenerate it from the tree rather than editing it by hand. The sibling app's nav map drifted
+from its own tree (a filename typo plus eight omitted files) and nobody noticed for six weeks.
+
+## 📖 The two viewers are different tools, on purpose
+
+| Tool | Reads | Answers |
+|---|---|---|
+| **`docs-viewer.html`** (here) | `*.md` in this tree | *what does this app's schema say* |
+| **`viewer.html`** (in `apps/hml-llc/`) | `*.html` layout renders | *what does this FileMaker layout look like built* |
+
+🚩 **Do not merge them and do not teach either one the other's job.** Ruled 2026-09-16. A third
+thing, `doc-render-engine`, is the markdown *publisher* (it builds a static site); this reader
+publishes nothing and reads the repo live. Three tools, three jobs.
+
+⚠️ No layout renders exist for this app yet, so `viewer.html` is deliberately **not** copied in
+here. An empty dropdown is worse than an absent tool.
 
 ## 🚧 Not yet cut, and deliberately so
 
