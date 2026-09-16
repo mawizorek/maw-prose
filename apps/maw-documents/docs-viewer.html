@@ -5,11 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Doc Reader</title>
 <!--
-  PORTABLE DOC READER  (FMP app documentation)
-  ============================================
+  PORTABLE DOC READER  (FMP app documentation)  v1.1
+  ==================================================
   Renders the MARKDOWN doc set of an FMP app package: OPEN-ME, schema notes,
   data standards, build spec, and every page in tables/ and relationships/.
   Sidebar nav, deep links, in-tree .md links resolve inside the reader.
+
+  v1.1 -- AGENT NOTES ARE HIDDEN, NOT DELETED.
+  HTML comments in a page body are stripped from the render and COUNTED in
+  the toolbar. Michael reads the tight version; an agent opening the raw file
+  gets the full reasoning. Nothing is lost and nothing is in his way.
+  Comments inside fenced code blocks are left alone -- they are content there.
 
   ZERO CONFIG. Derives owner / repo / app-root from the GitHub Pages URL.
   Discovery: GitHub trees API (one call). Bodies: same-origin fetch of the
@@ -36,7 +42,7 @@ html,body{height:100%;background:#1c1c1c;color:#f6f6f6;font-family:'Gabarito',sa
 .t-title{font-size:13px;font-weight:600;color:#aaa;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
 .badge{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6a6;background:#333;border:1px solid #6a6;border-radius:4px;padding:2px 6px;white-space:nowrap}
 .badge.warn{color:#e0a84f;border-color:#e0a84f}
-.badge.bad{color:#e06a5f;border-color:#e06a5f}
+.badge.mute{color:#7d7d7d;border-color:#4a4a4a}
 .status{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#666;margin-left:auto;white-space:nowrap}
 .menu-btn{display:none;background:#333;color:#f6f6f6;border:1px solid #3a3a3a;border-radius:4px;padding:4px 10px;font-family:inherit;font-size:13px;cursor:pointer}
 .body{flex:1;display:flex;overflow:hidden}
@@ -86,6 +92,7 @@ main{flex:1;overflow-y:auto;padding:32px 40px 96px}
     <button class="menu-btn" id="menu-btn">&#9776;</button>
     <span class="t-title" id="title">Docs</span>
     <span class="badge" id="theme-badge" style="display:none"></span>
+    <span class="badge mute" id="notes-badge" style="display:none"></span>
     <span class="status" id="status">loading</span>
   </div>
   <div class="body">
@@ -104,7 +111,7 @@ main{flex:1;overflow-y:auto;padding:32px 40px 96px}
   }
   var nav=document.getElementById('nav'),doc=document.getElementById('doc'),
       status=document.getElementById('status'),title=document.getElementById('title'),
-      tbadge=document.getElementById('theme-badge');
+      tbadge=document.getElementById('theme-badge'),nbadge=document.getElementById('notes-badge');
 
   // ---- no silent wrong content ----
   if(!OWNER||!REPO){
@@ -139,9 +146,40 @@ main{flex:1;overflow-y:auto;padding:32px 40px 96px}
   }
   function isDivider(l){return /^\s*\|?\s*:?-{2,}:?\s*(\|\s*:?-{2,}:?\s*)*\|?\s*$/.test(l)&&l.indexOf('-')>-1;}
 
+  // ---- AGENT NOTES: strip HTML comments, but never inside a code fence ----
+  // Without this the parser escapes < and > and the note renders as visible
+  // text -- which would defeat the whole point of commenting it out.
+  var noteCount=0;
+  function stripNotes(md){
+    noteCount=0;
+    var lines=md.split('\n'),out=[],inFence=false,inNote=false,i,L;
+    for(i=0;i<lines.length;i++){
+      L=lines[i];
+      if(/^\s*```/.test(L)){inFence=!inFence;out.push(L);continue;}
+      if(inFence){out.push(L);continue;}
+      if(inNote){
+        if(L.indexOf('-->')>-1){inNote=false;
+          var tail=L.slice(L.indexOf('-->')+3);
+          if(tail.trim())out.push(tail);}
+        continue;
+      }
+      // whole-line or inline comments, one or many on a line
+      var before=L;
+      L=L.replace(/<!--[\s\S]*?-->/g,function(){noteCount++;return '';});
+      if(L.indexOf('<!--')>-1){
+        noteCount++;inNote=true;
+        L=L.slice(0,L.indexOf('<!--'));
+      }
+      if(L.trim()===''&&before.trim()!==''){continue;} // note was the whole line
+      out.push(L);
+    }
+    return out.join('\n');
+  }
+
   function render(md){
     var out='',fm='',lines,i=0,L;
-    lines=md.replace(/\r\n/g,'\n').split('\n');
+    md=stripNotes(md.replace(/\r\n/g,'\n'));
+    lines=md.split('\n');
     // frontmatter
     if(lines[0]==='---'){
       var j=1,buf=[];
@@ -257,13 +295,22 @@ main{flex:1;overflow-y:auto;padding:32px 40px 96px}
 
   function show(rel){
     tbadge.style.display='none';tbadge.className='badge';
+    nbadge.style.display='none';
     doc.innerHTML='<div class="msg">loading '+esc(rel)+'...</div>';
     status.textContent=rel;
-    var depth=SELF?0:0; // reader sits at the app root; rel is app-root-relative
     fetch('./'+rel.split('/').map(encodeURIComponent).join('/')+'?t='+Date.now())
       .then(function(r){if(!r.ok)throw new Error(r.status);return r.text();})
-      .then(function(md){doc.innerHTML=render(md);wireLinks(rel);mark(rel);window.scrollTo(0,0);
-        document.querySelector('main').scrollTop=0;nav.classList.remove('open');})
+      .then(function(md){
+        doc.innerHTML=render(md);
+        if(noteCount){
+          nbadge.textContent=noteCount+' agent note'+(noteCount>1?'s':'')+' hidden';
+          nbadge.title='HTML comments in this file are stripped from the render. '+
+                       'Open the raw .md to read them.';
+          nbadge.style.display='';
+        }
+        wireLinks(rel);mark(rel);
+        document.querySelector('main').scrollTop=0;nav.classList.remove('open');
+      })
       .catch(function(e){
         doc.innerHTML='<div class="msg"><b>Could not load '+esc(rel)+'</b><br><br>'+
           'The tree lists it, so the file exists at HEAD. A failure here means GitHub Pages '+

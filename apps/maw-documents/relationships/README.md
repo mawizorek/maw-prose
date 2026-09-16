@@ -2,9 +2,8 @@
 
 Manage → Database → Relationships
 
-**THE source of truth for the FK map, table-occurrence groups and join logic.** Table pages
-describe their own fields; this page describes how they connect. When a table page and this page
-disagree, **this page is right and the table page gets corrected.**
+**THE source of truth for the FK map, TO groups and join logic.** When a table page and this page
+disagree, **this page is right.**
 
 ## The graph, Phase 1
 
@@ -39,92 +38,78 @@ Documents ------<  DocumentVariants  ------<  DocumentFiles
     +--------- fkDocumentType ----->  DocumentTypes
 ```
 
-🚧 **Grey rows above** — `DocumentVariants`, `DocumentFiles`, `ImportBatches`, `Contexts`,
-`DocumentContexts`, `Subjects`, `DocumentSubjects`, `DocumentTypes`, `GLOBAL_USE_VARIABLES` —
-are designed but not yet cut as files. They carry pre-J3 naming on their ClickUp design page and
-land in the rename pass. **The shape above is correct; the file set is incomplete, and
-[OPEN-ME.md](../OPEN-ME.md) says which is which.**
+🚧 `DocumentVariants`, `DocumentFiles`, `ImportBatches`, `Contexts`, `DocumentContexts`, `Subjects`,
+`DocumentSubjects`, `DocumentTypes` and `GLOBAL_USE_VARIABLES` are **designed but not yet cut as
+files** (pre-J3 naming, awaiting the rename pass). **The shape above is correct; the file set is
+incomplete.**
 
 ## FK map
 
-| From | Field | To | Cardinality | Notes |
+| From | Field | To | Card. | Notes |
 |---|---|---|---|---|
-| BibliographicDetails | fkDocument | Documents | 1:1 | ⚠️ uniqueness is script-enforced, not FMP-enforced |
-| BibliographicDetails | fkPublisher | Organizations | N:1 | publisher role, implied by the field |
+| BibliographicDetails | fkDocument | Documents | 1:1 | ⚠️ uniqueness is script-enforced |
+| BibliographicDetails | fkPublisher | Organizations | N:1 | publisher role |
 | DocumentCopies | fkDocument | Documents | N:1 | many copies of one work |
-| DocumentCopies | fkStorageLocation | StorageLocations | N:1 | 🚧 target not yet built |
+| DocumentCopies | fkStorageLocation | StorageLocations | N:1 | 🚧 target not built |
 | DocumentPeople | fkDocument | Documents | N:1 | |
 | DocumentPeople | fkPerson | People | N:1 | |
-| DocumentPeople | fkRole | ContributorRoles | N:1 | 🔴 unique on the triple document+person+role |
-| Purchases | fkVendor | Organizations | N:1 | vendor role, implied by the field |
-| Purchases | fkReceiptDocument | Documents | N:1 | the receipt is itself an archived document |
-| PurchaseLines | fkPurchase | Purchases | N:1 | 🔴 THE write relationship. See atomicity below |
+| DocumentPeople | fkRole | ContributorRoles | N:1 | 🔴 unique on the triple |
+| Purchases | fkVendor | Organizations | N:1 | vendor role |
+| Purchases | fkReceiptDocument | Documents | N:1 | the receipt is itself archived |
+| PurchaseLines | fkPurchase | Purchases | N:1 | 🔴 THE write relationship |
 | PurchaseLines | fkDocumentCopy | DocumentCopies | N:1 | 🔴 a copy, never a work |
 | CopyLoans | fkDocumentCopy | DocumentCopies | N:1 | append-only history |
 | CopyLoans | fkPerson | People | N:1 | borrower or lender, per Direction |
 
-## The two many-to-manys, and what each join carries
-
-A join table that carries nothing but two keys is a membership flag. **Both joins here carry
-more than membership, and that is why they are tables rather than repeating fields.**
+## The two many-to-manys
 
 | Join | Between | Carries |
 |---|---|---|
 | `DocumentPeople` | works and people | the ROLE, plus billing order and scope notes |
-| `PurchaseLines` | orders and copies | the PRICE, plus quantity and the receipt's own wording |
+| `PurchaseLines` | orders and copies | the PRICE, plus quantity and the receipt's wording |
 
-🔴 **The test that decides whether a relationship needs a join row: does it carry a VALUE, or a
-CLOCK, or both?** A value needs somewhere to live. A clock needs a validity span. Either one
-rules out a flag. Both joins above carry a value; `CopyLoans` carries both and is therefore
-append-only.
+🔴 **The test for whether a relationship needs a join row: does it carry a VALUE, a CLOCK, or both?**
+Either one rules out a flag. `CopyLoans` carries both, which is why it is append-only.
 
 ## 🚩 Two shortcuts that must never be re-added
 
-1. **`Documents.fkPeopleJoins`** — a single FK on the ONE side of the contribution
-   many-to-many. The *first author* shortcut. Correct until contributor #2 exists, then silently
-   wrong forever. **It was in the original graph and it is struck.**
-2. **`DocumentCopies.LentTo`** — a scalar where a history belongs. Destroys the previous loan on
-   the next one. **Specified twice, struck the same day, replaced by `CopyLoans`.**
+1. **`Documents.fkPeopleJoins`** — a single FK on the ONE side of the contribution many-to-many.
+2. **`DocumentCopies.LentTo`** — a scalar where a history belongs.
 
-Both will look like good ideas again, because a single field always looks cheaper than a join
-read. Neither is a shortcut; both are second claimants on a fact the join already owns.
+<!-- AGENT NOTE · why both will be proposed again.
+A single field always looks cheaper than a join read. Neither is a shortcut; both are second claimants
+on a fact the join already owns. fkPeopleJoins is correct until contributor #2 exists, then silently
+wrong forever. LentTo destroys the previous loan on the next one. Struck once each, 2026-09-16.
+A join table carrying only two keys is a membership flag. Both joins here carry more than membership,
+which is why they are tables rather than repeating fields.
+-->
 
 ## Table-occurrence groups
 
-Groups are drawn around **what a layout needs to see at once**, not around subject matter.
-Phase 1 needs three:
+Drawn around **what a layout needs to see at once**, not around subject matter.
 
 | Group | Anchor | Purpose |
 |---|---|---|
-| Library hub | `GLOBAL_USE_VARIABLES` | drives the hub's filters and current lens; the found-set engine |
-| Document detail | `Documents` | one work with its bibliographic row, copies, contributors, contexts, subjects |
-| Acquisition | `Purchases` | the order with its lines, and through them the copies — 🔴 **this is the write path** |
+| Library hub | `GLOBAL_USE_VARIABLES` | hub filters, current lens, the found-set engine |
+| Document detail | `Documents` | one work + bibliographic row, copies, contributors, contexts |
+| Acquisition | `Purchases` | the order + its lines + their copies — 🔴 **the write path** |
 
-⚠️ **Do not reach across groups in a script when a group anchor exists for the job.** That is how
-a relationship graph turns into a spider web, and it is also how a money write ends up not being
-atomic.
+⚠️ **Do not reach across groups in a script when a group anchor exists for the job.**
 
-## 🔴 Atomicity depends on the graph, not just on the script
+## 🔴 Atomicity depends on the GRAPH, not just the script
 
-The FMP19 money-write pattern requires that **all rows in one commit are reachable through ONE
+The FMP19 money-write pattern requires **all rows in one commit to be reachable through ONE
 relationship from a single parent record**, so `Revert Record` discards the whole set.
 
-For a purchase that means: navigate to the `Purchases` parent, create lines **through the
-`PurchaseLines` relationship from that record**, and never commit inside the block. Create a
-line from any other context and it is outside the revert scope — **the script will look correct
-and the rollback will silently leave the line behind.**
-
-This is a relationship-design constraint, which is why it is documented here and not only in the
-script pages.
+For a purchase: navigate to the `Purchases` parent, create lines **through the `PurchaseLines`
+relationship from that record**, never commit inside the block. **A line created from any other context
+is outside revert scope — the script looks correct and the rollback silently leaves it behind.**
 
 ## Open
 
-- No TO naming applied yet. The convention is a usage-context prefix, underscore-separated
-  (`uFile_Values`). ⚠️ **Name the occurrences before drawing them, not after** — renaming a TO
-  breaks every layout bound to it.
-- 🔴 **No `ExecuteSQL` anywhere until the pre-J3 rename pass is done.** SQL embeds the table name
-  as text and does not fail loudly when it drifts.
-- Whether `DocumentCopies` should hang off `DocumentVariants` rather than `Documents`. A scan is
-  a variant and a copy of a scan is arguably a copy of the variant. ⚠️ **Currently copies attach
-  to the work; revisit when the variant layer is cut, because this is the one join in the graph
-  that is not obviously right.**
+- No TO naming applied yet (convention: context prefix, underscored). ⚠️ **Name occurrences before
+  drawing them** — renaming a TO breaks every layout bound to it.
+- 🔴 **No `ExecuteSQL` until the pre-J3 rename pass is done.**
+- ⚠️ Whether `DocumentCopies` should hang off `DocumentVariants` rather than `Documents`. A scan is a
+  variant, and a copy of a scan is arguably a copy of the variant. **Currently copies attach to the
+  work; this is the one join in the graph that is not obviously right.**

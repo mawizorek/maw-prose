@@ -2,84 +2,70 @@
 
 Manage → Database → Tables → Documents
 
-Grain: **one intellectual work.** The canonical "this thing exists" record. A book, a light
-plot, a lease, a scanned packing slip, a syllabus — all one row each, all the same kind of
-thing at this layer.
+Grain: **one intellectual work.** A book, a light plot, a lease, a scanned packing slip — one row
+each, all the same kind of thing at this layer.
 
-🔴 **This table is an ABSTRACTION.** You cannot buy it, lend it, shelve it or damage it.
-Those verbs belong to [DocumentCopies](./DocumentCopies.md). If a proposed field here
-describes a physical event or a physical object, it is on the wrong table.
+🔴 **An abstraction: cannot be bought, lent, shelved or damaged.** Those belong to
+[DocumentCopies](./DocumentCopies.md).
 
 ## Fields
 
 | Field | Type | FMP Comment | TO | ⚠️ |
 |---|---|---|---|---|
 | PrimaryKey | text-uuid | Auto-generated unique identifier | | |
-| DocumentTitle | text | The work's title as you would say it aloud | | |
-| SortTitle | text | Title with leading articles dropped, for shelf order | | ⚠️ library convention: "The Rigging Guide" sorts under R |
+| DocumentTitle | text | The title as you would say it aloud | | |
+| SortTitle | text | Leading articles dropped, for shelf order | | ⚠️ "The Rigging Guide" sorts under R |
 | DocumentSummary | text | What this is and why it is kept | | |
-| fkDocumentType | text-uuid | Primary lensing axis: textbook / plot / lease / scan | → DocumentTypes | ⚠️ table not yet cut (pre-J3 rename pending) |
-| DocumentYear | number | The one most useful year for this record | | ⚠️ deliberately ONE year field; date roles split later |
-| SourceSystem | text | Where this record came from, if migrated | | |
-| SourceSystemKey | text | Its key in that system | | ⚠️ the ClickUp interim task id lands here on migration |
-| IsReference | number | 1 = general reference, not tied to a context | | |
-| NeedsTagging | number | 1 = intake incomplete, appears in the cleanup lens | | |
-| IsArchived | number | 1 = hidden from default lenses, never deleted | | |
+| fkDocumentType | text-uuid | Textbook / plot / lease / scan | → DocumentTypes | ⚠️ table not yet cut |
+| DocumentYear | number | The one most useful year | | ⚠️ date roles split later |
+| SourceSystem | text | Where a migrated record came from | | |
+| SourceSystemKey | text | Its key there | | ⚠️ ClickUp task id lands here on migration |
+| IsReference | number | 1 = general reference, no context | | |
+| NeedsTagging | number | 1 = intake incomplete | | |
+| IsArchived | number | 1 = hidden from lenses, never deleted | | |
 | Notes | text | Free-form | | |
-| [calc_ContributorDisplay](../relationships/README.md) | (c→Text) | Contributors as a readable string, built from the join | → DocumentPeople | 🔴 UNSTORED. Never a stored key. See below |
-| calc_CopyCount | (c→Number) | How many copies of this work you hold | → DocumentCopies | ⚠️ 0 is legitimate: a work you know of but do not own |
+| calc_ContributorDisplay | (c→Text) | Contributors as a readable string | → DocumentPeople | 🔴 UNSTORED |
+| calc_CopyCount | (c→Number) | Copies held | → DocumentCopies | ⚠️ 0 is legitimate |
 
-Audit fields (`CreationTimestamp`, `CreatedBy`, `ModificationTimestamp`, `ModifiedBy`) are
-on every table and documented once in
-[data-standards.md](../data-standards.md#audit-fields--on-every-table-no-exceptions).
+Audit fields → [data-standards.md](../data-standards.md).
 
-## 🚩 There is no author field, and that is the design
+## 🚩 There is no author field
 
-The live graph this build started from had a single `fkPeopleJoins` foreign key on this
-table. **It is the *first author* shortcut and it is correct exactly until a second
-contributor exists**, at which point it disagrees with the join table and nothing reports
-the disagreement.
+Contributors are [DocumentPeople](./DocumentPeople.md) rows; display is an unstored calc. Publisher
+is `fkPublisher` on [BibliographicDetails](./BibliographicDetails.md).
 
-Contributors are [DocumentPeople](./DocumentPeople.md) rows. Display is
-`calc_ContributorDisplay`, unstored, computed over the join. **A stored contributor string
-is a snapshot and it lies the moment a name is corrected.**
+<!-- AGENT NOTE · what was here and why it is gone.
+The live graph had a single fkPeopleJoins FK on this table — the "first author" shortcut. Correct
+until a second contributor exists, then it disagrees with the join forever and nothing reports the
+disagreement. A stored contributor string is a snapshot and lies the moment a name is corrected.
+Same reasoning bars a Publisher text field here.
+-->
 
-Same reasoning bars a `Publisher` text field here: publisher is on
-[BibliographicDetails](./BibliographicDetails.md) as `fkPublisher`, pointing at
-[Organizations](./Organizations.md).
+## Rules
 
-## Business rules
+1. **A book is a document.** What makes it a book is a `BibliographicDetails` row.
+2. **A template is not a record.** Real-estate blank forms may live here; an executed settlement
+   statement may not — that is HML's.
+3. **Context membership does the organizing**, through the join. Not tags, not a field here.
+4. **Books use the shared `Subjects` vocabulary**, not their own genre field.
+5. **Archive, never delete.**
 
-1. **A book is a document.** No separate library file, no separate books table. What makes a
-   book different is a [BibliographicDetails](./BibliographicDetails.md) row, not a
-   different identity table.
-2. **A template is not a record.** Real-estate-LLC blank forms and letterheads may live
-   here as documents. An executed settlement statement may not — that is HML's, in HML's
-   file. They look identical on disk and are opposite kinds of thing.
-3. **Context membership does the broad organizing**, through the `DocumentContexts` join.
-   Not tags, not a context field on this table.
-4. **Subjects are controlled and joined**, and books use the same `Subjects` vocabulary as
-   everything else. Books do NOT grow their own genre field — `Subjects` is this app's
-   LCSH equivalent and it already exists in the design.
-5. **Archive, never delete.** `IsArchived` hides; nothing in this app removes a document
-   record, because a `DocumentFiles` row may be the only evidence a file ever existed.
+<!-- AGENT NOTE · rules 4 and 5.
+Subjects is this app's LCSH equivalent and already exists in the design; letting books grow a
+private genre field forks the vocabulary.
+Nothing removes a document record because a DocumentFiles row may be the only evidence a file ever
+existed.
+-->
 
-## Scripts that create or update this table
+## Scripts
 
-| Script | What it does |
-|---|---|
-| `DOC_CreateDocument` | creates the identity row, then optionally launches the first variant/file flow |
-| `DOC_EditMetadata` | controlled card-flow edit of title, summary, type, flags |
-| `BATCH_ApplySharedMetadata` | intake cleanup pass across a found set |
-
-⚠️ Script pages are not yet cut. Names are the settled contract from the design page.
+`DOC_CreateDocument` · `DOC_EditMetadata` · `BATCH_ApplySharedMetadata`. ⚠️ Script pages not yet cut.
 
 ## Open
 
-- 🔴 **The pre-J3 rename.** The design page still calls this `DOCUMENTS` with children
-  `DOCUMENT_VARIANTS` / `DOCUMENT_FILES`. Names here are J3-correct; the design page is not
-  yet. **No `ExecuteSQL` until that pass is done** — SQL embeds the name and fails quietly.
-- The first 10–20 canonical `DocumentTypes` values are unseeded.
-- Whether a work you do NOT own belongs here at all → Q7 on the log.
+- 🔴 **Pre-J3 rename pending** on the design page (`DOCUMENTS`, `DOCUMENT_VARIANTS`). **No
+  `ExecuteSQL` until it is done.**
+- The first 10–20 `DocumentTypes` values are unseeded.
+- Q7: does a work you do not own belong here at all?
 
-Full relationship context → [README.md](../relationships/README.md)
+FK map → [relationships/README.md](../relationships/README.md)
