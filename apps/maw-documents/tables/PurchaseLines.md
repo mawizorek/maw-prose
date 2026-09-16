@@ -1,6 +1,6 @@
 # PurchaseLines
 
-Manage -> Database -> Tables -> PurchaseLines
+Manage → Database → Tables → PurchaseLines
 
 Grain: **one thing in one order.** Three books in one order is three rows.
 
@@ -12,20 +12,20 @@ and the reason [DocumentCopies](./DocumentCopies.md) exists.
 | Field | Type | FMP Comment | TO | ⚠️ |
 |---|---|---|---|---|
 | PrimaryKey | text-uuid | Auto-generated unique identifier | | |
-| fkPurchase | text-uuid | The order this line belongs to | -> Purchases | 🔴 the ONE relationship all writes route through |
-| fkDocumentCopy | text-uuid | The specific object acquired | -> DocumentCopies | 🔴 a copy, never a work. See below |
+| fkPurchase | text-uuid | The order this line belongs to | → Purchases | 🔴 the ONE relationship all writes route through |
+| fkDocumentCopy | text-uuid | The specific object acquired | → DocumentCopies | 🔴 a copy, never a work. See below |
 | LineDescription | text | As printed on the receipt | | ⭐ keep even when the copy link exists |
 | Quantity | number | Usually 1 | | ⚠️ quantity > 1 means multiple copies. See below |
 | UnitPrice | number | Price per unit before order-level charges | | |
-| LineTotal | number | Quantity x UnitPrice | | ⚠️ stored, but VALIDATED against the product. Never assumed |
+| LineTotal | number | Quantity × UnitPrice | | ⚠️ stored, but VALIDATED against the product. Never assumed |
 | Notes | text | ex-library, cover damaged and discounted, etc. | | |
 
-Audit fields on every table -> [data-standards.md](../data-standards.md).
+Audit fields on every table → [data-standards.md](../data-standards.md).
 
 ## 🔴 Why the line points at a copy
 
 **You cannot buy a title.** A title is an abstraction. You bought a specific physical object
-that arrived on a date in a condition - the FRBR/LRM **Item**.
+that arrived on a date in a condition — the FRBR/LRM **Item**.
 
 The consequence is what makes it worth insisting on: **buy the same book twice** (replacing a
 water-damaged copy, or a paperback for travel) **and there are two acquisitions of one
@@ -37,14 +37,14 @@ purchase either overwrites the first in meaning or looks like a duplicate entry.
 It is what the receipt said, and the receipt is the evidence. The copy record is your
 interpretation of it.
 
-They drift for good reasons - a bundled lot, a mis-titled listing, a seller's abbreviation -
+They drift for good reasons — a bundled lot, a mis-titled listing, a seller's abbreviation —
 and when they disagree you want both, not a reconciliation you performed once and cannot
 reproduce. **A transcription and an interpretation are different facts.**
 
 ## ⚠️ Quantity > 1 is a trap worth naming
 
-If you bought three copies of one book, that is **three `DocumentCopies` rows** - they have
-independent locations, conditions and lending states - and therefore **three lines of quantity
+If you bought three copies of one book, that is **three `DocumentCopies` rows** — they have
+independent locations, conditions and lending states — and therefore **three lines of quantity
 1**, not one line of quantity 3.
 
 `Quantity` survives for the case where the receipt genuinely bundles things (a lot of 12
@@ -61,7 +61,7 @@ workspace to decide bulk-versus-itemized inventory tracking.
 1. **Lines are written through the header**, in one block, per the FMP19 atomicity pattern on
    [Purchases](./Purchases.md). A line created outside that block is an orphan waiting.
 2. **`LineTotal` is stored and checked.** Undocumented arithmetic is how a ledger goes quietly
-   wrong; a stored total that disagrees with Quantity x UnitPrice is a finding, not a rounding
+   wrong; a stored total that disagrees with `Quantity × UnitPrice` is a finding, not a rounding
    artifact.
 3. **No order-level charges here.** Shipping and tax belong to the header and are never
    apportioned onto lines by hand.
@@ -71,11 +71,11 @@ workspace to decide bulk-versus-itemized inventory tracking.
 
 ## 🔴 Open, and blocking the build of this table
 
-**Q6 - is this a book ledger or a general purchase ledger?**
+**Q6 · is this a book ledger or a general purchase ledger?**
 
 `fkDocumentCopy` is a real, enforced foreign key **only if every line is a document.** The
 moment a line must be a scanner, a shelf or a lighting fixture, the target becomes polymorphic
-- a `TargetTable` + `TargetKey` pair - which:
+— a `TargetTable` + `TargetKey` pair — which:
 
 - kills referential integrity,
 - kills the relationship graph as a way of understanding the app, and
@@ -87,4 +87,4 @@ in.** That is real architecture, not a field, and it is a different app's decisi
 ⚠️ **This fork has to be picked before the table is built.** Retrofitting a polymorphic target
 onto rows that assumed a real FK is the most expensive move available in this design.
 
-Full relationship context -> [README.md](../relationships/README.md)
+Full relationship context → [README.md](../relationships/README.md)
