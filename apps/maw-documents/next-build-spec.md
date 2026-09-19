@@ -167,7 +167,7 @@ table." Same rule, one runtime over.
 
 ---
 
-## Two schema additions
+## Three schema additions
 
 ### 1 · `DOCUMENT_RELATIONS` — citation and foundation are ONE table
 
@@ -203,6 +203,35 @@ with a repo path fails closed.**
 edition, publisher, year, locator, internal catalog key. Never the PDF, never the OCR text, never a
 private storage path.
 
+### 3 · `REPO_PAGES` — metadata as records, not a doc tree
+
+**Full page → [tables/REPO_PAGES.md](./tables/REPO_PAGES.md).** A sparse 1:N extension off `DOCUMENTS`,
+one row per rendered page in a repo.
+
+`PrimaryKey` · `fkDocument` · **`PageID`** · `Repo` · `RepoPath` · `PublishedURL` · `BlobURL` ·
+`PageType` · `PageStatus` · `NavState` · `SortOrder` · `RevisedLabel` · `LastVerifiedTimestamp` ·
+`VerifiedBy` · `calc_PageLabel` · `calc_IsPublished`.
+
+🔴 **PAGE GRAIN IS NOT DOCUMENT GRAIN.** The SM Handbook is ONE work with ~40 pages. One `DOCUMENTS`
+row per page would put forty claimants on one bibliographic identity and destroy citation. A document
+with no pages is normal (an acquired textbook). A page with no parent document is a defect.
+
+🔴 **`PageID` IS THE SEAM.** It equals the front matter `id:` byte for byte, and it is the only field
+here that another system reads. Uniqueness is enforced by the export validator, which fails closed.
+
+⭐ **The anti-slop rule: `DOCUMENTS` gains NOTHING for this feature except `ContentDisposition`.**
+Everything page-shaped lands in `REPO_PAGES`, sparse, off a FK. If a field would be empty for every
+acquired textbook, it does not belong on the spine.
+
+⚠️ **Derived Field Pattern, and it is load-bearing here.** `ContentDisposition` is a DECLARED
+permission; `calc_PageCount` is a DERIVED fact. `CatalogOnly` with pages > 0 means copyrighted prose
+was committed to a public repo. **The validator stops. It does not reconcile.**
+
+🔴 **AUTHORITY DIRECTION, DECLARED NOW.** Target state: ClickUp (later FMP) AUTHORS this metadata and
+the build GENERATES front matter from it. **Today it is a MIRROR** of front matter already in the tree.
+Both are legitimate; running them undeclared is not. Every export header stamps which direction
+produced it.
+
 ---
 
 ## Defects — free now, expensive with records
@@ -216,6 +245,7 @@ private storage path.
 | `fkStorageLocation` | points at `STORAGE_LOCATIONS`, **which was never cut** | resolves to nothing, silently, forever |
 | `POEPLE` | misspelled in the live graph | a name is a contract |
 | 10 of 11 `tables/` pages | still PascalCase filenames; only `DOCUMENT_TYPES.md` was renamed | the reversal is half-applied |
+| **No `PrimaryKey` on any ClickUp row** | 74 + 39 + 9 + 41 rows across four lists, **zero UUIDs anywhere** | nothing can be matched to a page or a TSV until this exists |
 
 ---
 
@@ -227,23 +257,33 @@ private storage path.
 4. **`DOCUMENT_RELATIONS` + `RELATION_TYPES`**, seeded with the nine relation types.
 5. **`DOCUMENTS.ContentDisposition`**, defaulting to `CatalogOnly` — 🔴 **the safe default is the
    restrictive one.**
-6. **Cut the spine** per step 1's answer: `CONTEXTS`, `DOCUMENT_CONTEXTS`, `SUBJECTS`,
+6. **`REPO_PAGES`** — cut the table, the FK to `DOCUMENTS`, and `calc_PageCount` on the parent.
+7. **Ship `REPO_PAGES` in ClickUp** as a list in the SCHEMA folder: `PageID` as short text,
+   `PublishedURL` and `BlobURL` as URL fields, `PageType` / `PageStatus` / `NavState` as dropdowns,
+   and a Relationship back to the document list. 🔴 **ClickUp cannot enforce uniqueness** — the
+   validator is the constraint, never the field.
+8. **Catalogue.** Walk the committed tree, one row per page, `PageID` lifted from front matter.
+   🔴 **IN SCOPE** (Michael, 2026-09-19: *"i don't think that's a later session"*).
+9. **Cut the spine** per step 1's answer: `CONTEXTS`, `DOCUMENT_CONTEXTS`, `SUBJECTS`,
    `DOCUMENT_SUBJECTS`, `IMPORT_BATCHES`, `GLOBAL_USE_VARIABLES`, `STORAGE_LOCATIONS`, and the
    variant/file layers **only if step 1 says they are not already merged.**
-7. **First TSV export** — `DOCUMENT_RELATIONS` for one real policy, sorted by `PrimaryKey`.
-8. **Declare `data_slots`** on the safety types in `doc-render-engine`.
-9. **Render one page** whose founded-on table comes entirely from the TSV.
+10. **First TSV export** — `DOCUMENT_RELATIONS` for one real policy, sorted by `PrimaryKey`.
+11. **Declare `data_slots`** on the safety types in `doc-render-engine`.
+12. **Render one page** whose founded-on table comes entirely from the TSV.
 
 ### ✂️ CUT HERE
 
-Steps 1–9 are the upgrade. **Everything below is a later session and saying otherwise is lying about
+Steps 1–12 are the upgrade. **Everything below is a later session and saying otherwise is lying about
 the arithmetic:**
 
-the 74-row `need to import` migration · reconciling the three competing ClickUp document lists ·
+reconciling the three competing ClickUp document lists · the 74-row `need to import` migration ·
 reclassifying the 41 `VERSIONS / PARTS` rows · normalizing authors and publishers · the
-`h_DocLibrary` hub · intake flows · a CI validator that fails closed on a duplicate `id` ·
-repairing the Decision Log page body (**J10–J19 are parked as COMMENTS because the body refuses
-writes** — ten rulings living outside the log).
+`h_DocLibrary` hub · intake flows · resolving the two competing safety repos (`uritp-docs/safety/`
+versus `uritp-safety`) · repairing the Decision Log page body (**J10–J19 are parked as COMMENTS
+because the body refuses writes** — ten rulings living outside the log).
+
+⚠️ **Cataloguing crossed ABOVE this line on 2026-09-19.** The fail-closed CI validator crossed with
+it: a catalogue with no duplicate-`PageID` check is a list, not a constraint.
 
 ---
 
@@ -269,6 +309,11 @@ writes** — ten rulings living outside the log).
    renders as citation text with **no link and no file.**
 8. **The seam** → change one cell in the TSV, re-export, rebuild. **The rendered page changes and the
    prose file has a zero-line diff.** 🔴 **This is the test that proves the whole architecture.**
+9. **`REPO_PAGES`** → the SM Handbook as **ONE `DOCUMENTS` row with many page rows**, beside an
+   acquired textbook with **zero page rows**, both citable. Then three forced failures, each of which
+   must **stop the build**: (a) a `CatalogOnly` document that has a page row, (b) two page rows
+   carrying the same `PageID`, (c) an `@id` reference whose target `PageID` does not exist.
+   ⚠️ **Today all three pass silently.** That is what this table is for.
 
 <!-- AGENT NOTE · why the exit tests are shaped this way.
 Step 5's forced failure is the one nobody runs and the only one that matters: a partial purchase
@@ -276,10 +321,13 @@ Step 5's forced failure is the one nobody runs and the only one that matters: a 
 Step 2's duplicate check exists because the two-join design this app replaced was criticised for
 allowing exactly that duplicate. Failing to guard it here reproduces the defect one table over.
 Step 1's zero-copy case is how a library records a work it does not own.
-Step 8 is new and it is the load-bearing one. A zero-line prose diff alongside a changed page is the
-ONLY observable proof that content and metadata actually separated. If the prose file changed too,
-the records are still in the page and nothing was fixed — which would look like success, because the
-page would render correctly either way.
+Step 8 is the load-bearing one. A zero-line prose diff alongside a changed page is the ONLY
+observable proof that content and metadata actually separated. If the prose file changed too, the
+records are still in the page and nothing was fixed — which would look like success, because the page
+would render correctly either way.
+Step 9c is not hypothetical. The safety site carried four dangling @id refs after two deletions, and
+housekeeping.md rendered nearly empty after commit 3882b7f removed 40 lines. Nothing reported either
+one. A catalogue that cannot answer "does every @id resolve" is decoration.
 -->
 
 ---
@@ -290,14 +338,17 @@ All one join away — **none were reachable from the original graph:** spend by 
 cost per subject or document type · average price by format · what you paid for and never annotated ·
 replacement value for insurance · what you owe and what is owed to you · **every document founded on
 a given external authority** (the safety-audit question) · **every authored page citing a work you no
-longer have a copy of.**
+longer have a copy of** · **every page not verified since a given date** · **every `@id` in the tree
+that resolves to nothing.**
 
 <!-- AGENT NOTE · keep this list; it earned the layer.
 The original design added a second join on the PEOPLE side hoping to unlock reporting, and unlocked
 none. The purchase, copy and relation layers unlock every line above. Right instinct, wrong table —
 worth remembering the next time a table is proposed "for reporting."
-The last two lines are the ones that justify DOCUMENT_RELATIONS on its own: neither is answerable by
-any amount of prose, and both are one join once the table exists.
+The founded-on and citing-a-work-you-lost lines justify DOCUMENT_RELATIONS on its own: neither is
+answerable by any amount of prose, and both are one join once the table exists.
+The final two lines are REPO_PAGES paying for itself: a staleness report and a link-integrity report,
+neither of which any amount of doc-tree browsing can produce.
 -->
 
 ---
