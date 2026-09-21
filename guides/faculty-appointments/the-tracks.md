@@ -1,8 +1,10 @@
 # The tracks
 
-*The four appointment families in Arts & Sciences, how their ranks correspond, and what moving between them takes. Source: Appendix II, Contract-Based Faculty Guidelines. Content last checked 21 September 2026.*
+*The four appointment families in Arts & Sciences, how their ranks correspond, and what moving between them takes. Sources: Appendix II, Contract-Based Faculty Guidelines, and the University Faculty Handbook as updated January 2025. Content last checked 21 September 2026.*
 
 Four kinds of faculty appointment run in parallel here. They are not four rungs of one ladder, which is the single most common misreading, and it matters because two of them have ranks you can be promoted through and two of them do not.
+
+Two documents govern, and they do not cover the four families equally. Appendix II is the School of Arts & Sciences policy for contract-based faculty, and its detailed machinery is written for the instructional track. The Faculty Handbook is University-wide and sits above it, though the Handbook says plainly that it does not supersede the faculty rules and regulations of the individual schools, and that where it conflicts with the University's Human Resources policies those personnel policies govern. So there are three layers, and a question that one layer does not answer is not thereby unanswered. It may simply live in another.
 
 ## Instructional track
 
@@ -32,13 +34,29 @@ The defining sentence, and the one with real consequences, is that these individ
 
 Faculty holding research appointments, such as scientist or engineer, may teach and supervise undergraduate research in their areas, and those contributions get recognized by adding the title of lecturer. So the word lecturer also appears as a secondary title on an appointment whose primary line is research.
 
+### What neither document gives the teaching track
+
+This is the part worth knowing before a contract comes up for renewal, and it is a reading of what the two documents omit rather than what they say, so check it against the live text before relying on it.
+
+**No reappointment process.** Appendix II Section II lays out a full and a streamlined review, with deadlines, required materials, and committee composition. That section sits inside a document whose ranks are the instructional ones, and the teaching track appears separately in Section IV as limited-term appointments without an equivalent procedure. The Handbook's own Process for Appointment and Reappointment covers instructor and assistant professor and says nothing about lecturer or senior lecturer. So the twenty-month initiation clock, the sixteen-month deadline to the Dean, the three-person committee and the annual-activity-report requirement are all real and may all be beside the point for a teaching-track appointment. **Which document governs is the first question to settle, because every deadline downstream depends on the answer.**
+
+**No notification guarantee.** Handbook IV.A.1 promises written notice of reappointment or termination no later than one year before an appointment expires, and it names who is covered: an instructor, assistant professor, associate professor, or professor without tenure whose total service at those ranks exceeds two years. Lecturer and senior lecturer are not in that list. The same section is careful that failure to receive notification does not entitle anyone to reappointment anyway, and gives the remedy as informing the dean or director and then, absent a prompt response, the provost or president.
+
+**A definition that does not match a full-time job.** The Handbook's only substantive description of senior lecturer is in IV.B.6 under **Part-Time**, where it lists assistant lecturer, associate lecturer, lecturer and senior lecturer as titles for people who teach part time without regular academic appointments, and notes the title is also used in some departments and schools to denote a part-time position. Appendix II, by contrast, treats lecturer and senior lecturer as full-time teaching-track titles. **A full-time senior lecturer is therefore described in one place as a full-time functional title and in another under a part-time heading**, and neither passage carries a reappointment procedure.
+
+**What the Handbook does give, and it is not nothing.** Three provisions apply regardless of track and are worth knowing by number. Section II.F says every academic unit, departments included, should have written rules and procedures for its governance with copies available to each faculty member, which is where a unit-level process would live if one exists. Section IV.I gives any faculty member the right to review their own personnel records: request it in writing with a statement of the reason, the chair for departmental files, the dean for school files, the provost for central ones, with confidential material removed and indexed. And Section IV.C keys grievance rights to Faculty Senate voting eligibility, which each person can look up for themselves, sending those who are eligible to the faculty procedures and those who are not to the HR grievance procedure. Reappointment grievances are their own track under Tenure and Appointment Grievances; salary and teaching load go through General Grievances instead.
+
+**One category does explicitly include the whole non-tenure population.** The Handbook defines **contract-based** in a footnote as indicating that promotion to tenure is not available from the position, and the January 2025 revisions added contract-based faculty to grievance committee composition when the grievant is contract-based. So the term reaches past the instructional ranks even where the procedures do not.
+
+A general clause worth reading alongside all of this: the Handbook's own principles on faculty duties say that renewable appointments of non-tenure-eligible faculty on term contracts **should be reviewed periodically so that appointments without tenure are not continued unreasonably.** That is an obligation to review, stated at the University level, without a procedure attached.
+
 ## Adjunct
 
-Adjunct appointments are for teaching contracted on a per-course basis. The guidelines also point at a second, less obvious use: an adjunct appointment suits someone with an independent professional career where a formal affiliation benefits both the department and the individual. That is the mechanism for keeping a working professional attached to a program without pretending the arrangement is a faculty line.
+Adjunct appointments are for teaching contracted on a per-course basis. The guidelines also point at a second, less obvious use: an adjunct appointment suits someone with an independent professional career where a formal affiliation benefits both the department and the individual. That is the mechanism for keeping a working professional attached to a program without pretending the arrangement is a faculty line. The Handbook adds that adjunct appointments normally carry no compensation and normally no University benefits, that any compensation agreement is a matter of record, and that adjunct faculty are not normally involved in reviewing promotion, appointment, or long-term resource decisions.
 
 ## Tenure track
 
-The tenure track is a separate family and Appendix II does not govern it. Its reappointment, tenure, and promotion rules live in Appendix III. Worth knowing the boundary exists, because Appendix II repeatedly contrasts itself against the tenure track and it is easy to read one document's rules as the University's only rules.
+The tenure track is a separate family and Appendix II does not govern it. Its reappointment, tenure, and promotion rules live in Appendix III, and the Handbook covers the University-level principles. Worth knowing the boundary exists, because Appendix II repeatedly contrasts itself against the tenure track and it is easy to read one document's rules as the University's only rules.
 
 ## Conversion between tracks
 
@@ -48,4 +66,6 @@ A senior lecturer can be considered for conversion directly to associate profess
 
 Three things gate a conversion: appropriate length of service, a positive review, and a recommendation from the department chair. The chair's recommendation is the part that cannot be routed around.
 
-Two further details decide how a conversion actually plays out. The first is that conversion is described as an administrative process, which is to say it is not a competitive case built against external letters and a national field — it is a reclassification of an existing appointment. The second is the sentence that follows it: conversion does not automatically carry a salary increase, and an increase would need to be justified separately. Those two facts pull in opposite directions and both are true. The title change is comparatively cheap to execute. The money is a separate argument, with a separate evidentiary burden, and nothing about the conversion makes it for you.
+Two further details decide how a conversion actually plays out. The first is that conversion is described as an administrative process, which is to say it is not a competitive case built against external letters and a national field, but a reclassification of an existing appointment. The second is the sentence that follows it: conversion does not automatically carry a salary increase, and an increase would need to be justified separately. Those two facts pull in opposite directions and both are true. The title change is comparatively cheap to execute. The money is a separate argument, with a separate evidentiary burden, and nothing about the conversion makes it for you.
+
+**The asymmetry is the argument for conversion, for anyone weighing it.** Converting moves an appointment from a track with no written reappointment procedure, no notification guarantee, and no service expectation, onto one with a defined process, defined materials, a committee whose composition is specified, and service counted as a third of the evaluation. That is a change in what the job is understood to be, not only in what it is called.
