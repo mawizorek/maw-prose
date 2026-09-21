@@ -8,6 +8,10 @@ Settled calls about this repo and its contents. **One line each, newest first.**
 
 ---
 
+## This repo · 2026-09-21
+
+- **D-039** — **University appointment policy is documentation and lives here, in `guides/faculty-appointments/`.** Placed on the cited-versus-followed test in `CONVENTIONS.md`: a reappointment case is assembled by reading the process start to finish at the moment of need, which is a guide, rather than pointed at to settle an argument about correct practice, which would be a standard. That it is an outside institution's policy rather than our own does not move it — the repo holds documentation of things, and how the employer runs a review is a thing whoever holds the role next will need explained. **Personal appointment facts stay out:** dates, rank, track, and what was submitted when are records tied to a person, so they live in ClickUp under D-025b, and the guide describes the system without claiming to know where anyone sits in it.
+
 ## This repo · 2026-08-09
 
 - **D-038** — **The menu-mirror depth exemption is not limited to `apps/`.** It applies wherever the extra levels copy an application's own object types, which is why `standards/filemaker/custom-functions/json-params/` is legal at four segments. The test is unchanged and still narrow: could you read every folder name off the application's own menu? Custom functions are a FileMaker object type, so yes. Invent a level with no counterpart in the app and the cap is back on. *(Extends the exemption written into `CONVENTIONS.md`, which scoped it to `apps/`.)*
