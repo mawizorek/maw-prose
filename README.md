@@ -16,6 +16,7 @@ What a role is on the hook for, over a season.
 How to do one thing, read while doing it.
 
 - **[Production phases](./guides/production-phases/)** — [load-in](./guides/production-phases/load-in.md)
+- **[Faculty appointments](./guides/faculty-appointments/)** — [the tracks](./guides/faculty-appointments/the-tracks.md) (instructional, teaching, adjunct, tenure — and how conversion between them works) · [reappointment](./guides/faculty-appointments/reappointment.md) (the two processes, and the twenty-month clock)
 
 ## Standards
 
