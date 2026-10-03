@@ -8,6 +8,10 @@ Settled calls about this repo and its contents. **One line each, newest first.**
 
 ---
 
+## This repo · 2026-10-03
+
+- **D-040** — **The FileMaker sandbox renderer and every app's FMP spec live here, under `apps/`. No new repo.** The renderer designed on 2026-09-25 (Home with spec coverage per app, Manage Database with Tables / Fields / Relationships and field options, Script Workspace with real script folders) goes in `apps/_renderer/` and holds code only, never spec content. Each app keeps its spec in `apps/<app>/`: `hml-llc`, `maw-documents`, and Beta Budget as `apps/uritp-budget/`. The proposed `fmp-apps` repo was never created and is dropped. Carried from 2026-09-25: the spec is the gold standard we build toward and never claims to describe the live file · no per-entity build-state field · progress lives on one build sheet per app · a DDR comparison is a temporary punch list, not documentation. Production MAWster joins only once the renderer proves itself. ⚠️ **Unruled: the 2026-09-25 entity files assumed YAML front matter, which D-030 bans.** The renderer needs structured fields from somewhere, so that gets settled before the first spec file is written.
+
 ## This repo · 2026-09-21
 
 - **D-039** — **University appointment policy is documentation and lives here, in `guides/faculty-appointments/`.** Placed on the cited-versus-followed test in `CONVENTIONS.md`: a reappointment case is assembled by reading the process start to finish at the moment of need, which is a guide, rather than pointed at to settle an argument about correct practice, which would be a standard. That it is an outside institution's policy rather than our own does not move it — the repo holds documentation of things, and how the employer runs a review is a thing whoever holds the role next will need explained. **Personal appointment facts stay out:** dates, rank, track, and what was submitted when are records tied to a person, so they live in ClickUp under D-025b, and the guide describes the system without claiming to know where anyone sits in it.
