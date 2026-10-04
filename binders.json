@@ -1,6 +1,7 @@
 {
  "binders": [],
  "ids": {
+  "./": "maw-prose-home",
   "apps/production-mawster-no-use/": "production-mawster",
   "apps/production-mawster-no-use/build-sheet/": "build-sheet",
   "apps/production-mawster-no-use/data-standards/": "data-standards",

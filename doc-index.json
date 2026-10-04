@@ -2,7 +2,7 @@
   "site": "mawprose",
   "name": "MAW Prose",
   "base_url": "https://mawizorek.github.io/maw-prose/",
-  "built": "2026-10-04T12:59:13Z",
+  "built": "2026-10-04T13:11:48Z",
   "engine": "0.1.0",
   "engine_ref": "d88762ef9369df5f6a646cedab70af9279a3e115",
   "pages": [
@@ -38,6 +38,15 @@
       "type": "reference",
       "title": "Legacy Script Review",
       "url": "apps/production-mawster-no-use/90-file-imports-temp/prevProductionCalendarApp/script-review/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "maw-prose-home",
+      "type": "index",
+      "title": "MAW Prose",
+      "url": "./",
       "status": "public",
       "gloss": null,
       "print_gloss": null

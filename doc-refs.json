@@ -1,15 +1,16 @@
 {
   "site": "mawprose",
   "base_url": "https://mawizorek.github.io/maw-prose/",
-  "built": "2026-10-04T12:59:13Z",
+  "built": "2026-10-04T13:11:48Z",
   "engine": "0.1.0",
   "totals": {
-    "pages": 40,
+    "pages": 41,
     "edges": 105,
     "broken": 3,
-    "no_inbound": 6
+    "no_inbound": 7
   },
   "no_inbound": [
+    "maw-prose-home",
     "prev-production-calendar-app",
     "production-mawster",
     "table-fiscal-years",
@@ -111,6 +112,15 @@
         "scripts"
       ],
       "inbound": 3,
+      "outbound": 0
+    },
+    "maw-prose-home": {
+      "title": "MAW Prose",
+      "url": "./",
+      "type": "index",
+      "references": [],
+      "referenced_by": [],
+      "inbound": 0,
       "outbound": 0
     },
     "prev-production-calendar-app": {
