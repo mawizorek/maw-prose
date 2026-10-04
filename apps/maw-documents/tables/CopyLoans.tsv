@@ -1,0 +1,11 @@
+Field_Name	Type	Notes	TO	Flag
+PrimaryKey	text-uuid	Auto-generated unique identifier		
+fkDocumentCopy	text-uuid	The object that changed hands	→ DocumentCopies	🔴 a copy, never a work
+fkPerson	text-uuid	Who has it, or who you have it from	→ People	
+Direction	text	Out (you lent) / In (you borrowed)		🔴 makes one table cover both
+LoanedDate	date	When it left, or arrived		
+DueDate	date	When it is expected back		⚠️ empty = indefinite, a real state
+ReturnedDate	date	When it actually came back		🔴 EMPTY = the loan is open
+Notes	text	Condition on handover, what it was for		
+calc_IsOpen	(c→Number)	1 when ReturnedDate is empty		🔴 UNSTORED
+calc_IsOverdue	(c→Number)	1 when open and DueDate is past		🔴 UNSTORED — changes with the clock

@@ -1,0 +1,15 @@
+Field_Name	Type	Notes	TO	Flag
+PrimaryKey	text-uuid	Auto-generated unique identifier		
+DocumentTitle	text	The title as you would say it aloud		
+SortTitle	text	Leading articles dropped, for shelf order		⚠️ "The Rigging Guide" sorts under R
+DocumentSummary	text	What this is and why it is kept		
+fkDocumentType	text-uuid	Textbook / plot / lease / scan	→ DocumentTypes	⚠️ table not yet cut
+DocumentYear	number	The one most useful year		⚠️ date roles split later
+SourceSystem	text	Where a migrated record came from		
+SourceSystemKey	text	Its key there		⚠️ ClickUp task id lands here on migration
+IsReference	number	1 = general reference, no context		
+NeedsTagging	number	1 = intake incomplete		
+IsArchived	number	1 = hidden from lenses, never deleted		
+Notes	text	Free-form		
+calc_ContributorDisplay	(c→Text)	Contributors as a readable string	→ DocumentPeople	🔴 UNSTORED
+calc_CopyCount	(c→Number)	Copies held	→ DocumentCopies	⚠️ 0 is legitimate
