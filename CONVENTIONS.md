@@ -24,11 +24,11 @@ That means reference first — the layer list, the load limits, the thing that w
 
 A short bulleted list is fine when the content is genuinely a list. Reach for a table only when the data is truly tabular and there is nothing to say about it — and expect to justify it.
 
-**No YAML front matter.** GitHub renders it as a table at the top of the file, so every note opened with a metadata grid before the reader got to a single word. Whatever mattered in there — what this is, where it came from, how old the source is — goes in an italic line under the title, where a person will actually read it.
+**Write it the way the doc renderer reads it.** Every page opens with the `template-docs` header: `id`, `title`, `status`, `type` and `summary` are required, everything else only when the page needs it. Callouts, confidence markers, `@id` links and TSV data tables work the same way here as in every other docs repo, so a page written here is written exactly like a page in uritp-docs (D-041). The vocabulary lives once, in the [page template](https://github.com/mawizorek/template-docs/blob/main/_template.md) and the authoring pages it points to. Read it there; never copy it here, or in a month there are two and they disagree.
 
-The cost of dropping front matter is honest: there are no machine-readable tags to filter on. **The taxonomy now lives in the prose and the paths**, and finding things is a matter of reading rather than querying. Worth it, because a note nobody wants to open is not findable at any price.
+**If a value is not needed away from the page, it is not a header key.** It goes in the body or in a TSV. The header is for what other pages, the sidebar and search need to know.
 
-**Say how old it is.** The one thing front matter was genuinely good for. Every note states when its content was last actually checked — not when the file was last touched, which is a different and much less useful fact. Copying a file is not verifying it. This is the only defense against prose that looks authoritative forever while being quietly wrong.
+**Say how old it is.** Every note states when its content was last actually checked, in `revised:` — not when the file was last touched, which is a different and much less useful fact. Copying a file is not verifying it. This is the only defense against prose that looks authoritative forever while being quietly wrong.
 
 **Go easy on bold and emoji.** A page where half the words are bold has no emphasis at all, and a warning marker means nothing once it is decoration. Save both for something that costs real money to get wrong.
 
@@ -69,6 +69,14 @@ The cap exists because depth in a taxonomy is a tax: every level is a placement 
 And the countable-sibling test passes cleanly: FileMaker's object types are a fixed, enumerable set — tables, relationships, fields, scripts, custom functions, layouts, value lists. That is exactly the condition the test was written to find.
 
 **The exemption is narrow.** It covers mirroring an external application's structure and nothing else. If you find yourself inventing a level that has no counterpart in the app, the cap is back on.
+
+### FileMaker specs
+
+**Every FileMaker app's spec lives here, in `apps/<app>/`, and nowhere else** (D-041). The `fmp-renderer` app in `ClickUp_apps` reads this folder and draws it as FileMaker's own Manage Database dialog, so a spec written anywhere else is a spec nobody can open that way.
+
+One note per table. The grain goes in a `Grain` callout, because it is the fact every other line depends on. The field register is a sibling `.tsv` with the same name, placed on the page with a `data` slot: the note says what the table is for and the one rule that must not break, and the TSV enumerates. Folders use the menu's own words with no number in front (`tables/`, `relationships/`, `layouts/`, `scripts/`, `value-lists/`, `custom-functions/`), and `order:` sets the sort, because a numeric prefix means tooling.
+
+**The spec is the target, never a description of the live file.** A `status` key means publication; a `status` column in a register groups fields. Neither ever means built. Progress lives on one build sheet per app.
 
 ## Rules
 
