@@ -1,0 +1,17 @@
+id	Field_Name	Type	Notes
+NORMALIZED FIELDS			
+1	Week_Number	Number	Indexed. Sequence within THIS build of the grid
+2	Week_START_DATE	Date	Indexed. Falls on the preset's WeekStartDay
+3	PAGE_BREAK	Number	Print concern - which is why WEEKS sits in the print layer
+4	IsPrePro	Number	
+RELATIONSHIPS			
+	fkCalendar		
+CHILDREN			
+	< WORKDAYS		Seven per week. Generated, never typed
+AUDIT FIELDS			
+	PrimaryKey	Text	
+	CreationTimestamp	Timestamp	
+	CreatedBy	Text	
+	ModificationTimestamp	Timestamp	
+	ModifiedBy	Text	
+- EOF -			

@@ -1,0 +1,9 @@
+/* PBool ( key ; value )
+   One boolean element for Param ( List ( ... ) ).
+   Any non-zero numeric value is true; 0 is false. */
+
+JSONSetElement ( "{}" ;
+    [ "key" ; key ; JSONString ] ;
+    [ "type" ; "boolean" ; JSONString ] ;
+    [ "value" ; GetAsNumber ( value ) ≠ 0 ; JSONBoolean ]
+)

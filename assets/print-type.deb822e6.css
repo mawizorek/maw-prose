@@ -1,0 +1,403 @@
+/* THE PRINT TYPE LAYER -- HOW BIG THE TYPE IS.
+ *
+ * Born 2026-08-19 from *"general LINE SPACING - that's the big one"* and finished
+ * the same evening from the verdict that mattered more:
+ *
+ * > Michael: *"the print still looks trashy. too fat and childish and not very
+ * > 'info'-forward."*
+ *
+ * ⭐ THREE COMPLAINTS, THREE DIFFERENT CAUSES, AND CONFLATING THEM IS WHY THE
+ * FIRST TWO PASSES DID NOT LAND IT:
+ *
+ *     "too fat"           SIZE. A 0.8rem base with 2em headings is a web
+ *                         reading scale. On paper it is oversized, and the
+ *                         leading fix could never touch it.
+ *     "childish"          WEIGHT AND CHROME. Material sets h1/h2 at font-weight
+ *                         300 -- light strokes at large sizes look flabby rather
+ *                         than authoritative -- plus tinted washes, rounded
+ *                         corners and coloured links.
+ *     "not info-forward"  HIERARCHY BY SIZE INSTEAD OF BY POSITION. When every
+ *                         level shouts, nothing ranks. A document ranks with
+ *                         rules, weight and space; a landing page ranks with
+ *                         point size.
+ *
+ * ⭐ TWO OF THOSE THREE NOW HAVE THEIR OWN FILES, and the pattern is worth seeing:
+ * this file was named for a subject broad enough to absorb anything about type,
+ * and it did, twice. Callout chrome left for `print-callout.css`; block, list and
+ * word spacing left for `print-space.css`. **What is left is the one question the
+ * title actually asks: how big, how heavy, how decorated.**
+ *
+ * =========================================================================
+ * 🔴 THE ONE PLACE `fs-body` IS SAFE, AND WHY THAT IS NOT A CONTRADICTION
+ * =========================================================================
+ * `type.css` refuses `.md-typeset { font-size: ... }` outright and it is right
+ * to: every size inside `.md-typeset` is em-relative, so one declaration makes
+ * EVERY WORD ON THE SITE bigger -- the blast radius that forced the PR #82
+ * revert Michael reported as *"the font in the TABLE is massive."*
+ *
+ * ⚑ THAT OBJECTION IS ABOUT SITE-WIDE SCOPE, NOT ABOUT THE MECHANISM. Inside
+ * `@media print` the blast radius is exactly one medium, it is invisible to every
+ * reader who never prints, and it is reversible in one line. The refusal in
+ * type.css stands unamended and this does not contradict it.
+ *
+ * ⭐ AND THE EM-RELATIVITY IS THE FEATURE HERE. Because the ramp below is
+ * expressed in `em`, changing the ONE base value rescales the whole document
+ * proportionally -- including every margin in `print-space.css`, which is why
+ * that file can own the spacing without naming the dial. That is what makes this
+ * a dial rather than a dozen numbers.
+ *
+ * ⚠️ WITH ONE EXCEPTION, AND IT COST A ROUND TRIP: A CHILD SIZED IN `rem` IS
+ * OUTSIDE THE DIAL ENTIRELY. Material's callout box was `0.8rem` -- anchored to
+ * the ROOT while §0 is anchored to the PAPER -- so no value of `--dr-print-base`
+ * could ever move it. Fixed in `print-callout.css`, which carries the finding.
+ * **Anything that must scale with the prose is `em`; a `rem` is a deliberate
+ * opt-out and should say so.** 🔴 AND IT COST A SECOND ROUND TRIP ON 2026-08-29:
+ * the TSV data table had the identical defect and nobody had pointed the rule at
+ * it. See §10.
+ *
+ * =========================================================================
+ * ⚠️ `pt`, AND IT IS THE CORRECT UNIT HERE FOR THE SAME REASON `mm` IS
+ * =========================================================================
+ * `px` at print resolution is a fiction; a sheet is a physical object. `@page`
+ * already reasons in `mm`. Type on paper is measured in points and always has
+ * been, so the base is stated in the unit the medium uses.
+ *
+ * 🔴 STILL NEVER `em` OR `pt` ON `line-height`. It is a different property: a
+ * length-valued line-height inherits as a LENGTH and gives cramped headings
+ * beside airy small print. Unitless there, physical here.
+ *
+ * =========================================================================
+ * ⚠️ EVERY NUMBER BELOW IS A TYPOGRAPHIC JUDGEMENT, NOT A MEASUREMENT
+ * =========================================================================
+ * They come from document convention -- 10pt body, a ~1.6x display step, 600
+ * weight for headings -- and NOT from a rendered sheet. This repo's rule is that
+ * a judgement says so rather than borrowing the authority of a measurement.
+ *
+ * ✅ THE ACCEPTANCE TEST IS ONE PRINT AT LETTER AND ONE AT A4. If the body reads
+ * small, `--dr-print-base` is the single value to move and everything follows it.
+ */
+
+@media print {
+  /* -------------------------------------------------------------------------
+   * §0 -- THE ONE DIAL
+   *
+   * Declared as a custom property so the whole document has exactly one number
+   * to argue about. 10pt is the conventional floor for a printed policy: below
+   * ~9pt a photocopy starts closing counters (§7), above ~11pt a reference sheet
+   * reads as large print.
+   *
+   * ⭐ IT IS ALSO THE ONE VALUE `print-space.css` DEPENDS ON WITHOUT NAMING. Every
+   * margin over there is `em`, which resolves against the element's own font-size
+   * -- so turning this dial moves the air between blocks proportionally, with no
+   * second edit and no second constant. That is the whole reason the two files can
+   * be separate without going out of step.
+   * --------------------------------------------------------------------- */
+  .md-typeset {
+    --dr-print-base: 8.5pt;
+
+    font-size: var(--dr-print-base);
+    line-height: 1.45;
+  }
+
+  /* Dense content is scanned rather than read, which is what the house's 1.35
+   * was chosen for. Sizes here are relative to the base above, so a table stays
+   * proportional to the prose when the dial moves.
+   *
+   * ⚠️ THIS REACHES THE UNCLASSED MARKDOWN TABLE ONLY -- the TSV data table
+   * carries a class on purpose, so `:not([class])` excludes it. §10 is this same
+   * rule for the classed one. */
+  .md-typeset table:not([class]),
+  .md-typeset figcaption {
+    font-size: 0.92em;
+    line-height: 1.35;
+  }
+
+  /* 🔴 THE LEDE IS THE LOUDEST "WEBPAGE" TELL ON THE SHEET. `base.css` sizes it
+   * from `--dr-lede-size` for a screen, where a bigger opening paragraph earns
+   * attention against surrounding chrome. On paper there is no chrome to compete
+   * with, so an oversized subtitle just reads as a headline that lost its nerve.
+   * It becomes body text carrying a lighter ink. */
+  .md-typeset .dr-lede,
+  .md-typeset h1 + p {
+    font-size: 1em;
+    line-height: 1.4;
+  }
+
+  /* -------------------------------------------------------------------------
+   * 🔴 §1 -- THE RAMP. THIS IS THE "CHILDISH" FIX.
+   *
+   * Material's screen ramp puts h1 at 2em/300 and h2 at 1.5625em/300. Two things
+   * go wrong at once on paper:
+   *
+   *   SIZE   an h2 at 1.56em of a web base is nearly as loud as the h1, so the
+   *          document has no rank order -- exactly "not info-forward."
+   *   WEIGHT font-weight 300 at 20pt is a LIGHT stroke stretched large. On a
+   *          screen the backlight carries it; in ink it reads soft and
+   *          unserious, which is most of "childish."
+   *
+   * ⭐ SO THE RAMP COMPRESSES AND THE WEIGHT GOES UP. Rank comes from weight,
+   * position and the rule under h2 rather than from point size -- which is how a
+   * printed policy has always signalled hierarchy.
+   *
+   * ⚠️ HEADING MARGINS ARE NOT HERE. They are `print-space.css` §2, with every
+   * other block margin, and h1's moved there in the 2026-08-19 split. So
+   * `.md-typeset h1` is written in BOTH files -- safely, because the property sets
+   * are disjoint (size/weight/tracking here, margins there) and a cascade fight
+   * needs the same selector AND the same property. 🔴 **Add a `margin` to any rule
+   * in this section and the print group's load order stops being free.** The full
+   * argument is in print-space.css's header.
+   *
+   * ⚠️ `type.css` DECLINES TO SET HEADING WEIGHT and says why: the canonical
+   * typography vector has no weight column, so there is nothing to read, and
+   * forcing a weight a family does not ship makes the browser synthesise one.
+   * That reasoning is sound and this overrides it deliberately, on one medium.
+   *
+   * ✅ AND THE SYNTHESIS RISK IS NOW MEASURED RATHER THAN REASONED. Every family
+   * the vector declares -- Inter, Archivo, Manrope, Gabarito, Chakra Petch -- was
+   * checked against the font API on 2026-08-19 and serves real 300/400/600/700
+   * cuts, and since PR #147 they are actually FETCHED. `system-ui` also ships real
+   * 600/700 everywhere this prints from, so nothing is synthesised either way.
+   * **A property of these particular rows, not a general licence: a new typography
+   * row naming a family with only a 400 cut would make this rule fake bold.**
+   * --------------------------------------------------------------------- */
+  .md-typeset h1 {
+    font-size: 1.65em;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+
+  .md-typeset h2 {
+    font-size: 1.22em;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+
+    /* ⚠️ THE MOST OPINIONATED LINE IN THIS FILE, and the first one to delete if
+     * the sheet feels busy. A hairline under a section head is the oldest
+     * info-forward device there is: it ranks the heading by POSITION rather than
+     * by size, which is what lets the size come down at all.
+     *
+     * ⚠️ AND `padding-bottom` IS A SPACING PROPERTY LIVING IN THE TYPE FILE ON
+     * PURPOSE -- it holds the border off the descenders, so it is inseparable
+     * from the border, which is inseparable from the size argument that chose it.
+     * It is the near miss to know about when reading the disjoint-properties rule
+     * above: print-space.css sets `margin` on h2, never `padding`. */
+    padding-bottom: 0.18em;
+    border-bottom: 0.5pt solid var(--dr-rule, #ccc);
+  }
+
+  .md-typeset h3 {
+    font-size: 1.06em;
+    font-weight: 600;
+    letter-spacing: 0;
+  }
+
+  /* h4-h6 are run-in labels inside prose by this depth, which `type.css` already
+   * argues. They rank by weight alone -- a size step here would be noise. */
+  .md-typeset h4,
+  .md-typeset h5,
+  .md-typeset h6 {
+    font-size: 1em;
+    font-weight: 700;
+  }
+
+  /* -------------------------------------------------------------------------
+   * 🪦 §2 · §3 · §9 -- MOVED TO `assets/print-space.css` 2026-08-19.
+   *
+   *   §2  block spacing   paragraph, list, blockquote and HEADING margins
+   *   §3  list spacing    the `html`-armoured li margins and the nested case
+   *   §9  justification   `text-align: justify` + `hyphens: auto`
+   *
+   * ⭐ THREE NUMBERS, ONE TOMBSTONE, AND THE NUMBERS DID NOT CHANGE. The section
+   * numbering is a namespace shared across the whole print group rather than a
+   * per-file sequence -- print.css, print-callout.css and the Decision Log all
+   * cite these by number, and §4's stub has pointed across a file boundary since
+   * the first split. **A gap costs nothing; a shifted number is a citation that
+   * resolves to the wrong argument.**
+   *
+   * ⚠️ §9 WENT WITH THE SPACING RATHER THAN THE TYPE, which is the one placement
+   * worth arguing: justification does not change a letterform, it distributes a
+   * line's slack into the WORD SPACES. Horizontal spacing beside vertical spacing.
+   * --------------------------------------------------------------------- */
+
+  /* -------------------------------------------------------------------------
+   * 🪦 §4 -- CALLOUT CHROME. MOVED TO `assets/print-callout.css` 2026-08-19.
+   * --------------------------------------------------------------------- */
+
+  /* -------------------------------------------------------------------------
+   * 🔴 §5 -- LINKS PRINT AS INK. A DEAD-CONTROL ARGUMENT, NOT A TASTE ONE.
+   *
+   * ⚑ THE HOUSE ALREADY DECIDED THIS, IN A DIFFERENT COSTUME. `uritp-safety/`
+   * `site.yml` turns off edit links because *"a link that looks like an invitation
+   * and delivers a 404 is a DEAD CONTROL"*; `base.css` carries NO ROUTE BACK TO
+   * THE SOURCE; the printed corner stamp dropped its PR number on the same
+   * reasoning. **A coloured link on paper is a control the reader cannot operate,
+   * dressed as one they can.** The underline survives because it still says "named
+   * thing, findable elsewhere."
+   *
+   * ⚠️ IT IS ALSO THE ONE RULE IN THIS FILE THAT IS NOT ABOUT SIZE, and it stays
+   * because text decoration is a property of the letterform rather than of the air
+   * around it. 🚩 Its argument genuinely belongs with print.css's chrome-off list,
+   * which is the same dead-control family -- flagged rather than moved, because
+   * print.css has ~2KB of headroom and this is 1KB of prose.
+   *
+   * ⚠️ WHY THIS IS NOT THE COLOUR OPINION print.css FORBIDS: nothing is
+   * re-pointed and no token is overridden. The link takes the ink it is sitting in
+   * -- the ABSENCE of a colour decision, on the one medium where the colour did
+   * work nobody can use.
+   *
+   * ✅ AND THE DEAD-REFERENCE MARKER IS UNTOUCHED, CHECKED RATHER THAN ASSUMED.
+   * `links.py` renders a broken reference as a `<span class="docrender-dead">`
+   * with NO href -- not an anchor, so no rule here reaches it. Its red dotted
+   * underline from `base.css` printed correctly on 2026-08-19 and still will.
+   * --------------------------------------------------------------------- */
+  .md-typeset a,
+  .md-typeset a:visited {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: 0.4pt;
+    text-underline-offset: 0.12em;
+  }
+
+  /* -------------------------------------------------------------------------
+   * ✅ §6 -- THE FACE. THE VECTOR DICTATES IT, AND THAT IS NOW A RULING.
+   *
+   * 🪦 FOUR PARAGRAPHS RETIRED TO THIS POINTER. They argued that the font NAME was
+   * declared and inherited correctly while the font FILE was never fetched -- true
+   * when written, obsolete the same evening via `docrender/fonts.py` +
+   * `hooks/04c_fonts.py` (PR #147). **A second copy of a live finding is exactly
+   * how those paragraphs went stale in under two hours.**
+   *
+   * 🔴 AND THE SERIF QUESTION IS CLOSED (Michael, 2026-08-19): *"no font override.
+   * let it be like my page has chosen."* This section previously named a text
+   * serif as the conventional book face and parked it as a theme decision. **It
+   * was offered and REFUSED, which is a stronger state than pending.** The paper
+   * wears whatever `theme/canonical/typography.tsv` resolves for the site, and a
+   * future pass proposing a print-only face should read this line and stop.
+   *
+   * 🚫 NO `font-family` IS SET IN THIS FILE, for two reasons now rather than one:
+   * it would override a vector that works end to end, and it would contradict an
+   * explicit ruling.
+   * --------------------------------------------------------------------- */
+
+  /* -------------------------------------------------------------------------
+   * ⚠️ §7 -- THERE IS A FLOOR, AND ON THESE DOCUMENTS IT IS NOT AESTHETIC
+   *
+   * A PRINTED POLICY GETS PHOTOCOPIED, and ink spread closes counters and the
+   * gaps between lines. IT GETS READ STANDING UP, in a shop or a dim corridor, by
+   * somebody hunting one rule -- and SCANNING is more size- and
+   * leading-dependent than reading is.
+   *
+   * 🔴 THAT IS WHY §0 STOPS AT 10pt, WHY §3 TRIMS TO 0.2em RATHER THAN 0, AND WHY
+   * THE CALLOUT HEADER WAS HALVED BY ITS FOOTPRINT RATHER THAN ITS LETTERFORM.
+   * Halving a `1em` hazard label gives 5pt, which is under the photocopy floor.
+   * Every number in this file could be smaller and the sheet would look tighter
+   * and read worse.
+   *
+   * ⭐ THE FLOOR SPANS FILES NOW, AND THAT IS THE ONE COST OF THE SPLIT WORTH
+   * NAMING. Two of the three numbers this section defends live in
+   * `print-space.css`. A legibility floor is a property of the SHEET, not of a
+   * stylesheet, so it is stated once here and pointed at rather than copied --
+   * because a second copy is how a floor ends up with two different values.
+   *
+   * ⚠️ `unverified`: WCAG 2.1 SC 1.4.12 (Text Spacing) names a 1.5x line-height
+   * expectation. Applicability to a FIXED print medium is genuinely unclear -- the
+   * criterion is about content SUPPORTING user-applied spacing, which paper
+   * cannot do either way -- and the published text has not been read. Cited so
+   * somebody can check it; not to be quoted as settled until they have.
+   *
+   * 🔴 HAZARD HAWTHORNE OWNS THE LEGIBILITY FLOOR FOR SAFETY-CRITICAL PRINT. A 10pt
+   * base, a de-tinted warning box and a half-size hazard icon are all defensible
+   * typography and all three touch how a hazard reads at a glance. **A warning box
+   * that stops LOOKING like a warning box is a safety question, not a typographic
+   * one.**
+   * --------------------------------------------------------------------- */
+
+  /* -------------------------------------------------------------------------
+   * 🔴 §8 -- EVERY HAND-PLACED PAGE BREAK HAS NOW BEEN INVALIDATED SEVEN TIMES
+   *
+   * `{.new-page}` *"is correct on the day it is typed and nobody is told when it
+   * stops being correct."* Leading; the callout padding attempt that made boxes
+   * bigger; the armoured version that made them smaller; §0's base size; the
+   * callout anchor; §9's justification; and §3's list armour, which changed the
+   * height of every bulleted list on every page.
+   *
+   * ✅ THE 2026-08-19 SPLIT DID NOT INCREMENT THAT COUNT, AND THE REASON IS THE
+   * POINT: a pure move changes no computed value, so the sheet is unchanged.
+   * **Incrementing it would have been an honest-looking lie** -- the undocumented
+   * arithmetic the Doc-Rot Sweep hunts. Two files can now invalidate a break;
+   * the count is stated ONCE, here, and `print-space.css` points at it rather
+   * than keeping a second tally.
+   *
+   * 🔴 §10 MAKES IT EIGHT, and that increment is counted in §10 rather than edited
+   * into this sentence -- see the note there on why a table getting shorter moves
+   * every break below it.
+   *
+   * 🚩 AND ITS TRUE HOME IS ARGUABLY `print-flow.css`, WHICH OWNS `{.new-page}`
+   * -- a warning is most useful beside the rule it is about, which is where
+   * somebody deciding to author one would read. Flagged rather than moved: that
+   * is a third file with no other reason to change in this pass.
+   *
+   * ✅ DO NOT AUTHOR `{.new-page}` ACROSS THE TREE until this pass is previewed
+   * and settled. The automatic rules in print-flow.css exist so that work is
+   * mostly unnecessary.
+   * --------------------------------------------------------------------- */
+
+  /* -------------------------------------------------------------------------
+   * 🔴 §10 -- THE TSV TABLE JOINS THE DIAL. SAME DEFECT AS THE CALLOUT.
+   *
+   * > Michael, 2026-08-29: *"can font size of tsv tables be the same as font size
+   * > of body text outside it? those embedded tsv are reading MASSIVE."*
+   *
+   * ⚑ HE SAID THIS ON 2026-08-19 ABOUT THE CALLOUT -- *"shrink the callout text to
+   * the same size as the body ... they just look ENORMOUS"* -- and the cause and
+   * remedy are identical. `print-callout.css` carries the diagnosis and this does
+   * NOT restate it: `rem` anchors to the ROOT, §0 anchors to the PAPER, so a `rem`
+   * child never participates in the dial.
+   *
+   * 🔴 EVERY SIZE IN `data.css` IS `rem` -- the table from `--dr-data-size`
+   * (0.80rem), `thead th` 0.72, the section band 0.74, the caption 0.8. And
+   * `table:not([class])` above cannot reach them, because the TSV table carries a
+   * class ON PURPOSE (three defences against Material's `display: block`).
+   * **The rule for the unclassed sibling was one selector away the whole time.**
+   *
+   * ⭐ ROOT-AGNOSTIC BY DESIGN. Material's root size was NOT determined this
+   * session -- `base.css` implies 16px, Material is commonly 125% -- so the SIZE of
+   * the defect is unknown and the remedy must not depend on it. Cells against a
+   * 10pt body, measured both ways: root 16px 9.60pt (96%), root 125% 12.00pt
+   * (120%), both -> 10.00pt. ⭐ Michael's word MASSIVE is the evidence for the 125%
+   * branch; nobody calls 96% massive. HIS observation, not a verified root.
+   *
+   * ⚠️ ONE VALUE FOR ALL FOUR, WHICH IS A DECISION. Header, band and caption were
+   * each ~90% of the table and are now 1em like the cells. A column header is
+   * already ranked by WEIGHT, CASE and LETTERSPACING, so size bought hierarchy that
+   * existed -- and keeping the 90% put an ALL-CAPS label at exactly §7's ~9pt
+   * photocopy floor, where all-caps is the worst case because it removes the
+   * word-shape cues a scanning reader uses. **§7 is a floor a later decision is
+   * allowed to lose to.**
+   *
+   * ⚠️ NO PAIR WITH ANY OTHER PRINT SHEET, checked rather than assumed.
+   * `print-chrome.css` owns `.dr-data` / `.dr-data__table` for the uncaging fix and
+   * declares `max-height`, `overflow`, `container-type`, `width`, `min-width`,
+   * `table-layout`, `white-space`, `position` -- never `font-size`. The `html`
+   * prefix is specificity armour against data.css's (0,2,1).
+   *
+   * ⚠️ AND THIS IS §8's EIGHTH INVALIDATION, counted here rather than by editing
+   * that section: a table whose cells move 12.0pt -> 10.0pt is SHORTER, so every
+   * hand-placed break below one has moved.
+   *
+   * 🚫 `.dr-data__source` IS DELIBERATELY ABSENT: print-chrome.css hides it, and a
+   * declaration on a box that does not exist can never be observed.
+   *
+   * 🚩 FLAGGED, NOT FIXED, BECAUSE THE ASK WAS TYPE: the WIDTHS are still
+   * root-anchored (`thead th { min-width: 6rem; max-width: 12rem }`, `4.5rem` in the
+   * container query) and they decide how many columns fit a sheet. ⭐
+   * `td.dr-col--prose`'s `max-width` is in `ch`, so it tracks the font and
+   * self-corrects.
+   * --------------------------------------------------------------------- */
+  html .md-typeset .dr-data__table,
+  html .md-typeset .dr-data__table thead th,
+  html .md-typeset .dr-data__section-label,
+  html .md-typeset .dr-data__caption {
+    font-size: 1em;
+  }
+}

@@ -1,0 +1,14 @@
+id	Field_Name	Type	Options	Notes
+NORMALIZED FIELDS				
+{.conf}	Name	Text	Indexed	Full Company Packet, Designer Set, Scratch
+{.conf}	bool_RevertRecord			default = 0. Saves the curent Print Set in some automatic loop that then allows for a "revert settings" button.
+{.conf}	bool_ScratchRecord	Number	Auto-enter Data	default = 0. The landing page for a one-off print. Stored per file and continually latching. just another option alongside "go to defaults, or revert settings"
+{.conf}	bool_DefaultRecord	Number	Auto-enter Data	default = 0 for new sets. BUT each pCalendar may set a DEFAULT set from their print pages
+RELATIONSHIP				
+AUDIT FIELDS				
+{.conf}	PrimaryKey	Text		
+{.conf}	CreationTimestamp	Timestamp		
+{.conf}	CreatedBy	Text		
+{.conf}	ModificationTimestamp	Timestamp		
+{.conf}	ModifiedBy	Text		
+- EOF -				

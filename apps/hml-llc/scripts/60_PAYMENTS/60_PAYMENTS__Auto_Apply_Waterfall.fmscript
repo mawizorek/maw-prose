@@ -1,0 +1,89 @@
+# 60_PAYMENTS__Auto_Apply_Waterfall
+# Applies posted money to open expected rows: oldest interest -> fees -> principal.
+# Param (JSON): { accountTransactionID (req), propertyID (req) }
+# Returns (JSON): { ok, applied, unapplied }
+# Adds PaymentApplications rows. Never edits history.
+
+Set Error Capture [ On ]
+Set Variable [ $p ; Value: Get ( ScriptParameter ) ]
+Set Variable [ $atID ; Value: JSONGetElement ( $p ; "accountTransactionID" ) ]
+Set Variable [ $propertyID ; Value: JSONGetElement ( $p ; "propertyID" ) ]
+
+If [ IsEmpty ( $atID ) or IsEmpty ( $propertyID ) ]
+	Exit Script [ Result: JSONSetElement ( "{}" ; [ "ok" ; False ; JSONBoolean ] ; [ "error" ; "missing accountTransaction or property" ; JSONString ] ) ]
+End If
+
+# How much is still unapplied on this posted row
+Go to Layout [ "AccountTransactions" (AccountTransactions) ]
+Enter Find Mode [ Pause: Off ]
+Set Field [ AccountTransactions::PrimaryKey ; $atID ]
+Perform Find [ ]
+Set Variable [ $available ; Value: AccountTransactions::Amount - Sum ( PaymentApplications_forAccountTransaction::AmountApplied ) ]
+
+If [ $available <= 0 ]
+	Exit Script [ Result: JSONSetElement ( "{}" ; [ "ok" ; True ; JSONBoolean ] ; [ "note" ; "nothing to apply" ; JSONString ] ) ]
+End If
+
+# Open expected rows for this property: Outstanding OR Partially Paid
+Go to Layout [ "dev_ExpectedTransactions" (ExpectedTransactions) ]
+Enter Find Mode [ Pause: Off ]
+Set Field [ ExpectedTransactions::fkProperty ; $propertyID ]
+Set Field [ ExpectedTransactions::fkStatus ; "Outstanding" ]
+New Record/Request
+Set Field [ ExpectedTransactions::fkProperty ; $propertyID ]
+Set Field [ ExpectedTransactions::fkStatus ; "Partially Paid" ]
+Perform Find [ ]
+
+If [ Get ( FoundCount ) = 0 ]
+	Exit Script [ Result: JSONSetElement ( "{}" ; [ "ok" ; True ; JSONBoolean ] ; [ "note" ; "no open expected rows" ; JSONString ] ; [ "unapplied" ; $available ; JSONNumber ] ) ]
+End If
+
+Sort Records [ by ExpectedTransactions::DueDate ; ascending ]
+Set Variable [ $applied ; Value: 0 ]
+Set Variable [ $pass ; Value: 1 ]
+
+# Pass 1 = interest, pass 2 = fees, pass 3 = principal
+Loop
+	Exit Loop If [ $pass > 3 or $available <= 0 ]
+	Set Variable [ $rc ; Value: Get ( FoundCount ) ]
+	Set Variable [ $j ; Value: 1 ]
+	Go to Record/Request/Page [ First ]
+
+	Loop
+		Set Variable [ $name ; Value: Standard_Transactions_forExpected::Name ]
+		Set Variable [ $rank ; Value: Case ( PatternCount ( $name ; "Interest" ) ; 1 ; PatternCount ( $name ; "Principal" ) ; 3 ; 2 ) ]
+
+		If [ $rank = $pass and $available > 0 ]
+			# A waived row collects nothing; otherwise AdjustedAmount wins over AmountExpected
+			Set Variable [ $base ; Value: Case ( ExpectedTransactions::AdjustmentStatus = "Waived" ; 0 ; not IsEmpty ( ExpectedTransactions::AdjustedAmount ) ; ExpectedTransactions::AdjustedAmount ; ExpectedTransactions::AmountExpected ) ]
+			Set Variable [ $remaining ; Value: $base - Sum ( PaymentApplications_forExpected::AmountApplied ) ]
+			Set Variable [ $thisApply ; Value: Min ( $available ; $remaining ) ]
+
+			If [ $thisApply > 0 ]
+				Set Variable [ $expID ; Value: ExpectedTransactions::PrimaryKey ]
+				Go to Layout [ "dev_PaymentApplications" (PaymentApplications) ]
+				New Record/Request
+				Set Field [ PaymentApplications::PrimaryKey ; Get ( UUID ) ]
+				Set Field [ PaymentApplications::fkExpectedTransaction ; $expID ]
+				Set Field [ PaymentApplications::fkAccountTransaction ; $atID ]
+				Set Field [ PaymentApplications::AmountApplied ; $thisApply ]
+				Set Field [ PaymentApplications::AppliedDate ; Get ( CurrentDate ) ]
+				Set Field [ PaymentApplications::CreationTimestamp ; Get ( CurrentTimestamp ) ]
+				Commit Records/Requests [ With dialog: Off ]
+				Go to Layout [ "dev_ExpectedTransactions" (ExpectedTransactions) ]
+				Set Variable [ $available ; Value: $available - $thisApply ]
+				Set Variable [ $applied ; Value: $applied + $thisApply ]
+				Set Field [ ExpectedTransactions::fkStatus ; If ( $base - Sum ( PaymentApplications_forExpected::AmountApplied ) <= 0 ; "Paid" ; "Partially Paid" ) ]
+				Commit Records/Requests [ With dialog: Off ]
+			End If
+		End If
+
+		Set Variable [ $j ; Value: $j + 1 ]
+		Exit Loop If [ $j > $rc or $available <= 0 ]
+		Go to Record/Request/Page [ Next ]
+	End Loop
+
+	Set Variable [ $pass ; Value: $pass + 1 ]
+End Loop
+
+Exit Script [ Result: JSONSetElement ( "{}" ; [ "ok" ; True ; JSONBoolean ] ; [ "applied" ; $applied ; JSONNumber ] ; [ "unapplied" ; $available ; JSONNumber ] ) ]

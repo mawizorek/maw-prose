@@ -1,0 +1,19 @@
+# commitRecord
+# Generic commit + validation-error handler. Shared cross-app helper.
+# Param (JSON): { mode (opt) } — recognized token: skipValidation
+# On a caught validation error: shows the single-sourced message and reverts the record.
+# Get(LastError) returns a code, never the field's own message — that is why this exists.
+
+Set Error Capture [ On ]
+Set Variable [ $p ; Value: Get ( ScriptParameter ) ]
+Set Variable [ $mode ; Value: JSONGetElement ( $p ; "mode" ) ]
+
+If [ PatternCount ( $mode ; "skipValidation" ) ]
+	Commit Records/Requests [ Skip data entry validation ; With dialog: Off ]
+Else
+	Commit Records/Requests [ With dialog: Off ]
+	If [ Get ( LastError ) and zfile_ValueLISTS::enforce_1_to_1 = 1 ]
+		Show Custom Dialog [ MSG_ValueListErrors ( "validate_enforce_1_to_1" ) & Char(13) & Char(13) ]
+		Revert Record/Request [ With dialog: Off ]
+	End If
+End If

@@ -1,0 +1,1296 @@
+{
+  "site": "mawprose",
+  "base_url": "https://mawizorek.github.io/maw-prose/",
+  "built": "2026-10-04T04:10:01Z",
+  "engine": "0.1.0",
+  "totals": {
+    "pages": 40,
+    "edges": 105,
+    "broken": 3,
+    "no_inbound": 6
+  },
+  "no_inbound": [
+    "prev-production-calendar-app",
+    "production-mawster",
+    "table-fiscal-years",
+    "table-people",
+    "table-producer-info",
+    "table-venues"
+  ],
+  "broken": [
+    {
+      "from": "table-calendar-emphasis",
+      "token": "audit-fields",
+      "kind": "page"
+    },
+    {
+      "from": "table-events",
+      "token": "audit-fields",
+      "kind": "page"
+    },
+    {
+      "from": "table-import-events",
+      "token": "audit-fields",
+      "kind": "page"
+    }
+  ],
+  "pages": {
+    "build-sheet": {
+      "title": "Build Sheet",
+      "url": "apps/production-mawster-no-use/build-sheet/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "projection-law",
+          "kind": "page",
+          "target": "projection-law",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "production-mawster"
+      ],
+      "inbound": 1,
+      "outbound": 1
+    },
+    "data-standards": {
+      "title": "Data standards",
+      "url": "apps/production-mawster-no-use/data-standards/",
+      "type": "reference",
+      "references": [],
+      "referenced_by": [
+        "production-mawster"
+      ],
+      "inbound": 1,
+      "outbound": 0
+    },
+    "integration": {
+      "title": "ClickUp Integration",
+      "url": "apps/production-mawster-no-use/integration/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "table-import-sessions",
+          "kind": "page",
+          "target": "table-import-sessions",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-locations",
+          "kind": "page",
+          "target": "table-locations",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-productions",
+          "kind": "page",
+          "target": "table-productions",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "production-mawster",
+        "table-print-presets",
+        "tables"
+      ],
+      "inbound": 3,
+      "outbound": 3
+    },
+    "legacy-script-review": {
+      "title": "Legacy Script Review",
+      "url": "apps/production-mawster-no-use/90-file-imports-temp/prevProductionCalendarApp/script-review/",
+      "type": "reference",
+      "references": [],
+      "referenced_by": [
+        "prev-production-calendar-app",
+        "production-mawster",
+        "scripts"
+      ],
+      "inbound": 3,
+      "outbound": 0
+    },
+    "prev-production-calendar-app": {
+      "title": "Prev Calendar App Build",
+      "url": "apps/production-mawster-no-use/90-file-imports-temp/prevProductionCalendarApp/",
+      "type": "index",
+      "references": [
+        {
+          "token": "legacy-script-review",
+          "kind": "page",
+          "target": "legacy-script-review",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [],
+      "inbound": 0,
+      "outbound": 1
+    },
+    "production-mawster": {
+      "title": "Production MAWster",
+      "url": "apps/production-mawster-no-use/",
+      "type": "index",
+      "references": [
+        {
+          "token": "build-sheet",
+          "kind": "page",
+          "target": "build-sheet",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "data-standards",
+          "kind": "page",
+          "target": "data-standards",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "integration",
+          "kind": "page",
+          "target": "integration",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "legacy-script-review",
+          "kind": "page",
+          "target": "legacy-script-review",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "projection-law",
+          "kind": "page",
+          "target": "projection-law",
+          "resolved": true,
+          "count": 2
+        },
+        {
+          "token": "runtime",
+          "kind": "page",
+          "target": "runtime",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "scripts",
+          "kind": "page",
+          "target": "scripts",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-assignments",
+          "kind": "page",
+          "target": "table-assignments",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-calendar-emphasis",
+          "kind": "page",
+          "target": "table-calendar-emphasis",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-events",
+          "kind": "page",
+          "target": "table-events",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-events-workday",
+          "kind": "page",
+          "target": "table-events-workday",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-import-events",
+          "kind": "page",
+          "target": "table-import-events",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-import-sessions",
+          "kind": "page",
+          "target": "table-import-sessions",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-locations",
+          "kind": "page",
+          "target": "table-locations",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-print-presets",
+          "kind": "page",
+          "target": "table-print-presets",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-print-sessions",
+          "kind": "page",
+          "target": "table-print-sessions",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-producers",
+          "kind": "page",
+          "target": "table-producers",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-production-calendars",
+          "kind": "page",
+          "target": "table-production-calendars",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-productions",
+          "kind": "page",
+          "target": "table-productions",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-roles",
+          "kind": "page",
+          "target": "table-roles",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-styles",
+          "kind": "page",
+          "target": "table-styles",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-weeks",
+          "kind": "page",
+          "target": "table-weeks",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-workdays",
+          "kind": "page",
+          "target": "table-workdays",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "tables",
+          "kind": "page",
+          "target": "tables",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "user-experience",
+          "kind": "page",
+          "target": "user-experience",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "workflow",
+          "kind": "page",
+          "target": "workflow",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [],
+      "inbound": 0,
+      "outbound": 26
+    },
+    "projection-law": {
+      "title": "Projection Law",
+      "url": "apps/production-mawster-no-use/projection-law/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "table-calendar-emphasis",
+          "kind": "page",
+          "target": "table-calendar-emphasis",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-events-workday",
+          "kind": "page",
+          "target": "table-events-workday",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-print-presets",
+          "kind": "page",
+          "target": "table-print-presets",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-print-sessions",
+          "kind": "page",
+          "target": "table-print-sessions",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-styles",
+          "kind": "page",
+          "target": "table-styles",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-weeks",
+          "kind": "page",
+          "target": "table-weeks",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-workdays",
+          "kind": "page",
+          "target": "table-workdays",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "build-sheet",
+        "production-mawster",
+        "table-events-workday",
+        "table-production-calendars",
+        "table-weeks",
+        "workflow"
+      ],
+      "inbound": 6,
+      "outbound": 7
+    },
+    "runtime": {
+      "title": "Runtime",
+      "url": "apps/production-mawster-no-use/11-runtime/",
+      "type": "page",
+      "references": [
+        {
+          "token": "user-experience",
+          "kind": "page",
+          "target": "user-experience",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "production-mawster"
+      ],
+      "inbound": 1,
+      "outbound": 1
+    },
+    "scripts": {
+      "title": "Scripts",
+      "url": "apps/production-mawster-no-use/70-scripts/",
+      "type": "index",
+      "references": [
+        {
+          "token": "legacy-script-review",
+          "kind": "page",
+          "target": "legacy-script-review",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-print-sets",
+          "kind": "page",
+          "target": "table-print-sets",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "production-mawster"
+      ],
+      "inbound": 1,
+      "outbound": 2
+    },
+    "table-assignments": {
+      "title": "Assignments",
+      "url": "apps/production-mawster-no-use/20-tables/ASSIGNMENTS/",
+      "type": "reference",
+      "references": [],
+      "referenced_by": [
+        "production-mawster",
+        "table-people",
+        "table-productions",
+        "table-roles",
+        "tables"
+      ],
+      "inbound": 5,
+      "outbound": 0
+    },
+    "table-calendar-emphasis": {
+      "title": "CALENDAR_EMPHASIS",
+      "url": "apps/production-mawster-no-use/20-tables/CALENDAR_EMPHASIS/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "audit-fields",
+          "kind": "page",
+          "target": "audit-fields",
+          "resolved": false,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "production-mawster",
+        "projection-law",
+        "table-production-calendars",
+        "table-standard-events",
+        "tables",
+        "workflow"
+      ],
+      "inbound": 6,
+      "outbound": 1
+    },
+    "table-editions": {
+      "title": "EDITIONS",
+      "url": "apps/production-mawster-no-use/20-tables/editions/",
+      "type": "reference",
+      "references": [],
+      "referenced_by": [
+        "tables"
+      ],
+      "inbound": 1,
+      "outbound": 0
+    },
+    "table-events": {
+      "title": "Events",
+      "url": "apps/production-mawster-no-use/20-tables/EVENTS/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "audit-fields",
+          "kind": "page",
+          "target": "audit-fields",
+          "resolved": false,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "production-mawster",
+        "table-events-workday",
+        "table-standard-events",
+        "tables",
+        "workflow"
+      ],
+      "inbound": 5,
+      "outbound": 1
+    },
+    "table-events-workday": {
+      "title": "EVENTS_workday",
+      "url": "apps/production-mawster-no-use/20-tables/EVENTS_workday/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "projection-law",
+          "kind": "page",
+          "target": "projection-law",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-events",
+          "kind": "page",
+          "target": "table-events",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "production-mawster",
+        "projection-law",
+        "tables",
+        "workflow"
+      ],
+      "inbound": 4,
+      "outbound": 2
+    },
+    "table-fiscal-years": {
+      "title": "FISCAL_YEARS",
+      "url": "apps/production-mawster-no-use/20-tables/FISCAL_YEARS/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "table-production-calendars",
+          "kind": "page",
+          "target": "table-production-calendars",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [],
+      "inbound": 0,
+      "outbound": 1
+    },
+    "table-global-export-variables": {
+      "title": "GLOBAL_EXPORT_VARIABLES",
+      "url": "apps/production-mawster-no-use/20-tables/global_use_variables/",
+      "type": "reference",
+      "references": [],
+      "referenced_by": [
+        "tables"
+      ],
+      "inbound": 1,
+      "outbound": 0
+    },
+    "table-global-use": {
+      "title": "GLOBAL_USE",
+      "url": "apps/production-mawster-no-use/20-tables/GLOBAL_USE/",
+      "type": "reference",
+      "references": [],
+      "referenced_by": [
+        "tables"
+      ],
+      "inbound": 1,
+      "outbound": 0
+    },
+    "table-import-events": {
+      "title": "import_EVENTS",
+      "url": "apps/production-mawster-no-use/20-tables/import_EVENTS/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "audit-fields",
+          "kind": "page",
+          "target": "audit-fields",
+          "resolved": false,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "production-mawster",
+        "table-standard-events",
+        "tables",
+        "workflow"
+      ],
+      "inbound": 4,
+      "outbound": 1
+    },
+    "table-import-sessions": {
+      "title": "import_SESSIONS",
+      "url": "apps/production-mawster-no-use/20-tables/import_SESSIONS/",
+      "type": "reference",
+      "references": [],
+      "referenced_by": [
+        "integration",
+        "production-mawster",
+        "tables",
+        "workflow"
+      ],
+      "inbound": 4,
+      "outbound": 0
+    },
+    "table-location-types": {
+      "title": "Location Types",
+      "url": "apps/production-mawster-no-use/20-tables/LOCATION_TYPES/",
+      "type": "reference",
+      "references": [],
+      "referenced_by": [
+        "tables"
+      ],
+      "inbound": 1,
+      "outbound": 0
+    },
+    "table-locations": {
+      "title": "Locations",
+      "url": "apps/production-mawster-no-use/20-tables/LOCATIONS/",
+      "type": "reference",
+      "references": [],
+      "referenced_by": [
+        "integration",
+        "production-mawster",
+        "table-venues",
+        "tables"
+      ],
+      "inbound": 4,
+      "outbound": 0
+    },
+    "table-people": {
+      "title": "PEOPLE",
+      "url": "apps/production-mawster-no-use/20-tables/PEOPLE/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "table-assignments",
+          "kind": "page",
+          "target": "table-assignments",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-print-set-items",
+          "kind": "page",
+          "target": "table-print-set-items",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [],
+      "inbound": 0,
+      "outbound": 2
+    },
+    "table-print-presets": {
+      "title": "PRINT_PRESETS",
+      "url": "apps/production-mawster-no-use/20-tables/PRINT_PRESETS/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "integration",
+          "kind": "page",
+          "target": "integration",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-print-sessions",
+          "kind": "page",
+          "target": "table-print-sessions",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-print-set-items",
+          "kind": "page",
+          "target": "table-print-set-items",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-print-sets",
+          "kind": "page",
+          "target": "table-print-sets",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "production-mawster",
+        "projection-law",
+        "tables",
+        "workflow"
+      ],
+      "inbound": 4,
+      "outbound": 4
+    },
+    "table-print-sessions": {
+      "title": "PRINT_SESSIONS",
+      "url": "apps/production-mawster-no-use/20-tables/PRINT_SESSIONS/",
+      "type": "reference",
+      "references": [],
+      "referenced_by": [
+        "production-mawster",
+        "projection-law",
+        "table-print-presets",
+        "table-print-sets",
+        "tables",
+        "workflow"
+      ],
+      "inbound": 6,
+      "outbound": 0
+    },
+    "table-print-set-items": {
+      "title": "PRINT_SET_ITEMS",
+      "url": "apps/production-mawster-no-use/20-tables/PRINT_SET_ITEMS/",
+      "type": "reference",
+      "references": [],
+      "referenced_by": [
+        "table-people",
+        "table-print-presets",
+        "table-print-sets",
+        "tables"
+      ],
+      "inbound": 4,
+      "outbound": 0
+    },
+    "table-print-sets": {
+      "title": "PRINT_SETS",
+      "url": "apps/production-mawster-no-use/20-tables/PRINT_SETS/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "table-print-sessions",
+          "kind": "page",
+          "target": "table-print-sessions",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-print-set-items",
+          "kind": "page",
+          "target": "table-print-set-items",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "scripts",
+        "table-print-presets",
+        "tables",
+        "user-experience"
+      ],
+      "inbound": 4,
+      "outbound": 2
+    },
+    "table-producer-info": {
+      "title": "PRODUCER_INFO",
+      "url": "apps/production-mawster-no-use/20-tables/PRODUCER_INFO/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "table-producers",
+          "kind": "page",
+          "target": "table-producers",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [],
+      "inbound": 0,
+      "outbound": 1
+    },
+    "table-producers": {
+      "title": "Producers",
+      "url": "apps/production-mawster-no-use/20-tables/PRODUCERS/",
+      "type": "reference",
+      "references": [],
+      "referenced_by": [
+        "production-mawster",
+        "table-producer-info",
+        "tables"
+      ],
+      "inbound": 3,
+      "outbound": 0
+    },
+    "table-production-calendars": {
+      "title": "PRODUCTION_CALENDARS",
+      "url": "apps/production-mawster-no-use/20-tables/PRODUCTION_CALENDARS/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "projection-law",
+          "kind": "page",
+          "target": "projection-law",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-calendar-emphasis",
+          "kind": "page",
+          "target": "table-calendar-emphasis",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "production-mawster",
+        "table-fiscal-years",
+        "table-productions",
+        "tables",
+        "workflow"
+      ],
+      "inbound": 5,
+      "outbound": 2
+    },
+    "table-productions": {
+      "title": "Productions",
+      "url": "apps/production-mawster-no-use/20-tables/productions/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "table-assignments",
+          "kind": "page",
+          "target": "table-assignments",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-production-calendars",
+          "kind": "page",
+          "target": "table-production-calendars",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "integration",
+        "production-mawster",
+        "tables",
+        "workflow"
+      ],
+      "inbound": 4,
+      "outbound": 2
+    },
+    "table-roles": {
+      "title": "Roles",
+      "url": "apps/production-mawster-no-use/20-tables/roles/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "table-assignments",
+          "kind": "page",
+          "target": "table-assignments",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "production-mawster",
+        "tables"
+      ],
+      "inbound": 2,
+      "outbound": 1
+    },
+    "table-standard-events": {
+      "title": "STANDARD_EVENTS",
+      "url": "apps/production-mawster-no-use/20-tables/STANDARD_EVENTS/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "table-calendar-emphasis",
+          "kind": "page",
+          "target": "table-calendar-emphasis",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-events",
+          "kind": "page",
+          "target": "table-events",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-import-events",
+          "kind": "page",
+          "target": "table-import-events",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "tables"
+      ],
+      "inbound": 1,
+      "outbound": 3
+    },
+    "table-styles": {
+      "title": "Styles",
+      "url": "apps/production-mawster-no-use/20-tables/STYLES/",
+      "type": "reference",
+      "references": [],
+      "referenced_by": [
+        "production-mawster",
+        "projection-law",
+        "tables"
+      ],
+      "inbound": 3,
+      "outbound": 0
+    },
+    "table-venues": {
+      "title": "Venues",
+      "url": "apps/production-mawster-no-use/20-tables/VENUES/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "table-locations",
+          "kind": "page",
+          "target": "table-locations",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [],
+      "inbound": 0,
+      "outbound": 1
+    },
+    "table-versions": {
+      "title": "Versions",
+      "url": "apps/production-mawster-no-use/20-tables/versions/",
+      "type": "reference",
+      "references": [],
+      "referenced_by": [
+        "tables"
+      ],
+      "inbound": 1,
+      "outbound": 0
+    },
+    "table-weeks": {
+      "title": "Weeks",
+      "url": "apps/production-mawster-no-use/20-tables/WEEKS/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "projection-law",
+          "kind": "page",
+          "target": "projection-law",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-workdays",
+          "kind": "page",
+          "target": "table-workdays",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "production-mawster",
+        "projection-law",
+        "tables",
+        "workflow"
+      ],
+      "inbound": 4,
+      "outbound": 2
+    },
+    "table-workdays": {
+      "title": "Workdays",
+      "url": "apps/production-mawster-no-use/20-tables/WORKDAYS/",
+      "type": "reference",
+      "references": [],
+      "referenced_by": [
+        "production-mawster",
+        "projection-law",
+        "table-weeks",
+        "tables",
+        "workflow"
+      ],
+      "inbound": 5,
+      "outbound": 0
+    },
+    "tables": {
+      "title": "Tables",
+      "url": "apps/production-mawster-no-use/20-tables/",
+      "type": "index",
+      "references": [
+        {
+          "token": "integration",
+          "kind": "page",
+          "target": "integration",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-assignments",
+          "kind": "page",
+          "target": "table-assignments",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-calendar-emphasis",
+          "kind": "page",
+          "target": "table-calendar-emphasis",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-editions",
+          "kind": "page",
+          "target": "table-editions",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-events",
+          "kind": "page",
+          "target": "table-events",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-events-workday",
+          "kind": "page",
+          "target": "table-events-workday",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-global-export-variables",
+          "kind": "page",
+          "target": "table-global-export-variables",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-global-use",
+          "kind": "page",
+          "target": "table-global-use",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-import-events",
+          "kind": "page",
+          "target": "table-import-events",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-import-sessions",
+          "kind": "page",
+          "target": "table-import-sessions",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-location-types",
+          "kind": "page",
+          "target": "table-location-types",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-locations",
+          "kind": "page",
+          "target": "table-locations",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-print-presets",
+          "kind": "page",
+          "target": "table-print-presets",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-print-sessions",
+          "kind": "page",
+          "target": "table-print-sessions",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-print-set-items",
+          "kind": "page",
+          "target": "table-print-set-items",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-print-sets",
+          "kind": "page",
+          "target": "table-print-sets",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-producers",
+          "kind": "page",
+          "target": "table-producers",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-production-calendars",
+          "kind": "page",
+          "target": "table-production-calendars",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-productions",
+          "kind": "page",
+          "target": "table-productions",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-roles",
+          "kind": "page",
+          "target": "table-roles",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-standard-events",
+          "kind": "page",
+          "target": "table-standard-events",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-styles",
+          "kind": "page",
+          "target": "table-styles",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-versions",
+          "kind": "page",
+          "target": "table-versions",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-weeks",
+          "kind": "page",
+          "target": "table-weeks",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-workdays",
+          "kind": "page",
+          "target": "table-workdays",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "production-mawster"
+      ],
+      "inbound": 1,
+      "outbound": 25
+    },
+    "user-experience": {
+      "title": "UX",
+      "url": "apps/production-mawster-no-use/10-user-experience/",
+      "type": "index",
+      "references": [
+        {
+          "token": "table-print-sets",
+          "kind": "page",
+          "target": "table-print-sets",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "production-mawster",
+        "runtime"
+      ],
+      "inbound": 2,
+      "outbound": 1
+    },
+    "workflow": {
+      "title": "Build & Use Workflow",
+      "url": "apps/production-mawster-no-use/workflow/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "projection-law",
+          "kind": "page",
+          "target": "projection-law",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-calendar-emphasis",
+          "kind": "page",
+          "target": "table-calendar-emphasis",
+          "resolved": true,
+          "count": 2
+        },
+        {
+          "token": "table-events",
+          "kind": "page",
+          "target": "table-events",
+          "resolved": true,
+          "count": 2
+        },
+        {
+          "token": "table-events-workday",
+          "kind": "page",
+          "target": "table-events-workday",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-import-events",
+          "kind": "page",
+          "target": "table-import-events",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-import-sessions",
+          "kind": "page",
+          "target": "table-import-sessions",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-print-presets",
+          "kind": "page",
+          "target": "table-print-presets",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-print-sessions",
+          "kind": "page",
+          "target": "table-print-sessions",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-production-calendars",
+          "kind": "page",
+          "target": "table-production-calendars",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-productions",
+          "kind": "page",
+          "target": "table-productions",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-weeks",
+          "kind": "page",
+          "target": "table-weeks",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-workdays",
+          "kind": "page",
+          "target": "table-workdays",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "production-mawster"
+      ],
+      "inbound": 1,
+      "outbound": 12
+    }
+  },
+  "unidentified_sources": {}
+}

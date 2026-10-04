@@ -1,0 +1,151 @@
+# 70_SCHEDULE__Generate_Expected_Schedule
+# Creates or refreshes the expected collectible rows for the current loan.
+# Param (JSON): { loanID (req), mode: create_or_refresh | regenerate_open_only, source (opt) }
+# Returns (JSON): { ok, loanID, rowsCreated, rowsUpdated, rowsSkipped, mode, error }
+# Idempotent: ScheduleKey = fkLoan.fkStandardTransaction.SequenceNumber is the identity.
+
+Set Error Capture [ On ]
+Allow User Abort [ Off ]
+Set Variable [ $p ; Value: Get ( ScriptParameter ) ]
+Set Variable [ $loanID ; Value: JSONGetElement ( $p ; "loanID" ) ]
+Set Variable [ $mode ; Value: Case ( IsEmpty ( JSONGetElement ( $p ; "mode" ) ) ; "create_or_refresh" ; JSONGetElement ( $p ; "mode" ) ) ]
+
+If [ IsEmpty ( $loanID ) ]
+	Exit Script [ Result: JSONSetElement ( "{}" ; [ "ok" ; False ; JSONBoolean ] ; [ "error" ; "no loan" ; JSONString ] ) ]
+End If
+
+# Load the loan and refuse to generate against incomplete terms
+Go to Layout [ "Loans" (Loans) ]
+Enter Find Mode [ Pause: Off ]
+Set Field [ Loans::PrimaryKey ; $loanID ]
+Perform Find [ ]
+
+If [ Get ( FoundCount ) <> 1 ]
+	Exit Script [ Result: JSONSetElement ( "{}" ; [ "ok" ; False ; JSONBoolean ] ; [ "error" ; "loan not found" ; JSONString ] ; [ "loanID" ; $loanID ; JSONString ] ) ]
+End If
+
+If [ IsEmpty ( Loans::OriginationDate ) or IsEmpty ( Loans::MaturityDate ) or IsEmpty ( Loans::OriginalPrincipal ) or IsEmpty ( Loans::InterestRateAnnual ) ]
+	Exit Script [ Result: JSONSetElement ( "{}" ; [ "ok" ; False ; JSONBoolean ] ; [ "error" ; "missing required loan terms" ; JSONString ] ; [ "loanID" ; $loanID ; JSONString ] ) ]
+End If
+
+Set Variable [ $orig ; Value: GetAsDate ( Loans::OriginationDate ) ]
+Set Variable [ $maturity ; Value: GetAsDate ( Loans::MaturityDate ) ]
+Set Variable [ $principal ; Value: Loans::OriginalPrincipal ]
+Set Variable [ $rate ; Value: Loans::InterestRateAnnual ]
+Set Variable [ $day ; Value: Day ( $orig ) ]
+Set Variable [ $monthlyInterest ; Value: Round ( $principal * ( $rate / 12 ) ; 2 ) ]
+
+# Resolve Standard_Transactions PKs. Hard fail if the taxonomy is unseeded.
+Go to Layout [ "Standard_Transactions" (Standard_Transactions) ]
+Enter Find Mode [ Pause: Off ]
+Set Field [ Standard_Transactions::Name ; "Interest Payment" ]
+Perform Find [ ]
+If [ Get ( FoundCount ) <> 1 ]
+	Exit Script [ Result: JSONSetElement ( "{}" ; [ "ok" ; False ; JSONBoolean ] ; [ "error" ; "missing standard transaction: Interest Payment" ; JSONString ] ) ]
+End If
+Set Variable [ $stInterest ; Value: Standard_Transactions::PrimaryKey ]
+
+Enter Find Mode [ Pause: Off ]
+Set Field [ Standard_Transactions::Name ; "Principal" ]
+Perform Find [ ]
+If [ Get ( FoundCount ) <> 1 ]
+	Exit Script [ Result: JSONSetElement ( "{}" ; [ "ok" ; False ; JSONBoolean ] ; [ "error" ; "missing standard transaction: Principal" ; JSONString ] ) ]
+End If
+Set Variable [ $stPrincipal ; Value: Standard_Transactions::PrimaryKey ]
+
+Set Variable [ $rowsCreated ; Value: 0 ]
+Set Variable [ $rowsUpdated ; Value: 0 ]
+Set Variable [ $rowsSkipped ; Value: 0 ]
+
+# Monthly interest rows, anchored to the day-of-month of OriginationDate
+Set Variable [ $seq ; Value: 0 ]
+Set Variable [ $due ; Value: Date ( Month ( $orig ) + 1 ; $day ; Year ( $orig ) ) ]
+
+Loop
+	Exit Loop If [ $due > $maturity ]
+	Set Variable [ $seq ; Value: $seq + 1 ]
+	Set Variable [ $scheduleKey ; Value: $loanID & "." & $stInterest & "." & $seq ]
+
+	Go to Layout [ "dev_ExpectedTransactions" (ExpectedTransactions) ]
+	Enter Find Mode [ Pause: Off ]
+	Set Field [ ExpectedTransactions::ScheduleKey ; $scheduleKey ]
+	Perform Find [ ]
+
+	If [ Get ( FoundCount ) = 0 ]
+		New Record/Request
+		Set Field [ ExpectedTransactions::PrimaryKey ; Get ( UUID ) ]
+		Set Field [ ExpectedTransactions::fkLoan ; $loanID ]
+		Set Field [ ExpectedTransactions::fkStandardTransaction ; $stInterest ]
+		Set Field [ ExpectedTransactions::SequenceNumber ; $seq ]
+		Set Field [ ExpectedTransactions::ScheduleKey ; $scheduleKey ]
+		Set Field [ ExpectedTransactions::DueDate ; $due ]
+		Set Field [ ExpectedTransactions::OriginalAmount ; $monthlyInterest ]
+		Set Field [ ExpectedTransactions::AmountAdjusted ; $monthlyInterest ]
+		Set Field [ ExpectedTransactions::CreationTimestamp ; Get ( CurrentTimestamp ) ]
+		Commit Records/Requests [ With dialog: Off ]
+		Set Variable [ $rowsCreated ; Value: $rowsCreated + 1 ]
+
+	Else If [ $mode = "regenerate_open_only" ]
+		Go to Record/Request/Page [ First ]
+		If [ IsEmpty ( ExpectedTransactions::calc_amountPaid ) or ExpectedTransactions::calc_amountPaid = 0 ]
+			Set Field [ ExpectedTransactions::DueDate ; $due ]
+			Set Field [ ExpectedTransactions::OriginalAmount ; $monthlyInterest ]
+			If [ IsEmpty ( ExpectedTransactions::AmountAdjusted ) or ExpectedTransactions::AmountAdjusted = ExpectedTransactions::OriginalAmount ]
+				Set Field [ ExpectedTransactions::AmountAdjusted ; $monthlyInterest ]
+			End If
+			Commit Records/Requests [ With dialog: Off ]
+			Set Variable [ $rowsUpdated ; Value: $rowsUpdated + 1 ]
+		Else
+			Set Variable [ $rowsSkipped ; Value: $rowsSkipped + 1 ]
+		End If
+	Else
+		Set Variable [ $rowsSkipped ; Value: $rowsSkipped + 1 ]
+	End If
+
+	Set Variable [ $due ; Value: Date ( Month ( $due ) + 1 ; $day ; Year ( $due ) ) ]
+End Loop
+
+# Maturity / balloon principal row, sequenced after the interest rows
+Set Variable [ $seq ; Value: $seq + 1 ]
+Set Variable [ $scheduleKey ; Value: $loanID & "." & $stPrincipal & "." & $seq ]
+
+Go to Layout [ "dev_ExpectedTransactions" (ExpectedTransactions) ]
+Enter Find Mode [ Pause: Off ]
+Set Field [ ExpectedTransactions::ScheduleKey ; $scheduleKey ]
+Perform Find [ ]
+
+If [ Get ( FoundCount ) = 0 ]
+	New Record/Request
+	Set Field [ ExpectedTransactions::PrimaryKey ; Get ( UUID ) ]
+	Set Field [ ExpectedTransactions::fkLoan ; $loanID ]
+	Set Field [ ExpectedTransactions::fkStandardTransaction ; $stPrincipal ]
+	Set Field [ ExpectedTransactions::SequenceNumber ; $seq ]
+	Set Field [ ExpectedTransactions::ScheduleKey ; $scheduleKey ]
+	Set Field [ ExpectedTransactions::DueDate ; $maturity ]
+	Set Field [ ExpectedTransactions::OriginalAmount ; $principal ]
+	Set Field [ ExpectedTransactions::AmountAdjusted ; $principal ]
+	Set Field [ ExpectedTransactions::CreationTimestamp ; Get ( CurrentTimestamp ) ]
+	Commit Records/Requests [ With dialog: Off ]
+	Set Variable [ $rowsCreated ; Value: $rowsCreated + 1 ]
+
+Else If [ $mode = "regenerate_open_only" ]
+	Go to Record/Request/Page [ First ]
+	If [ IsEmpty ( ExpectedTransactions::calc_amountPaid ) or ExpectedTransactions::calc_amountPaid = 0 ]
+		Set Field [ ExpectedTransactions::DueDate ; $maturity ]
+		Set Field [ ExpectedTransactions::OriginalAmount ; $principal ]
+		If [ IsEmpty ( ExpectedTransactions::AmountAdjusted ) or ExpectedTransactions::AmountAdjusted = ExpectedTransactions::OriginalAmount ]
+			Set Field [ ExpectedTransactions::AmountAdjusted ; $principal ]
+		End If
+		Commit Records/Requests [ With dialog: Off ]
+		Set Variable [ $rowsUpdated ; Value: $rowsUpdated + 1 ]
+	Else
+		Set Variable [ $rowsSkipped ; Value: $rowsSkipped + 1 ]
+	End If
+Else
+	Set Variable [ $rowsSkipped ; Value: $rowsSkipped + 1 ]
+End If
+
+Perform Script [ "10_UI__Set_Hub_Tab" ; Parameter: Param ( PText ( "tab" ; "Schedule" ) ) ]
+Refresh Window [ Flush cached join results ]
+
+Exit Script [ Result: JSONSetElement ( "{}" ; [ "ok" ; True ; JSONBoolean ] ; [ "loanID" ; $loanID ; JSONString ] ; [ "rowsCreated" ; $rowsCreated ; JSONNumber ] ; [ "rowsUpdated" ; $rowsUpdated ; JSONNumber ] ; [ "rowsSkipped" ; $rowsSkipped ; JSONNumber ] ; [ "mode" ; $mode ; JSONString ] ) ]

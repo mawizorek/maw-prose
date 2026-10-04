@@ -1,0 +1,462 @@
+/* The TSV data table (docrender/table.py, sheet.py, datatable.py).
+ *
+ * SPLIT OUT OF base.css ON 2026-08-04, because that file reached 18.4KB and the
+ * per-column work would have carried it over the 22KB read-whole line -- the
+ * point where a file stops coming back whole from one read and therefore stops
+ * being safely editable. The answer to a file doing two jobs is a SPLIT.
+ *
+ * WARNING: THE TABLE RULES LIVE HERE AND NOWHERE ELSE. Nothing was left behind in
+ * base.css as a layer to override. Two homes for one rule is the defect this
+ * engine spends its docstrings arguing against, and a stylesheet is the easiest
+ * place in the world to build one by accident. The one legitimate neighbour is
+ * assets/data-list.css, which is a FEATURE layer rather than a second copy: it
+ * touches only .dr-data--list and only inside a container query.
+ *
+ * ⚠️ PAPER IS THE PRINT GROUP'S, AND THIS IS THE ONLY POINTER TO IT. Every rule
+ * below is written for a SCREEN. `print.css` turns this table's four backgrounds
+ * off (they printed as blobs) and `print-chrome.css` uncages the scroll box --
+ * max-height, overflow, container-type, width, white-space, position -- because a
+ * scroll box on a sheet is a CROP, not a panel. Both carry the argument. 🚫 Do not
+ * re-add a paper note beside a rule: five scattered pointers at this one fact are
+ * what pushed this file over the read line on 2026-08-28, in the file whose own
+ * header forbids exactly that. The same DECLARATION must never appear in both.
+ *
+ * Consumes --dr-* tokens only. A site retunes every colour, font, measure and
+ * currency symbol from its own theme.css and never edits this file.
+ * ------------------------------------------------------------------------- */
+
+/* ---------------------------------------------------------------------------
+ * THE SHELL
+ *
+ * A spreadsheet exported by somebody who had to use it: 130 rows, eight columns,
+ * section breaks in the middle. Three decisions carry the weight.
+ *
+ * 1. IT SCROLLS SIDEWAYS INSTEAD OF WRAPPING -- for the columns where that is
+ *    true. A wrapped VALUE turns one row into three and destroys the horizontal
+ *    scan. See THE COLUMN KINDS for why that stopped being true of every column.
+ * 2. THE FIRST COLUMN AND THE HEADER STICK. Column one is the identifier you are
+ *    tracing and the header is what the cell you land on MEANS. Scroll far
+ *    enough right without them and every value is an orphan.
+ * 3. THE BOX DOES NOT TRAP A PHONE. See THE ONE VIEWPORT RULE at the foot.
+ *
+ * BUG: (1) AND (2) WERE BOTH FALSE UNTIL 2026-08-03. Material styles
+ * .md-typeset table:not([class]) with display:block so wide tables can scroll.
+ * Ours shipped with no class, so display:block stopped it being a table -- and a
+ * position:sticky cell inside a block has no row context to stick within, so it
+ * silently did nothing. Three defences: the table carries a class, display:table
+ * is forced anyway, and Material's JS scroll wrapper is neutralised if it shows.
+ *
+ * CONTAINER, NOT VIEWPORT (2026-08-04). container-type makes the rules that need
+ * it answer to the width of THIS BOX rather than the window, so the table behaves
+ * inside a narrow column or a split view and not only on a phone. A table is a
+ * component; it should answer to the space it is given, not the size of the
+ * glass. data-list.css queries this container too.
+ *
+ * ⚠️ THE CONTAINER IS NAMED. An unnamed @container binds to the NEAREST
+ * ancestor container, which is whatever happens to be closest on the day -- and
+ * this tree gained layers all through 2026-08-04. `container-name` makes the
+ * binding explicit so a query cannot silently start answering a different box.
+ * ------------------------------------------------------------------------ */
+.dr-data {
+  container-type: inline-size;
+  container-name: dr-table;
+  margin: 1.4rem 0;
+  max-height: 78vh;
+  overflow: auto;
+  /* Stop a sideways swipe that runs out of table from becoming a browser
+   * back-navigation, which on iOS is one flick away at all times. */
+  overscroll-behavior-x: contain;
+  border: 1px solid var(--dr-rule);
+  border-radius: 3px;
+  background: var(--dr-surface);
+}
+
+.dr-data .md-typeset__scrollwrap,
+.dr-data .md-typeset__table {
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  max-width: none;
+}
+
+.md-typeset .dr-data__table,
+.dr-data__table {
+  display: table;
+  border-collapse: separate;
+  border-spacing: 0;
+  width: max-content;
+  min-width: 100%;
+  max-width: none;
+  margin: 0;
+  overflow: visible;
+  font-family: var(--dr-data-font, var(--dr-font-body));
+  font-size: var(--dr-data-size);
+  line-height: 1.35;
+}
+
+/* ---------------------------------------------------------------------------
+ * ⭐ CELL DENSITY IS THE THEME'S, PER AXIS (2026-08-28, Michael: *"per-theme
+ * density dial"*)
+ *
+ * `pad-cell` takes the vertical, `pad-card` the horizontal. TWO primitives because
+ * the value has two axes: the reverted `data-pad -> pad-cell` bridge row (PR #82)
+ * mapped both to one number and made every row 48% taller and every column 17%
+ * narrower at once. Short rows so more fit, wide columns so they separate -- now by
+ * construction rather than by a literal.
+ *
+ * 🔴 IT IS A DIAL, NOT A TIGHTENING. Against the 5.44/9.6px literal it replaces:
+ * `uritp-safety` and `database` 2/8 and `eos` 3/8 are tighter; `tight` 8/16,
+ * `standard` 10/20 and `loose` 12/24 are LOOSER. ⚠️ `tight` is sized around a 42px
+ * touch target and is not tight for a table.
+ *
+ * ✅ THE FALLBACKS ARE THE OLD LITERALS. A theme with no join emits no spacing
+ * primitives (theme.py `_bridge()` reports it) and a bare var() would collapse
+ * padding to zero. 🚩 The vendored canonical/spacing.tsv is also missing the
+ * `uritp-safety` row upstream maw-themes has, so a vendored-fallback build renders
+ * byte-identically to before -- stale projection, upstream re-copy.
+ *
+ * 🪦 `--dr-data-pad` is retired from theme/typography.tsv rather than kept as an
+ * override hook: `theme.py:_shared()` skips every non-`base` row, so a per-theme
+ * value could never be emitted and the hook would be a dead control. 🚩 That filter
+ * is still open for `data-font`, `data-size` and `measure`.
+ * ------------------------------------------------------------------------ */
+.md-typeset .dr-data__table th,
+.md-typeset .dr-data__table td,
+.dr-data__table th,
+.dr-data__table td {
+  padding: var(--dr-pad-cell, 0.34rem) var(--dr-pad-card, 0.6rem);
+  border-bottom: 1px solid var(--dr-rule);
+  border-right: 1px solid var(--dr-rule);
+  white-space: nowrap;
+  text-align: left;
+  vertical-align: top;
+}
+
+.dr-data__table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: var(--dr-surface-raised);
+  color: var(--dr-ink-muted);
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: normal;
+  min-width: 6rem;
+  max-width: 12rem;
+}
+
+/* ---------------------------------------------------------------------------
+ * THE FROZEN FIRST COLUMN, IN TWO PARTS, AND THE SPLIT IS THE POINT
+ *
+ * STRUCTURE (always): it sticks, it carries the surface colour so rows do not
+ * bleed under it, and it has an edge shadow. The shadow is not decoration --
+ * without an edge nothing on screen says the table scrolls, and a reader who does
+ * not know to swipe reads the first two columns and leaves.
+ *
+ * IDENTITY (conditional): bold and accent-coloured, because the first column is
+ * normally the thing a reader is TRACING.
+ *
+ * 🐛 THOSE WERE ONE RULE UNTIL 2026-08-04, AND THAT WELDED A POSITION TO A
+ * MEANING. `hide:` can remove a sheet's ID column, which promotes whatever was
+ * second into `:first-child` -- so hiding ID on the audio inventory rendered
+ * `Count`, a right-aligned number, as the accent identifier. The stylesheet was
+ * asserting something about the data that the data no longer supported.
+ *
+ * ⚑ FOURTH INSTANCE OF THAT SHAPE TODAY (the two `sticky` traps below and above,
+ * the eyebrow bound to the `id` type in data-list.css, this). A rule bound to
+ * POSITION standing in for a rule about MEANING survives exactly as long as the
+ * two happen to coincide.
+ *
+ * A num or money column is never an identifier -- `sheet.classify_columns` and
+ * the `::type` declaration both already know which columns those are, so the
+ * question is answerable rather than guessed.
+ * ------------------------------------------------------------------------ */
+.dr-data__table tbody td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: var(--dr-surface);
+  box-shadow: 1px 0 0 var(--dr-rule), 10px 0 10px -10px rgb(0 0 0 / 45%);
+}
+.dr-data__table tbody td:first-child:not(.dr-col--num):not(.dr-col--money) {
+  font-weight: 600;
+  color: var(--dr-accent);
+}
+.dr-data__table thead th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 4;
+}
+
+.dr-data__table tbody tr:hover td {
+  background: var(--dr-surface-raised);
+}
+
+/* The toggle cell is in the markup of every list table and is furniture until
+ * there is no room. Hidden rather than absent, so the row does not change shape
+ * between the two layouts. data-list.css reveals it. */
+.dr-data__more { display: none; }
+
+/* ---------------------------------------------------------------------------
+ * THE COLUMN KINDS -- id / num / money / date / tok / prose
+ *
+ * Written by docrender/table.py as dr-col--<kind>. DERIVED from the values by
+ * sheet.classify_columns, OVERRIDDEN by a ::type in the header cell.
+ *
+ * WHY THIS EXISTS. white-space:nowrap above was CORRECT when a cell was a value,
+ * and stopped being correct the moment a cell became prose (PR #50). With nowrap
+ * on everything, THE LONGEST SENTENCE IN THE SHEET SETS THE SCROLL WIDTH OF THE
+ * WHOLE TABLE, and every column after it lives off the right edge of a phone.
+ * Kinds keep nowrap exactly where it earns its keep.
+ *
+ * WARNING: SPECIFICITY IS DELIBERATE AND FRAGILE. The blanket rule above is
+ * .md-typeset .dr-data__table td = (0,2,1); these have to beat it, which is why
+ * each attaches the kind class to td/th and repeats itself with and without the
+ * .md-typeset prefix. Do not tidy them down to a bare class selector -- it will
+ * lose to the rule ninety lines above it, and it will lose silently.
+ *
+ * WARNING: THE FONTS ARE TWO TOKENS, NOT ONE. --dr-data-font was always the whole
+ * table's font, and a site setting it to mono meant it -- for the ids and the
+ * counts, which is what a monospaced face is FOR. It costs roughly 60% more
+ * width per character on a sentence, the column that can least afford it. So
+ * prose reads --dr-data-prose-font and falls back to the body face.
+ * ------------------------------------------------------------------------ */
+
+.md-typeset .dr-data__table td.dr-col--id,
+.md-typeset .dr-data__table td.dr-col--num,
+.md-typeset .dr-data__table td.dr-col--money,
+.md-typeset .dr-data__table td.dr-col--date,
+.md-typeset .dr-data__table td.dr-col--tok,
+.dr-data__table td.dr-col--id,
+.dr-data__table td.dr-col--num,
+.dr-data__table td.dr-col--money,
+.dr-data__table td.dr-col--date,
+.dr-data__table td.dr-col--tok {
+  white-space: nowrap;
+  font-family: var(--dr-data-font, var(--dr-font-mono));
+}
+
+/* AN ID IS NOT A QUANTITY, and this rule exists because the engine got it wrong
+ * for three hours. A course number is all digits, so derivation called it `num`
+ * and right-aligned 44 course codes as though they were counts. An id is a NAME
+ * written in digits: it left-aligns like any other label and takes tabular
+ * figures only so the codes line up as a column of names.
+ *
+ * A DATE IS THE SAME ARGUMENT. `Aug 4 · 7:58p` is a label for a moment, not a
+ * magnitude, so it left-aligns; tabular figures keep a column of them from
+ * ragging. table.py renders it from the ISO stamp the cell actually holds. */
+.md-typeset .dr-data__table td.dr-col--id,
+.md-typeset .dr-data__table td.dr-col--date,
+.dr-data__table td.dr-col--id,
+.dr-data__table td.dr-col--date {
+  text-align: left;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Tabular figures so a column of counts lines up instead of ragging by glyph
+ * width, right-aligned so magnitudes compare at a glance. A number column you
+ * have to read digit by digit is a list. */
+.md-typeset .dr-data__table td.dr-col--num,
+.md-typeset .dr-data__table td.dr-col--money,
+.dr-data__table td.dr-col--num,
+.dr-data__table td.dr-col--money {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.md-typeset .dr-data__table thead th.dr-col--num,
+.md-typeset .dr-data__table thead th.dr-col--money,
+.dr-data__table thead th.dr-col--num,
+.dr-data__table thead th.dr-col--money {
+  text-align: right;
+}
+
+/* THE CURRENCY SYMBOL IS DRAWN, NOT STORED, and that is the whole design. The
+ * cell holds 1200.00 -- a number, still sortable, still summable, still honest in
+ * the TSV somebody downloads. The symbol is presentation and lives here, so a
+ * site sets --dr-money-symbol to a pound or a euro and this file never learns
+ * that dollars exist. An empty cell gets nothing: a bare symbol against no value
+ * reads as zero, which is a different claim from 'nobody has said'. */
+.dr-data__table td.dr-col--money:not(:empty)::before {
+  content: var(--dr-money-symbol, "$");
+  color: var(--dr-ink-muted);
+  margin-right: 0.15em;
+}
+
+/* THE ONE THAT WRAPS. max-width is a MEASURE, in ch, so it tracks the font rather
+ * than a guessed pixel count. min-width stops a two-word prose column collapsing
+ * into a column of single words. */
+.md-typeset .dr-data__table td.dr-col--prose,
+.dr-data__table td.dr-col--prose {
+  white-space: normal;
+  font-family: var(--dr-data-prose-font, var(--dr-font-body));
+  min-width: 14ch;
+  max-width: var(--dr-data-measure, 34ch);
+  line-height: 1.4;
+}
+.md-typeset .dr-data__table thead th.dr-col--prose,
+.dr-data__table thead th.dr-col--prose {
+  max-width: var(--dr-data-measure, 34ch);
+}
+
+/* ---------------------------------------------------------------------------
+ * A MARKER INSIDE A TABLE CELL WRAPS. IN A SENTENCE IT STILL DOES NOT.
+ *
+ * base.css gives .dr-mark `white-space: nowrap`, and that is right where it was
+ * written: a dimension like 18'-0" broken across two lines is unreadable, and a
+ * marked value inside a paragraph can always make the line longer.
+ *
+ * 🐛 A TABLE CELL CANNOT MAKE THE LINE LONGER. A 40-character `.conf` note in a
+ * verify column is one unbreakable box inside a grid column that has a fixed
+ * width, so it clipped off the right edge mid-sentence -- found by Michael on an
+ * expanded row: "I don't think we need to wrap the entire 40-character prose in
+ * our markers, especially if it's in a table like this."
+ *
+ * ⚑ THIRD TIME nowrap has been correct for VALUES and wrong for PROSE (see the
+ * column kinds above, and PR #50). The pattern is not that nowrap is wrong -- it
+ * is that a rule written for the short case gets applied to the long one by
+ * inheritance, and nothing about the rule says which case it was for. A FOURTH
+ * arrived on 2026-08-28, where the long case was the MEDIUM: paper.
+ *
+ * Scoped INSIDE .dr-data only. Page prose is untouched, the box shape survives,
+ * and a marked note still reads as marked -- it just breaks like text.
+ * ------------------------------------------------------------------------ */
+.dr-data .dr-mark {
+  white-space: normal;
+}
+
+/* ---------------------------------------------------------------------------
+ * THE SECTION BAND -- e.g. CONSOLES & MIXERS [8110]
+ *
+ * A heading INSIDE the sheet (sheet.is_section). It is a th with colspan=N, and
+ * that is the whole reason the LABEL is a separate span.
+ *
+ * BUG: STICKY ON THE CELL DID NOTHING, AND LOOKED LIKE A PAINT BUG. Sticky needs
+ * slack between the element and its scroll container. A cell spanning every
+ * column has none -- its width IS the scroll width -- so the band scrolled away
+ * with the row and a reader three columns in saw WARE [2000] where the sheet said
+ * HARDWARE [2000]. An inline-block inside it has all the slack in the world.
+ * Geometry, not paint.
+ *
+ * ⭐ THE BAND READS `accent-2`, NOT `accent` (2026-08-05), and that is a
+ * distinction rather than a decoration. The sticky first column above is
+ * `accent` because it is the IDENTIFIER a reader is tracing. This band is
+ * STRUCTURE -- where one group of rows ends and the next begins. They were the
+ * same colour, so neither was saying anything the other was not, which is the
+ * whole job the second accent exists to do.
+ *
+ * ⚠️ The fallback is load-bearing: the three local nine-token themes emit no
+ * `accent-2`, and a bare var() here would collapse the rule and take the band's
+ * only visible edge with it. Falls back to the colour it used to be.
+ * ------------------------------------------------------------------------ */
+.md-typeset .dr-data__table .dr-data__section th,
+.dr-data__table .dr-data__section th {
+  position: static;
+  padding: 0;
+  background: var(--dr-surface-raised);
+  border-top: 2px solid var(--dr-accent-2, var(--dr-accent));
+  white-space: nowrap;
+}
+
+/* The label carries the band's padding, so it takes the same two primitives as a
+ * cell. A band keeping a literal while every row around it followed the theme
+ * would read as a paint bug at both ends of the spacing grid. */
+.dr-data__section-label {
+  position: sticky;
+  left: 0;
+  display: inline-block;
+  padding: var(--dr-pad-cell, 0.34rem) var(--dr-pad-card, 0.6rem);
+  color: var(--dr-ink);
+  font-weight: 700;
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ---------------------------------------------------------------------------
+ * THE CAPTION AND THE SOURCE LINE
+ *
+ * Both sit OUTSIDE the table and inside the scrolling box, so both have to be
+ * pinned or they slide out of view the moment a reader scrolls right.
+ *
+ * BUG: the caption had no rule in this engine at all until 2026-08-04. The
+ * drawing code has emitted .dr-data__caption since the day captions shipped and
+ * nothing ever styled it, so it inherited Material paragraph styling and scrolled
+ * away. The source line one element below it had been pinned correctly the whole
+ * time, which is the clue nobody followed.
+ * ------------------------------------------------------------------------ */
+.md-typeset .dr-data__caption,
+.dr-data__caption {
+  position: sticky;
+  left: 0;
+  margin: 0;
+  padding: 0.5rem 0.6rem 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--dr-ink-muted);
+  letter-spacing: 0.02em;
+}
+
+.md-typeset .dr-data__source,
+.dr-data__source {
+  position: sticky;
+  left: 0;
+  margin: 0;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.72rem;
+  color: var(--dr-ink-muted);
+}
+
+/* ---------------------------------------------------------------------------
+ * A NARROW BOX THAT IS NOT IN LIST MODE
+ *
+ * Most sheets declare no `.key` and therefore never restructure. They still get
+ * a narrower measure when the box is tight, so the prose column stops setting
+ * the scroll width for everything to its right.
+ *
+ * LIST MODE ITSELF LIVES IN assets/data-list.css. It moved there when this file
+ * passed the warn line and an attempted trim recovered 22 bytes -- the clearest
+ * possible evidence that prose was not the problem and the file was doing two
+ * jobs. Do not re-add a .dr-data--list rule here.
+ *
+ * ⚠️ THE THRESHOLD IS PX AND THE CONTAINER IS NAMED, and both halves are a fix
+ * (2026-08-05). `em` inside a container query resolves against the QUERY
+ * CONTAINER's own font size, not the root -- and .dr-data inherits Material's
+ * .md-typeset sizing, which is not 16px. 45em was therefore not 720px and
+ * nobody could say what it was. 640px is below every phone (390-430) and 116px
+ * clear of this site's real desktop content column (~756px), where 45em was
+ * firing list mode on a 1457px desktop.
+ * ------------------------------------------------------------------------ */
+@container dr-table (max-width: 640px) {
+  .md-typeset .dr-data__table td.dr-col--prose,
+  .dr-data__table td.dr-col--prose {
+    max-width: 22ch;
+    min-width: 12ch;
+  }
+  .dr-data__table thead th { min-width: 4.5rem; }
+}
+
+/* ---------------------------------------------------------------------------
+ * THE ONE VIEWPORT RULE
+ *
+ * max-height is measured in vh, so it is a question about the GLASS and not the
+ * column -- and an element cannot answer a container query it establishes itself.
+ * Both reasons point the same way, which is the only reason this is not a
+ * compromise. On a phone the page scrolls vertically and the table scrolls
+ * sideways; a 78vh box that swallows a vertical swipe is the worst thing on this
+ * page on a small screen and the best thing on it on a large one.
+ *
+ * WARNING: EVERY DEFECT THIS FILE FIXES WAS FOUND ON A PHONE AND WAS INVISIBLE ON
+ * A LAPTOP, three times in two days (see base.css on the double nav rule, and
+ * router.css on the revealed menu). The engine has a build report, a size gate, a
+ * leak scan and a contrast gate, and nothing that looks at a rendered page at
+ * 390px. Until it does, this is where the phone gets thought about on purpose.
+ *
+ * ⚑ PAPER IS THE FOURTH SUCH SURFACE AND THE WORST: this `vh` cage cropped every
+ * long printed sheet, it was found by reading stylesheets while answering a
+ * different question, and nothing in CI can look at a printed page at all.
+ * ------------------------------------------------------------------------ */
+@media screen and (max-width: 44.9375em) {
+  .dr-data { max-height: none; }
+}

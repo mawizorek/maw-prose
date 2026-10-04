@@ -1,0 +1,370 @@
+{
+  "site": "mawprose",
+  "name": "MAW Prose",
+  "base_url": "https://mawizorek.github.io/maw-prose/",
+  "built": "2026-10-04T04:10:01Z",
+  "engine": "0.1.0",
+  "engine_ref": "f106494388b1308c697c57b0f218a1bf4ef3c797",
+  "pages": [
+    {
+      "id": "build-sheet",
+      "type": "reference",
+      "title": "Build Sheet",
+      "url": "apps/production-mawster-no-use/build-sheet/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "data-standards",
+      "type": "reference",
+      "title": "Data standards",
+      "url": "apps/production-mawster-no-use/data-standards/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "integration",
+      "type": "reference",
+      "title": "ClickUp Integration",
+      "url": "apps/production-mawster-no-use/integration/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "legacy-script-review",
+      "type": "reference",
+      "title": "Legacy Script Review",
+      "url": "apps/production-mawster-no-use/90-file-imports-temp/prevProductionCalendarApp/script-review/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "prev-production-calendar-app",
+      "type": "index",
+      "title": "Prev Calendar App Build",
+      "url": "apps/production-mawster-no-use/90-file-imports-temp/prevProductionCalendarApp/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "production-mawster",
+      "type": "index",
+      "title": "Production MAWster",
+      "url": "apps/production-mawster-no-use/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "projection-law",
+      "type": "reference",
+      "title": "Projection Law",
+      "url": "apps/production-mawster-no-use/projection-law/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "runtime",
+      "type": "page",
+      "title": "Runtime",
+      "url": "apps/production-mawster-no-use/11-runtime/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "scripts",
+      "type": "index",
+      "title": "Scripts",
+      "url": "apps/production-mawster-no-use/70-scripts/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-assignments",
+      "type": "reference",
+      "title": "Assignments",
+      "url": "apps/production-mawster-no-use/20-tables/ASSIGNMENTS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-calendar-emphasis",
+      "type": "reference",
+      "title": "CALENDAR_EMPHASIS",
+      "url": "apps/production-mawster-no-use/20-tables/CALENDAR_EMPHASIS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-editions",
+      "type": "reference",
+      "title": "EDITIONS",
+      "url": "apps/production-mawster-no-use/20-tables/editions/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-events",
+      "type": "reference",
+      "title": "Events",
+      "url": "apps/production-mawster-no-use/20-tables/EVENTS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-events-workday",
+      "type": "reference",
+      "title": "EVENTS_workday",
+      "url": "apps/production-mawster-no-use/20-tables/EVENTS_workday/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-fiscal-years",
+      "type": "reference",
+      "title": "FISCAL_YEARS",
+      "url": "apps/production-mawster-no-use/20-tables/FISCAL_YEARS/",
+      "status": "unlisted",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-global-export-variables",
+      "type": "reference",
+      "title": "GLOBAL_EXPORT_VARIABLES",
+      "url": "apps/production-mawster-no-use/20-tables/global_use_variables/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-global-use",
+      "type": "reference",
+      "title": "GLOBAL_USE",
+      "url": "apps/production-mawster-no-use/20-tables/GLOBAL_USE/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-import-events",
+      "type": "reference",
+      "title": "import_EVENTS",
+      "url": "apps/production-mawster-no-use/20-tables/import_EVENTS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-import-sessions",
+      "type": "reference",
+      "title": "import_SESSIONS",
+      "url": "apps/production-mawster-no-use/20-tables/import_SESSIONS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-location-types",
+      "type": "reference",
+      "title": "Location Types",
+      "url": "apps/production-mawster-no-use/20-tables/LOCATION_TYPES/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-locations",
+      "type": "reference",
+      "title": "Locations",
+      "url": "apps/production-mawster-no-use/20-tables/LOCATIONS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-people",
+      "type": "reference",
+      "title": "PEOPLE",
+      "url": "apps/production-mawster-no-use/20-tables/PEOPLE/",
+      "status": "unlisted",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-print-presets",
+      "type": "reference",
+      "title": "PRINT_PRESETS",
+      "url": "apps/production-mawster-no-use/20-tables/PRINT_PRESETS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-print-sessions",
+      "type": "reference",
+      "title": "PRINT_SESSIONS",
+      "url": "apps/production-mawster-no-use/20-tables/PRINT_SESSIONS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-print-set-items",
+      "type": "reference",
+      "title": "PRINT_SET_ITEMS",
+      "url": "apps/production-mawster-no-use/20-tables/PRINT_SET_ITEMS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-print-sets",
+      "type": "reference",
+      "title": "PRINT_SETS",
+      "url": "apps/production-mawster-no-use/20-tables/PRINT_SETS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-producer-info",
+      "type": "reference",
+      "title": "PRODUCER_INFO",
+      "url": "apps/production-mawster-no-use/20-tables/PRODUCER_INFO/",
+      "status": "unlisted",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-producers",
+      "type": "reference",
+      "title": "Producers",
+      "url": "apps/production-mawster-no-use/20-tables/PRODUCERS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-production-calendars",
+      "type": "reference",
+      "title": "PRODUCTION_CALENDARS",
+      "url": "apps/production-mawster-no-use/20-tables/PRODUCTION_CALENDARS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-productions",
+      "type": "reference",
+      "title": "Productions",
+      "url": "apps/production-mawster-no-use/20-tables/productions/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-roles",
+      "type": "reference",
+      "title": "Roles",
+      "url": "apps/production-mawster-no-use/20-tables/roles/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-standard-events",
+      "type": "reference",
+      "title": "STANDARD_EVENTS",
+      "url": "apps/production-mawster-no-use/20-tables/STANDARD_EVENTS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-styles",
+      "type": "reference",
+      "title": "Styles",
+      "url": "apps/production-mawster-no-use/20-tables/STYLES/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-venues",
+      "type": "reference",
+      "title": "Venues",
+      "url": "apps/production-mawster-no-use/20-tables/VENUES/",
+      "status": "unlisted",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-versions",
+      "type": "reference",
+      "title": "Versions",
+      "url": "apps/production-mawster-no-use/20-tables/versions/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-weeks",
+      "type": "reference",
+      "title": "Weeks",
+      "url": "apps/production-mawster-no-use/20-tables/WEEKS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-workdays",
+      "type": "reference",
+      "title": "Workdays",
+      "url": "apps/production-mawster-no-use/20-tables/WORKDAYS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "tables",
+      "type": "index",
+      "title": "Tables",
+      "url": "apps/production-mawster-no-use/20-tables/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "user-experience",
+      "type": "index",
+      "title": "UX",
+      "url": "apps/production-mawster-no-use/10-user-experience/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "workflow",
+      "type": "reference",
+      "title": "Build & Use Workflow",
+      "url": "apps/production-mawster-no-use/workflow/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    }
+  ]
+}

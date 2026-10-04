@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loan Detail (Form View) — HML_LLC</title>
+<!--
+  RENDER: form-loan-detail
+  THEME: papyrus (baked from papyrus.json @ 2026-08-02)
+  OBJECTS: cnt_page_shell, cnt_section_card, nav_back, tx_page_title,
+           tx_field_label, fd_text_standard, fd_readonly_display,
+           row_tile_badge, btn_family, tx_badge
+  SELF-CONTAINED: zero external dependencies.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* === THEME TOKENS (baked from papyrus.json) === */
+:root {
+  --bg: oklch(0.935 0.026 85);
+  --surface-1: oklch(0.965 0.020 85);
+  --surface-2: oklch(0.895 0.032 82);
+  --surface-3: oklch(0.855 0.038 80);
+  --border: oklch(0.78 0.042 78);
+  --field: oklch(0.975 0.018 85);
+  --text: oklch(0.30 0.045 60);
+  --text-soft: oklch(0.46 0.045 62);
+  --text-faint: oklch(0.60 0.038 65);
+  --accent: oklch(0.52 0.11 62);
+  --accent-2: oklch(0.56 0.11 42);
+  --accent-soft: oklch(0.88 0.05 75);
+  --on-accent: oklch(0.98 0.02 80);
+  --good: oklch(0.52 0.13 145);
+  --warn: oklch(0.62 0.13 70);
+  --bad: oklch(0.52 0.18 30);
+  --info: oklch(0.50 0.10 230);
+
+  /* Typography */
+  --font-display: 'Gabarito', system-ui, sans-serif;
+  --font-body: 'Gabarito', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --fs-lead: 1.35rem;
+  --fs-body: 0.9375rem;
+  --fs-sm: 0.8125rem;
+  --fs-xs: 0.6875rem;
+
+  /* Forms */
+  --radius: 0px;
+  --radius-lg: 2px;
+  --border-w: 1px;
+  --shadow-out: 0 1px 2px oklch(0.30 0.02 60 / 0.08);
+  --shadow-in: inset 0 1px 3px oklch(0.30 0.02 60 / 0.12);
+
+  /* Spacing */
+  --gap-xs: 4px;
+  --gap-sm: 8px;
+  --gap-md: 12px;
+  --gap-lg: 20px;
+  --pad-cell: 8px;
+  --pad-card: 16px;
+
+  /* Layout constants */
+  --row-h: 30px;
+  --cell-px: 8px;
+  --cell-py: 4px;
+  --track-tight: -0.01em;
+  --track-btn: 0.04em;
+}
+
+/* === RESET === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.35;
+}
+
+.layout {
+  max-width: 1060px;
+  padding: var(--pad-card) var(--gap-lg);
+  margin: 0 auto;
+}
+
+/* === HEADER === */
+.layout-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--gap-md);
+  padding-bottom: var(--gap-xs);
+  border-bottom: var(--border-w) solid var(--border);
+}
+.layout-header h1 {
+  font-family: var(--font-display);
+  font-size: var(--fs-lead);
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: var(--track-tight);
+}
+.layout-header h1::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 16px;
+  background: var(--accent);
+  margin-right: var(--pad-cell);
+  vertical-align: middle;
+  border-radius: 1px;
+}
+.btn-back {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--accent);
+  background: transparent;
+  border: var(--border-w) solid var(--border);
+  padding: var(--cell-py) var(--cell-px);
+  cursor: pointer;
+  border-radius: var(--radius);
+}
+.btn-back:hover { border-color: var(--accent); }
+
+/* === SECTION CARD === */
+.terms-card {
+  background: var(--surface-2);
+  border: var(--border-w) solid var(--border);
+  border-top: 2px solid var(--accent-2);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-out);
+  padding: var(--gap-md) var(--pad-card);
+  margin-bottom: var(--pad-card);
+}
+.terms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--gap-xs) var(--pad-card);
+}
+.terms-grid .field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.terms-grid .field label {
+  font-size: var(--fs-xs);
+  font-family: var(--font-mono);
+  color: var(--text-soft);
+  text-transform: uppercase;
+  letter-spacing: var(--track-btn);
+}
+.terms-grid .field .val {
+  font-size: var(--fs-body);
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+.terms-grid .field .val.editable {
+  background: var(--field);
+  border: var(--border-w) solid var(--border);
+  padding: 2px 6px;
+  min-height: 22px;
+  border-radius: var(--radius);
+}
+.terms-grid .field .val.readonly {
+  background: var(--surface-2);
+  color: var(--text-soft);
+  padding: 2px 6px;
+  border: var(--border-w) solid transparent;
+  font-style: italic;
+}
+
+/* Status pill */
+.pill {
+  display: inline-block;
+  font-size: var(--fs-xs);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 2px var(--pad-cell);
+  border-radius: var(--radius);
+}
+.pill.active { background: var(--good); color: var(--on-accent); }
+.pill.late { background: var(--bad); color: var(--on-accent); }
+.pill.paid-off { background: var(--info); color: var(--on-accent); }
+
+/* === PORTAL TABLE === */
+.portal { margin-bottom: var(--pad-card); }
+.portal-header {
+  font-family: var(--font-display);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--text-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 6px 0 4px;
+  border-bottom: var(--border-w) solid var(--border);
+}
+.portal table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  font-variant-numeric: tabular-nums;
+}
+.portal th {
+  text-align: left;
+  font-weight: 500;
+  color: var(--text-soft);
+  background: var(--surface-1);
+  padding: var(--cell-py) var(--cell-px);
+  border-bottom: var(--border-w) solid var(--border);
+  height: var(--row-h);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.portal th.num { text-align: right; }
+.portal td {
+  padding: var(--cell-py) var(--cell-px);
+  border-bottom: var(--border-w) solid var(--border);
+  height: var(--row-h);
+  vertical-align: middle;
+}
+.portal td.num { text-align: right; }
+.portal tr:nth-child(even) td { background: var(--surface-2); }
+.portal tr.selected td {
+  background: var(--accent-soft);
+  border-left: 2px solid var(--accent-2);
+}
+.portal tr:hover td { background: var(--accent-soft); cursor: pointer; }
+
+.dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin-right: var(--gap-xs);
+  vertical-align: middle;
+}
+.dot.current { background: var(--good); }
+.dot.pending { background: var(--warn); }
+.dot.late { background: var(--bad); }
+.dot.applied { background: var(--info); }
+
+/* === ACTION BAR === */
+.action-bar {
+  display: flex;
+  gap: var(--gap-xs);
+  padding-top: var(--gap-xs);
+  border-top: var(--border-w) solid var(--border);
+}
+.btn {
+  font-family: var(--font-display);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  padding: 6px 14px;
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--shadow-out);
+  border-radius: var(--radius);
+}
+.btn.primary { background: var(--accent); color: var(--on-accent); }
+.btn.primary:active { box-shadow: var(--shadow-in); transform: translateY(1px); }
+.btn.secondary { background: transparent; color: var(--accent-2); border: var(--border-w) solid var(--accent-2); }
+.btn.secondary:active { background: var(--surface-3); box-shadow: var(--shadow-in); }
+
+/* === FOOTER === */
+.layout-footer {
+  margin-top: var(--gap-md);
+  padding-top: var(--pad-cell);
+  border-top: var(--border-w) solid var(--border);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--text-faint);
+  display: flex;
+  justify-content: space-between;
+}
+
+/* === CALC ROW === */
+.calc-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-md);
+  margin-top: var(--gap-xs);
+  padding-top: var(--pad-cell);
+  border-top: 1px dashed var(--border);
+}
+
+@media (max-width: 700px) {
+  .terms-grid { grid-template-columns: repeat(2, 1fr); }
+  .calc-row { flex-direction: column; }
+  .layout-footer { flex-direction: column; gap: 4px; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- HEADER -->
+  <header class="layout-header">
+    <h1>LOAN DETAIL</h1>
+    <button class="btn-back">&#8592; Property Hub</button>
+  </header>
+
+  <!-- TERMS CARD -->
+  <section class="terms-card">
+    <div class="terms-grid">
+      <div class="field"><label>Borrower</label><div class="val editable" contenteditable>Cougar Capital LLC</div></div>
+      <div class="field"><label>Original Principal</label><div class="val editable" contenteditable>$85,000.00</div></div>
+      <div class="field"><label>Rate (Annual)</label><div class="val editable" contenteditable>12%</div></div>
+      <div class="field"><label>Status</label><div class="val"><span class="pill active">ACTIVE</span></div></div>
+      <div class="field"><label>Origination</label><div class="val editable" contenteditable>01/15/2025</div></div>
+      <div class="field"><label>Term (days)</label><div class="val editable" contenteditable>365</div></div>
+      <div class="field"><label>Grace Days</label><div class="val editable" contenteditable>5</div></div>
+      <div class="field"><label>Loan #</label><div class="val editable" contenteditable>HML-2025-003</div></div>
+    </div>
+    <div class="calc-row">
+      <div class="field"><label>Monthly Payment (calc)</label><div class="val readonly">$850.00</div></div>
+      <div class="field"><label>Per Diem (calc)</label><div class="val readonly">$27.95</div></div>
+      <div class="field"><label>Current Balance (calc)</label><div class="val readonly">$85,000.00</div></div>
+      <div class="field"><label>Next Due (calc)</label><div class="val readonly">08/15/2025</div></div>
+      <div class="field"><label>Payoff Amount (calc)</label><div class="val readonly">$87,345.20</div></div>
+    </div>
+  </section>
+
+  <!-- EXPECTED TRANSACTIONS PORTAL -->
+  <section class="portal">
+    <div class="portal-header">Expected Transactions</div>
+    <table>
+      <thead><tr><th>Due Date</th><th class="num">Amount</th><th>Status</th><th>Late?</th><th class="num">Applied</th></tr></thead>
+      <tbody>
+        <tr class="selected"><td>08/15/2025</td><td class="num">$850.00</td><td><span class="dot pending"></span>pending</td><td></td><td class="num">$0.00</td></tr>
+        <tr><td>07/15/2025</td><td class="num">$850.00</td><td><span class="dot current"></span>paid</td><td></td><td class="num">$850.00</td></tr>
+        <tr><td>06/15/2025</td><td class="num">$850.00</td><td><span class="dot current"></span>paid</td><td></td><td class="num">$850.00</td></tr>
+        <tr><td>05/15/2025</td><td class="num">$850.00</td><td><span class="dot current"></span>paid</td><td><span class="dot late"></span>6d</td><td class="num">$850.00</td></tr>
+        <tr><td>04/15/2025</td><td class="num">$850.00</td><td><span class="dot current"></span>paid</td><td></td><td class="num">$850.00</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- RECEIVED FUNDS PORTAL -->
+  <section class="portal">
+    <div class="portal-header">Received Funds</div>
+    <table>
+      <thead><tr><th>Date Received</th><th class="num">Amount</th><th>Source</th><th>Applied?</th><th>Match</th></tr></thead>
+      <tbody>
+        <tr><td>07/14/2025</td><td class="num">$850.00</td><td>wire</td><td><span class="dot applied"></span>full</td><td>Jul expected</td></tr>
+        <tr><td>06/13/2025</td><td class="num">$850.00</td><td>check</td><td><span class="dot applied"></span>full</td><td>Jun expected</td></tr>
+        <tr><td>05/21/2025</td><td class="num">$850.00</td><td>venmo</td><td><span class="dot applied"></span>full</td><td>May expected (late)</td></tr>
+        <tr><td>04/15/2025</td><td class="num">$850.00</td><td>wire</td><td><span class="dot applied"></span>full</td><td>Apr expected</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ACTION BAR -->
+  <div class="action-bar">
+    <button class="btn primary">Apply Payment</button>
+    <button class="btn secondary">Generate Payoff</button>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="layout-footer">
+    <span>PK: 4A7C-E912-8F3B-D01A</span>
+    <span>HML_LLC v1 · papyrus · baked 2026-08-02</span>
+  </footer>
+
+</div>
+</body>
+</html>

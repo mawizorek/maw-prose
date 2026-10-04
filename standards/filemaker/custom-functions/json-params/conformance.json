@@ -1,0 +1,92 @@
+{
+  "family": "json-params",
+  "version": "1.0.0",
+  "updated": "2026-08-09",
+  "source": "mawizorek/maw-prose · standards/filemaker/custom-functions/json-params/",
+  "how": "Evaluate each calc against the LOCAL custom functions and compare the result to expect as text. A file running stale definitions fails regardless of the version it claims.",
+  "functions": [
+    "PText",
+    "PNum",
+    "PBool",
+    "PJSON",
+    "Param",
+    "ParamHas",
+    "ParamGetText",
+    "ParamGetNumber",
+    "ParamGetBoolean"
+  ],
+  "vectors": [
+    {
+      "id": "V01",
+      "asserts": "PText stays a JSON string",
+      "calc": "Param ( List ( PText ( \"mode\" ; \"edit\" ) ) )",
+      "expect": "{\"mode\":\"edit\"}"
+    },
+    {
+      "id": "V02",
+      "asserts": "PNum stays a JSON number and is not quoted",
+      "calc": "Param ( List ( PNum ( \"amount\" ; 5000 ) ) )",
+      "expect": "{\"amount\":5000}"
+    },
+    {
+      "id": "V03",
+      "asserts": "PBool 1 is JSON true",
+      "calc": "Param ( List ( PBool ( \"openCard\" ; 1 ) ) )",
+      "expect": "{\"openCard\":true}"
+    },
+    {
+      "id": "V04",
+      "asserts": "ENCODING GUARD — PBool 0 is JSON false. Fails if the ≠ operator was transcoded.",
+      "calc": "Param ( List ( PBool ( \"openCard\" ; 0 ) ) )",
+      "expect": "{\"openCard\":false}"
+    },
+    {
+      "id": "V05",
+      "asserts": "PBool coerces any non-zero value to true",
+      "calc": "Param ( List ( PBool ( \"flag\" ; 7 ) ) )",
+      "expect": "{\"flag\":true}"
+    },
+    {
+      "id": "V06",
+      "asserts": "PJSON nests raw JSON rather than stringifying it",
+      "calc": "Param ( List ( PJSON ( \"allocations\" ; JSONSetElement ( \"[]\" ; [ \"[0].loanID\" ; \"abc\" ; JSONString ] ) ) ) )",
+      "expect": "{\"allocations\":[{\"loanID\":\"abc\"}]}"
+    },
+    {
+      "id": "V07",
+      "asserts": "duplicate keys resolve last-wins",
+      "calc": "Param ( List ( PText ( \"k\" ; \"a\" ) ; PText ( \"k\" ; \"b\" ) ) )",
+      "expect": "{\"k\":\"b\"}"
+    },
+    {
+      "id": "V08",
+      "asserts": "ParamHas is true for a present-but-empty key",
+      "calc": "ParamHas ( Param ( List ( PText ( \"note\" ; \"\" ) ) ) ; \"note\" )",
+      "expect": "1"
+    },
+    {
+      "id": "V09",
+      "asserts": "ENCODING GUARD — ParamHas does not prefix-match. Fails if the ¶ wrapping was transcoded or dropped.",
+      "calc": "ParamHas ( Param ( List ( PText ( \"notes\" ; \"x\" ) ) ) ; \"note\" )",
+      "expect": "0"
+    },
+    {
+      "id": "V10",
+      "asserts": "a present-but-empty key does NOT fall back to the default",
+      "calc": "ParamGetText ( Param ( List ( PText ( \"note\" ; \"\" ) ) ) ; \"note\" ; \"fallback\" )",
+      "expect": ""
+    },
+    {
+      "id": "V11",
+      "asserts": "a missing key falls back to the default",
+      "calc": "ParamGetText ( Param ( List ( PText ( \"note\" ; \"\" ) ) ) ; \"missingKey\" ; \"fallback\" )",
+      "expect": "fallback"
+    },
+    {
+      "id": "V12",
+      "asserts": "ParamGetBoolean coerces its default when the key is missing",
+      "calc": "ParamGetBoolean ( \"{}\" ; \"x\" ; 3 )",
+      "expect": "1"
+    }
+  ]
+}

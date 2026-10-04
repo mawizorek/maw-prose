@@ -1,0 +1,38 @@
+/* JSONUpsert ( json ; key ; value ; kind )
+   Non-destructive single-key upsert into a JSON object.
+   key present -> value overwritten, every other key untouched.
+   key absent  -> key appended.
+   kind ""      -> infer the type from the element already at key (loop-safe).
+   kind "text" | "number" | "boolean" | "json" -> force that type.
+   Assumes value is pre-validated to match what it replaces.
+   A brand-new key under kind "" has no existing type and lands as text;
+   pass an explicit kind to append a typed new key.
+   Requires FileMaker 19.0+ (JSONGetElementType).
+   Contains the not-equal operator; do not transcode to ASCII. */
+
+Let (
+    [
+        _t = JSONGetElementType ( json ; key ) ;
+        _kind = Case (
+            not IsEmpty ( kind ) ; kind ;
+            _t = JSONString  ; "text" ;
+            _t = JSONNumber  ; "number" ;
+            _t = JSONBoolean ; "boolean" ;
+            _t = JSONObject  ; "json" ;
+            _t = JSONArray   ; "json" ;
+            "text"
+        )
+    ] ;
+    Case (
+        _kind = "number" ;
+        JSONSetElement ( json ; key ; value ; JSONNumber ) ;
+
+        _kind = "boolean" ;
+        JSONSetElement ( json ; key ; GetAsNumber ( value ) ≠ 0 ; JSONBoolean ) ;
+
+        _kind = "json" ;
+        JSONSetElement ( json ; key ; value ; JSONRaw ) ;
+
+        JSONSetElement ( json ; key ; value ; JSONString )
+    )
+)

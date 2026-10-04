@@ -1,0 +1,46 @@
+# txn_Begin
+# Opens a pseudo-transaction: isolates ONE parent record as the write anchor.
+# There is NO engine transaction in FileMaker 19. Atomicity comes from keeping the
+# parent record uncommitted so Revert Record on it discards every related write.
+# Param (JSON): { parentTable (req), parentID (req), label (opt) }
+# Returns (JSON): { ok, txnID, parentTable, parentID }
+# NO Commit Records between here and txn_Commit. Not one.
+
+Set Error Capture [ On ]
+Set Variable [ $p ; Value: Get ( ScriptParameter ) ]
+Set Variable [ $parentTable ; Value: JSONGetElement ( $p ; "parentTable" ) ]
+Set Variable [ $parentID ; Value: JSONGetElement ( $p ; "parentID" ) ]
+Set Variable [ $label ; Value: JSONGetElement ( $p ; "label" ) ]
+
+If [ IsEmpty ( $parentTable ) or IsEmpty ( $parentID ) ]
+	Exit Script [ Result: JSONSetElement ( "{}" ; [ "ok" ; False ; JSONBoolean ] ; [ "error" ; "txn_Begin requires parentTable and parentID" ; JSONString ] ) ]
+End If
+
+# Refuse to nest: an inner commit would end the outer transaction
+If [ $$TXN_ACTIVE = 1 ]
+	Exit Script [ Result: JSONSetElement ( "{}" ; [ "ok" ; False ; JSONBoolean ] ; [ "error" ; "transaction already open: " & $$TXN_LABEL ; JSONString ] ) ]
+End If
+
+Go to Layout [ $parentTable ]
+Enter Find Mode [ Pause: Off ]
+Set Field By Name [ $parentTable & "::PrimaryKey" ; $parentID ]
+Perform Find [ ]
+
+If [ Get ( FoundCount ) <> 1 ]
+	Exit Script [ Result: JSONSetElement ( "{}" ; [ "ok" ; False ; JSONBoolean ] ; [ "error" ; "parent not found or not unique" ; JSONString ] ; [ "parentID" ; $parentID ; JSONString ] ) ]
+End If
+
+# Open the record so FileMaker begins holding uncommitted state on it
+Open Record/Request
+
+If [ Get ( LastError ) ]
+	Exit Script [ Result: JSONSetElement ( "{}" ; [ "ok" ; False ; JSONBoolean ] ; [ "error" ; "cannot open parent record (locked?) err " & Get ( LastError ) ; JSONString ] ) ]
+End If
+
+Set Variable [ $$TXN_ID ; Value: Get ( UUID ) ]
+Set Variable [ $$TXN_ACTIVE ; Value: 1 ]
+Set Variable [ $$TXN_PARENT_TABLE ; Value: $parentTable ]
+Set Variable [ $$TXN_PARENT_ID ; Value: $parentID ]
+Set Variable [ $$TXN_LABEL ; Value: Case ( IsEmpty ( $label ) ; "unlabeled" ; $label ) ]
+
+Exit Script [ Result: JSONSetElement ( "{}" ; [ "ok" ; True ; JSONBoolean ] ; [ "txnID" ; $$TXN_ID ; JSONString ] ; [ "parentTable" ; $parentTable ; JSONString ] ; [ "parentID" ; $parentID ; JSONString ] ) ]

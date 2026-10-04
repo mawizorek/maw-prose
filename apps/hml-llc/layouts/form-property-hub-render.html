@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Property Hub (Form View) — HML_LLC</title>
+<!--
+  RENDER: form-property-hub
+  THEME: papyrus (baked from papyrus.json @ 2026-08-02)
+  OBJECTS: cnt_page_shell, cnt_section_card, nav_side_list,
+           tx_page_title, tx_field_label, fd_readonly_display,
+           row_tile_badge, tx_badge, portal_table
+  SELF-CONTAINED: zero external dependencies.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* === THEME TOKENS (baked from papyrus.json) === */
+:root {
+  --bg: oklch(0.935 0.026 85);
+  --surface-1: oklch(0.965 0.020 85);
+  --surface-2: oklch(0.895 0.032 82);
+  --surface-3: oklch(0.855 0.038 80);
+  --border: oklch(0.78 0.042 78);
+  --field: oklch(0.975 0.018 85);
+  --text: oklch(0.30 0.045 60);
+  --text-soft: oklch(0.46 0.045 62);
+  --text-faint: oklch(0.60 0.038 65);
+  --accent: oklch(0.52 0.11 62);
+  --accent-2: oklch(0.56 0.11 42);
+  --accent-soft: oklch(0.88 0.05 75);
+  --on-accent: oklch(0.98 0.02 80);
+  --good: oklch(0.52 0.13 145);
+  --warn: oklch(0.62 0.13 70);
+  --bad: oklch(0.52 0.18 30);
+  --info: oklch(0.50 0.10 230);
+
+  /* Typography */
+  --font-display: 'Gabarito', system-ui, sans-serif;
+  --font-body: 'Gabarito', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --fs-lead: 1.35rem;
+  --fs-body: 0.9375rem;
+  --fs-sm: 0.8125rem;
+  --fs-xs: 0.6875rem;
+
+  /* Forms */
+  --radius: 0px;
+  --radius-lg: 2px;
+  --border-w: 1px;
+  --shadow-out: 0 1px 2px oklch(0.30 0.02 60 / 0.08);
+  --shadow-in: inset 0 1px 3px oklch(0.30 0.02 60 / 0.12);
+
+  /* Spacing */
+  --gap-xs: 4px;
+  --gap-sm: 8px;
+  --gap-md: 12px;
+  --gap-lg: 20px;
+  --pad-cell: 8px;
+  --pad-card: 16px;
+
+  /* Layout constants */
+  --row-h: 30px;
+  --cell-px: 8px;
+  --cell-py: 4px;
+  --track-tight: -0.01em;
+  --track-btn: 0.04em;
+
+  /* Layout-specific: property bar */
+  --property-bar: oklch(0.38 0.16 310);
+  --on-property-bar: #fff;
+}
+
+/* === RESET === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.35;
+}
+
+.layout {
+  max-width: 1060px;
+  padding: 0;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+}
+
+/* === PROPERTY BAR (spans full width) === */
+.property-bar {
+  grid-column: 1 / -1;
+  background: var(--property-bar);
+  color: var(--on-property-bar);
+  padding: var(--gap-md) var(--pad-card);
+  display: flex;
+  align-items: center;
+  gap: var(--gap-lg);
+}
+.property-bar h1 {
+  font-family: var(--font-display);
+  font-size: var(--fs-lead);
+  font-weight: 700;
+  letter-spacing: var(--track-tight);
+}
+.property-bar .meta {
+  display: flex;
+  gap: var(--gap-lg);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  opacity: 0.9;
+}
+.property-bar .meta .label {
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--track-btn);
+  opacity: 0.7;
+  display: block;
+}
+.property-bar .status-pill {
+  display: inline-block;
+  font-size: var(--fs-xs);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 2px var(--pad-cell);
+  border-radius: var(--radius);
+  background: var(--good);
+  color: var(--on-accent);
+}
+
+/* === SIDE NAV === */
+.side-nav {
+  background: var(--surface-1);
+  border-right: var(--border-w) solid var(--border);
+  padding: var(--gap-md) 0;
+  overflow-y: auto;
+}
+.side-nav h2 {
+  font-family: var(--font-display);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--track-btn);
+  color: var(--text-soft);
+  padding: 0 var(--pad-cell) var(--gap-xs);
+}
+.side-nav ul {
+  list-style: none;
+}
+.side-nav li {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  padding: var(--cell-py) var(--pad-cell);
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  color: var(--text-soft);
+}
+.side-nav li:hover {
+  background: var(--accent-soft);
+  color: var(--text);
+}
+.side-nav li.active {
+  background: var(--accent-soft);
+  border-left-color: var(--property-bar);
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* === MAIN CONTENT === */
+.main-content {
+  padding: var(--pad-card) var(--gap-lg);
+  overflow-y: auto;
+}
+
+/* === PORTAL TABLE === */
+.portal { margin-bottom: var(--pad-card); }
+.portal-header {
+  font-family: var(--font-display);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--text-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 6px 0 4px;
+  border-bottom: var(--border-w) solid var(--border);
+}
+.portal table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  font-variant-numeric: tabular-nums;
+}
+.portal th {
+  text-align: left;
+  font-weight: 500;
+  color: var(--text-soft);
+  background: var(--surface-1);
+  padding: var(--cell-py) var(--cell-px);
+  border-bottom: var(--border-w) solid var(--border);
+  height: var(--row-h);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.portal th.num { text-align: right; }
+.portal td {
+  padding: var(--cell-py) var(--cell-px);
+  border-bottom: var(--border-w) solid var(--border);
+  height: var(--row-h);
+  vertical-align: middle;
+}
+.portal td.num { text-align: right; }
+.portal tr:nth-child(even) td { background: var(--surface-2); }
+.portal tr:hover td { background: var(--accent-soft); cursor: pointer; }
+
+.dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin-right: var(--gap-xs);
+  vertical-align: middle;
+}
+.dot.active { background: var(--good); }
+.dot.pending { background: var(--warn); }
+.dot.late { background: var(--bad); }
+.dot.paid-off { background: var(--info); }
+
+/* === DOCUMENTS PORTAL (deferred) === */
+.portal-deferred {
+  border: 1px dashed var(--border);
+  padding: var(--gap-md) var(--pad-card);
+  border-radius: var(--radius-lg);
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  text-align: center;
+}
+
+/* Document pills */
+.doc-pill {
+  display: inline-block;
+  font-size: var(--fs-xs);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 2px var(--pad-cell);
+  border-radius: var(--radius);
+  margin-right: var(--gap-xs);
+}
+.doc-pill.note { background: var(--warn); color: var(--on-accent); }
+.doc-pill.closing { background: var(--info); color: var(--on-accent); }
+.doc-pill.insurance { background: var(--good); color: var(--on-accent); }
+
+/* === FOOTER === */
+.layout-footer {
+  grid-column: 1 / -1;
+  padding: var(--pad-cell) var(--pad-card);
+  border-top: var(--border-w) solid var(--border);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--text-faint);
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (max-width: 700px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  .side-nav {
+    border-right: none;
+    border-bottom: var(--border-w) solid var(--border);
+    display: flex;
+    overflow-x: auto;
+    padding: var(--gap-xs) 0;
+  }
+  .side-nav h2 { display: none; }
+  .side-nav ul { display: flex; gap: 0; }
+  .side-nav li {
+    white-space: nowrap;
+    border-left: none;
+    border-bottom: 2px solid transparent;
+    padding: var(--gap-xs) var(--pad-cell);
+  }
+  .side-nav li.active { border-bottom-color: var(--property-bar); border-left-color: transparent; }
+  .property-bar { flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- PROPERTY BAR -->
+  <header class="property-bar">
+    <h1>1234 Oak Ridge Dr</h1>
+    <div class="meta">
+      <div><span class="label">City</span>Columbus</div>
+      <div><span class="label">Borrower</span>Cougar Capital LLC</div>
+      <div><span class="label">Status</span><span class="status-pill">ACTIVE</span></div>
+    </div>
+  </header>
+
+  <!-- SIDE NAV -->
+  <nav class="side-nav">
+    <h2>Properties</h2>
+    <ul>
+      <li class="active">1234 Oak Ridge Dr</li>
+      <li>5678 Maple Ave</li>
+      <li>910 Birch Ln</li>
+      <li>2200 Elm St</li>
+      <li>447 Cedar Blvd</li>
+      <li>88 Walnut Ct</li>
+    </ul>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <!-- LOANS PORTAL -->
+    <section class="portal">
+      <div class="portal-header">Loans</div>
+      <table>
+        <thead><tr><th>Loan #</th><th class="num">Principal</th><th class="num">Rate</th><th>Status</th><th>Due</th></tr></thead>
+        <tbody>
+          <tr><td>HML-2025-003</td><td class="num">$85,000.00</td><td class="num">12%</td><td><span class="dot active"></span>active</td><td>01/15/2026</td></tr>
+          <tr><td>HML-2024-001</td><td class="num">$62,000.00</td><td class="num">10%</td><td><span class="dot paid-off"></span>paid off</td><td>06/01/2025</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- DOCUMENTS PORTAL (deferred v1) -->
+    <section class="portal">
+      <div class="portal-header">Documents</div>
+      <table>
+        <thead><tr><th>Type</th><th>Name</th><th>Date</th><th>Version</th></tr></thead>
+        <tbody>
+          <tr><td><span class="doc-pill note">NOTE</span></td><td>Promissory Note</td><td>01/15/2025</td><td>v1</td></tr>
+          <tr><td><span class="doc-pill closing">CLOSING</span></td><td>Mortgage / Deed of Trust</td><td>01/15/2025</td><td>v1</td></tr>
+          <tr><td><span class="doc-pill insurance">INS</span></td><td>Hazard Insurance Dec Page</td><td>01/10/2025</td><td>v1</td></tr>
+        </tbody>
+      </table>
+      <div class="portal-deferred" style="margin-top: var(--gap-sm);">full document management deferred to v2</div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="layout-footer">
+    <span>PK: 7F2A-B831-4C6E-9D05</span>
+    <span>HML_LLC v1 · papyrus · baked 2026-08-02</span>
+  </footer>
+
+</div>
+</body>
+</html>

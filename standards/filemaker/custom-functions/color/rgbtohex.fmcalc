@@ -1,0 +1,13 @@
+Let ( [
+	_map = "0123456789ABCDEF" ;
+
+	_r = Int ( Max ( 0 ; Min ( 255 ; Round ( GetAsNumber ( r ) ; 0 ) ) ) ) ;
+	_g = Int ( Max ( 0 ; Min ( 255 ; Round ( GetAsNumber ( g ) ; 0 ) ) ) ) ;
+	_b = Int ( Max ( 0 ; Min ( 255 ; Round ( GetAsNumber ( b ) ; 0 ) ) ) ) ;
+
+	_pr = Middle ( _map ; Div ( _r ; 16 ) + 1 ; 1 ) & Middle ( _map ; Mod ( _r ; 16 ) + 1 ; 1 ) ;
+	_pg = Middle ( _map ; Div ( _g ; 16 ) + 1 ; 1 ) & Middle ( _map ; Mod ( _g ; 16 ) + 1 ; 1 ) ;
+	_pb = Middle ( _map ; Div ( _b ; 16 ) + 1 ; 1 ) & Middle ( _map ; Mod ( _b ; 16 ) + 1 ; 1 )
+] ;
+	_pr & _pg & _pb
+)

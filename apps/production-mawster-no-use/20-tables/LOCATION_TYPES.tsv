@@ -1,0 +1,13 @@
+id	Field_Name	Type	Options	Notes
+NORMALIZED FIELDS				
+1	Name	Text	Indexed	
+2	SortOrder	Number		SUGGESTED - so a location picker groups sensibly instead of alphabetically
+CHILDREN				
+	< LOCATIONS			
+AUDIT FIELDS				
+	PrimaryKey	Text		
+	CreationTimestamp	Timestamp		
+	CreatedBy	Text		
+	ModificationTimestamp	Timestamp		
+	ModifiedBy	Text		
+- EOF -				

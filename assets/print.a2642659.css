@@ -1,0 +1,404 @@
+/* THE PRINT LAYER -- WHAT THE SHEET IS.
+ *
+ * Until this file existed the engine had NO print rules at all -- `@media
+ * print` returned zero hits across the whole repo. Every doc site in this
+ * family has always printed Material's untouched default, which nobody had
+ * ever looked at, and it is bad in ways that are obvious the moment you look:
+ * the nav drawer and the table of contents print as columns of dead links, the
+ * header prints, the body text stays in its 756px reading column down the left
+ * third of the sheet, and code blocks and table rows are cut in half at page
+ * breaks.
+ *
+ * THIS FILE IS STRUCTURE, NOT COLOUR. What a thing IS coloured stays the
+ * theme's business, resolved from theme/canonical/* exactly as on screen. What
+ * this file decides is what appears on paper at all and how wide it runs.
+ *
+ * 🪦 AND ON 2026-08-19 THAT LINE WAS DECLARED TRUE AND WAS FALSE. Moving the
+ * scheme block out of this file earned a ✅ note saying it finally held no colour
+ * -- and **two literals were left behind on the corner stamp, `#555` and `#ccc`,
+ * in the one element that prints on every sheet of every site.** Michael found
+ * them: *"the color you chose MUST be from our theme vector. that's the whole
+ * point."* They are gone, and the corner stamp now lives in `print-chrome.css`.
+ *
+ * ⚑ THE GENERALISABLE PART IS THE SELF-CONGRATULATION, NOT THE HEX. A cleanup
+ * that writes "this is finally true" in the same commit is asserting a property
+ * of the WHOLE FILE from a diff of ONE BLOCK. **Grep before you claim, not after
+ * somebody prints it.**
+ *
+ * =========================================================================
+ * ⭐ THE PRINT GROUP IS SIX FILES AS OF 2026-08-19
+ * =========================================================================
+ * This file was 22,844 B against a ~22 KB ceiling: the point where a file stops
+ * coming back whole from one read and therefore stops being safely editable.
+ * `type.css`, `nav.css`, `data.css` and `chrome.css` all left `base.css` for
+ * exactly that reason.
+ *
+ * THE SEAM WAS ALREADY WRITTEN IN THIS HEADER. It used to describe its subject
+ * as "what appears on paper at all, how wide it runs, and where the page is
+ * allowed to break" -- two jobs, with the `and` doing the work of a chapter
+ * break. Then the first half itself split:
+ *
+ *     print.css           HOW WIDE IT RUNS      -- this file
+ *     print-chrome.css    WHAT APPEARS AT ALL   -- the chrome-off list and the
+ *                                                  corner stamp
+ *     print-flow.css      WHERE IT BREAKS       -- break-*, orphans/widows,
+ *                                                  forced-open <details>,
+ *                                                  thead repetition, {.new-page}
+ *     print-type.css      HOW BIG THE TYPE IS   -- the dial, the ramp, weight
+ *     print-space.css     HOW MUCH AIR          -- block and list margins,
+ *                                                  justification, the tabbed set
+ *     print-callout.css   WHAT THE BOX IS       -- the rule-and-indent, the icon
+ *
+ * 🪦 `print-scheme.css` is a comment-only tombstone and is unregistered.
+ *
+ * ⚠️ ONE JUDGEMENT CALL, NAMED SO IT CAN BE ARGUED WITH: the code-wrapping
+ * rule STAYED here. It looks like flow -- it changes where lines end -- but it
+ * exists because an over-wide line is silently CUT OFF at the paper edge, which
+ * is content loss on the horizontal axis. That is "how wide it runs," so it
+ * stays. Conversely the forced-open `<details>` rule LEFT, even though it plainly
+ * controls what appears, because it is the rule that creates the pagination
+ * problem the flow file solves. Both calls are argued in full in the file that
+ * ended up with the rule.
+ *
+ * =========================================================================
+ * WHY IT LOADS WHERE IT LOADS, WHICH IS NOT THE OBVIOUS SLOT
+ * =========================================================================
+ * docrender/assets.py publishes `_PRINT_ASSETS` AFTER the three generated
+ * sheets and BEFORE the instance's site.css. Both halves are load-bearing, and
+ * the other print sheets inherit the same sandwich.
+ *
+ * AFTER tokens.css, because the sheets in this group override Material rules and
+ * scheme-scoped properties that the generated sheets also write, at equal
+ * specificity -- so they win on source order or they do not win at all.
+ *
+ * BEFORE site.css, because an instance keeps the final word on its own look,
+ * and that rule has no exception for paper.
+ *
+ * ⚠️ ORDER *WITHIN* THE PRINT GROUP IS FREE: no two of the print sheets share a
+ * selector-and-property PAIR, so none can win or lose a tie against another.
+ * Same distinction `_FEATURE_ASSETS` draws, where its JS order is law and its CSS
+ * order is genuinely free. 🔴 WITH ONE PROVEN EXCEPTION, added the day it bit:
+ * `print-space.css` §9 justifies `.md-typeset p`, which MATCHES the corner
+ * buildstamp and beat the stamp's `text-align: right` on SPECIFICITY, not order.
+ * **The group's order is still free; what is not free is assuming two of our own
+ * files cannot collide.**
+ *
+ * =========================================================================
+ * ⚠️ THE ONE THING THE PRINT GROUP CANNOT FIX, STATED RATHER THAN PAPERED OVER
+ * =========================================================================
+ * Paper is always a light ground. `good`, `warn`, `bad` and `info` are
+ * BYTE-IDENTICAL between the dark and light rows of 16 of the 19 canonical
+ * palette pairs -- authored once against a dark ground and carried into the
+ * light row unchanged. Only `default`, `eos` and `mclaren` re-author them.
+ *
+ * So print is where that upstream defect becomes maximally visible: on 16 of
+ * 19 palettes a callout border measured for a dark surface is being asked to
+ * hold up on white. `eos` is the only palette measured to clear the 3.0 UI
+ * floor in both schemes (1.46 / 1.70 / 3.48 for soft-utility / sharp-carbon /
+ * eos).
+ *
+ * 🚫 NOT COMPENSATED FOR ANYWHERE IN THE GROUP, deliberately. Darkening semantic
+ * tokens at print time would hide the defect on the one surface that shows it
+ * most clearly, and the fix belongs in the light rows of canonical/colors.tsv.
+ */
+
+@media print {
+  /* -------------------------------------------------------------------------
+   * THE SHEET ITSELF
+   *
+   * ⚠️ 12mm IS A MEASUREMENT, NOT A MARGIN PREFERENCE, AND IT IS THE LEAST
+   * OBVIOUS RULE IN THIS FILE.
+   *
+   * The data table flips to list mode inside `@container dr-table (max-width:
+   * 640px)`, declared in BOTH assets/data.css and assets/data-list.css. A
+   * printed page is a container like any other, and it is narrow:
+   *
+   *     US Letter, browser-default 1in margins -> 6.5in -> 624px  ❌ LIST MODE
+   *     US Letter, 12mm margins               -> 7.56in -> 726px ✅ table
+   *     A4,        12mm margins               -> 7.32in -> 703px ✅ table
+   *
+   * At the default margin every data table on every site would silently print
+   * as a stack of key/value rows -- not broken, not reported, just quietly not
+   * the table the author wrote. 12mm clears the threshold by ~63px on the
+   * tighter of the two paper sizes.
+   *
+   * ⚠️ IF THE 640px THRESHOLD EVER MOVES, THIS NUMBER MOVES WITH IT. Both
+   * container queries already carry a note to keep each other in step; this is
+   * the third place and the only one on a different axis.
+   *
+   * 🔴 AND THE LEFT/RIGHT MARGINS ARE THE LOAD-BEARING HALF. The BLOCK axis is
+   * free to change -- use a two-value form. Widening the INLINE axis converts
+   * every data table on every site into a stack of key/value rows, silently.
+   * --------------------------------------------------------------------- */
+  @page {
+    margin: 12mm;
+  }
+
+  /* -------------------------------------------------------------------------
+   * 🔴 THE SHEET IS PAPER, NOT A SURFACE (2026-08-19)
+   *
+   * > Michael, printing a papyrus page: the whole content column came out as a
+   * > filled parchment panel with the type sitting on it.
+   *
+   * 🪦 MY REGRESSION, AND IT TOOK TWO OF MY OWN COMMITS TO BUILD. theme.py's
+   * paper block gives a reader the theme's own LIGHT row, which on `papyrus`
+   * means `bg: #f0e6d2` -- real parchment, correctly resolved, exactly what the
+   * vector declares. And the rule that used to force the ground white left this
+   * file the same evening, inside the block that moved to print-scheme.css and
+   * was then retired. **One change supplied a ground; the other removed the
+   * thing that had been suppressing it.** Neither was visible in the other's
+   * diff.
+   *
+   * ⭐ AND THE FIX IS NOT A COLOUR, WHICH IS THE WHOLE POINT. Paper already has
+   * one -- whatever stock is in the tray -- and no vector owns it. `bg`,
+   * `surface-1..3` and `field` all describe a SCREEN ground; there is no "paper"
+   * column in any row and there should never be one. So the ground is declared
+   * TRANSPARENT: the ABSENCE of a decision rather than a substitute for one, and
+   * the only answer that stays correct on cream stock, on a photocopy, and on a
+   * theme nobody has authored yet.
+   *
+   * ✅ THE VECTOR STILL SUPPLIES EVERY MARK ON THE SHEET -- ink, rules, callout
+   * borders, marker chips, the accent, the corner stamp in print-chrome.css.
+   * What it stops supplying is the paper.
+   *
+   * ⚠️ `!important` IS DELIBERATE AND IT DOES COST SOMETHING: an instance's
+   * `site.css` loads last precisely so a site keeps the final word, and this takes
+   * "paint a printed background" away from it. Taken anyway, because the failure
+   * mode is a page flooded with ink on every sheet of a safety document, and
+   * nobody has ever wanted the other thing.
+   *
+   * 🔴 AND THE LIVE IMPLEMENTATION IS NOT IN A SHEET ANY MORE. theme.py now emits
+   * the theme's LIGHT row inside `tokens.css`, selected by the row's own `mode`
+   * column rather than by slot name -- because `papyrus` is the one join whose
+   * primary is light and whose alt is dark. The retired `print-scheme.css`
+   * tombstone explains why; the values that reach the page come from theme.py.
+   * --------------------------------------------------------------------- */
+  body,
+  .md-main,
+  .md-content {
+    background: transparent !important;
+  }
+
+  /* -------------------------------------------------------------------------
+   * 🔴 AND THE DATA TABLE WAS STILL PAINTING FOUR GROUNDS (2026-08-28)
+   *
+   * > Michael, printing Emergency Contacts: *"any way to ensure the table prints
+   * > with an opaque fill so that it doesn't create these thick blobs at print?"*
+   *
+   * ⭐ THE ANSWER IS THE OPPOSITE OF THE ASK, AND THE MEASUREMENT IS WHY. These
+   * are not fills that failed to be opaque -- they are the only fills on the
+   * sheet that were GUARANTEED to print, sitting on a wrapper that was not.
+   * `assets/data.css` declares a background in exactly four places: the
+   * `.dr-data` wrapper (`surface`), `thead th` (`surface-raised`), `tbody
+   * td:first-child` (`surface`), and the `.dr-data__section` band
+   * (`surface-raised`). The ink list below covers `.dr-data__table th, td`, so
+   * the three BANDS are forced through the printer while the wrapper behind them
+   * is dropped for free. Three dark blocks floating on bare paper. That is a blob.
+   *
+   * ⚑ SAME MECHANISM THE INK BLOCK BELOW ALREADY WARNED ABOUT, ONE SURFACE OVER:
+   * *"a rule that forces one colour to print forces all of them on that
+   * element."* It was written about the callout panel, and print-callout.css
+   * turns that panel off by hand for exactly this reason. The table was the
+   * SECOND instance of the same sentence and nobody had printed one.
+   * **A warning that names its mechanism is a prediction, and this one came true
+   * nine days later on a different element.** Being predicted is not the same as
+   * being handled.
+   *
+   * ✅ SO THE FILLS COME OFF RATHER THAN BECOMING OPAQUE (Michael, 2026-08-28:
+   * *"fills off at print yes"*). A printed table is drawn with RULES: the
+   * `border-bottom` and `border-right` in `--dr-rule` are untouched, as are the
+   * first column's `accent` ink and the section band's `accent-2` top rule. Every
+   * mark the vector supplies survives; only the grounds go.
+   *
+   * 🚫 AN OPAQUE WRAPPER WAS THE ALTERNATIVE AND IT LOSES ON THE ARGUMENT DIRECTLY
+   * ABOVE. It would put one panel of ink on every sheet carrying a table, and
+   * `--dr-surface` is a SCREEN ground -- there is no paper column in any row, so
+   * an opaque printed fill is a value nobody authored for the medium it lands on.
+   *
+   * 🔴 THE `box-shadow` IS THE HALF THAT IS NOT A BACKGROUND, AND IT IS THE WORST
+   * OF THEM. The sticky first column carries `10px 0 10px -10px rgb(0 0 0 / 45%)`
+   * -- the only semi-transparent value in the table, printing as a blurred grey
+   * smear down the column-one seam. data.css is explicit that it is not
+   * decoration: without an edge nothing says the box SCROLLS. Paper does not
+   * scroll, so on a sheet it is chrome for an affordance that no longer exists.
+   *
+   * ⚠️ `!important` FOR THE SAME REASON THE GROUND ABOVE TAKES IT, and at the same
+   * cost: an instance's `site.css` loses "paint a printed table ground." Taken
+   * anyway. ⭐ It also means ONE selector per surface is enough -- an `!important`
+   * declaration beats a non-important one at any specificity, so the
+   * `.md-typeset`-prefixed twins data.css writes for the cascade fight do not
+   * need repeating here. That is a departure from the house both-spellings
+   * pattern and it is legal only because of the `!important`; if these ever lose
+   * it, the prefixed forms come back.
+   *
+   * 🚫 NOT DONE BY EDITING `data.css` INSTEAD. That file's header states the table
+   * rules live there and nowhere else, and it is right -- but a `@media print`
+   * block inside it would put the print group's subject in the screen layer, and
+   * the print group is where somebody looks when a sheet is wrong.
+   *
+   * 🚩 FLAGGED, NOT FIXED IN THIS PASS: `.dr-data` keeps `max-height: 78vh;
+   * overflow: auto` on paper. The CODE block below takes `overflow: visible
+   * !important` because *"a horizontal scrollbar has no paper equivalent"* and
+   * the data table never got the same treatment, so a long sheet is silently
+   * CLIPPED on both axes. The 13-row contacts table survives; a 130-row inventory
+   * does not. Same content-loss class as the collapsed-`<details>` bug
+   * print-flow.css calls the strongest argument for a print sheet existing at
+   * all -- and unlike this one it is not a taste question, so it should not have
+   * waited on a ruling. It is waiting on Michael only because it was found in the
+   * same read.
+   * --------------------------------------------------------------------- */
+  .dr-data,
+  .dr-data__table thead th,
+  .dr-data__table tbody td:first-child,
+  .dr-data__table tbody tr:hover td,
+  .dr-data__table .dr-data__section th {
+    background: transparent !important;
+  }
+
+  /* The scroll edge, separately, because it is a shadow rather than a ground and
+   * a reader in print PREVIEW can still hover a row -- so the hover selector
+   * above earns its place for the same reason. */
+  .dr-data__table tbody td:first-child {
+    box-shadow: none !important;
+  }
+
+  /* 🚩 A FIFTH GROUND IS IN `print-ink.css`: the markdown table's fill (08-30,
+   * third instance of the above). This file had 296 B free; a new sheet needs
+   * `assets.py`, past the write cap. Pointer, so grounds keep ONE index. */
+
+  /* -------------------------------------------------------------------------
+   * THE CONTENT COLUMN COMES OFF ITS RAILS
+   *
+   * Material sizes .md-grid for a viewport with two sidebars beside it. On
+   * paper there are no sidebars, so the same rule leaves the text in a narrow
+   * strip with two thirds of the sheet blank. The page IS the measure now.
+   *
+   * ⚠️ THIS IS ALREADY DONE, AND IT IS NOT WHAT THE PRINT DIALOG'S SCALE
+   * CONTROL DOES (verified 2026-08-19 against two PDFs of one page at 100% and
+   * 70%: the line breaks are byte-identical in both). Scale is a photographic
+   * reduction of a page that has ALREADY been laid out -- it cannot reflow, so
+   * type and column shrink together and the right margin grows. Anybody
+   * reading this because "shrinking leaves a narrow column" should change the
+   * BASE FONT SIZE, not go looking for a max-width that is already gone.
+   *
+   * ⚠️ `padding: 0` IS WHY THE TYPE RUNS FLUSH TO THE EDGE OF ANY GROUND BEHIND
+   * IT, which looked like clipping in the parchment print above and was not: the
+   * page margin is `@page`'s 12mm and the column has no inset of its own. Nothing
+   * is lost. With the ground transparent there is no longer an edge to notice.
+   * --------------------------------------------------------------------- */
+  .md-grid,
+  .md-main__inner,
+  .md-content,
+  .md-content__inner {
+    max-width: none !important;
+    width: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* ⚠️ THIS NOW HITS THE CORNER STAMP RATHER THAN THE `h1`, because the stamp is
+   * prepended and is therefore the first child. That is correct and it is worth
+   * naming: the rule exists to kill a leading margin at the top of the sheet,
+   * and whichever element is first is the one that should not have one. */
+  .md-content__inner > :first-child {
+    margin-top: 0 !important;
+  }
+
+  /* The lede is capped at `--dr-measure` for on-screen line length. That cap is
+   * a reading-comfort number chosen against a screen; on paper the page margin
+   * is already doing that job, and the cap just makes the first paragraph
+   * narrower than the body under it for no reason a reader can see. */
+  .md-typeset h1 + p,
+  .md-typeset .dr-lede {
+    max-width: none;
+  }
+
+  /* -------------------------------------------------------------------------
+   * INK THAT ACTUALLY LANDS
+   *
+   * `print-color-adjust: exact` on the elements whose MEANING is carried by a
+   * colour. A callout border is not decoration -- a `!!! danger` box that
+   * prints with no red border is the same box as a `!!! note`, and the reader
+   * has no way to know a distinction was lost.
+   *
+   * Applied narrowly on purpose. Forcing it document-wide would also force
+   * every large background panel through the printer, which wastes toner on
+   * exactly the surfaces that carry no meaning.
+   *
+   * ⚠️ AND IT IS WHY print-callout.css TURNS THE CALLOUT PANEL OFF BY HAND.
+   * Browsers drop backgrounds at print for free, but this list covers
+   * `.md-typeset .admonition` -- correct for the BORDER, and it drags the grey
+   * panel along with it. **A rule that forces one colour to print forces all of
+   * them on that element.** Narrowing this list was the alternative and it would
+   * cost the border guarantee above.
+   *
+   * 🔴 THAT WARNING CAME TRUE A SECOND TIME ON 2026-08-28, on the two
+   * `.dr-data__table` rows below it: the table's header, first column and section
+   * band were forced through the printer as blobs. Handled in the fills block
+   * above rather than by narrowing this list, for the reason stated there -- the
+   * table's `--dr-rule` borders and `accent` ink are exactly the meaning-carrying
+   * marks this list exists to guarantee. **The list is right; the grounds were
+   * the problem.**
+   *
+   * ⚠️ `body` IS DELIBERATELY NOT ON THIS LIST and never should be. The section
+   * above turns the ground transparent; adding the ground to a list whose whole
+   * job is to FORCE colour through the printer would put the two rules in a
+   * fight, and the parchment would win on a reader whose browser prints
+   * backgrounds.
+   * --------------------------------------------------------------------- */
+  .md-typeset .admonition,
+  .md-typeset details,
+  .md-typeset .admonition-title,
+  .md-typeset summary,
+  .md-typeset code,
+  .md-typeset pre,
+  .dr-mark,
+  .md-typeset .dr-data__table th,
+  .md-typeset .dr-data__table td {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* -------------------------------------------------------------------------
+   * CODE
+   *
+   * A horizontal scrollbar has no paper equivalent, so an over-wide line is
+   * simply cut off at the edge with no indication. Wrapping is the only option
+   * that does not lose characters.
+   *
+   * ⚠️ AND THAT IS WHY IT STAYED IN THIS FILE RATHER THAN GOING TO
+   * print-flow.css. It changes where lines end, which reads as flow -- but the
+   * defect it prevents is CONTENT LOST AT THE PAPER EDGE, on the horizontal
+   * axis, which is this file's subject. Vertical loss is next door.
+   * --------------------------------------------------------------------- */
+  .md-typeset pre,
+  .md-typeset pre > code {
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow: visible !important;
+  }
+
+  /* -------------------------------------------------------------------------
+   * A DEAD REFERENCE STILL REPORTS ITSELF ON PAPER -- BY A DIFFERENT MECHANISM
+   * SINCE 2026-08-10, AND THERE IS DELIBERATELY NO RULE UNDER THIS COMMENT.
+   *
+   * This block used to re-declare `.docrender-dead::after { content: " [err]" }`
+   * purely as a tripwire, and it said so: the badge was generated content and
+   * would have printed regardless. Michael retired the badge on 2026-08-10 --
+   * it was the engine typing a word into a sentence he wrote -- and the signal
+   * is now a dotted underline declared once in assets/base.css, unscoped to any
+   * medium, so it reaches paper on its own.
+   *
+   * ✅ CONFIRMED ON PAPER 2026-08-19, which is worth recording because this
+   * block is an argument for NOT writing a rule. A print of General Safety
+   * Responsibilities showed two dead references in `--dr-dead` red against the
+   * live links' teal, with no rule in this file. The base declaration reaches
+   * paper exactly as claimed.
+   *
+   * 🚫 DO NOT RE-DECLARE IT HERE. A second copy of a decoration is a second
+   * claimant on one truth, which is the failure this repo has logged against
+   * three retired manifests -- and it would drift the first time base.css
+   * changed the offset. If a future change scopes the base rule to `screen`,
+   * fix it THERE; do not answer it with a duplicate on this side.
+   * --------------------------------------------------------------------- */
+}

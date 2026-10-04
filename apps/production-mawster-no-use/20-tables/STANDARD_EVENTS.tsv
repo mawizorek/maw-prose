@@ -1,0 +1,20 @@
+id	Field_Name	Type	Options	Notes
+NORMALIZED FIELDS				
+{.tbc}	Name	Text	Indexed	Load In, Q2Q, Designer Run
+{.tbc}	NameShort	Text		
+{.tbc}	NameDisplay	Text	Auto-Enter Calculation	
+{.tbc}	SortOrder	Number		Production-convention order, not alphabetical
+{.tbc}	bool_IsMilestone	Number	Auto-enter Data	
+RELATIONSHIP				
+	fkStyle			→ STYLES. Optional skin beyond the raw CU status token
+CHILDREN				
+	< EVENTS			NULLABLE. Nothing breaks if an event never matches
+	< CALENDAR_EMPHASIS			event-mode anchor - emphasis that survives a reschedule
+	< EVENT_CROSSWALK			{.tbc} raw name → this type, plus an unmatched queue
+AUDIT FIELDS				
+	PrimaryKey	Text		
+	CreationTimestamp	Timestamp		
+	CreatedBy	Text		
+	ModificationTimestamp	Timestamp		
+	ModifiedBy	Text		
+- EOF -				

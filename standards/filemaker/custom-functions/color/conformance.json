@@ -1,0 +1,86 @@
+{
+  "family": "color",
+  "version": "1.0.0",
+  "updated": "2026-08-11",
+  "source": "mawizorek/maw-prose · standards/filemaker/custom-functions/color/",
+  "how": "Evaluate each calc against the LOCAL custom functions and compare the result to expect as text. A file running stale definitions fails regardless of the version it claims.",
+  "note": "HexToRGB returns a multi-key object, and key ORDER in a JSON object is not a promise worth testing. Its vectors read one key at a time with JSONGetElement rather than asserting whole-object text.",
+  "functions": [
+    "RGBToHex",
+    "HexToRGB"
+  ],
+  "vectors": [
+    {
+      "id": "C01",
+      "asserts": "RGBToHex returns six bare uppercase digits, no leading hash",
+      "calc": "RGBToHex ( 255 ; 128 ; 0 )",
+      "expect": "FF8000"
+    },
+    {
+      "id": "C02",
+      "asserts": "PAD GUARD — a channel under 16 keeps both digits. Fails if the high nibble was dropped instead of written as 0.",
+      "calc": "RGBToHex ( 1 ; 2 ; 3 )",
+      "expect": "010203"
+    },
+    {
+      "id": "C03",
+      "asserts": "black is six zeros, not an empty string",
+      "calc": "RGBToHex ( 0 ; 0 ; 0 )",
+      "expect": "000000"
+    },
+    {
+      "id": "C04",
+      "asserts": "the top of the range is reachable",
+      "calc": "RGBToHex ( 255 ; 255 ; 255 )",
+      "expect": "FFFFFF"
+    },
+    {
+      "id": "C05",
+      "asserts": "out-of-range channels clamp rather than wrapping or erroring",
+      "calc": "RGBToHex ( 300 ; -20 ; 128 )",
+      "expect": "FF0080"
+    },
+    {
+      "id": "C06",
+      "asserts": "a fractional channel rounds, it does not truncate",
+      "calc": "RGBToHex ( 127.6 ; 0 ; 0 )",
+      "expect": "800000"
+    },
+    {
+      "id": "C07",
+      "asserts": "HexToRGB accepts a leading hash",
+      "calc": "JSONGetElement ( HexToRGB ( \"#FF8000\" ) ; \"r\" )",
+      "expect": "255"
+    },
+    {
+      "id": "C08",
+      "asserts": "HexToRGB accepts a bare string and reads the last channel correctly",
+      "calc": "JSONGetElement ( HexToRGB ( \"FF8000\" ) ; \"b\" )",
+      "expect": "0"
+    },
+    {
+      "id": "C09",
+      "asserts": "three-digit shorthand expands by doubling each digit",
+      "calc": "JSONGetElement ( HexToRGB ( \"#F80\" ) ; \"g\" )",
+      "expect": "136"
+    },
+    {
+      "id": "C10",
+      "asserts": "lowercase input is accepted",
+      "calc": "JSONGetElement ( HexToRGB ( \"ff8000\" ) ; \"r\" )",
+      "expect": "255"
+    },
+    {
+      "id": "C11",
+      "asserts": "FAIL-LOUD GUARD — a non-hex string is refused, never silently filtered down to something parseable",
+      "calc": "JSONGetElement ( HexToRGB ( \"not a color\" ) ; \"error\" )",
+      "expect": "expected 3 or 6 hex digits"
+    },
+    {
+      "id": "C12",
+      "asserts": "ROUND TRIP — the two functions are inverses across a value that is not a round number",
+      "calc": "JSONGetElement ( HexToRGB ( RGBToHex ( 12 ; 34 ; 56 ) ) ; \"g\" )",
+      "expect": "34"
+    }
+  ]
+}

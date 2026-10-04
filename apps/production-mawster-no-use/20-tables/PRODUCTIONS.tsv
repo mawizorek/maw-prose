@@ -1,0 +1,21 @@
+id	Field_Name	Type	Options	Notes
+NORMALIZED FIELDS				
+{.conf}	Title	Text	Indexed	
+{.conf}	TitleShort	Text	Indexed, Unique, Allow Override, Message	
+{.conf}	TitleDisplay	Text	Auto-Enter Calculation	
+{.conf}	date_FirstRehearsal	Date	Indexed	TYPED, never derived. Contractual fact about the show. Calendar_START measures from it
+{.conf}	date_Opening	Date	Indexed	TYPED. The production milestone. Season-report axis + value-list sort
+INTEGRATION KEYS				
+{.conf}	cuProductionToken	Text		Indexed. EXACT ClickUp label string. A rename in CU breaks the join SILENTLY
+{.conf}	cuProductionID	Text		Indexed. Empty until the API pull. Rename-proof successor
+RELATIONSHIP				
+{.conf}	fkProducer	Text		
+{.conf}	fkVenue	Text		→ LOCATIONS (fkLocationType = venue). RULED 2026-08-08: no separate VENUES table. Field name kept - it says which ROLE the location plays
+{.conf}	fkCourse	Text		What is the course number that the actors in the course should enroll in?
+AUDIT FIELDS				
+{.conf}	PrimaryKey	Text		
+{.conf}	CreationTimestamp	Timestamp		
+{.conf}	CreatedBy	Text		
+{.conf}	ModificationTimestamp	Timestamp		
+{.conf}	ModifiedBy	Text		
+- EOF -				

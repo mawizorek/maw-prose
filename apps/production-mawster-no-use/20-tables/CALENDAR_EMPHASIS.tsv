@@ -1,0 +1,20 @@
+id	Field_Name	Type	Notes
+NORMALIZED FIELDS			
+1	AnchorMode	Text	range | event
+2	Label	Text	Prints in the legend. Not decoration
+3	Priority	Number	Default 10, increment by 10. Highest wins; tie goes to narrowest span
+4	DateStart	Date	Typed. range mode only
+5	DateEnd	Date	Typed. Must be >= DateStart
+6	PadBefore	Number	Days to extend backward from the anchor
+7	PadAfter	Number	Days to extend forward from the anchor
+RELATIONSHIPS			
+	fkCalendar		
+	fkStyle		STYLES row, domain emphasis
+	fkStandardEvent		event mode only. Matches EVERY event of this type in the production
+CALCULATIONS			
+8	ResolvedStart	Calculation	Unstored. Typed date, or earliest matched event minus PadBefore
+9	ResolvedEnd	Calculation	Unstored. Typed date, or latest matched event plus PadAfter
+10	SpanDays	Calculation	Unstored. Tiebreaker for the sort
+11	MatchCount	Calculation	Unstored. event mode: how many events matched. 0 = the row does nothing
+AUDIT FIELDS			
+12	[[Audit Fields](@audit-fields)]{.hi}		

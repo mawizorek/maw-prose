@@ -1,0 +1,8 @@
+/* ParamGetNumber ( json ; key ; default )
+   Numeric value when the key is present, otherwise default. */
+
+Case (
+    ParamHas ( json ; key ) ;
+    GetAsNumber ( JSONGetElement ( json ; key ) ) ;
+    default
+)

@@ -1,0 +1,8 @@
+/* PNum ( key ; value )
+   One number element for Param ( List ( ... ) ). */
+
+JSONSetElement ( "{}" ;
+    [ "key" ; key ; JSONString ] ;
+    [ "type" ; "number" ; JSONString ] ;
+    [ "value" ; value ; JSONNumber ]
+)

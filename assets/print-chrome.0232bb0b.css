@@ -1,0 +1,388 @@
+/* THE PRINT CHROME LAYER -- WHAT IS FURNITURE.
+ *
+ * Split out of `print.css` on 2026-08-19. Two halves of one subject, and the
+ * pairing is the reason this is one file rather than two:
+ *
+ *     REMOVED   everything the SCREEN has that paper cannot use -- the header,
+ *               the drawer, the TOC, search, the clipboard button, both footers,
+ *               the flow strip, the TSV source line
+ *     ADDED     the one mark PAPER has that the screen does not -- the corner
+ *               build stamp
+ *
+ * ⭐ THE TEST FOR EITHER LIST IS THE SAME ONE `print.css` ALREADY WROTE: *could a
+ * reader ACT on it with a pen?* No means it is furniture. The chrome-off list is
+ * every element that fails that test; the corner stamp is the one element that
+ * passes it in the opposite direction -- a date is not a control, it is a fact a
+ * reader needs precisely because the sheet has left the system.
+ *
+ * ⭐ AND ON 2026-08-28 THE SUBJECT GREW A THIRD LIST, WHICH IS THE HONEST READING
+ * OF THE SAME QUESTION. A scroll box is furniture too: `overflow: auto` is an
+ * INTERACTION, and on paper it does not degrade to a longer page, it degrades to
+ * content that was never printed. So *what appears at all* now covers three
+ * lists -- what is removed, what is UNCAGED, and what is added. See THE TABLE IS
+ * NOT A SCROLL BOX below.
+ *
+ * =========================================================================
+ * ⚠️ WHY IT SPLIT, MEASURED
+ * =========================================================================
+ * `print.css` came back **22,718 B against a 22,528 B hard read limit** carrying
+ * the paper-ground fix. Two paragraphs were cut first -- both duplicated almost
+ * word for word in `docrender/buildstamp.py` -- which got it to 22,240: still only
+ * 288 B clear, on a file that had already been split once tonight.
+ *
+ * 🚫 TRIMMING FURTHER WAS REFUSED. That move failed three times earlier the same
+ * evening, twice making a file LARGER because the "trim" replaced prose with
+ * commentary about replacing prose. **A file at its size limit is usually a file
+ * with a seam in it, and trimming prose is what you do instead of finding the
+ * seam.** print-callout.css, print-space.css and foot.css all carry that sentence.
+ *
+ * ⭐ AND THE SEAM WAS IN print.css's OWN HEADER, WHICH DESCRIBED ITS SUBJECT AS
+ * *"what appears on paper at all, how wide it runs"* -- an `and` doing the work of
+ * a chapter break, for the second time in one file. The first `and` in that same
+ * sentence produced `print-flow.css`. This is the other one:
+ *
+ *     print.css         HOW WIDE IT RUNS      -- @page, the ground, the column,
+ *                                                the ink policy, code wrapping
+ *     print-chrome.css  WHAT APPEARS AT ALL   -- this file
+ *
+ * 🔴 AND THAT MEASUREMENT IS WHY THE 2026-08-28 UNCAGING RULE LANDED HERE RATHER
+ * THAN BESIDE THE CODE-WRAPPING RULE IT ARGUES FROM. `print.css` was at
+ * **22,232 B of 22,528** after the table-fills fix -- 296 B of headroom, which is
+ * less than the comment this rule needs. Placement was therefore forced, and it
+ * would have been wrong to let a byte budget pick a home quietly: the argument
+ * for this file owning it is written out below on its own merits, and if that
+ * argument is bad the rule should move once `print.css` has room, not stay
+ * because it fitted.
+ *
+ * =========================================================================
+ * 🔴 AND THE SPLIT FOUND A BROKEN INVARIANT NOBODY HAD TESTED
+ * =========================================================================
+ * `assets.py` claims, and every print sheet repeats, that the group's internal
+ * load order is FREE because *"no two of the print sheets share a
+ * selector-and-property PAIR."* Reading both files whole to perform this split:
+ *
+ *     print.css       .md-typeset a  { text-decoration: underline }
+ *     print-type.css  .md-typeset a  { text-decoration: underline }   §5
+ *
+ * **Same selector. Same property. Since print-type.css was created.** The values
+ * are identical so nothing ever rendered wrong, which is exactly why it survived:
+ * ⚑ *an invariant with no consequence when broken is an invariant nobody checks.*
+ * The print.css copy is deleted -- §5 owns link policy and argues it at length --
+ * and the claim is true again rather than merely repeated.
+ *
+ * ⚠️ THE UNCAGING RULE BELOW RE-TESTS THAT CLAIM AND KEEPS IT TRUE, but only just.
+ * It declares `overflow` and `max-height` on `.dr-data`, and `print.css` declares
+ * `overflow` on `.md-typeset pre` -- different SELECTORS, so there is no pair and
+ * the order stays free. 🔴 If anybody ever adds `.dr-data` to print.css's code-
+ * wrapping rule, or a `pre` to this one, the group's order stops being free and
+ * starts being law. That is the exact rot condition print-space.css names.
+ *
+ * =========================================================================
+ * ⚠️ LOAD POSITION: FREE WITHIN THE GROUP, AND THE GROUP'S SLOT IS NOT
+ * =========================================================================
+ * Nothing here shares a selector-and-property pair with any other print sheet, so
+ * this file's position among them genuinely does not matter. What matters is that
+ * the GROUP loads after the generated sheets and before an instance's `site.css`;
+ * `assets.py` `_PRINT_ASSETS` carries that argument.
+ *
+ * 🔴 ONE RULE HERE DOES DEPEND ON ORDER INSIDE THIS FILE, and it is not obvious:
+ * the chrome-off list hides `.md-footer-meta` with `!important`, and the corner
+ * stamp used to live INSIDE that subtree. `display: none` on an ANCESTOR removes
+ * the whole subtree from the box tree and a descendant cannot opt back in -- not a
+ * specificity contest, there is no box left to style. That is why `buildstamp.py`
+ * had to stop using `config.copyright` at all. **Keeping both halves in one file
+ * is what makes that relationship readable instead of a cross-file surprise.**
+ */
+
+@media print {
+  /* -------------------------------------------------------------------------
+   * CHROME OFF
+   *
+   * Everything here is navigation or interaction, and paper has neither. The
+   * test for adding to this list: could a reader ACT on it with a pen? If not,
+   * it is furniture and it costs a column.
+   *
+   * ⚠️ `.md-header` IS IN THIS LIST, WHICH MEANS THE SITE LOGO NEVER PRINTS.
+   * Worth knowing before anybody tries to make a printed mark by changing
+   * `theme.logo`: the header, its icon and the site title are all gone by the
+   * time the sheet exists. The printed mark is the corner stamp below, and it is
+   * a different element with a different job.
+   *
+   * ⚠️ `!important` THROUGHOUT, AND IT IS NOT LAZINESS. Several of these are
+   * Material's own layout elements carrying their own `display` values from
+   * compound selectors, and a few are toggled by Material's JavaScript at
+   * runtime. This is the one list in the print group where the goal is absolute
+   * removal rather than a negotiated value -- there is no site that wants its nav
+   * drawer on paper.
+   *
+   * =======================================================================
+   * 🔴 `.dr-flows` JOINED THE LIST 2026-08-28, AND IT COSTS SOMETHING REAL
+   * =======================================================================
+   * > Michael: *"when printing i do NOT want to see the navigation footer stuff
+   * > that says 'step 1 of 1' for program details."*
+   *
+   * The flow strip from `docrender/program.py`: program name, step count, and
+   * prev/next links. It fails the pen test outright -- the arrows are most of it
+   * and neither can be followed on paper.
+   *
+   * 🪦 AND THE PROGRAM NAME IS SIMPLY LOST, AFTER ONE ATTEMPT TO SAVE IT THAT WAS
+   * REVERTED THE SAME EVENING. ~~It prints on the corner stamp instead.~~ PR #182
+   * exported it there and #184 took it back off: *"ew ew ew FUCK that header of all
+   * that additional text. NO. just site name and date, like before."* A corner mark
+   * carrying three clauses is a HEADER rather than a stamp, and `program.py` calling
+   * the name its payload was an argument about the FACT rather than about whether
+   * the destination had room. 🚩 The orientation gap on paper is real and now OPEN:
+   * if it is ever wanted it needs its own element beside the h1, not a third clause
+   * on a line that has now refused two.
+   *
+   * ⭐ AND HIDING THE ANCESTOR IS WHY THIS NEEDS NO SECOND RULE. print-flow.css
+   * forces every `<details>` open on paper, which includes `.dr-flows__others`;
+   * `display: none` here removes that whole subtree from the box tree, so the
+   * descendant cannot opt back in. **Same mechanism this file already documents
+   * for `.md-footer-meta` and the buildstamp** -- and here it is the outcome we
+   * want rather than the bug it was there.
+   *
+   * ⚠️ THE `.dr-at` MARKERS AND program.py's PER-PAGE `<style>` ARE LEFT ALONE,
+   * deliberately. Both are zero-height, and the promotion rules in that style key
+   * off `:target` -- which no printed page has, since a sheet carries no fragment.
+   * Nothing to hide and nothing that fires.
+   *
+   * =======================================================================
+   * 🔴 `.dr-data__source` JOINED IT TOO, AND IT TAKES A TRIPWIRE WITH IT
+   * =======================================================================
+   * > Michael: *"can you hide the '12 rows file name.tsv' at the bottom of the
+   * > tsv inputs when printed?"*
+   *
+   * `table.py` closes every data block with `13 rows · emergency-contacts.tsv`,
+   * where the filename is an `<a download>`. ✅ THE LINK HALF IS AN OPEN-AND-SHUT
+   * PEN-TEST FAILURE: a download attribute on paper cannot be operated, and
+   * print-type.css §5 has already stripped its colour, so it prints as underlined
+   * body text that looks like a control and is not one -- the DEAD CONTROL this
+   * family kills on sight (`edit_links: false`, the retired PR number, NO ROUTE
+   * BACK TO THE SOURCE).
+   *
+   * 🔴 THE ROW COUNT IS NOT THE SAME KIND OF THING, AND IT IS WHY THIS ENTRY IS
+   * LONGER THAN THE RULE. `13 rows` is a claim about the DOCUMENT, and on paper it
+   * was the only cross-check a reader had against the uncaging fix directly below
+   * -- which is **still unverified on paper**. Count the printed rows, compare to
+   * the stated total, and a crop announces itself. Hiding this removes that.
+   *
+   * 🚫 TAKEN ANYWAY, on two grounds rather than on the ask alone. A tripwire whose
+   * audience is a guest artist is not a tripwire -- **nobody holding a safety sheet
+   * is auditing our pagination**, so the number was doing that job for an audience
+   * that does not exist. And it cannot be kept alone: splitting the count from the
+   * filename means emitting two elements from `table.py` to let CSS drop one,
+   * which is engine surface bought for a check a reader will never run.
+   *
+   * ✅ SO THE VERIFICATION MOVES WHERE IT BELONGS: one print of a long sheet, by
+   * somebody who can read a build report. 🚩 Named in the PR, and it is now the ONLY
+   * way the uncaging below gets proven -- which is a better place for it than a
+   * line on a page, but only if somebody actually prints one.
+   * --------------------------------------------------------------------- */
+  .md-header,
+  .md-tabs,
+  .md-sidebar,
+  .md-sidebar--primary,
+  .md-sidebar--secondary,
+  .md-nav,
+  .md-search,
+  .md-top,
+  .md-dialog,
+  .md-feedback,
+  .md-footer__inner,
+  .md-footer-meta,
+  .md-clipboard,
+  .md-content__button,
+  .pagefoot,
+  .pagefoot__rule,
+  .dr-flows,
+  .dr-data__source {
+    display: none !important;
+  }
+
+  /* -------------------------------------------------------------------------
+   * 🔴 THE TABLE IS NOT A SCROLL BOX -- IT WAS BEING CLIPPED, ON BOTH AXES
+   * (2026-08-28, found while answering a question about printed table fills)
+   *
+   * `assets/data.css` builds `.dr-data` as a scroll box on purpose and argues it
+   * well: `max-height: 78vh` with `overflow: auto`, so a 130-row sheet is a
+   * readable panel instead of a page you scroll past. Every word of that reasoning
+   * is about a SCREEN.
+   *
+   * 🔴 ON PAPER A SCROLL BOX IS A CROP. `78vh` of a printed page is roughly the
+   * first 8 inches of it and `overflow: auto` has no paper equivalent, so every row
+   * past the cut and every column past the right edge is **simply not printed**.
+   * No ellipsis, no marker, nothing that tells a reader the sheet is partial. The
+   * 13-row Emergency Contacts table fits and survives; the audio inventory does
+   * not.
+   *
+   * ⚑ THIS IS THE SAME DEFECT AS THE COLLAPSED `<details>`, WHICH print-flow.css
+   * CALLS *"the single strongest argument for a print sheet existing at all: every
+   * other default here is ugly, and this one LOSES CONTENT."* Two files have now
+   * independently argued that content loss outranks everything else on paper --
+   * and the data table, the densest content this engine renders, was never checked
+   * against either argument.
+   *
+   * ⭐ AND THE HORIZONTAL HALF IS ALREADY RULED, IN print.css, ABOUT CODE: *"a
+   * horizontal scrollbar has no paper equivalent, so an over-wide line is simply
+   * cut off at the edge with no indication. Wrapping is the only option that does
+   * not lose characters."* That is this table exactly. `data.css` even reaches the
+   * same conclusion one surface in, for markers: *"A TABLE CELL CANNOT MAKE THE
+   * LINE LONGER."* ⚑ *The rule existed twice, correct both times, and neither copy
+   * was ever pointed at the element that needed it most.* Third instance of this
+   * repo's oldest shape: a rule that is right in isolation and unreachable in
+   * place.
+   *
+   * WHAT EACH DECLARATION IS FOR, because none of them is decoration:
+   *
+   *   max-height / overflow   the vertical crop, and the whole reason this block
+   *                           exists. print-flow.css already lets the TABLE break
+   *                           across pages (`break-inside: auto`), keeps a ROW
+   *                           whole (`tr`), and repeats the header
+   *                           (`display: table-header-group`) -- so once the cage
+   *                           is off, correct pagination is already waiting.
+   *   container-type          🔴 THE NON-OBVIOUS ONE. `inline-size` containment
+   *                           makes the box monolithic for fragmentation, so a
+   *                           contained table can refuse to break across sheets
+   *                           and get cropped even with the height cage removed.
+   *                           Neutralised so the rules above can actually run.
+   *   width / table-layout    the horizontal crop. The screen table is
+   *                           `width: max-content` so it can scroll sideways; on
+   *                           paper that is columns past the edge. 100% of the
+   *                           measure, sized by the browser.
+   *   white-space             the id/num/money/date/tok columns are `nowrap` by
+   *                           design, which on paper is an unbreakable box in a
+   *                           column that cannot grow. Same ruling as code, for
+   *                           the same reason.
+   *   position                sticky is an affordance for scrolling. There is no
+   *                           scrolling, and a sticky cell inside a fragmented
+   *                           table is undefined enough to be worth not finding
+   *                           out about.
+   *
+   * ⚠️ AND IT WEAKENS THE MOST-EXPLAINED RULE IN print.css, WHICH IS SAID OUT LOUD
+   * RATHER THAN LEFT TO BE DISCOVERED. That file's `@page { margin: 12mm }` is
+   * justified almost entirely by keeping the printed sheet ABOVE the 640px
+   * container-query threshold so tables do not silently flip to list mode
+   * (726px at Letter, 703px at A4). With `container-type: normal` here, **the
+   * query cannot fire on paper at any margin**, so that specific danger is gone
+   * and the inline axis is no longer load-bearing for that reason. 🚫 The 12mm is
+   * NOT changed in this pass: it is also just a sensible page margin, and
+   * rewriting print.css's argument is an edit to a file with 296 B of headroom.
+   * 🚩 Flagged for whoever splits that file next.
+   *
+   * 🔴 NOT VERIFIED ON PAPER, AND AS OF THIS COMMIT THAT IS HARDER TO CATCH. This
+   * is reasoned from the stylesheets and from two specs, and the engine has nothing
+   * that looks at a rendered page. The one-page contacts sheet cannot prove any of
+   * it, because it was never being clipped -- and the `13 rows` line a reader could
+   * have counted against is now hidden by the list above. **The proof is a print of
+   * a long sheet, and it is the only proof left.**
+   * --------------------------------------------------------------------- */
+  .dr-data {
+    max-height: none !important;
+    overflow: visible !important;
+    container-type: normal !important;
+  }
+
+  .dr-data__table {
+    width: 100% !important;
+    min-width: 0 !important;
+    table-layout: auto;
+  }
+
+  .md-typeset .dr-data__table th,
+  .md-typeset .dr-data__table td,
+  .dr-data__table th,
+  .dr-data__table td {
+    white-space: normal;
+  }
+
+  /* ⚠️ `.dr-data__source` IS DELIBERATELY NOT IN THIS LIST ANY MORE. It was, until
+   * the chrome-off list above started hiding it -- and a `position` reset on a box
+   * that no longer exists is a declaration that can never be observed. ⚑ Same
+   * family as the chevron rule that could not match and the `.buildstamp` revival
+   * that could never win: *a rule is only as real as the state it is allowed to
+   * observe.* Deleted rather than left as a harmless spare. */
+  .dr-data__table thead th,
+  .dr-data__table tbody td:first-child,
+  .dr-data__caption,
+  .dr-data__section-label {
+    position: static;
+  }
+
+  /* -------------------------------------------------------------------------
+   * ✅ THE BUILD STAMP -- THE CORNER MARK IS THE PRINTED ONE
+   *
+   * A printed page leaves the system entirely: handed to a guest artist, filed,
+   * carried into a room months later. The one question nobody can answer about a
+   * piece of paper is how old it is, so the stamp is the cheapest possible
+   * provenance and it costs one line.
+   *
+   * 🔴 IT NEVER PRINTED, FOR MONTHS, AND THE CAUSE IS THE LIST DIRECTLY ABOVE.
+   * `buildstamp.py` used to hand its markup to `config.copyright`, which Material
+   * renders inside `.md-footer-meta`. A rule sat in print.css bringing
+   * `.buildstamp` back to `display: block` and could never win: the ancestor was
+   * already gone from the box tree. It looked like a working exception and had
+   * never once fired. Two placements in the page body fixed it; the whole argument
+   * lives in `docrender/buildstamp.py`.
+   *
+   *     paper   corner shows, foot hidden
+   *     screen  foot shows, corner hidden by its own `hidden` attribute
+   *
+   * ⚠️ AND THE LINE IS SITE + DATE, TWO FACTS, WHICH IS A CONSTRAINT RATHER THAN A
+   * DESCRIPTION. It has now refused two additions on sight -- the PR number
+   * (2026-08-19) and a program name (2026-08-28) -- and `buildstamp.py` carries both
+   * post-mortems. 🚫 Do not style this rule as though it will grow: a third clause
+   * turns a stamp into a header, which is exactly the objection both times.
+   *
+   * 🔴 AND ITS TWO COLOURS WERE THE LAST HARDCODED VALUES IN THE PRINT GROUP
+   * (Michael, 2026-08-19: *"the color you chose MUST be from our theme vector.
+   * that's the whole point."*). `color: #555` and a `#ccc` hairline, on the one
+   * element that appears on every printed sheet of every site -- so a bespoke
+   * palette put its date line in neutral grey. Now `ink-muted` and `rule`.
+   *
+   * ⚠️ THE FALLBACK IS A MATERIAL VARIABLE, NEVER A LITERAL. A nine-token local
+   * theme emits neither token, and the point of a fallback is to degrade to
+   * somebody else's design system rather than to a number typed here. A literal
+   * fallback is a hardcoded colour that only shows up on the themes nobody is
+   * looking at.
+   *
+   * ⚠️ `display: block` IS LOAD-BEARING, NOT TIDINESS. It is what overrides the
+   * `hidden` attribute -- an author declaration beats the UA stylesheet's
+   * `[hidden] { display: none }`. Delete it and the mark vanishes from paper with
+   * nothing reporting it.
+   *
+   * 🔴 AND `text-align: right` LOST ON 2026-08-19 WITHOUT ANY OF THIS BEING
+   * EDITED. `print-space.css` §9 shipped `text-align: justify` on `.md-typeset p`;
+   * the corner mark IS a `<p>` inside `.md-typeset`, and (0,1,1) beats the (0,1,0)
+   * below -- source order never consulted. A justified single line renders
+   * flush-left, so the symptom read as "the stamp moved" and pointed at the wrong
+   * file entirely. ✅ Fixed by narrowing §9 to exclude `.buildstamp`, so this stays
+   * the SINGLE claimant on where the stamp sits rather than the second armoured
+   * one.
+   *
+   * 🚩 THE ICON GOES HERE, as a print-scoped `background-image` on this rule, once
+   * a line-art SVG exists -- and it is the one addition this line has not already
+   * refused, because a mark is not a third clause of text to read. 🚫 NEVER an
+   * `<img>`: a `display: none` image is still FETCHED, ~168KB on every page load of
+   * a site whose readers mostly never print. It will also need
+   * `print-color-adjust: exact`, which `print.css` owns -- a brand mark's meaning IS
+   * carried by colour, and a logo that prints as an empty box is worse than none.
+   * --------------------------------------------------------------------- */
+  .buildstamp--corner {
+    display: block;
+    margin: 0 0 1.2rem;
+    text-align: right;
+    font-size: 0.7rem;
+    line-height: 1.2;
+    color: var(--dr-ink-muted, var(--md-default-fg-color--light));
+    border-bottom: 1px solid
+      var(--dr-rule, var(--md-default-fg-color--lightest));
+    padding-bottom: 0.35rem;
+  }
+
+  /* The foot copy is the SCREEN one. On paper it would be the second stamp on one
+   * sheet, which is the thing the split placement exists to avoid. */
+  .buildstamp--foot {
+    display: none !important;
+  }
+}

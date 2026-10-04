@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Layout Viewer</title>
+<!--
+  PORTABLE LAYOUT RENDERER + THEME SANDBOX
+  =========================================
+  ZERO CONFIG. Drop this file in any folder of any GitHub Pages-enabled
+  repo and it auto-discovers:
+    - Its own repo/owner/path from the URL
+    - All *.html render files in its folder tree
+    - All available themes from the canonical theme system
+
+  THEME SOURCE: mawizorek/ClickUp_apps/shared/themes/
+  REQUIREMENTS: GitHub Pages enabled, .nojekyll in repo root
+  PORTABILITY: copy this file, paste into any app folder, done.
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: #1c1c1c;
+  color: #f6f6f6;
+  font-family: 'Gabarito', sans-serif;
+  font-size: 15px;
+}
+
+.viewer-chrome {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  background: #2a2a2a;
+  border-bottom: 1px solid #3a3a3a;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.toolbar-title {
+  font-family: 'Gabarito', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.toolbar select {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  background: #333;
+  color: #f6f6f6;
+  border: 1px solid #3a3a3a;
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+.toolbar select:focus {
+  outline: none;
+  border-color: #6a6;
+}
+
+#layout-picker { flex: 1; max-width: 380px; }
+#theme-picker { min-width: 180px; }
+
+.toolbar .status {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: #666;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.toolbar .theme-badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: #6a6;
+  background: #333;
+  border: 1px solid #6a6;
+  border-radius: 4px;
+  padding: 2px 6px;
+  white-space: nowrap;
+  transition: all 200ms;
+}
+.toolbar .theme-badge.changed {
+  color: #e0a84f;
+  border-color: #e0a84f;
+}
+
+.toolbar label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.render-area {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: #222;
+}
+
+.render-area iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #1c1c1c;
+}
+
+.render-area .empty-state {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #555;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+}
+.render-area .empty-state .arrow {
+  font-size: 24px;
+  animation: bounce 1.5s infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1c1c1c;
+  color: #888;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  z-index: 10;
+}
+</style>
+</head>
+<body>
+<div class="viewer-chrome">
+
+  <div class="toolbar">
+    <span class="toolbar-title" id="viewer-title">Layouts</span>
+    <select id="layout-picker" disabled>
+      <option value="">scanning...</option>
+    </select>
+    <label for="theme-picker">theme:</label>
+    <select id="theme-picker" disabled>
+      <option value="">loading themes...</option>
+    </select>
+    <span class="theme-badge" id="theme-badge">default</span>
+    <span class="status" id="status">loading</span>
+  </div>
+
+  <div class="render-area" id="render-area">
+    <div class="empty-state" id="empty-state">
+      <span class="arrow">&#8593;</span>
+      <span>select a layout to render</span>
+    </div>
+    <iframe id="render-frame" style="display:none"></iframe>
+    <div class="loading" id="loading" style="display:none">loading render...</div>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  // ============================================================
+  // ZERO-CONFIG DETECTION
+  // Parses owner, repo, and app root from the GitHub Pages URL.
+  // Format: {owner}.github.io/{repo}/{path}/viewer.html
+  // If detection fails (local file://, custom domain), falls back
+  // to the manual config below.
+  // ============================================================
+  var FALLBACK_OWNER = 'mawizorek';
+  var FALLBACK_REPO = 'maw-prose';
+  var FALLBACK_APP_ROOT = 'apps/hml-llc';
+
+  var OWNER, REPO, APP_ROOT, PAGES_BASE;
+
+  var hostname = window.location.hostname;
+  var pathname = window.location.pathname;
+
+  if (hostname.endsWith('.github.io')) {
+    // Auto-detect from GitHub Pages URL
+    OWNER = hostname.split('.github.io')[0];
+    var segments = pathname.replace(/^\//, '').replace(/\/$/, '').split('/');
+    REPO = segments[0] || FALLBACK_REPO;
+    // APP_ROOT = everything except repo prefix and filename
+    var pathWithoutRepo = segments.slice(1);
+    pathWithoutRepo.pop(); // remove viewer.html
+    APP_ROOT = (REPO + '/' + pathWithoutRepo.join('/')).replace(/\/$/, '');
+    // Wait: APP_ROOT for the API is repo-relative, not absolute
+    APP_ROOT = pathWithoutRepo.join('/') || '';
+    PAGES_BASE = 'https://' + hostname + '/' + REPO + '/';
+  } else {
+    // Fallback for local/custom
+    OWNER = FALLBACK_OWNER;
+    REPO = FALLBACK_REPO;
+    APP_ROOT = FALLBACK_APP_ROOT;
+    PAGES_BASE = 'https://' + FALLBACK_OWNER + '.github.io/' + FALLBACK_REPO + '/';
+  }
+
+  var SELF_FILENAME = pathname.split('/').pop();
+  var THEME_BASE = 'https://raw.githubusercontent.com/mawizorek/ClickUp_apps/main/shared/themes/';
+  var DEFAULT_THEME = 'papyrus'; // overridden by ?theme= param
+
+  // Set title from folder name
+  var folderName = APP_ROOT.split('/').pop() || REPO;
+  document.getElementById('viewer-title').textContent = folderName.replace(/-/g, ' ').toUpperCase() + ' Layouts';
+  document.title = folderName + ' | Layout Viewer';
+
+  var picker = document.getElementById('layout-picker');
+  var themePicker = document.getElementById('theme-picker');
+  var frame = document.getElementById('render-frame');
+  var emptyState = document.getElementById('empty-state');
+  var loading = document.getElementById('loading');
+  var status = document.getElementById('status');
+  var themeBadge = document.getElementById('theme-badge');
+
+  // Theme data
+  var themeIndex = null;
+  var vectors = { colors: null, typography: null, forms: null, spacing: null };
+
+  // ---- TSV PARSER ----
+  function parseTSV(text) {
+    var lines = text.trim().split('\n');
+    var headers = lines[0].split('\t');
+    var rows = [];
+    for (var i = 1; i < lines.length; i++) {
+      var cols = lines[i].split('\t');
+      var obj = {};
+      for (var j = 0; j < headers.length; j++) {
+        obj[headers[j]] = cols[j] || '';
+      }
+      rows.push(obj);
+    }
+    return { headers: headers, rows: rows };
+  }
+
+  function findRow(parsed, slug) {
+    for (var i = 0; i < parsed.rows.length; i++) {
+      if (parsed.rows[i].slug === slug) return parsed.rows[i];
+    }
+    return null;
+  }
+
+  // ---- THEME RESOLUTION ----
+  function resolveTheme(themeSlug) {
+    if (!themeIndex || !vectors.colors || !vectors.typography || !vectors.forms || !vectors.spacing) return null;
+    var themeDef = null;
+    for (var i = 0; i < themeIndex.themes.length; i++) {
+      if (themeIndex.themes[i].slug === themeSlug) { themeDef = themeIndex.themes[i]; break; }
+    }
+    if (!themeDef) return null;
+
+    var colorRow = findRow(vectors.colors, themeDef.color);
+    var typoRow = findRow(vectors.typography, themeDef.typography);
+    var formsRow = findRow(vectors.forms, themeDef.forms);
+    var spacingRow = findRow(vectors.spacing, themeDef.spacing);
+
+    var tokens = {};
+    var skipCols = ['slug', 'name', 'mode'];
+
+    if (colorRow) {
+      vectors.colors.headers.forEach(function(h) {
+        if (skipCols.indexOf(h) === -1 && colorRow[h]) tokens[h] = colorRow[h];
+      });
+    }
+    if (typoRow) {
+      vectors.typography.headers.forEach(function(h) {
+        if (h !== 'slug' && typoRow[h]) tokens[h] = typoRow[h];
+      });
+    }
+    if (formsRow) {
+      vectors.forms.headers.forEach(function(h) {
+        if (h !== 'slug' && formsRow[h]) tokens[h] = formsRow[h];
+      });
+    }
+    if (spacingRow) {
+      vectors.spacing.headers.forEach(function(h) {
+        if (h !== 'slug' && spacingRow[h]) tokens[h] = spacingRow[h];
+      });
+    }
+    return tokens;
+  }
+
+  function applyThemeToFrame(tokens) {
+    if (!tokens) return;
+    try {
+      var iframeDoc = frame.contentDocument || frame.contentWindow.document;
+      var root = iframeDoc.documentElement;
+      Object.keys(tokens).forEach(function(k) {
+        if (tokens[k]) root.style.setProperty('--' + k, tokens[k]);
+      });
+    } catch(e) { /* cross-origin guard */ }
+  }
+
+  // ---- LAYOUT DISCOVERY ----
+  function discoverLayouts() {
+    var url = 'https://api.github.com/repos/' + OWNER + '/' + REPO + '/git/trees/main?recursive=1';
+    return fetch(url)
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (!data.tree) return [];
+        var prefix = APP_ROOT ? APP_ROOT + '/' : '';
+        return data.tree
+          .filter(function(item) {
+            return item.type === 'blob'
+              && item.path.indexOf(prefix) === 0
+              && item.path.match(/\.html$/i)
+              && item.path.indexOf(SELF_FILENAME) === -1
+              && item.path !== prefix + SELF_FILENAME;
+          })
+          .map(function(item) {
+            var display = item.path.replace(prefix, '');
+            return { path: item.path, display: display };
+          })
+          .sort(function(a, b) { return a.display.localeCompare(b.display); });
+      });
+  }
+
+  function populatePicker(layouts) {
+    picker.innerHTML = '';
+    var placeholder = document.createElement('option');
+    placeholder.value = '';
+    placeholder.textContent = '\u2014 select layout (' + layouts.length + ' found) \u2014';
+    picker.appendChild(placeholder);
+
+    var groups = {};
+    layouts.forEach(function(l) {
+      var parts = l.display.split('/');
+      var folder = parts.length > 1 ? parts[0] : '(root)';
+      if (!groups[folder]) groups[folder] = [];
+      groups[folder].push(l);
+    });
+
+    Object.keys(groups).sort().forEach(function(folder) {
+      var optgroup = document.createElement('optgroup');
+      optgroup.label = folder;
+      groups[folder].forEach(function(l) {
+        var opt = document.createElement('option');
+        opt.value = l.path;
+        opt.textContent = l.display;
+        optgroup.appendChild(opt);
+      });
+      picker.appendChild(optgroup);
+    });
+
+    picker.disabled = false;
+    status.textContent = layouts.length + ' layouts';
+  }
+
+  // ---- THEME LOADING ----
+  function loadThemeData() {
+    return Promise.all([
+      fetch(THEME_BASE + '_themes.json').then(function(r) { return r.json(); }),
+      fetch(THEME_BASE + 'colors.tsv').then(function(r) { return r.text(); }),
+      fetch(THEME_BASE + 'typography.tsv').then(function(r) { return r.text(); }),
+      fetch(THEME_BASE + 'forms.tsv').then(function(r) { return r.text(); }),
+      fetch(THEME_BASE + 'spacing.tsv').then(function(r) { return r.text(); })
+    ]).then(function(results) {
+      themeIndex = results[0];
+      vectors.colors = parseTSV(results[1]);
+      vectors.typography = parseTSV(results[2]);
+      vectors.forms = parseTSV(results[3]);
+      vectors.spacing = parseTSV(results[4]);
+      populateThemePicker();
+    });
+  }
+
+  function populateThemePicker() {
+    if (!themeIndex) return;
+    themePicker.innerHTML = '';
+    themeIndex.themes.forEach(function(t) {
+      var opt = document.createElement('option');
+      opt.value = t.slug;
+      opt.textContent = t.name + (t.status === 'draft' ? ' (draft)' : '');
+      if (t.slug === DEFAULT_THEME) opt.selected = true;
+      themePicker.appendChild(opt);
+    });
+    themePicker.disabled = false;
+    themeBadge.textContent = DEFAULT_THEME;
+  }
+
+  // ---- RENDER ----
+  function renderLayout(path) {
+    if (!path) {
+      frame.style.display = 'none';
+      emptyState.style.display = 'flex';
+      loading.style.display = 'none';
+      return;
+    }
+    emptyState.style.display = 'none';
+    loading.style.display = 'flex';
+    frame.style.display = 'none';
+
+    var pageUrl = PAGES_BASE + path;
+    frame.onload = function() {
+      loading.style.display = 'none';
+      frame.style.display = 'block';
+      status.textContent = path.replace((APP_ROOT ? APP_ROOT + '/' : ''), '');
+      var selectedTheme = themePicker.value;
+      if (selectedTheme && selectedTheme !== DEFAULT_THEME) {
+        applyThemeToFrame(resolveTheme(selectedTheme));
+      }
+    };
+    frame.onerror = function() {
+      loading.style.display = 'none';
+      emptyState.style.display = 'flex';
+      status.textContent = 'error';
+    };
+    frame.src = pageUrl;
+  }
+
+  // ---- EVENTS ----
+  picker.addEventListener('change', function() { renderLayout(picker.value); });
+
+  themePicker.addEventListener('change', function() {
+    var slug = themePicker.value;
+    themeBadge.textContent = slug;
+    themeBadge.classList.toggle('changed', slug !== DEFAULT_THEME);
+    applyThemeToFrame(resolveTheme(slug));
+  });
+
+  // ---- INIT ----
+  Promise.all([
+    discoverLayouts().then(populatePicker),
+    loadThemeData()
+  ]).then(function() {
+    var params = new URLSearchParams(window.location.search);
+    var preselect = params.get('layout');
+    var preTheme = params.get('theme');
+    if (preTheme) {
+      DEFAULT_THEME = preTheme;
+      themePicker.value = preTheme;
+      themeBadge.textContent = preTheme;
+      themeBadge.classList.toggle('changed', true);
+    }
+    if (preselect) {
+      var prefix = APP_ROOT ? APP_ROOT + '/' : '';
+      var fullPath = preselect.indexOf(prefix) === 0 ? preselect : prefix + preselect;
+      picker.value = fullPath;
+      renderLayout(fullPath);
+    }
+  }).catch(function(err) {
+    status.textContent = 'init failed';
+    console.error(err);
+  });
+
+})();
+</script>
+</body>
+</html>

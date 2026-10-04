@@ -1,0 +1,12 @@
+sort	Field_Name	Type	Notes
+1	PrimaryKey	Text	UUID, auto-enter, unique, can't modify
+2	fkProduction	Text	Declared by the operator. A guard, not the join
+3	StartedAt	Timestamp	
+4	Source	Text	csv | api
+5	ViewRef	Text	Which CU view produced this. The view IS the contract
+6	RowCount_File	Number	
+7	RowCount_Landed	Number	Mismatch = reconcile before trusting the pull
+8	RowCount_Flagged	Number	Rows whose production token did not resolve
+9	Status	Text	complete | partial | failed
+10	Notes	Text	
+11	[[Audit Fields](@audit-fields)]{.hi}		

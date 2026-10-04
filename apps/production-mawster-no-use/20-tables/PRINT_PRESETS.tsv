@@ -1,0 +1,19 @@
+id	Field_Name	Type	Notes
+NORMALIZED FIELDS			
+{.conf}	Name	Text	11x17 Full Company, Light Lab Only, Agenda
+{.conf}	vl_OutputSize	Text	11x17 | 8.5x11 | agenda
+{.conf}	WeekStartDay	Number	1=Sun ... 7=Sat. default = 1, SUNDAY
+{.conf}	bool_UseShortTitle	Number	default = 1
+{.conf}	bool_ShowLegend	Number	default = 1 | Prints the CALENDAR_EMPHASIS labels. Legacy had no legend
+    {.tbc}	DepartmentFilter	Text	TBC - needs a department field on EVENTS first
+{.conf}	bool_IncludeUnscheduled	Number	default = 1 | The UNSCHEDULED block at the top of week one
+{.conf}	ExportFolder	Text	Relative. Never absolute - Get(FilePath) resolves the file
+RELATIONSHIPS			
+    {.tbc}	< PRINT_SESSIONS		Each run snapshots this preset's values
+AUDIT FIELDS			
+{.conf}	PrimaryKey	Text	
+{.conf}	CreationTimestamp	Timestamp	
+{.conf}	CreatedBy	Text	
+{.conf}	ModificationTimestamp	Timestamp	
+{.conf}	ModifiedBy	Text	
+- EOF -			

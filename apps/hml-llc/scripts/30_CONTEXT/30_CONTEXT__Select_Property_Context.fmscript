@@ -1,0 +1,58 @@
+# 30_CONTEXT__Select_Property_Context
+# Sets the current property, resolves the current loan, refreshes the hub.
+# Param (JSON): { propertyID (req), loanID (opt), tab (opt) }
+# Returns (JSON): { ok, propertyID, loanID, resolution }
+# Writes globals only. Never guesses a loan when several are open.
+
+Set Error Capture [ On ]
+Set Variable [ $p ; Value: Get ( ScriptParameter ) ]
+Set Variable [ $propertyID ; Value: JSONGetElement ( $p ; "propertyID" ) ]
+Set Variable [ $loanID ; Value: JSONGetElement ( $p ; "loanID" ) ]
+Set Variable [ $tab ; Value: JSONGetElement ( $p ; "tab" ) ]
+
+If [ IsEmpty ( $propertyID ) ]
+	Exit Script [ Result: JSONSetElement ( "{}" ; [ "ok" ; False ; JSONBoolean ] ; [ "error" ; "no property" ; JSONString ] ) ]
+End If
+
+Set Field [ GLOBAL_USE_VARIABLES::g_fkCurrentProperty ; $propertyID ]
+
+If [ not IsEmpty ( $loanID ) ]
+	# Caller already knew the loan. Trust it.
+	Set Field [ GLOBAL_USE_VARIABLES::g_fkCurrentLoan ; $loanID ]
+	Set Variable [ $resolution ; Value: "explicit" ]
+
+Else
+	Go to Layout [ "Loans" (Loans) ]
+	Enter Find Mode [ Pause: Off ]
+	Set Field [ Loans::fkProperty ; $propertyID ]
+	Set Field [ Loans::ServicingStatus ; "Active" ]
+	Perform Find [ ]
+
+	If [ Get ( FoundCount ) = 1 ]
+		Set Variable [ $loanID ; Value: Loans::PrimaryKey ]
+		Set Field [ GLOBAL_USE_VARIABLES::g_fkCurrentLoan ; $loanID ]
+		Set Variable [ $resolution ; Value: "single" ]
+
+	Else If [ Get ( FoundCount ) = 0 ]
+		# A property with no active loan is legitimate (paid-off collateral)
+		Set Field [ GLOBAL_USE_VARIABLES::g_fkCurrentLoan ; "" ]
+		Set Variable [ $resolution ; Value: "none" ]
+
+	Else
+		# Several open loans. Leave the loan global EMPTY on purpose.
+		Set Field [ GLOBAL_USE_VARIABLES::g_fkCurrentLoan ; "" ]
+		Set Variable [ $resolution ; Value: "ambiguous" ]
+	End If
+End If
+
+# Clear stale row selections so a tab cannot show the previous loan's row
+Set Field [ GLOBAL_USE_VARIABLES::g_fkSelectedExpected ; "" ]
+Set Field [ GLOBAL_USE_VARIABLES::g_fkSelectedTransaction ; "" ]
+
+If [ not IsEmpty ( $tab ) ]
+	Perform Script [ "10_UI__Set_Hub_Tab" ; Parameter: Param ( PText ( "tab" ; $tab ) ) ]
+End If
+
+Refresh Window [ Flush cached join results ]
+
+Exit Script [ Result: JSONSetElement ( "{}" ; [ "ok" ; True ; JSONBoolean ] ; [ "propertyID" ; $propertyID ; JSONString ] ; [ "loanID" ; $loanID ; JSONString ] ; [ "resolution" ; $resolution ; JSONString ] ) ]
