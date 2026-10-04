@@ -1,0 +1,17 @@
+Field_Name	Type	Notes	TO	Flag
+`PrimaryKey`	text-uuid	Bare UUID, auto-enter Get(UUID), never displayed	REPO_PAGES	
+`fkDocument`	text-uuid	FK → DOCUMENTS.PrimaryKey. The bibliographic parent. Required.	DOCUMENTS_forPage	🔴 no orphans
+`PageID`	text	The `id:` in the page front matter. Unique across the whole tree.		🔴 THE SEAM
+`Repo`	text	`owner/name`, no URL, no branch		
+`RepoPath`	text	Path from repo root, e.g. `safety/programs/mewp.md`		
+`PublishedURL`	text	Live rendered page (gh-pages / Pages site)		
+`BlobURL`	text	GitHub `/blob/` URL to the source. Never `raw.githubusercontent`		🚩
+`PageType`	text	Value from the renderer's `objects/<type>.yml` vocabulary	PAGE_TYPES	
+`PageStatus`	text	`draft` / `internal` / `public` / `withdrawn`		
+`NavState`	text	`collapsed` / `expanded` / `hidden`. Mirrors front matter `nav:`		
+`SortOrder`	number	Mirrors front matter `order:`. Sibling ordering within a section		
+`RevisedLabel`	text	Human revision stamp shown on the page, e.g. `2026-08`		
+`LastVerifiedTimestamp`	timestamp	When a human last confirmed the prose is still true		
+`VerifiedBy`	text-uuid	FK → POEPLE.PrimaryKey (misspelling is live, do not fix in isolation)	POEPLE_forVerify	
+`calc_PageLabel`	(c→Text)	`PageID & " · " & RepoPath` for list views and value lists		
+`calc_IsPublished`	(c→Number)	`not IsEmpty(PublishedURL)`		

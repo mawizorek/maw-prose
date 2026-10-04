@@ -1,28 +1,21 @@
+---
+id: maw-documents-table-documentcopies
+title: "DocumentCopies"
+type: reference
+status: hidden
+summary: "One object you hold.** This hardcover on this shelf."
+data:
+  catalog:
+    file: DocumentCopies.tsv
+---
 # DocumentCopies
 
-Manage → Database → Tables → DocumentCopies
-
-Grain: **one object you hold.** This hardcover on this shelf. This PDF on this disk. The
-water-damaged paperback you replaced.
+!!! abstract "Grain"
+    one object you hold.** This hardcover on this shelf. This PDF on this disk. The water-damaged paperback you replaced.
 
 ⭐ **The FRBR/LRM Item layer** — condition, location, acquisition and lending all attach here, and
 none of them can live on [Documents](./Documents.md). **You cannot buy a title.**
 
-## Fields
-
-| Field | Type | FMP Comment | TO | ⚠️ |
-|---|---|---|---|---|
-| PrimaryKey | text-uuid | Auto-generated unique identifier | | |
-| fkDocument | text-uuid | The work this is a copy OF | → Documents | |
-| Format | text | Hardcover / Paperback / PDF / EPUB / Scan | | ⚠️ value-list controlled |
-| fkStorageLocation | text-uuid | Where it lives | → StorageLocations | ⚠️ table not yet built |
-| Condition | text | New / Good / Worn / Damaged / Ex-library | | ⚠️ snapshot, not history |
-| AcquiredDate | date | When it came into your possession | | |
-| AcquisitionMethod | text | Purchased / Gift / Inherited / Library discard / Comp | | 🔴 load-bearing |
-| IsPrimaryCopy | number | 1 = reach for this one first | | ⚠️ one per document, script-enforced |
-| Notes | text | Marginalia, provenance, what is wrong with it | | |
-| calc_IsOnLoan | (c→Number) | 1 when an open CopyLoans row exists | → CopyLoans | 🔴 UNSTORED |
-| calc_CurrentHolder | (c→Text) | Who has it | → CopyLoans | 🔴 UNSTORED |
 
 Audit fields → [data-standards.md](../data-standards.md).
 
@@ -65,3 +58,7 @@ rejects that read, this table and Purchases both change shape.
   built.**
 
 FK map → [relationships/README.md](../relationships/README.md)
+
+## Fields
+
+!!! data "catalog"

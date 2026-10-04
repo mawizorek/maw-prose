@@ -1,0 +1,7 @@
+Field_Name	Type	Notes	TO	Flag
+PrimaryKey	text-uuid	Auto-generated unique identifier		
+RoleName	text	Display term: Author / Editor / Lighting designer		⚠️ use the MARC term
+RelatorCode	text	MARC relator code		⭐ from id.loc.gov/vocabulary/relators
+SortOrder	number	Display order in a contributor list		🔴 why this is a table
+IsActive	number	1 = offered in pickers		
+Notes	text	When to use this over a near neighbour		

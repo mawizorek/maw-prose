@@ -1,0 +1,10 @@
+Field_Name	Type	Notes	TO	Flag
+PrimaryKey	text-uuid	Auto-generated unique identifier		
+fkDocument	text-uuid	The work these facts describe	→ Documents	🔴 must be unique: 1:1
+fkPublisher	text-uuid	The publishing body	→ Organizations	🔴 NOT a text field
+ISBN	text	ISBN-13 preferred		⚠️ store unhyphenated, format for display
+EditionStatement	text	As printed: "2nd ed.", "rev. and expanded"		⚠️ transcribe, do not normalize
+PublicationYear	number	Year of THIS edition, not of the work		🔴 see grain trap
+PageCount	number	Pages in the published object		
+CallNumber	text	LC or Dewey, if the copy carries one		⚠️ library discards often do
+Notes	text	Bibliographic oddities		

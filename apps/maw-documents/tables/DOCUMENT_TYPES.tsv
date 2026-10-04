@@ -1,0 +1,10 @@
+Field_Name	Type	Notes	TO	Flag
+PrimaryKey	text-uuid	Auto-generated unique identifier		
+Name	text	Display term: "Light plot"		
+Name_short	text	Compact form for chips and column headers		⭐ matches the ORGANIZATIONS pattern
+fkTypeGroup	text-uuid	Which family this type belongs to	→ TYPE_GROUPS	⚠️ see below — may be premature
+ExpectsBibliographic	number	1 = a BIBLIOGRAPHIC_DETAILS row is expected		⭐ the useful one
+ExpectsInstance	number	1 = a physical or file copy is expected		
+SortOrder	number	Display order in pickers and the facet rail		gaps of 10
+IsActive	number	1 = offered in pickers		⚠️ never delete a type in use
+Notes	text	When to use this over a near neighbour		

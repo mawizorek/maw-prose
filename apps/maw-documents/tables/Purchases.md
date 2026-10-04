@@ -1,29 +1,20 @@
+---
+id: maw-documents-table-purchases
+title: "Purchases"
+type: reference
+status: hidden
+summary: "One order.** One trip to a bookstore, one online order, one estate-sale haul."
+data:
+  catalog:
+    file: Purchases.tsv
+---
 # Purchases
 
-Manage → Database → Tables → Purchases
-
-Grain: **one order.** One trip to a bookstore, one online order, one estate-sale haul. What was in it
-is [PurchaseLines](./PurchaseLines.md).
+!!! abstract "Grain"
+    one order.** One trip to a bookstore, one online order, one estate-sale haul. What was in it is [PurchaseLines](./PurchaseLines.md).
 
 🔴 **This is a money write. Read the atomicity section before scripting it.**
 
-## Fields
-
-| Field | Type | FMP Comment | TO | ⚠️ |
-|---|---|---|---|---|
-| PrimaryKey | text-uuid | Auto-generated unique identifier | | |
-| fkVendor | text-uuid | Who you bought from | → Organizations | ⭐ the pointer IS the vendor role |
-| PurchaseDate | date | Date of the transaction | | ⚠️ not the arrival date — that is on the copy |
-| OrderReference | text | Order number, invoice, receipt id | | |
-| Subtotal | number | Sum of line totals | | |
-| ShippingAmount | number | Order-level shipping | | 🔴 belongs to the ORDER |
-| TaxAmount | number | Order-level tax | | 🔴 same |
-| TotalAmount | number | What you actually paid | | ⚠️ validate, do not assume |
-| Currency | text | ISO code | | 🔴 explicit. No implicit USD |
-| fkReceiptDocument | text-uuid | The receipt, as a document in this archive | → Documents | ⭐ |
-| Notes | text | Free-form | | |
-| calc_LineCount | (c→Number) | Lines on this order | → PurchaseLines | 🔴 0 = a half-applied commit |
-| calc_LineTotalSum | (c→Number) | For reconciling against Subtotal | → PurchaseLines | |
 
 Audit fields → [data-standards.md](../data-standards.md).
 
@@ -65,3 +56,7 @@ transactions are v20 steps. Portable by construction is the point of this app.
 - No refunds, payments or currency history — deferred, see [schema-notes.md](../schema-notes.md).
 
 FK map → [relationships/README.md](../relationships/README.md)
+
+## Fields
+
+!!! data "catalog"

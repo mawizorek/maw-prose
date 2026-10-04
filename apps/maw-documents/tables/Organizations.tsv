@@ -1,0 +1,8 @@
+Field_Name	Type	Notes	TO	Flag
+PrimaryKey	text-uuid	Auto-generated unique identifier		
+OrganizationName	text	Display form: "Powell's Books"		
+SortName	text	Authority form for list order		
+fkOrganizationType	text-uuid	Bookstore / Publisher / University / Library	→ OrganizationTypes	🔴 DESCRIPTIVE ONLY
+URL	text	Where to buy from them or look them up		
+IsActive	number	1 = offered in pickers		⚠️ a closed shop stays in the data
+Notes	text	Disambiguation, imprints, local branch		

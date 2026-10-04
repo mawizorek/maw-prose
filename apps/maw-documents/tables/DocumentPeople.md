@@ -1,23 +1,21 @@
+---
+id: maw-documents-table-documentpeople
+title: "DocumentPeople"
+type: reference
+status: hidden
+summary: "One contribution.** This person, in this role, on this work."
+data:
+  catalog:
+    file: DocumentPeople.tsv
+---
 # DocumentPeople
 
-Manage → Database → Tables → DocumentPeople
-
-Grain: **one contribution.** This person, in this role, on this work. Three rows if a book has an
-author, a translator and an illustrator.
+!!! abstract "Grain"
+    one contribution.** This person, in this role, on this work. Three rows if a book has an author, a translator and an illustrator.
 
 ⭐ **One table replaced two chained joins**, and it matches BIBFRAME's `bf:Contributor`: one agent
 plus one role, together, on the resource. **No library system chains two joins for this.**
 
-## Fields
-
-| Field | Type | FMP Comment | TO | ⚠️ |
-|---|---|---|---|---|
-| PrimaryKey | text-uuid | Auto-generated unique identifier | | |
-| fkDocument | text-uuid | The work contributed to | → Documents | |
-| fkPerson | text-uuid | Who contributed | → People | |
-| fkRole | text-uuid | In what capacity | → ContributorRoles | 🔴 the role lives HERE |
-| SortOrder | number | Billing order on this work | | ⭐ homeless in the old design |
-| Notes | text | "translator of the 2nd edition only" | | ⭐ also homeless before |
 
 Audit fields → [data-standards.md](../data-standards.md).
 
@@ -61,3 +59,7 @@ look like a good idea again, because a single field is always cheaper than a joi
   an annotator of one copy. ⚠️ **Currently `Notes`, which is a workaround and marked as one.**
 
 FK map → [relationships/README.md](../relationships/README.md)
+
+## Fields
+
+!!! data "catalog"

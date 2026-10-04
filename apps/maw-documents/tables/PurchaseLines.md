@@ -1,24 +1,21 @@
+---
+id: maw-documents-table-purchaselines
+title: "PurchaseLines"
+type: reference
+status: hidden
+summary: "One thing in one order.** Three books in one order is three rows."
+data:
+  catalog:
+    file: PurchaseLines.tsv
+---
 # PurchaseLines
 
-Manage → Database → Tables → PurchaseLines
-
-Grain: **one thing in one order.** Three books in one order is three rows.
+!!! abstract "Grain"
+    one thing in one order.** Three books in one order is three rows.
 
 🔴 **A line points at a COPY, not at a work** — the reason
 [DocumentCopies](./DocumentCopies.md) exists.
 
-## Fields
-
-| Field | Type | FMP Comment | TO | ⚠️ |
-|---|---|---|---|---|
-| PrimaryKey | text-uuid | Auto-generated unique identifier | | |
-| fkPurchase | text-uuid | The order this belongs to | → Purchases | 🔴 the ONE write relationship |
-| fkDocumentCopy | text-uuid | The specific object acquired | → DocumentCopies | 🔴 a copy, never a work |
-| LineDescription | text | As printed on the receipt | | ⭐ keep even with the copy link |
-| Quantity | number | Usually 1 | | ⚠️ >1 means multiple copies |
-| UnitPrice | number | Per unit, before order charges | | |
-| LineTotal | number | Quantity × UnitPrice | | ⚠️ stored AND validated |
-| Notes | text | ex-library, damaged and discounted | | |
 
 Audit fields → [data-standards.md](../data-standards.md).
 
@@ -70,3 +67,7 @@ architecture, not a field.**
 FK is the most expensive move in this design.
 
 FK map → [relationships/README.md](../relationships/README.md)
+
+## Fields
+
+!!! data "catalog"
