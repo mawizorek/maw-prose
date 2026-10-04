@@ -1,26 +1,21 @@
+---
+id: maw-documents-table-bibliographicdetails
+title: "BibliographicDetails"
+type: reference
+status: hidden
+summary: "The book facts about one work.** 1:1 with [Documents](./Documents.md)."
+data:
+  catalog:
+    file: BibliographicDetails.tsv
+---
 # BibliographicDetails
 
-Manage → Database → Tables → BibliographicDetails
-
-Grain: **the book facts about one work.** 1:1 with [Documents](./Documents.md). A row exists only when
-the document is a published thing — a book, textbook, score, published article.
+!!! abstract "Grain"
+    the book facts about one work.** 1:1 with [Documents](./Documents.md). A row exists only when the document is a published thing — a book, textbook, score, published article.
 
 ⭐ **It exists so `Documents` does not carry twenty empty columns.** A packing slip has no row here,
 and that absence is correct.
 
-## Fields
-
-| Field | Type | FMP Comment | TO | ⚠️ |
-|---|---|---|---|---|
-| PrimaryKey | text-uuid | Auto-generated unique identifier | | |
-| fkDocument | text-uuid | The work these facts describe | → Documents | 🔴 must be unique: 1:1 |
-| fkPublisher | text-uuid | The publishing body | → Organizations | 🔴 NOT a text field |
-| ISBN | text | ISBN-13 preferred | | ⚠️ store unhyphenated, format for display |
-| EditionStatement | text | As printed: "2nd ed.", "rev. and expanded" | | ⚠️ transcribe, do not normalize |
-| PublicationYear | number | Year of THIS edition, not of the work | | 🔴 see grain trap |
-| PageCount | number | Pages in the published object | | |
-| CallNumber | text | LC or Dewey, if the copy carries one | | ⚠️ library discards often do |
-| Notes | text | Bibliographic oddities | | |
 
 Audit fields → [data-standards.md](../data-standards.md).
 
@@ -53,3 +48,7 @@ date roles eventually split (publication vs document creation vs revision), this
   manifestation, new record.** Not ruled; it decides how a replaced textbook edition files.
 
 FK map → [relationships/README.md](../relationships/README.md)
+
+## Fields
+
+!!! data "catalog"

@@ -1,24 +1,17 @@
+---
+id: maw-documents-table-copyloans
+title: "CopyLoans"
+type: reference
+status: hidden
+summary: "One span of possession.** This copy, with this person, from this date to that date."
+data:
+  catalog:
+    file: CopyLoans.tsv
+---
 # CopyLoans
 
-Manage → Database → Tables → CopyLoans
-
-Grain: **one span of possession.** This copy, with this person, from this date to that date.
-**Append-only** — the same copy lent three times is three rows, and all three stay.
-
-## Fields
-
-| Field | Type | FMP Comment | TO | ⚠️ |
-|---|---|---|---|---|
-| PrimaryKey | text-uuid | Auto-generated unique identifier | | |
-| fkDocumentCopy | text-uuid | The object that changed hands | → DocumentCopies | 🔴 a copy, never a work |
-| fkPerson | text-uuid | Who has it, or who you have it from | → People | |
-| Direction | text | Out (you lent) / In (you borrowed) | | 🔴 makes one table cover both |
-| LoanedDate | date | When it left, or arrived | | |
-| DueDate | date | When it is expected back | | ⚠️ empty = indefinite, a real state |
-| ReturnedDate | date | When it actually came back | | 🔴 EMPTY = the loan is open |
-| Notes | text | Condition on handover, what it was for | | |
-| calc_IsOpen | (c→Number) | 1 when ReturnedDate is empty | | 🔴 UNSTORED |
-| calc_IsOverdue | (c→Number) | 1 when open and DueDate is past | | 🔴 UNSTORED — changes with the clock |
+!!! abstract "Grain"
+    one span of possession.** This copy, with this person, from this date to that date. **Append-only** — the same copy lent three times is three rows, and all three stay.
 
 Audit fields → [data-standards.md](../data-standards.md).
 
@@ -67,3 +60,7 @@ with a real book and date.
 - Nothing links a loan to a reminder or task. Deliberate for now.
 
 FK map → [relationships/README.md](../relationships/README.md)
+
+## Fields
+
+!!! data "catalog"

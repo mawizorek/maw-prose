@@ -1,24 +1,21 @@
+---
+id: maw-documents-table-organizations
+title: "Organizations"
+type: reference
+status: hidden
+summary: "One company or institution, once.** Publishers, bookstores, universities, libraries, producing companies."
+data:
+  catalog:
+    file: Organizations.tsv
+---
 # Organizations
 
-Manage → Database → Tables → Organizations
-
-Grain: **one company or institution, once.** Publishers, bookstores, universities, libraries,
-producing companies. One row regardless of how many roles the body plays.
+!!! abstract "Grain"
+    one company or institution, once.** Publishers, bookstores, universities, libraries, producing companies. One row regardless of how many roles the body plays.
 
 ⭐ **This table exists to prevent three org-shaped tables.** Before it, this app had a `COMPANIES`
 authority on its design page, a `Publisher` text field, and a vendor arriving with the ledger.
 
-## Fields
-
-| Field | Type | FMP Comment | TO | ⚠️ |
-|---|---|---|---|---|
-| PrimaryKey | text-uuid | Auto-generated unique identifier | | |
-| OrganizationName | text | Display form: "Powell's Books" | | |
-| SortName | text | Authority form for list order | | |
-| fkOrganizationType | text-uuid | Bookstore / Publisher / University / Library | → OrganizationTypes | 🔴 DESCRIPTIVE ONLY |
-| URL | text | Where to buy from them or look them up | | |
-| IsActive | number | 1 = offered in pickers | | ⚠️ a closed shop stays in the data |
-| Notes | text | Disambiguation, imprints, local branch | | |
 
 Audit fields → [data-standards.md](../data-standards.md).
 
@@ -74,3 +71,7 @@ question: all transacting entities, one row each, role by pointer.
   org-shaped table — that is the mistake this table exists to have prevented.
 
 FK map → [relationships/README.md](../relationships/README.md)
+
+## Fields
+
+!!! data "catalog"

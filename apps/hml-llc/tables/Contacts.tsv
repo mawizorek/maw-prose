@@ -1,0 +1,7 @@
+Field_Name	Type	Notes	TO	Flag
+PrimaryKey	text-uuid	Auto-generated unique identifier		
+*(full field set unenumerated)*		*Table is undesigned*		⚠️ may need OrganizationContacts join if one person belongs to multiple entities
+CreationTimestamp	timestamp	Record creation timestamp (auto-enter)		⚠️ not yet confirmed on this table
+CreatedBy	text	Account name at record creation (auto-enter)		
+ModificationTimestamp	timestamp	Last modification timestamp (auto-enter)		
+ModifiedBy	text	Account name at last modification (auto-enter)		

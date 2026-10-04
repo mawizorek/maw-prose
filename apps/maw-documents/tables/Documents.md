@@ -1,31 +1,21 @@
+---
+id: maw-documents-table-documents
+title: "Documents"
+type: reference
+status: hidden
+summary: "One intellectual work.** A book, a light plot, a lease, a scanned packing slip — one row each, all the same kind of thing at this layer."
+data:
+  catalog:
+    file: Documents.tsv
+---
 # Documents
 
-Manage → Database → Tables → Documents
-
-Grain: **one intellectual work.** A book, a light plot, a lease, a scanned packing slip — one row
-each, all the same kind of thing at this layer.
+!!! abstract "Grain"
+    one intellectual work.** A book, a light plot, a lease, a scanned packing slip — one row each, all the same kind of thing at this layer.
 
 🔴 **An abstraction: cannot be bought, lent, shelved or damaged.** Those belong to
 [DocumentCopies](./DocumentCopies.md).
 
-## Fields
-
-| Field | Type | FMP Comment | TO | ⚠️ |
-|---|---|---|---|---|
-| PrimaryKey | text-uuid | Auto-generated unique identifier | | |
-| DocumentTitle | text | The title as you would say it aloud | | |
-| SortTitle | text | Leading articles dropped, for shelf order | | ⚠️ "The Rigging Guide" sorts under R |
-| DocumentSummary | text | What this is and why it is kept | | |
-| fkDocumentType | text-uuid | Textbook / plot / lease / scan | → DocumentTypes | ⚠️ table not yet cut |
-| DocumentYear | number | The one most useful year | | ⚠️ date roles split later |
-| SourceSystem | text | Where a migrated record came from | | |
-| SourceSystemKey | text | Its key there | | ⚠️ ClickUp task id lands here on migration |
-| IsReference | number | 1 = general reference, no context | | |
-| NeedsTagging | number | 1 = intake incomplete | | |
-| IsArchived | number | 1 = hidden from lenses, never deleted | | |
-| Notes | text | Free-form | | |
-| calc_ContributorDisplay | (c→Text) | Contributors as a readable string | → DocumentPeople | 🔴 UNSTORED |
-| calc_CopyCount | (c→Number) | Copies held | → DocumentCopies | ⚠️ 0 is legitimate |
 
 Audit fields → [data-standards.md](../data-standards.md).
 
@@ -69,3 +59,7 @@ existed.
 - Q7: does a work you do not own belong here at all?
 
 FK map → [relationships/README.md](../relationships/README.md)
+
+## Fields
+
+!!! data "catalog"

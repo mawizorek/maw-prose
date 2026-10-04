@@ -1,0 +1,8 @@
+Field_Name	Type	Notes	TO	Flag
+PrimaryKey	text-uuid	Auto-generated unique identifier		
+SortName	text	Authority form, inverted: "Uva, Michael"		🔴 indexed, sorted on
+DisplayName	text	Running-text form: "Michael Uva"		
+VariantNames	text	Other forms seen, one per line		🩹 a workaround — see below
+PersonType	text	Contributor / Contact / Both		⚠️ descriptive, NOT the role
+Notes	text	Which of two same-named people this is		
+calc_ContributionCount	(c→Number)	Works contributed to	→ DocumentPeople	

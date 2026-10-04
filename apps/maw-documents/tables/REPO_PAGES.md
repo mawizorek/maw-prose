@@ -1,33 +1,22 @@
+---
+id: maw-documents-table-repo-pages
+title: "REPO_PAGES"
+type: reference
+status: hidden
+summary: "One rendered page that lives in a git repo."
+data:
+  catalog:
+    file: REPO_PAGES.tsv
+---
 # REPO_PAGES
 
-Manage → Database → Tables → REPO_PAGES
-
-**Grain:** one rendered page that lives in a git repo. NOT one document. NOT one file on disk.
+!!! abstract "Grain"
+    one rendered page that lives in a git repo. NOT one document. NOT one file on disk.
 
 🔴 **Page grain is not document grain.** The Stage Manager Handbook is ONE work with roughly forty pages. One row per page is correct here and catastrophic in `DOCUMENTS`: forty rows in `DOCUMENTS` would put forty claimants on one bibliographic identity, and every citation, every purchase line, every loan would have to pick one of them. `DOCUMENTS` answers *what work is this*. `REPO_PAGES` answers *where does this page live and what does the build do with it*. A document with no repo pages is normal (an acquired textbook). A repo page with no parent document is a defect.
 
 🔴 **This table is a sparse 1:N extension, not a spine table.** It exists only for documents whose prose is committed. Nothing in `DOCUMENTS` becomes required because this table exists.
 
-## Fields
-
-| Field | Type | FMP Comment | TO | ⚠️ |
-| --- | --- | --- | --- | --- |
-| `PrimaryKey` | text-uuid | Bare UUID, auto-enter Get(UUID), never displayed | REPO_PAGES | |
-| `fkDocument` | text-uuid | FK → DOCUMENTS.PrimaryKey. The bibliographic parent. Required. | DOCUMENTS_forPage | 🔴 no orphans |
-| `PageID` | text | The `id:` in the page front matter. Unique across the whole tree. | | 🔴 THE SEAM |
-| `Repo` | text | `owner/name`, no URL, no branch | | |
-| `RepoPath` | text | Path from repo root, e.g. `safety/programs/mewp.md` | | |
-| `PublishedURL` | text | Live rendered page (gh-pages / Pages site) | | |
-| `BlobURL` | text | GitHub `/blob/` URL to the source. Never `raw.githubusercontent` | | 🚩 |
-| `PageType` | text | Value from the renderer's `objects/<type>.yml` vocabulary | PAGE_TYPES | |
-| `PageStatus` | text | `draft` / `internal` / `public` / `withdrawn` | | |
-| `NavState` | text | `collapsed` / `expanded` / `hidden`. Mirrors front matter `nav:` | | |
-| `SortOrder` | number | Mirrors front matter `order:`. Sibling ordering within a section | | |
-| `RevisedLabel` | text | Human revision stamp shown on the page, e.g. `2026-08` | | |
-| `LastVerifiedTimestamp` | timestamp | When a human last confirmed the prose is still true | | |
-| `VerifiedBy` | text-uuid | FK → POEPLE.PrimaryKey (misspelling is live, do not fix in isolation) | POEPLE_forVerify | |
-| `calc_PageLabel` | (c→Text) | `PageID & " · " & RepoPath` for list views and value lists | | |
-| `calc_IsPublished` | (c→Number) | `not IsEmpty(PublishedURL)` | | |
 
 Audit fields → data-standards.md
 
@@ -80,3 +69,7 @@ Uniqueness cannot be enforced in ClickUp and is not enforced by FMP validation a
 - Whether `NavState` and `SortOrder` belong here at all once authority flips to ClickUp-authors. If the build generates front matter, these are inputs. If the build only mirrors, they are noise. Revisit at the flip, not before.
 
 FK map → relationships/README.md
+
+## Fields
+
+!!! data "catalog"

@@ -1,26 +1,21 @@
+---
+id: maw-documents-table-document-types
+title: "DOCUMENT_TYPES"
+type: reference
+status: hidden
+summary: "One kind of document.** Textbook, light plot, lease, scanned receipt, syllabus."
+data:
+  catalog:
+    file: DOCUMENT_TYPES.tsv
+---
 # DOCUMENT_TYPES
 
-Manage → Database → Tables → DOCUMENT_TYPES
-
-Grain: **one kind of document.** Textbook, light plot, lease, scanned receipt, syllabus. **The primary
-lensing axis** — the field the hub filters on before anything else.
+!!! abstract "Grain"
+    one kind of document.** Textbook, light plot, lease, scanned receipt, syllabus. **The primary lensing axis** — the field the hub filters on before anything else.
 
 🔴 **Yes, a table.** `DOCUMENTS.fkDocumentType` is already built pointing at it, so the FK exists and the
 target did not.
 
-## Fields
-
-| Field | Type | FMP Comment | TO | ⚠️ |
-|---|---|---|---|---|
-| PrimaryKey | text-uuid | Auto-generated unique identifier | | |
-| Name | text | Display term: "Light plot" | | |
-| Name_short | text | Compact form for chips and column headers | | ⭐ matches the ORGANIZATIONS pattern |
-| fkTypeGroup | text-uuid | Which family this type belongs to | → TYPE_GROUPS | ⚠️ see below — may be premature |
-| ExpectsBibliographic | number | 1 = a BIBLIOGRAPHIC_DETAILS row is expected | | ⭐ the useful one |
-| ExpectsInstance | number | 1 = a physical or file copy is expected | | |
-| SortOrder | number | Display order in pickers and the facet rail | | gaps of 10 |
-| IsActive | number | 1 = offered in pickers | | ⚠️ never delete a type in use |
-| Notes | text | When to use this over a near neighbour | | |
 
 Audit fields (`CreatedBy`, `CreationTimestamp`, `ModifiedBy`, `ModificationTimestamp`) →
 [data-standards.md](../data-standards.md).
@@ -102,3 +97,7 @@ same KIND-vs-CONDITION gap already flagged in the object library.
 -->
 
 FK map → [relationships/README.md](../relationships/README.md)
+
+## Fields
+
+!!! data "catalog"

@@ -1,24 +1,21 @@
+---
+id: maw-documents-table-people
+title: "People"
+type: reference
+status: hidden
+summary: "One human, once.** Authors, editors, translators, illustrators, and the people who borrow your books."
+data:
+  catalog:
+    file: People.tsv
+---
 # People
 
-Manage → Database → Tables → People
-
-Grain: **one human, once.** Authors, editors, translators, illustrators, and the people who borrow
-your books. One row regardless of how many roles they play.
+!!! abstract "Grain"
+    one human, once.** Authors, editors, translators, illustrators, and the people who borrow your books. One row regardless of how many roles they play.
 
 ⭐ **An AUTHORITY record** — the same job libraries do with LCNAF/VIAF, so *Penny, Louise* and
 *Louise Penny* resolve to one row. Without it, "everything I own by X" is quietly incomplete.
 
-## Fields
-
-| Field | Type | FMP Comment | TO | ⚠️ |
-|---|---|---|---|---|
-| PrimaryKey | text-uuid | Auto-generated unique identifier | | |
-| SortName | text | Authority form, inverted: "Uva, Michael" | | 🔴 indexed, sorted on |
-| DisplayName | text | Running-text form: "Michael Uva" | | |
-| VariantNames | text | Other forms seen, one per line | | 🩹 a workaround — see below |
-| PersonType | text | Contributor / Contact / Both | | ⚠️ descriptive, NOT the role |
-| Notes | text | Which of two same-named people this is | | |
-| calc_ContributionCount | (c→Number) | Works contributed to | → DocumentPeople | |
 
 Audit fields → [data-standards.md](../data-standards.md).
 
@@ -64,3 +61,7 @@ divergence is still deliberate rather than two vocabularies for one entity.
   `Notes` carries it manually until ruled.
 
 FK map → [relationships/README.md](../relationships/README.md)
+
+## Fields
+
+!!! data "catalog"

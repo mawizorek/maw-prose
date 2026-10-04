@@ -1,0 +1,7 @@
+Field_Name	Type	Notes	TO	Flag
+PrimaryKey	text-uuid	Auto-generated unique identifier		
+fkDocument	text-uuid	The work contributed to	→ Documents	
+fkPerson	text-uuid	Who contributed	→ People	
+fkRole	text-uuid	In what capacity	→ ContributorRoles	🔴 the role lives HERE
+SortOrder	number	Billing order on this work		⭐ homeless in the old design
+Notes	text	"translator of the 2nd edition only"		⭐ also homeless before

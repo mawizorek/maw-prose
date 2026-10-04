@@ -1,25 +1,23 @@
+---
+id: maw-documents-table-contributorroles
+title: "ContributorRoles"
+type: reference
+status: hidden
+summary: "One kind of contribution.** Author, editor, translator, illustrator — **and lighting designer, stage manager, technical director.**"
+data:
+  catalog:
+    file: ContributorRoles.tsv
+---
 # ContributorRoles
 
-Manage → Database → Tables → ContributorRoles
-
-Grain: **one kind of contribution.** Author, editor, translator, illustrator — **and lighting designer,
-stage manager, technical director.**
+!!! abstract "Grain"
+    one kind of contribution.** Author, editor, translator, illustrator — **and lighting designer, stage manager, technical director.**
 
 ⭐ **A controlled vocabulary borrowed from cataloguing practice** — MARC's three-character relator code,
 which BIBFRAME models as `bf:Contributor`. Canonical list:
 [id.loc.gov/vocabulary/relators](https://id.loc.gov/vocabulary/relators) · browsable term sequence:
 [loc.gov/marc/relators/relaterm.html](https://www.loc.gov/marc/relators/relaterm.html)
 
-## Fields
-
-| Field | Type | FMP Comment | TO | ⚠️ |
-|---|---|---|---|---|
-| PrimaryKey | text-uuid | Auto-generated unique identifier | | |
-| RoleName | text | Display term: Author / Editor / Lighting designer | | ⚠️ use the MARC term |
-| RelatorCode | text | MARC relator code | | ⭐ from id.loc.gov/vocabulary/relators |
-| SortOrder | number | Display order in a contributor list | | 🔴 why this is a table |
-| IsActive | number | 1 = offered in pickers | | |
-| Notes | text | When to use this over a near neighbour | | |
 
 Audit fields → [data-standards.md](../data-standards.md).
 
@@ -125,3 +123,7 @@ likelier, not less — one person is routinely LD and TD on a small show.
 -->
 
 FK map → [relationships/README.md](../relationships/README.md)
+
+## Fields
+
+!!! data "catalog"

@@ -1,0 +1,9 @@
+Field_Name	Type	Notes	TO	Flag
+PrimaryKey	text-uuid	Auto-generated unique identifier		
+fkPurchase	text-uuid	The order this belongs to	→ Purchases	🔴 the ONE write relationship
+fkDocumentCopy	text-uuid	The specific object acquired	→ DocumentCopies	🔴 a copy, never a work
+LineDescription	text	As printed on the receipt		⭐ keep even with the copy link
+Quantity	number	Usually 1		⚠️ >1 means multiple copies
+UnitPrice	number	Per unit, before order charges		
+LineTotal	number	Quantity × UnitPrice		⚠️ stored AND validated
+Notes	text	ex-library, damaged and discounted		
