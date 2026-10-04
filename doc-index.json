@@ -2,9 +2,9 @@
   "site": "mawprose",
   "name": "MAW Prose",
   "base_url": "https://mawizorek.github.io/maw-prose/",
-  "built": "2026-10-04T04:10:01Z",
+  "built": "2026-10-04T12:06:17Z",
   "engine": "0.1.0",
-  "engine_ref": "f106494388b1308c697c57b0f218a1bf4ef3c797",
+  "engine_ref": "692d505fa3b09210a5574a5753d8fd0160cee1af",
   "pages": [
     {
       "id": "build-sheet",
