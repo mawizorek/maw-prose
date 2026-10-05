@@ -20,7 +20,7 @@ It is not where people get edited. ClickUp is. The PEOPLE list in the URITP CRM 
 
 One button pulls the ClickUp view into a holding table and compares it with PEOPLE. Nothing in PEOPLE changes yet. A review window, modelled on Lightwright's Vectorworks reconcile, lists every difference: people who are new, single fields that changed, and people FileMaker has that the pull did not return. Each row is marked Apply or Skip. ClickUp always wins, so the choice is never which value is right, only whether to take it now. Apply writes the marked rows; gone people are flagged and never deleted.
 
-Every record is matched on its native ClickUp task id and nothing else. The CRM custom id is never used.
+Every record is matched on its native ClickUp task id and nothing else. The CRM custom id is never used. Which ClickUp view each import reads is a row in IMPORT_SOURCES, never a global and never a value typed into a script.
 
 ## Where the data comes from
 
@@ -39,18 +39,19 @@ A person's relationship to anything with its own lifecycle lives in the file tha
 
 - [PEOPLE](@uritp-people-table-people): one human.
 - [CONTACT_INFORMATION](@uritp-people-table-contact-information): one email address or one phone number.
-- [SETTINGS](@uritp-people-table-settings): the ClickUp token and view id.
-- [import_SESSIONS](@uritp-people-table-import-sessions): one press of the import button.
+- [SETTINGS](@uritp-people-table-settings): the ClickUp token.
+- [IMPORT_SOURCES](@uritp-people-table-import-sources): one ClickUp view an import reads.
+- [import_SESSIONS](@uritp-people-table-import-sessions): one press of an import button.
 - [import_PEOPLE](@uritp-people-table-import-people): one person as one pull saw them.
 - [RECONCILE](@uritp-people-table-reconcile): one difference waiting for a decision.
 - [Relationships](@uritp-people-relationships).
 - [Reconcile People window](@uritp-people-layout-reconcile).
-- Scripts, folder `10_IMPORT`: [PEOPLE_Pull](@uritp-people-script-people-pull), [PEOPLE_Compare](@uritp-people-script-people-compare), [PEOPLE_Apply](@uritp-people-script-people-apply), [RECONCILE_SetAll](@uritp-people-script-reconcile-setall).
+- Scripts, folder `10_IMPORT`: [PEOPLE_Pull](@uritp-people-script-people-pull), [PEOPLE_Compare](@uritp-people-script-people-compare), [PEOPLE_Apply](@uritp-people-script-people-apply), [RECONCILE_SetAll and RECONCILE_ShowSession](@uritp-people-script-reconcile-setall).
 - [Build sheet](@uritp-people-next-build).
 
 ## Not written yet
 
-- The EMAILS and PHONE NUMBERS passes. They reuse the same window and the same RECONCILE table.
+- The EMAILS and PHONE NUMBERS passes. They reuse the same window, the same RECONCILE table and their own IMPORT_SOURCES rows.
 - `value-lists/`: the email type labels.
 - How a person's name prints in a program. ClickUp PEOPLE has legal first name, last name and an alternate name; it has no preferred name and no playbill name, so a printed-credit name has nowhere to come from yet.
 - Student and non-student classification.

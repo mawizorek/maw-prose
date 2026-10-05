@@ -14,7 +14,11 @@ Copy target: `PEOPLE_Pull.fmscript`, folder `10_IMPORT`. Needs FileMaker 18 or l
 
 ## What it does
 
-Reads the token and view id from [SETTINGS](@uritp-people-table-settings), opens an [import_SESSIONS](@uritp-people-table-import-sessions) record, then asks ClickUp for the view one page at a time until ClickUp says `last_page`. Every task becomes one [import_PEOPLE](@uritp-people-table-import-people) row. Then it runs [PEOPLE_Compare](@uritp-people-script-people-compare) and, if there is anything to review, opens the [Reconcile People window](@uritp-people-layout-reconcile).
+Reads the token from [SETTINGS](@uritp-people-table-settings) and the view from the [IMPORT_SOURCES](@uritp-people-table-import-sources) row named `PEOPLE`, opens an [import_SESSIONS](@uritp-people-table-import-sessions) record pointing at that source, then asks ClickUp for the view one page at a time until ClickUp says `last_page`. Every task becomes one [import_PEOPLE](@uritp-people-table-import-people) row. Then it runs [PEOPLE_Compare](@uritp-people-script-people-compare) and, if there is anything to review, opens the [Reconcile People window](@uritp-people-layout-reconcile).
+
+## The source name is the only hard-coded lookup
+
+The script asks IMPORT_SOURCES for `PEOPLE` and nothing else. The view id is never typed into the script, so moving the import to a different ClickUp view is one edit to a record. The SQL returns the view id and the source key on two lines; a second row with the same name shows up as a row separator, and the script stops rather than pick one.
 
 ## The view decides who, this script decides what
 

@@ -1,7 +1,6 @@
 sort	Field_Name	Type	Options	Notes
 INTEGRATION				
 {.conf}	cu_APIToken	Text		Personal ClickUp token (pk_…). Never in a clone or an export
-{.conf}	cu_PeopleViewID	Text		API view id of FMP VIEW on the PEOPLE list
 AUDIT FIELDS				
 {.conf}	PrimaryKey	Text	UUID · auto-enter · unique · can't modify	
 {.conf}	CreationTimestamp	Timestamp	Auto-enter	

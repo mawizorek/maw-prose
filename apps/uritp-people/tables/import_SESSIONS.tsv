@@ -1,6 +1,8 @@
 sort	Field_Name	Type	Options	Notes
+INTEGRATION				
+{.conf}	fkImportSource	Text	Indexed	→ IMPORT_SOURCES::PrimaryKey
 NORMALIZED				
-{.conf}	SourceViewID	Text		View id this session read, copied from SETTINGS
+{.conf}	SourceViewID	Text		The view id the source held when this session ran. Copied, never looked up
 {.conf}	CountPulled	Number		Tasks ClickUp returned
 {.conf}	CountNew	Number		RECONCILE rows of kind New
 {.conf}	CountChanged	Number		RECONCILE rows of kind Changed (fields, not people)

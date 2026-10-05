@@ -7,17 +7,24 @@ Allow User Abort [ Off ]
 Freeze Window
 Set Variable [ $origLayout ; Value: Get ( LayoutName ) ]
 #
-# 1. Settings
+# 1. Token from SETTINGS, view from IMPORT_SOURCES row PEOPLE
 Set Variable [ $token ; Value: ExecuteSQL ( "SELECT cu_APIToken FROM SETTINGS" ; "" ; "" ) ]
-Set Variable [ $viewID ; Value: ExecuteSQL ( "SELECT cu_PeopleViewID FROM SETTINGS" ; "" ; "" ) ]
-If [ IsEmpty ( $token ) or IsEmpty ( $viewID ) or Left ( $token ; 1 ) = "?" or ValueCount ( $token ) > 1 ]
-	Show Custom Dialog [ "Import from ClickUp" ; "SETTINGS needs exactly one record, with a ClickUp API token and the PEOPLE view ID." ]
+If [ IsEmpty ( $token ) or Left ( $token ; 1 ) = "?" or ValueCount ( $token ) > 1 ]
+	Show Custom Dialog [ "Import from ClickUp" ; "SETTINGS needs exactly one record, with a ClickUp API token." ]
 	Exit Script [ Text Result: 0 ]
 End If
+Set Variable [ $src ; Value: ExecuteSQL ( "SELECT cu_ViewID, PrimaryKey FROM IMPORT_SOURCES WHERE SourceName = ?" ; ¶ ; "|" ; "PEOPLE" ) ]
+If [ IsEmpty ( $src ) or Left ( $src ; 1 ) = "?" or PatternCount ( $src ; "|" ) > 0 or IsEmpty ( GetValue ( $src ; 1 ) ) ]
+	Show Custom Dialog [ "Import from ClickUp" ; "IMPORT_SOURCES needs exactly one row named PEOPLE, with a ClickUp view ID." ]
+	Exit Script [ Text Result: 0 ]
+End If
+Set Variable [ $viewID ; Value: GetValue ( $src ; 1 ) ]
+Set Variable [ $sourceID ; Value: GetValue ( $src ; 2 ) ]
 #
 # 2. Open a session
 Go to Layout [ "import_SESSIONS" ; Animation: None ]
 New Record/Request
+Set Field [ import_SESSIONS::fkImportSource ; $sourceID ]
 Set Field [ import_SESSIONS::SourceViewID ; $viewID ]
 Commit Records/Requests [ With dialog: Off ]
 Set Variable [ $session ; Value: import_SESSIONS::PrimaryKey ]
