@@ -1,0 +1,15 @@
+sort	Field_Name	Type	Options	Notes
+NORMALIZED				
+{.conf}	SourceViewID	Text		View id this session read, copied from SETTINGS
+{.conf}	CountPulled	Number		Tasks ClickUp returned
+{.conf}	CountNew	Number		RECONCILE rows of kind New
+{.conf}	CountChanged	Number		RECONCILE rows of kind Changed (fields, not people)
+{.conf}	CountGone	Number		RECONCILE rows of kind Gone
+{.conf}	ErrorText	Text		Filled only when the import stopped
+AUDIT FIELDS				
+{.conf}	PrimaryKey	Text	UUID · auto-enter · unique · can't modify	
+{.conf}	CreationTimestamp	Timestamp	Auto-enter	When the button was pressed
+{.conf}	CreatedBy	Text	Auto-enter	Who pressed it
+{.conf}	ModificationTimestamp	Timestamp	Auto-enter	
+{.conf}	ModifiedBy	Text	Auto-enter	
+- EOF -				

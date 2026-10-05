@@ -1,0 +1,9 @@
+# RECONCILE_ShowSession
+# Parameter: the session PrimaryKey. Shows every row of that session, sorted.
+Set Error Capture [ On ]
+Go to Layout [ "RECONCILE" ; Animation: None ]
+Enter Find Mode [ Pause: Off ]
+Set Field [ RECONCILE::fkImportSession ; "==" & Get ( ScriptParameter ) ]
+Perform Find [ ]
+Sort Records [ Restore ; With dialog: Off ]
+Go to Record/Request/Page [ First ]

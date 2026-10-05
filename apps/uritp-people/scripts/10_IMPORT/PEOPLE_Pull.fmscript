@@ -1,0 +1,102 @@
+# PEOPLE_Pull
+# Button: Import from ClickUp.
+# Pulls the PEOPLE view into import_PEOPLE, writes RECONCILE rows, opens Reconcile People.
+# Changes nothing in PEOPLE. PEOPLE_Apply does that.
+Set Error Capture [ On ]
+Allow User Abort [ Off ]
+Freeze Window
+Set Variable [ $origLayout ; Value: Get ( LayoutName ) ]
+#
+# 1. Settings
+Set Variable [ $token ; Value: ExecuteSQL ( "SELECT cu_APIToken FROM SETTINGS" ; "" ; "" ) ]
+Set Variable [ $viewID ; Value: ExecuteSQL ( "SELECT cu_PeopleViewID FROM SETTINGS" ; "" ; "" ) ]
+If [ IsEmpty ( $token ) or IsEmpty ( $viewID ) or Left ( $token ; 1 ) = "?" or ValueCount ( $token ) > 1 ]
+	Show Custom Dialog [ "Import from ClickUp" ; "SETTINGS needs exactly one record, with a ClickUp API token and the PEOPLE view ID." ]
+	Exit Script [ Text Result: 0 ]
+End If
+#
+# 2. Open a session
+Go to Layout [ "import_SESSIONS" ; Animation: None ]
+New Record/Request
+Set Field [ import_SESSIONS::SourceViewID ; $viewID ]
+Commit Records/Requests [ With dialog: Off ]
+Set Variable [ $session ; Value: import_SESSIONS::PrimaryKey ]
+#
+# 3. ClickUp custom field ids on the PEOPLE list
+Set Variable [ $cfLegalFirstName ; Value: "b8397952-bcaf-423d-a182-62bc152cf160" ]
+Set Variable [ $cfLastName ; Value: "4e8a61ba-3162-4e9a-89fd-9fe0e24fad8e" ]
+Set Variable [ $cfAltName ; Value: "d5cba607-c034-4eb3-a699-9f5a3f4a4144" ]
+Set Variable [ $cfPronouns ; Value: "da51a70d-2beb-46eb-ba14-2d46ac37004b" ]
+#
+# 4. Page through the view, one staged row per task
+Set Variable [ $curl ; Value: "--header " & Quote ( "Authorization: " & $token ) ]
+Set Variable [ $page ; Value: 0 ]
+Set Variable [ $pulled ; Value: 0 ]
+Go to Layout [ "import_PEOPLE" ; Animation: None ]
+Loop [ Flush: Always ]
+	Set Variable [ $url ; Value: "https://api.clickup.com/api/v2/view/" & $viewID & "/task?page=" & $page ]
+	Insert from URL [ Select ; With dialog: Off ; Target: $response ; $url ; Verify SSL Certificates ; cURL options: $curl ]
+	Set Variable [ $err ; Value: Get ( LastError ) ]
+	Set Variable [ $cuErr ; Value: JSONGetElement ( $response ; "err" ) ]
+	If [ $err ≠ 0 or not IsEmpty ( $cuErr ) or Left ( JSONFormatElements ( $response ) ; 1 ) = "?" ]
+		Set Variable [ $msg ; Value: "ClickUp page " & $page & " failed. FileMaker error " & $err & ". " & $cuErr ]
+		Go to Layout [ "import_SESSIONS" ; Animation: None ]
+		Set Field [ import_SESSIONS::ErrorText ; $msg ]
+		Commit Records/Requests [ With dialog: Off ]
+		Go to Layout [ Layout Name by calculation: $origLayout ; Animation: None ]
+		Show Custom Dialog [ "Import from ClickUp" ; $msg ]
+		Exit Script [ Text Result: 0 ]
+	End If
+	Set Variable [ $n ; Value: ValueCount ( JSONListKeys ( $response ; "tasks" ) ) ]
+	Set Variable [ $i ; Value: 0 ]
+	Loop [ Flush: Always ]
+		Exit Loop If [ $i ≥ $n ]
+		Set Variable [ $task ; Value: JSONGetElement ( $response ; "tasks[" & $i & "]" ) ]
+		# Our four custom fields as one flat object. Every key exists, so a field ClickUp left out reads as empty.
+		Set Variable [ $cf ; Value: While ( [ ~arr = JSONGetElement ( $task ; "custom_fields" ) ; ~n = ValueCount ( JSONListKeys ( ~arr ; "" ) ) ; ~i = 0 ; ~ours = List ( $cfLegalFirstName ; $cfLastName ; $cfAltName ; $cfPronouns ) ; ~out = JSONSetElement ( "{}" ; [ $cfLegalFirstName ; "" ; JSONString ] ; [ $cfLastName ; "" ; JSONString ] ; [ $cfAltName ; "" ; JSONString ] ; [ $cfPronouns ; "" ; JSONString ] ) ] ; ~i < ~n ; [ ~id = JSONGetElement ( ~arr ; "[" & ~i & "].id" ) ; ~has = not IsEmpty ( FilterValues ( JSONListKeys ( ~arr ; "[" & ~i & "]" ) ; "value" ) ) ; ~out = If ( ~has and not IsEmpty ( FilterValues ( ~ours ; ~id ) ) ; JSONSetElement ( ~out ; ~id ; JSONGetElement ( ~arr ; "[" & ~i & "].value" ) ; JSONString ) ; ~out ) ; ~i = ~i + 1 ] ; ~out ) ]
+		New Record/Request
+		Set Field [ import_PEOPLE::fkImportSession ; $session ]
+		Set Field [ import_PEOPLE::cu_TaskID ; JSONGetElement ( $task ; "id" ) ]
+		Set Field [ import_PEOPLE::import_Name ; JSONGetElement ( $task ; "name" ) ]
+		Set Field [ import_PEOPLE::import_cu_Status ; JSONGetElement ( $task ; "status.status" ) ]
+		Set Field [ import_PEOPLE::import_LegalFirstName ; JSONGetElement ( $cf ; $cfLegalFirstName ) ]
+		Set Field [ import_PEOPLE::import_LastName ; JSONGetElement ( $cf ; $cfLastName ) ]
+		Set Field [ import_PEOPLE::import_AltName ; JSONGetElement ( $cf ; $cfAltName ) ]
+		Set Field [ import_PEOPLE::import_Pronouns ; JSONGetElement ( $cf ; $cfPronouns ) ]
+		Set Field [ import_PEOPLE::import_DateUpdated ; GetAsTimestamp ( Int ( JSONGetElement ( $task ; "date_updated" ) / 1000 ) + 62135596800 ) ]
+		Set Field [ import_PEOPLE::import_raw_payload ; $task ]
+		Commit Records/Requests [ With dialog: Off ]
+		Set Variable [ $i ; Value: $i + 1 ]
+	End Loop
+	Set Variable [ $pulled ; Value: $pulled + $n ]
+	Exit Loop If [ $n = 0 or JSONGetElement ( $response ; "last_page" ) = 1 or JSONGetElement ( $response ; "last_page" ) = "true" or $page ≥ 100 ]
+	Set Variable [ $page ; Value: $page + 1 ]
+End Loop
+#
+# 5. Receipt. Nothing pulled means nothing to compare against.
+Go to Layout [ "import_SESSIONS" ; Animation: None ]
+Set Field [ import_SESSIONS::CountPulled ; $pulled ]
+Commit Records/Requests [ With dialog: Off ]
+If [ $pulled = 0 ]
+	Go to Layout [ Layout Name by calculation: $origLayout ; Animation: None ]
+	Show Custom Dialog [ "Import from ClickUp" ; "ClickUp returned no people. Check the view still exists and still shows the PEOPLE list." ]
+	Exit Script [ Text Result: 0 ]
+End If
+#
+# 6. Compare
+Perform Script [ Specified: From list ; "PEOPLE_Compare" ; Parameter: $session ]
+Set Variable [ $rows ; Value: Get ( ScriptResult ) ]
+Go to Layout [ Layout Name by calculation: $origLayout ; Animation: None ]
+If [ $rows = 0 ]
+	Show Custom Dialog [ "Import from ClickUp" ; $pulled & " people pulled. PEOPLE already matches ClickUp." ]
+	Exit Script [ Text Result: 0 ]
+End If
+#
+# 7. Review window
+New Window [ Style: Document ; Name: "Reconcile People" ; Using layout: "RECONCILE" ]
+Enter Find Mode [ Pause: Off ]
+Set Field [ RECONCILE::fkImportSession ; "==" & $session ]
+Perform Find [ ]
+Sort Records [ Restore ; With dialog: Off ]
+Go to Record/Request/Page [ First ]
+Exit Script [ Text Result: $rows ]

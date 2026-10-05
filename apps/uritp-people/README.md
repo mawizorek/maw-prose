@@ -14,17 +14,20 @@ contents: auto
 
 `URITP People.fmp12` holds one record per human the program deals with, whether student, faculty, staff, guest artist or vendor, and the ways to reach them. Every other URITP file that needs a person points at a People record. None of them restates a name, a pronoun or an email.
 
-It is not where people get edited. ClickUp is. The PEOPLE list in the URITP CRM space is the source of truth, and a button script in this file pulls it one way. Nothing in People writes back to ClickUp, so a change typed into FileMaker is a change the next pull erases. Fix the person in ClickUp.
+It is not where people get edited. ClickUp is. The PEOPLE list in the URITP CRM space is the source of truth, and an import in this file brings it across one way. Nothing in People writes back to ClickUp, so a change typed into FileMaker is a change the next import offers to overwrite. Fix the person in ClickUp.
+
+## How the import works
+
+One button pulls the ClickUp view into a holding table and compares it with PEOPLE. Nothing in PEOPLE changes yet. A review window, modelled on Lightwright's Vectorworks reconcile, lists every difference: people who are new, single fields that changed, and people FileMaker has that the pull did not return. Each row is marked Apply or Skip. ClickUp always wins, so the choice is never which value is right, only whether to take it now. Apply writes the marked rows; gone people are flagged and never deleted.
+
+Every record is matched on its native ClickUp task id and nothing else. The CRM custom id is never used.
 
 ## Where the data comes from
 
-Three ClickUp lists, three pulls, two tables:
-
 - CRM ▸ PEOPLE ▸ PEOPLE, task type Person, lands in [PEOPLE](@uritp-people-table-people).
-- CRM ▸ CONTACT INFO ▸ EMAILS lands in [CONTACT_INFORMATION](@uritp-people-table-contact-information).
-- CRM ▸ CONTACT INFO ▸ PHONE NUMBERS lands in the same table.
+- CRM ▸ CONTACT INFO ▸ EMAILS and ▸ PHONE NUMBERS land in [CONTACT_INFORMATION](@uritp-people-table-contact-information).
 
-Every record is matched on its native ClickUp task id. The ClickUp API hands back a related record as a bare task id, never as a nested object, so a person's emails exist in FileMaker only after the EMAILS list itself has been pulled. Once both tables are local, the graph walks from a contact sheet to a person to an email with no script and no stored copy. See [Relationships](@uritp-people-relationships).
+The ClickUp API hands back a related record as a bare task id, never as a nested object, so a person's emails exist in FileMaker only after the EMAILS list itself has been pulled. Once both tables are local, the graph walks from a contact sheet to a person to an email with no script and no stored copy. See [Relationships](@uritp-people-relationships).
 
 On 2026-10-05 the lists held 483 PEOPLE rows counting closed ones, 453 EMAILS and 150 PHONE NUMBERS. Those numbers are here for scale and go stale.
 
@@ -36,18 +39,21 @@ A person's relationship to anything with its own lifecycle lives in the file tha
 
 - [PEOPLE](@uritp-people-table-people): one human.
 - [CONTACT_INFORMATION](@uritp-people-table-contact-information): one email address or one phone number.
-- [Relationships](@uritp-people-relationships): how a person reaches their contacts, and how FileMaker finds the primary email.
-- [Build sheet](@uritp-people-next-build): what gets built this cycle, in order.
+- [SETTINGS](@uritp-people-table-settings): the ClickUp token and view id.
+- [import_SESSIONS](@uritp-people-table-import-sessions): one press of the import button.
+- [import_PEOPLE](@uritp-people-table-import-people): one person as one pull saw them.
+- [RECONCILE](@uritp-people-table-reconcile): one difference waiting for a decision.
+- [Relationships](@uritp-people-relationships).
+- [Reconcile People window](@uritp-people-layout-reconcile).
+- Scripts, folder `10_IMPORT`: [PEOPLE_Pull](@uritp-people-script-people-pull), [PEOPLE_Compare](@uritp-people-script-people-compare), [PEOPLE_Apply](@uritp-people-script-people-apply), [RECONCILE_SetAll](@uritp-people-script-reconcile-setall).
+- [Build sheet](@uritp-people-next-build).
 
 ## Not written yet
 
-- `scripts/`: the pull. Nothing goes in until the script exists to copy, because a `.fmscript` is a copy target.
-- `layouts/`.
+- The EMAILS and PHONE NUMBERS passes. They reuse the same window and the same RECONCILE table.
 - `value-lists/`: the email type labels.
-- The ClickUp import views each pull reads from, one per source list.
 - How a person's name prints in a program. ClickUp PEOPLE has legal first name, last name and an alternate name; it has no preferred name and no playbill name, so a printed-credit name has nowhere to come from yet.
 - Student and non-student classification.
-- What a pull does when a person's task is closed or deleted in ClickUp.
 
 ## Superseded
 

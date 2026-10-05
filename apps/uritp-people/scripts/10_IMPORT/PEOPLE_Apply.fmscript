@@ -1,0 +1,67 @@
+# PEOPLE_Apply
+# Button in Reconcile People: Apply.
+# Writes every row marked Apply into PEOPLE through RECONCILE__PEOPLE. Asks once first.
+Set Error Capture [ On ]
+Allow User Abort [ Off ]
+Commit Records/Requests [ With dialog: Off ]
+Set Variable [ $session ; Value: RECONCILE::fkImportSession ]
+If [ IsEmpty ( $session ) ]
+	Show Custom Dialog [ "Apply from ClickUp" ; "Run this from the Reconcile People window." ]
+	Exit Script [ Text Result: 0 ]
+End If
+Set Variable [ $fields ; Value: List ( "LegalFirstName" ; "LastName" ; "AltName" ; "Pronouns" ; "cu_Status" ) ]
+#
+# 1. Find what is marked Apply and not yet applied
+Enter Find Mode [ Pause: Off ]
+Set Field [ RECONCILE::fkImportSession ; "==" & $session ]
+Set Field [ RECONCILE::Decision ; "==Apply" ]
+Set Field [ RECONCILE::AppliedTimestamp ; "=" ]
+Perform Find [ ]
+Set Variable [ $count ; Value: Get ( FoundCount ) ]
+If [ $count = 0 ]
+	Perform Script [ Specified: From list ; "RECONCILE_ShowSession" ; Parameter: $session ]
+	Show Custom Dialog [ "Apply from ClickUp" ; "Nothing is marked Apply." ]
+	Exit Script [ Text Result: 0 ]
+End If
+#
+# 2. Confirm
+Show Custom Dialog [ "Apply from ClickUp" ; "Write " & $count & " change(s) from ClickUp into PEOPLE? This overwrites what FileMaker has." ; Buttons: “Apply”, “Cancel” ]
+If [ Get ( LastMessageChoice ) ≠ 1 ]
+	Perform Script [ Specified: From list ; "RECONCILE_ShowSession" ; Parameter: $session ]
+	Exit Script [ Text Result: 0 ]
+End If
+#
+# 3. Write
+Freeze Window
+Set Variable [ $done ; Value: 0 ]
+Set Variable [ $failed ; Value: "" ]
+Go to Record/Request/Page [ First ]
+Loop [ Flush: Always ]
+	If [ RECONCILE::Kind = "New" ]
+		# Setting a field across RECONCILE__PEOPLE creates the person.
+		Set Field [ RECONCILE__PEOPLE::cu_TaskID ; RECONCILE::cu_TaskID ]
+		Set Variable [ $j ; Value: 0 ]
+		Loop [ Flush: Always ]
+			Set Variable [ $j ; Value: $j + 1 ]
+			Exit Loop If [ $j > ValueCount ( $fields ) ]
+			Set Variable [ $f ; Value: GetValue ( $fields ; $j ) ]
+			Set Field By Name [ "RECONCILE__PEOPLE::" & $f ; GetField ( "RECONCILE__import_PEOPLE::import_" & $f ) ]
+		End Loop
+	Else If [ RECONCILE::Kind = "Changed" ]
+		Set Field By Name [ "RECONCILE__PEOPLE::" & RECONCILE::FieldName ; RECONCILE::CU_Value ]
+	End If
+	Set Field [ RECONCILE::AppliedTimestamp ; Get ( CurrentTimestamp ) ]
+	Commit Records/Requests [ With dialog: Off ]
+	If [ Get ( LastError ) ≠ 0 ]
+		Revert Record/Request [ With dialog: Off ]
+		Set Variable [ $failed ; Value: List ( $failed ; RECONCILE::PersonName & " " & RECONCILE::FieldName ) ]
+	Else
+		Set Variable [ $done ; Value: $done + 1 ]
+	End If
+	Go to Record/Request/Page [ Next ; Exit after last: On ]
+End Loop
+#
+# 4. Back to the whole session, and say what happened
+Perform Script [ Specified: From list ; "RECONCILE_ShowSession" ; Parameter: $session ]
+Show Custom Dialog [ "Apply from ClickUp" ; $done & " applied." & If ( not IsEmpty ( $failed ) ; ¶ & "Not applied:" & ¶ & $failed ; "" ) ]
+Exit Script [ Text Result: $done ]
