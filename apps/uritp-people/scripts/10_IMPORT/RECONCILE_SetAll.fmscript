@@ -1,16 +1,17 @@
 # RECONCILE_SetAll
 # Buttons in Reconcile People: Apply all, Skip all. Parameter: Apply or Skip.
 # Marks every unapplied New and Changed row in the window. Gone rows keep Flag.
-Set Error Capture [ On ]
-Set Variable [ $d ; Value: Get ( ScriptParameter ) ]
-If [ $d ≠ "Apply" and $d ≠ "Skip" ]
+Set Variable [ $p ; Value: Get ( ScriptParameter ) ]
+If [ $p ≠ "Apply" and $p ≠ "Skip" ]
 	Exit Script [ Text Result: 0 ]
 End If
+#
+Set Error Capture [ On ]
 Freeze Window
 Go to Record/Request/Page [ First ]
 Loop [ Flush: Always ]
 	If [ import_RECONCILE::Kind ≠ "Gone" and IsEmpty ( import_RECONCILE::AppliedTimestamp ) ]
-		Set Field [ import_RECONCILE::Decision ; $d ]
+		Set Field [ import_RECONCILE::Decision ; $p ]
 	End If
 	Go to Record/Request/Page [ Next ; Exit after last: On ]
 End Loop

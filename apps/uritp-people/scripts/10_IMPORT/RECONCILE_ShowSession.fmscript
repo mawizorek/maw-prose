@@ -1,9 +1,15 @@
 # RECONCILE_ShowSession
-# Parameter: the session PrimaryKey. Shows every row of that session, sorted.
+# Parameter: the session PrimaryKey. Shows every row of that session, sorted Kind, PersonName, FieldName.
+Set Variable [ $p ; Value: Get ( ScriptParameter ) ]
+If [ IsEmpty ( $p ) ]
+	Exit Script [ Text Result: 0 ]
+End If
+#
 Set Error Capture [ On ]
 Go to Layout [ "import_RECONCILE" ; Animation: None ]
 Enter Find Mode [ Pause: Off ]
-Set Field [ import_RECONCILE::fkImportSession ; "==" & Get ( ScriptParameter ) ]
+Set Field [ import_RECONCILE::fkImportSession ; "==" & $p ]
 Perform Find [ ]
+#
 Sort Records [ Restore ; With dialog: Off ]
 Go to Record/Request/Page [ First ]
