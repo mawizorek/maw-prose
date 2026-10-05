@@ -58,4 +58,4 @@ A person's relationship to anything with its own lifecycle lives in the file tha
 
 ## Superseded
 
-Everything in this folder without a page header is the July 2026 as-built pass: `INDEX.md`, `schema/`, `meta/`, `layouts/README.md`, `tables/README.md`, `tables/_index.json`, and the ADULTS_ext, STUDENTS_ext, GRADUATION_CLASSES, Emails and PhoneNumbers table notes. Superseded by D-042. Kept for its reasoning; do not build against it.
+Everything in this folder without a page header is the July 2026 as-built pass: `INDEX.md`, `schema/`, `meta/`, `layouts/README.md`, `tables/README.md` and `tables/_index.json`. The July table notes for ADULTS_ext, STUDENTS_ext, GRADUATION_CLASSES, Emails and PhoneNumbers now sit in `meta/`, out of `tables/`. Superseded by D-042. Kept for its reasoning; do not build against it.
