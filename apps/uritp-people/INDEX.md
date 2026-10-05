@@ -1,3 +1,5 @@
+> **Superseded by D-042 (2026-10-05).** This is the July 2026 as-built pass. The current spec starts at [README.md](./README.md).
+
 # URITP People — Object Index (rendering manifest)
 
 _The navigable map of every documented object. Mirrors the FileMaker solution. Human entry point; the viewer reads the `_index.json` in each folder._

@@ -1,27 +1,27 @@
-# URITP People — Next Build Spec
+---
+id: uritp-people-next-build
+title: URITP People build sheet
+type: page
+status: unlisted
+revised: 2026-10
+summary: What gets built in URITP People this cycle, in order. Overwritten each build cycle.
+---
 
-**Version:** v1 (first migration pass) · **Date:** 2026-07-18 · overwritten each build cycle.
+# URITP People build sheet
 
-## This pass shipped
+## This cycle: from scratch, 2026-10-05
 
-- Repo-native scaffold for `uritp-people`, schema-first (layouts stubbed).
-- Lean identity-hub table set documented as-built (7 tables).
-- Hub-and-spoke architecture ruling captured in `meta/design-decisions.md`.
-- Naming-drift audit ledger seeded (as-built vs URITP convention).
+1. A new, empty `URITP People.fmp12`. Nothing is carried from the July file; the first pull fills it.
+2. [PEOPLE](@uritp-people-table-people) and [CONTACT_INFORMATION](@uritp-people-table-contact-information), field for field as their registers.
+3. The two [relationships](@uritp-people-relationships).
+4. One ClickUp import view per source list: PEOPLE, EMAILS, PHONE NUMBERS.
+5. The pull: one button, three passes, PEOPLE first. Each pass matches on `cu_TaskID`, creates what is new, overwrites what exists, blanks included.
+6. A first full pull, then a count of each table against its ClickUp list.
 
-## Next cycle (in order)
+## Next cycle
 
-1. **Live-file reconciliation** — open the actual FMP file, confirm every field name/type against these docs. The file is the tiebreaker; both docs update to match reality.
-2. **Resolve naming house style** (governance): adopt `pk_`/`fk_` or keep bare. Whichever wins, apply uniformly + record in `schema/tables.json` `_meta.conventions`.
-3. **Fix the typo trio**: `prefferedFirstName`→`preferredFirstName`, `prefferedLastName`→`preferredLastName`, `namePronounciation`→`namePronunciation`.
-4. **`emailTEMP` disposition**: migrate into CONTACT INFORMATION, then deprecate.
-5. **Adult dept/title placement** (Open Question): Adults extension vs Staff-Positions layer.
-6. **Enumerate scripts** into `scripts/` (import, batch-create person, chooser card).
-7. **Chooser contract** doc: passed-in context → filter header → return person PK.
+The first report. It decides which further PEOPLE fields get pulled, and which spoke tables People has to serve.
 
-## Explicitly deferred (belongs to spokes, not here)
+## Belongs to other files
 
-- Production roles / assignments / confirmations / revisions → **Productions builder**.
-- Employees / job postings / supervisors → **Labour**.
-- Course enrollments / rosters → **Courses**.
-- Org constants / PRODUCTIONS / fiscal / departments → **Global Setup**.
+Production roles, assignments, contact-sheet rows and printed credits; employment; enrollments; seasons and departments.

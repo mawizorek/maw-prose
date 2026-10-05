@@ -1,0 +1,17 @@
+sort	Field_Name	Type	Options	Notes
+INTEGRATION				
+{.conf}	cu_TaskID	Text	Indexed · unique · not empty	Native ClickUp task id. Match key for the pull and for every join into PEOPLE
+FROM CLICKUP				
+{.conf}	LegalFirstName	Text		← Legal First Name (b8397952-bcaf-423d-a182-62bc152cf160)
+{.conf}	LastName	Text		← Last Name (4e8a61ba-3162-4e9a-89fd-9fe0e24fad8e)
+{.conf}	AltName	Text		← Alt. Name (d5cba607-c034-4eb3-a699-9f5a3f4a4144)
+{.conf}	Pronouns	Text		← Pronouns (da51a70d-2beb-46eb-ba14-2d46ac37004b)
+CALCULATED				
+{.est}	match_Primary	[Text]{.calc}	Unstored · result "Primary"	Constant side of the primary-email relationship
+AUDIT FIELDS				
+{.conf}	PrimaryKey	Text	UUID · auto-enter · unique · can't modify	Machine-only
+{.conf}	CreationTimestamp	Timestamp	Auto-enter	
+{.conf}	CreatedBy	Text	Auto-enter	
+{.conf}	ModificationTimestamp	Timestamp	Auto-enter	
+{.conf}	ModifiedBy	Text	Auto-enter	
+- EOF -				

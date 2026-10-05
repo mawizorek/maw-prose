@@ -1,26 +1,29 @@
+---
+id: uritp-people-relationships
+title: Relationships
+type: reference
+status: public
+order: 30
+revised: 2026-10
+summary: Two edges on one key. How a person reaches their contacts, and how FileMaker finds the primary email without storing it.
+---
+
 # Relationships
 
-Narrative only. The edge list is data and lives in [`../schema/relationships.json`](../schema/relationships.json) (the single edge surface, per DOCUMENTATION-STANDARD v1.4 / D-006). The viewer + linter read that file directly.
+## A person to all their contacts
 
-## The shape (hub-and-spoke, People-internal)
+`PEOPLE::cu_TaskID = CONTACT_INFORMATION::fkPERSON`, one to many. Both sides carry ClickUp task ids, so the edge survives any number of re-pulls: nothing FileMaker generates sits in the key.
 
-```
-                 GRADUATION_CLASSES
-                        ↑ (fkGraduation_Year)
-   STUDENTS_ext ──fkPERSON──┐
-   ADULTS_ext  ──fkPERSON──┼──►  PEOPLE  (identity hub, one row per human)
-   CONTACT_INFORMATION ─fkPERSON─┘        ▲
-         │                                 │ (cross-app, NOT in this file)
-     ┌──┴──┐                    Productions / Safety / Courses / Labour
-  Emails  PhoneNumbers              each reference PEOPLE.PrimaryKey
-```
+## A person to their primary email
 
-- **PEOPLE** is the hub. Role extensions (`STUDENTS_ext`, `ADULTS_ext`) and `CONTACT_INFORMATION` hang off it one-to-one via `fkPERSON`. A person may hold BOTH role extensions.
-- **Contact tree**: `CONTACT_INFORMATION` parents child `Emails` + `PhoneNumbers` (one-to-many).
-- **Class year**: `STUDENTS_ext.fkGraduation_Year` → `GRADUATION_CLASSES`.
-- **Spokes reference, never restate.** Productions/Safety/Courses/Labour point at `PEOPLE.PrimaryKey` from their own files; those edges are documented in each spoke's `relationships.json`, not here. That's the whole payoff of hub-and-spoke: People never bloats, spokes carry their own joins.
+Two criteria: `PEOPLE::cu_TaskID = CONTACT_INFORMATION::fkPERSON` and `PEOPLE::match_Primary = CONTACT_INFORMATION::ContactType`. Because `ContactType` is return-separated, an address labelled both Primary and Work still matches. Phones carry no type, so this edge only ever finds email.
 
-## Open Items
+If ClickUp has two addresses for one person both labelled Primary, the edge shows whichever comes first, which is an arbitrary one. Fix it in ClickUp.
 
-- Confirm one-to-one cardinalities against the live file.
-- Reconcile `Emails.fkCONTACT` vs `PhoneNumbers.fkContact` casing.
+## Why the primary email is never stored on PEOPLE
+
+A stored copy goes stale. A relookup fires when the key changes, not when the related value changes, so correcting an address on its email record would leave the copy on the person wrong with nothing to say so. Read through the edge every time; across 483 people one hop costs nothing.
+
+## Other files
+
+Contact sheets, Bible directories and program credits reach a person from their own files, through the person's task id. Those edges are documented with the file that owns them.

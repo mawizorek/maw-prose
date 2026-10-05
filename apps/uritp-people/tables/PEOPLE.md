@@ -1,70 +1,43 @@
+---
+id: uritp-people-table-people
+title: PEOPLE
+type: reference
+status: public
+order: 10
+revised: 2026-10
+summary: One human. Pulled from the ClickUp PEOPLE list, matched on task id, never edited here.
+data:
+  catalog:
+    file: PEOPLE.tsv
+---
+
 # PEOPLE
 
-**Role:** identity-hub · **Status:** under-review · **App:** uritp-people
-
-> The identity hub — the one canonical record per human. This is the **target-state** definition (what we build toward), not a dump of the old file. Lean by design: names + display cascade + pronunciation + playbill credit + the ClickUp merge handle + audit. Classification (Student/Non-Student) is DERIVED from which extension a person has, not a stored field. Every spoke app references this by person PK and never restates these fields.
+!!! abstract "Grain"
+    One person: one Person task in CRM ▸ PEOPLE ▸ PEOPLE. Someone who holds five roles is still one record.
 
 ## Fields
 
-| Field | Type | Key | Category | Status | Notes |
-|---|---|---|---|---|---|
-| PrimaryKey | text-uuid | pk | key | | UUID, auto |
-| First Name | text | plain | name | | true legal first |
-| Last Name | text | plain | name | | true legal last |
-| preferredFirstName | text | plain | name | | working name; wins over true name in displays. (Rename from as-built `prefferedFirstName` typo.) |
-| preferredLastName | text | plain | name | | (Rename from as-built `prefferedLastName` typo.) |
-| alternateName | text | plain | name | | **KEEP** — real case: foreign-exchange students who go by a different name than their legal/preferred. Additive, feeds playbill generation. |
-| useAlternateNameGlobally | boolean | plain | name | | toggles whether `alternateName` overrides in general displays vs. playbill-only |
-| NameDisplayInPlaybills | text | plain | name | | **KEEP** — hard-coded, never-scripted manual source of truth for exactly what prints in a playbill. Often NOT any combination of real/preferred/alternate, so it must be its own editable field. |
-| namePronunciation | text | plain | name | | (Rename from as-built `namePronounciation` typo.) |
-| autoFirstLast | calc | plain | name | | "First Last" working name (preferred if set, else true) |
-| autoLastFirst | calc | plain | name | | "Last, First" working name |
-| customID | text | plain | id | | **KEEP** — CRM-### human-readable handle; the merge key to ClickUp (alongside email). Distinct from the UUID PK, which is machine-only. |
-| summary_CountPeople | summary | plain | meta | | |
-| ScratchNotes | text | plain | notes | | freeform |
-| CreationTimestamp | timestamp | audit | audit | | auto |
-| CreatedBy | text | audit | audit | | auto |
-| ModificationTimestamp | timestamp | audit | audit | | auto |
-| ModifiedBy | text | audit | audit | | auto |
+!!! data "catalog"
 
-**18 fields.** Classification is NOT a stored field (see below). Three as-built fields were deliberately CUT/derived-away this pass (see Changelog + `meta/design-decisions.md`): `emailTEMP` (legacy import staging), `hiddenLatestImport` (import-batch cruft), and `broadClassification` (now derived, not stored).
+## Match on cu_TaskID, never on a name or an email
 
-## Classification is DERIVED, not stored (RULED 2026-07-18, Workshop W1)
+`cu_TaskID` is the ClickUp task id and the only thing the pull matches on. Names change and addresses get retired; the task id does not. Two people with the same name are two records because they are two tasks.
 
-The Student / Non-Student context is computed from which role extension a person holds, NOT a stored flag:
+Every join into PEOPLE matches on `cu_TaskID` too, from this file or any other, because every ClickUp-fed table arrives carrying the person's task id and nothing else. `PrimaryKey` is FileMaker's own UUID and stays machine-only.
 
-- has `STUDENTS_ext` → Student context
-- has `ADULTS_ext` → Non-Student context
-- has both → both
-- has neither → unclassified
+## Pulled fields are overwritten, blanks included
 
-The chooser card reads this derived context to set its starting filter. A stored flag would be a drift surface (flag says Student while no `STUDENTS_ext` exists). Consistent with the repo's derive-don't-store discipline (D-005/006/007).
+Everything in the FROM CLICKUP group is replaced on every pull. A blank in ClickUp writes a blank here. Editing these in FileMaker is wasted work: the next pull undoes it.
 
-## The name model (why FOUR name inputs, none redundant)
+## Only cu_TaskID is required
 
-This is intentional, not over-built. Each input solves a distinct real case:
+On 2026-09-28, 18 of 483 people had no legal first name and 37 had no primary email. Make any of those required and the first pull rejects about fifty real people. Validate `cu_TaskID` and nothing else; a missing name is a ClickUp cleanup job, not a reason to lose the person.
 
-1. **True name** (`First Name` / `Last Name`) — legal identity, the fallback.
-2. **Preferred name** (`preferredFirstName` / `preferredLastName`) — the everyday working name; overrides true in all general displays (drives the auto calcs).
-3. **Alternate name** (`alternateName` + `useAlternateNameGlobally`) — exists for the foreign-exchange-student case where the person goes by something distinct from both legal and preferred. Additive; the toggle controls whether it overrides globally or only feeds playbill generation.
-4. **Playbill credit** (`NameDisplayInPlaybills`) — the manual, hard-coded, never-scripted string that prints in a program. Frequently NOT any combination of the above three, so it is its own editable source of truth. A refresh can seed it from the cascade, but it is never forced to recompute.
+## No email or phone on this table
 
-**Display priority for general (non-playbill) use:** preferred → (alternate, if `useAlternateNameGlobally`) → true. Playbill is independent.
+There is no email or phone field here, stored or calculated. ClickUp's PEOPLE list carries flat Primary Email, Secondary Email, Dropbox Email and Phone Number fields because ClickUp cannot roll a value up through a relationship. Those are ClickUp workarounds and they do not port. Contact details arrive as rows in [CONTACT_INFORMATION](@uritp-people-table-contact-information), and the primary email is a [relationship](@uritp-people-relationships).
 
-## Relationships
+## A field earns its place by a report reading it
 
-- Parent of `STUDENTS_ext.fkPERSON` (one-to-one, under-review)
-- Parent of `ADULTS_ext.fkPERSON` (one-to-one, pending) — a person may hold BOTH student + adult extensions
-- Parent of `CONTACT_INFORMATION.fkPERSON` (one-to-one, under-review)
-- **Cross-app (hub-and-spoke):** spoke apps (Productions, Safety, Courses, Labour) reference `PEOPLE.PrimaryKey` from their own files. Those edges live in each spoke's `relationships.json`, not here.
-
-## Open Items
-
-- Naming house style is LOCKED to bare `PrimaryKey`/`fkPERSON` (no prefixes) — see `meta/design-decisions.md`.
-- Confirm all field names/types against the live FMP file (reconciliation pass).
-
-## Changelog
-
-- 2026-07-18 (Workshop W1): `broadClassification` removed as a stored field — now DERIVED from extension existence (derive-don't-store). PEOPLE 19 → 18 fields.
-- 2026-07-18 (target-state pass): Reframed from as-built to build-toward. Cut `emailTEMP` + `hiddenLatestImport`. Applied typo renames inline. Documented the four-input name model with the real case behind each. `customID` kept as the ClickUp merge handle.
-- 2026-07-18: First-pass migration from the ClickUp `URITP People FMP` doc.
+The ClickUp list carries about forty more fields: weekday availability, lift certification, mailing address, birthday, two sets of Position labels and a stack of relationships to other lists. None is pulled. A field joins the register when a report needs it, and not before.
