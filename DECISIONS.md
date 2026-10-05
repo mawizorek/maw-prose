@@ -8,6 +8,10 @@ Settled calls about this repo and its contents. **One line each, newest first.**
 
 ---
 
+## FileMaker standards · 2026-10-05
+
+- **D-043** — **Every FileMaker file carries the app catalog: `APP_TABLES` and `APP_LAYOUTS`, generated from the file's own schema by a refresh script, keyed on FileMaker's internal ids, holding only what FileMaker cannot store.** Typed by hand: display names, menu placement, a ClickUp-fed flag, notes. Never typed: an id or a name. Anything that points at a table or layout points at a catalog record; the layout catalog is the app's navigation menu; the refresh's `AuditGap` is the conformance check against the data standards. Removed objects are stamped, never deleted. Registers and scripts live once in `standards/filemaker/`, and app table notes point their `data` slot at them rather than copying. Same day: SQL text is built from `GetFieldName`, so a rename follows the field instead of returning empty. Adopted first by URITP People.
+
 ## URITP People · 2026-10-05
 
 - **D-042** — **URITP People is rebuilt from scratch as a ClickUp-fed identity hub, and the July 2026 as-built pass in `apps/uritp-people/` is superseded.** ClickUp's PEOPLE list is the source of truth; a FileMaker button script pulls PEOPLE, EMAILS and PHONE NUMBERS one way, matched on native task id, with no write-back (ClickUp session of 2026-09-28). Every join into PEOPLE matches on that task id. The flat email and phone fields on ClickUp PEOPLE are ClickUp roll-up workarounds and do not port; contacts arrive as rows. Carried forward from July: bare `PrimaryKey` / `fkPERSON` naming, hub-and-spoke (roles, assignments and credits live in the file that owns them), and no cascade delete from a person to their contacts. July pages without a page header stay in place for their reasoning and are not built against; the four-input name model and student/adult classification are not carried until ClickUp holds the fields they need.
