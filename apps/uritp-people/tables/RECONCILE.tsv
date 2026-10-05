@@ -1,20 +1,17 @@
-sort	Field_Name	Type	Options	Notes
-INTEGRATION				
-{.conf}	fkImportSession	Text	Indexed	→ import_SESSIONS::PrimaryKey
-{.conf}	fkImportPeople	Text	Indexed	→ import_PEOPLE::PrimaryKey. Empty on Gone rows
-{.conf}	cu_TaskID	Text	Indexed	The person. → PEOPLE::cu_TaskID
-NORMALIZED				
-{.conf}	Kind	Text	Value list ReconcileKinds	New, Changed or Gone
-{.conf}	PersonName	Text		Task name, or the FileMaker name on a Gone row
-{.conf}	FieldName	Text		PEOPLE field name, exactly. Changed rows only
-{.conf}	FMP_Value	Text		What FileMaker has now
-{.conf}	CU_Value	Text		What ClickUp sent
-{.conf}	Decision	Text	Value list ReconcileDecisions	Apply or Skip. Gone rows: Flag
-{.conf}	AppliedTimestamp	Timestamp		Set by PEOPLE_Apply
-AUDIT FIELDS				
-{.conf}	PrimaryKey	Text	UUID · auto-enter · unique · can't modify	
-{.conf}	CreationTimestamp	Timestamp	Auto-enter	
-{.conf}	CreatedBy	Text	Auto-enter	
-{.conf}	ModificationTimestamp	Timestamp	Auto-enter	
-{.conf}	ModifiedBy	Text	Auto-enter	
-- EOF -				
+sort	Field_Name	Type	Options	Notes	group
+{.conf}	fkImportSession	Text	Indexed	→ import_SESSIONS::PrimaryKey	Integration
+{.conf}	fkImportPeople	Text	Indexed	→ import_PEOPLE::PrimaryKey. Empty on Gone rows	Integration
+{.conf}	cu_TaskID	Text	Indexed	The person. → PEOPLE::cu_TaskID	Integration
+{.conf}	Kind	Text	Value list ReconcileKinds	New, Changed or Gone	Normalized
+{.conf}	PersonName	Text		Task name, or the FileMaker name on a Gone row	Normalized
+{.conf}	FieldName	Text		PEOPLE field name, exactly. Changed rows only	Normalized
+{.conf}	FMP_Value	Text		What FileMaker had before Apply	Normalized
+{.conf}	CU_Value	Text		What ClickUp sent	Normalized
+{.conf}	Decision	Text	Value list ReconcileDecisions	Apply or Skip. Gone rows: Flag	Normalized
+{.conf}	AppliedTimestamp	Timestamp		Set by PEOPLE_Apply	Normalized
+{.conf}	PrimaryKey	Text	UUID · auto-enter · unique · can't modify		Audit
+{.conf}	CreationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	CreatedBy	Text	Auto-enter		Audit
+{.conf}	ModificationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	ModifiedBy	Text	Auto-enter		Audit
+- EOF -					

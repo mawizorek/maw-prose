@@ -1,0 +1,17 @@
+# APP_GoToLayout
+# Parameter: an APP_LAYOUTS fm_LayoutID. Opens that layout by its CURRENT name, so a rename never breaks a menu.
+# Run from the APP_MENU card, it closes the card and moves the window underneath.
+Set Error Capture [ On ]
+Set Variable [ $id ; Value: Get ( ScriptParameter ) ]
+Set Variable [ $ids ; Value: LayoutIDs ( Get ( FileName ) ) ]
+Set Variable [ $names ; Value: LayoutNames ( Get ( FileName ) ) ]
+Set Variable [ $name ; Value: While ( [ ~i = 0 ; ~n = ValueCount ( $ids ) ; ~out = "" ] ; ~i < ~n and IsEmpty ( ~out ) ; [ ~i = ~i + 1 ; ~out = If ( GetValue ( $ids ; ~i ) = $id ; GetValue ( $names ; ~i ) ; "" ) ] ; ~out ) ]
+If [ Get ( WindowStyle ) = 3 ]
+	Close Window [ Current Window ]
+End If
+If [ IsEmpty ( $name ) ]
+	Show Custom Dialog [ "Go to layout" ; "That layout no longer exists. Run APP_CatalogRefresh." ]
+	Exit Script [ Text Result: 0 ]
+End If
+Go to Layout [ Layout Name by calculation: $name ; Animation: None ]
+Exit Script [ Text Result: 1 ]

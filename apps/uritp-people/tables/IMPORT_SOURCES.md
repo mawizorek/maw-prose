@@ -24,6 +24,10 @@ data:
 
 Each pull script looks up its own row by `SourceName`, spelled exactly: [PEOPLE_Pull](@uritp-people-script-people-pull) asks for `PEOPLE`. Renaming a row breaks its import, and a second row with the same name stops the import rather than letting it guess, which is why the field is unique.
 
+## The target is a catalog record
+
+`fkAppTable` points at the [APP_TABLES](@uritp-people-table-app-tables) record for the table the source feeds. Rename PEOPLE in the file and the source still points at it, because the catalog record follows the table by its internal id.
+
 ## A stored table, never a global
 
 On a hosted file a global field resets every session to whatever it held the last time the file was open single-user. A view id kept in one either reverts without warning or can only be changed by taking the file offline. These are settings that must survive, so they are ordinary stored records.

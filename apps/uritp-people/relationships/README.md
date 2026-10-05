@@ -18,7 +18,7 @@ Each base table has a table occurrence with the table's own name. The occurrence
 
 ## A person to their primary email
 
-Two criteria: `PEOPLE::cu_TaskID = CONTACT_INFORMATION::fkPERSON` and `PEOPLE::match_Primary = CONTACT_INFORMATION::ContactType`. Because `ContactType` is return-separated, an address labelled both Primary and Work still matches. Phones carry no type, so this edge only ever finds email.
+Two criteria: `PEOPLE::cu_TaskID = CONTACT_INFORMATION::fkPERSON` and `PEOPLE::calc_MatchPrimary = CONTACT_INFORMATION::ContactType`. Because `ContactType` is return-separated, an address labelled both Primary and Work still matches. Phones carry no type, so this edge only ever finds email.
 
 If ClickUp has two addresses for one person both labelled Primary, the edge shows whichever comes first, which is an arbitrary one. Fix it in ClickUp.
 
@@ -37,6 +37,10 @@ A stored copy goes stale. A relookup fires when the key changes, not when the re
 ## A review row back to its staged values
 
 `RECONCILE::fkImportPeople = RECONCILE__import_PEOPLE::PrimaryKey`. Apply reads a new person's staged values through it.
+
+## A source to its target table
+
+`IMPORT_SOURCES::fkAppTable = IMPORT_SOURCES__APP_TABLES::PrimaryKey`. For reading only: it lets a layout show which table a source feeds by its catalog name.
 
 ## Other files
 

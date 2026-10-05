@@ -28,7 +28,9 @@ Every join into PEOPLE matches on `cu_TaskID` too, from this file or any other, 
 
 ## Pulled fields change only through Apply
 
-Everything in the FROM CLICKUP group is written by [PEOPLE_Apply](@uritp-people-script-people-apply) and nothing else, after the difference has been shown in the [review window](@uritp-people-layout-reconcile). A blank in ClickUp is a real value: if a pronoun is cleared there, the window offers to clear it here. Editing these fields in FileMaker is wasted work, because the next import lists the edit as a difference and offers to put ClickUp's value back.
+Everything in the From ClickUp group is written by [PEOPLE_Apply](@uritp-people-script-people-apply) and nothing else, after the difference has been shown in the [review window](@uritp-people-layout-reconcile). A blank in ClickUp is a real value: if a pronoun is cleared there, the window offers to clear it here.
+
+On every layout people work in, those fields are not enterable in Browse mode. A field that looks editable invites an edit the next import will offer to undo; the Open in ClickUp button beside them, on `calc_ClickUpURL`, takes the person to the place the edit belongs.
 
 The field names in that group are load-bearing. The scripts build `import_` plus the PEOPLE field name to find the matching staging field, so a renamed field here needs the same rename in [import_PEOPLE](@uritp-people-table-import-people) and in the field list at the top of each script.
 

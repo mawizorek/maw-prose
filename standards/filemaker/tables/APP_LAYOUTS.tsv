@@ -1,0 +1,16 @@
+sort	Field_Name	Type	Options	Notes	group
+{.conf}	fm_LayoutID	Number	Indexed · unique · not empty	FileMaker's internal layout id. The match key; survives renames	From the file
+{.conf}	fm_LayoutName	Text		Current layout name. Rewritten every refresh	From the file
+{.conf}	LastSeenTimestamp	Timestamp		The last refresh that found it	From the file
+{.conf}	RemovedTimestamp	Timestamp		Set when a refresh no longer finds it. Never deleted	From the file
+{.conf}	DisplayName	Text		What the menu shows	Typed
+{.conf}	MenuSection	Text		Menu group	Typed
+{.conf}	MenuOrder	Number		Sort within the section	Typed
+{.conf}	ShowInMenu	Number	1 or empty	Listed by APP_OpenMenu	Typed
+{.conf}	Notes	Text			Typed
+{.conf}	PrimaryKey	Text	UUID · auto-enter · unique · can't modify		Audit
+{.conf}	CreationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	CreatedBy	Text	Auto-enter		Audit
+{.conf}	ModificationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	ModifiedBy	Text	Auto-enter		Audit
+- EOF -					

@@ -1,6 +1,6 @@
 # FileMaker standards
 
-*Cross-app FileMaker law. What is written here is true for every solution; an app that diverges documents the divergence in its own package, it does not fork the standard. Content verified 2026-08-11.*
+*Cross-app FileMaker law. What is written here is true for every solution; an app that diverges documents the divergence in its own package, it does not fork the standard. Content verified 2026-10-05.*
 
 This shelf answers one question: **what does every FileMaker file we build agree on?** Anything that is true of exactly one app belongs in that app's package under `apps/`, not here.
 
@@ -8,7 +8,9 @@ This shelf answers one question: **what does every FileMaker file we build agree
 
 `fmp-app-package.md` is the documentation contract — the folder shape that mirrors FileMaker's own *Manage* menu, the casing test, the 🥇 GOLDEN / 🔨 BUILT / ⛔ SUPERSEDED state stamps, and the notes-vs-registers-vs-copy-targets split. Read it before starting a package.
 
-`fmp-data-standards.md` is the naming table — keys, prefixes, audit fields, and when a value list has to become a table. It also carries the reason names lock before anyone writes `ExecuteSQL`: SQL embeds the name as text, so a rename returns empty rather than erroring.
+`fmp-data-standards.md` is the naming table — keys, prefixes, audit fields, and when a value list has to become a table. It also carries the reason names lock before anyone writes `ExecuteSQL`, and the fix: build SQL text from `GetFieldName`, so a rename follows the field instead of breaking the query.
+
+`app-catalog.md` is the record every file keeps of its own tables and layouts: `APP_TABLES` and `APP_LAYOUTS`, generated from the file's schema, keyed on FileMaker's internal ids, carrying only what FileMaker cannot store. It is also how every app gets its navigation menu. Its registers are in `tables/` and its scripts in `scripts/`, mirrored the way an app package mirrors the *Manage* menu.
 
 `custom-functions/` holds the shared function families. A family is a small set of functions that solve one job, defined once here and **installed** into each solution — never re-derived per file. Three families exist:
 

@@ -1,17 +1,14 @@
-sort	Field_Name	Type	Options	Notes
-INTEGRATION				
-{.conf}	fkImportSource	Text	Indexed	→ IMPORT_SOURCES::PrimaryKey
-NORMALIZED				
-{.conf}	SourceViewID	Text		The view id the source held when this session ran. Copied, never looked up
-{.conf}	CountPulled	Number		Tasks ClickUp returned
-{.conf}	CountNew	Number		RECONCILE rows of kind New
-{.conf}	CountChanged	Number		RECONCILE rows of kind Changed (fields, not people)
-{.conf}	CountGone	Number		RECONCILE rows of kind Gone
-{.conf}	ErrorText	Text		Filled only when the import stopped
-AUDIT FIELDS				
-{.conf}	PrimaryKey	Text	UUID · auto-enter · unique · can't modify	
-{.conf}	CreationTimestamp	Timestamp	Auto-enter	When the button was pressed
-{.conf}	CreatedBy	Text	Auto-enter	Who pressed it
-{.conf}	ModificationTimestamp	Timestamp	Auto-enter	
-{.conf}	ModifiedBy	Text	Auto-enter	
-- EOF -				
+sort	Field_Name	Type	Options	Notes	group
+{.conf}	fkImportSource	Text	Indexed	→ IMPORT_SOURCES::PrimaryKey	Integration
+{.conf}	SourceViewID	Text		The view id the source held when this session ran. Copied, never looked up	Normalized
+{.conf}	CountPulled	Number		Tasks ClickUp returned	Normalized
+{.conf}	CountNew	Number		RECONCILE rows of kind New	Normalized
+{.conf}	CountChanged	Number		RECONCILE rows of kind Changed (fields, not people)	Normalized
+{.conf}	CountGone	Number		RECONCILE rows of kind Gone	Normalized
+{.conf}	ErrorText	Text		Filled only when the import stopped	Normalized
+{.conf}	PrimaryKey	Text	UUID · auto-enter · unique · can't modify		Audit
+{.conf}	CreationTimestamp	Timestamp	Auto-enter	When the button was pressed	Audit
+{.conf}	CreatedBy	Text	Auto-enter	Who pressed it	Audit
+{.conf}	ModificationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	ModifiedBy	Text	Auto-enter		Audit
+- EOF -					

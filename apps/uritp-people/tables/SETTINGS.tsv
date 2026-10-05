@@ -1,10 +1,8 @@
-sort	Field_Name	Type	Options	Notes
-INTEGRATION				
-{.conf}	cu_APIToken	Text		Personal ClickUp token (pk_…). Never in a clone or an export
-AUDIT FIELDS				
-{.conf}	PrimaryKey	Text	UUID · auto-enter · unique · can't modify	
-{.conf}	CreationTimestamp	Timestamp	Auto-enter	
-{.conf}	CreatedBy	Text	Auto-enter	
-{.conf}	ModificationTimestamp	Timestamp	Auto-enter	
-{.conf}	ModifiedBy	Text	Auto-enter	
-- EOF -				
+sort	Field_Name	Type	Options	Notes	group
+{.conf}	cu_APIToken	Text	Full Access only	Personal ClickUp token (pk_…). Never in a clone or an export	Integration
+{.conf}	PrimaryKey	Text	UUID · auto-enter · unique · can't modify		Audit
+{.conf}	CreationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	CreatedBy	Text	Auto-enter		Audit
+{.conf}	ModificationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	ModifiedBy	Text	Auto-enter		Audit
+- EOF -					

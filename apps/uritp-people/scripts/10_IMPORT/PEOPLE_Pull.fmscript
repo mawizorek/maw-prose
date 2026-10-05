@@ -7,13 +7,15 @@ Allow User Abort [ Off ]
 Freeze Window
 Set Variable [ $origLayout ; Value: Get ( LayoutName ) ]
 #
-# 1. Token from SETTINGS, view from IMPORT_SOURCES row PEOPLE
-Set Variable [ $token ; Value: ExecuteSQL ( "SELECT cu_APIToken FROM SETTINGS" ; "" ; "" ) ]
+# 1. Token from SETTINGS, view from IMPORT_SOURCES row PEOPLE. SQL text is built from GetFieldName, so renames follow.
+Set Variable [ $sqlToken ; Value: Let ( [ ~t = Substitute ( GetFieldName ( SETTINGS::cu_APIToken ) ; "::" ; ¶ ) ] ; "SELECT \"" & GetValue ( ~t ; 2 ) & "\" FROM \"" & GetValue ( ~t ; 1 ) & "\"" ) ]
+Set Variable [ $token ; Value: ExecuteSQL ( $sqlToken ; "" ; "" ) ]
 If [ IsEmpty ( $token ) or Left ( $token ; 1 ) = "?" or ValueCount ( $token ) > 1 ]
 	Show Custom Dialog [ "Import from ClickUp" ; "SETTINGS needs exactly one record, with a ClickUp API token." ]
 	Exit Script [ Text Result: 0 ]
 End If
-Set Variable [ $src ; Value: ExecuteSQL ( "SELECT cu_ViewID, PrimaryKey FROM IMPORT_SOURCES WHERE SourceName = ?" ; ¶ ; "|" ; "PEOPLE" ) ]
+Set Variable [ $sqlSource ; Value: Let ( [ ~v = Substitute ( GetFieldName ( IMPORT_SOURCES::cu_ViewID ) ; "::" ; ¶ ) ; ~k = Substitute ( GetFieldName ( IMPORT_SOURCES::PrimaryKey ) ; "::" ; ¶ ) ; ~n = Substitute ( GetFieldName ( IMPORT_SOURCES::SourceName ) ; "::" ; ¶ ) ] ; "SELECT \"" & GetValue ( ~v ; 2 ) & "\", \"" & GetValue ( ~k ; 2 ) & "\" FROM \"" & GetValue ( ~v ; 1 ) & "\" WHERE \"" & GetValue ( ~n ; 2 ) & "\" = ?" ) ]
+Set Variable [ $src ; Value: ExecuteSQL ( $sqlSource ; ¶ ; "|" ; "PEOPLE" ) ]
 If [ IsEmpty ( $src ) or Left ( $src ; 1 ) = "?" or PatternCount ( $src ; "|" ) > 0 or IsEmpty ( GetValue ( $src ; 1 ) ) ]
 	Show Custom Dialog [ "Import from ClickUp" ; "IMPORT_SOURCES needs exactly one row named PEOPLE, with a ClickUp view ID." ]
 	Exit Script [ Text Result: 0 ]

@@ -1,13 +1,11 @@
-sort	Field_Name	Type	Options	Notes
-NORMALIZED				
-{.conf}	SourceName	Text	Unique · not empty	The name a pull script asks for: PEOPLE, EMAILS, PHONE NUMBERS
-{.conf}	cu_ViewID	Text	Not empty	API view id: the URL segment after /v/l/ or /v/li/, not the id ClickUp shows on screen
-{.conf}	TargetTable	Text		Table the pull feeds: PEOPLE or CONTACT_INFORMATION
-{.conf}	ClickUpLocation	Text		For people, not scripts. e.g. CRM ▸ PEOPLE ▸ PEOPLE · FMP VIEW
-AUDIT FIELDS				
-{.conf}	PrimaryKey	Text	UUID · auto-enter · unique · can't modify	
-{.conf}	CreationTimestamp	Timestamp	Auto-enter	
-{.conf}	CreatedBy	Text	Auto-enter	
-{.conf}	ModificationTimestamp	Timestamp	Auto-enter	
-{.conf}	ModifiedBy	Text	Auto-enter	
-- EOF -				
+sort	Field_Name	Type	Options	Notes	group
+{.conf}	SourceName	Text	Unique · not empty	The name a pull script asks for: PEOPLE, EMAILS, PHONE NUMBERS	Normalized
+{.conf}	cu_ViewID	Text	Not empty	API view id: the URL segment after /v/l/ or /v/li/, not the id ClickUp shows on screen	Normalized
+{.conf}	fkAppTable	Text	Indexed	→ APP_TABLES::PrimaryKey. The table the pull feeds	Normalized
+{.conf}	ClickUpLocation	Text		For people, not scripts. e.g. CRM ▸ PEOPLE ▸ PEOPLE · FMP VIEW	Normalized
+{.conf}	PrimaryKey	Text	UUID · auto-enter · unique · can't modify		Audit
+{.conf}	CreationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	CreatedBy	Text	Auto-enter		Audit
+{.conf}	ModificationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	ModifiedBy	Text	Auto-enter		Audit
+- EOF -					

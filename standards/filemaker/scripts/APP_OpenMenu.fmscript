@@ -1,0 +1,10 @@
+# APP_OpenMenu
+# Opens the app menu: a card window on APP_MENU, listing layouts marked ShowInMenu and not removed.
+Set Error Capture [ On ]
+New Window [ Style: Card ; Using layout: "APP_MENU" ; Height: 600 ; Width: 360 ; Close: Yes ; Dim parent window: Yes ]
+Enter Find Mode [ Pause: Off ]
+Set Field [ APP_LAYOUTS::ShowInMenu ; 1 ]
+Set Field [ APP_LAYOUTS::RemovedTimestamp ; "=" ]
+Perform Find [ ]
+Sort Records [ Restore ; With dialog: Off ]
+Go to Record/Request/Page [ First ]
