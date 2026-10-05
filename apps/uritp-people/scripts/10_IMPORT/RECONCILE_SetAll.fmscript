@@ -9,8 +9,8 @@ End If
 Freeze Window
 Go to Record/Request/Page [ First ]
 Loop [ Flush: Always ]
-	If [ RECONCILE::Kind ≠ "Gone" and IsEmpty ( RECONCILE::AppliedTimestamp ) ]
-		Set Field [ RECONCILE::Decision ; $d ]
+	If [ import_RECONCILE::Kind ≠ "Gone" and IsEmpty ( import_RECONCILE::AppliedTimestamp ) ]
+		Set Field [ import_RECONCILE::Decision ; $d ]
 	End If
 	Go to Record/Request/Page [ Next ; Exit after last: On ]
 End Loop

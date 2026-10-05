@@ -1,21 +1,23 @@
 # PEOPLE_Apply
 # Button in Reconcile People: Apply.
-# Writes every row marked Apply into PEOPLE through RECONCILE__PEOPLE. Asks once first.
+# Writes every row marked Apply into URITP_PEOPLE through fImportReconcile_URITP_PEOPLE. Asks once first.
 Set Error Capture [ On ]
 Allow User Abort [ Off ]
 Commit Records/Requests [ With dialog: Off ]
-Set Variable [ $session ; Value: RECONCILE::fkImportSession ]
+Set Variable [ $session ; Value: import_RECONCILE::fkImportSession ]
 If [ IsEmpty ( $session ) ]
 	Show Custom Dialog [ "Apply from ClickUp" ; "Run this from the Reconcile People window." ]
 	Exit Script [ Text Result: 0 ]
 End If
-Set Variable [ $fields ; Value: List ( "LegalFirstName" ; "LastName" ; "AltName" ; "Pronouns" ; "cu_Status" ) ]
+# Field map. Same five, same order, as PEOPLE_Compare: first, last, alternate, pronouns, status.
+Set Variable [ $write ; Value: List ( GetFieldName ( fImportReconcile_URITP_PEOPLE::Name_First ) ; GetFieldName ( fImportReconcile_URITP_PEOPLE::Name_Last ) ; GetFieldName ( fImportReconcile_URITP_PEOPLE::Name_Alternate ) ; GetFieldName ( fImportReconcile_URITP_PEOPLE::Pronouns ) ; GetFieldName ( fImportReconcile_URITP_PEOPLE::status_Person ) ) ]
+Set Variable [ $staged ; Value: List ( GetFieldName ( fImportReconcile_import_CRM::import_Name_First ) ; GetFieldName ( fImportReconcile_import_CRM::import_Name_Last ) ; GetFieldName ( fImportReconcile_import_CRM::import_Name_Alternate ) ; GetFieldName ( fImportReconcile_import_CRM::import_Pronouns ) ; GetFieldName ( fImportReconcile_import_CRM::Import_cu_Status_Person ) ) ]
 #
 # 1. Find what is marked Apply and not yet applied
 Enter Find Mode [ Pause: Off ]
-Set Field [ RECONCILE::fkImportSession ; "==" & $session ]
-Set Field [ RECONCILE::Decision ; "==Apply" ]
-Set Field [ RECONCILE::AppliedTimestamp ; "=" ]
+Set Field [ import_RECONCILE::fkImportSession ; "==" & $session ]
+Set Field [ import_RECONCILE::Decision ; "==Apply" ]
+Set Field [ import_RECONCILE::AppliedTimestamp ; "=" ]
 Perform Find [ ]
 Set Variable [ $count ; Value: Get ( FoundCount ) ]
 If [ $count = 0 ]
@@ -25,7 +27,7 @@ If [ $count = 0 ]
 End If
 #
 # 2. Confirm
-Show Custom Dialog [ "Apply from ClickUp" ; "Write " & $count & " change(s) from ClickUp into PEOPLE? This overwrites what FileMaker has." ; Buttons: “Apply”, “Cancel” ]
+Show Custom Dialog [ "Apply from ClickUp" ; "Write " & $count & " change(s) from ClickUp into URITP_PEOPLE? This overwrites what FileMaker has." ; Buttons: “Apply”, “Cancel” ]
 If [ Get ( LastMessageChoice ) ≠ 1 ]
 	Perform Script [ Specified: From list ; "RECONCILE_ShowSession" ; Parameter: $session ]
 	Exit Script [ Text Result: 0 ]
@@ -37,24 +39,35 @@ Set Variable [ $done ; Value: 0 ]
 Set Variable [ $failed ; Value: "" ]
 Go to Record/Request/Page [ First ]
 Loop [ Flush: Always ]
-	If [ RECONCILE::Kind = "New" ]
-		# Setting a field across RECONCILE__PEOPLE creates the person.
-		Set Field [ RECONCILE__PEOPLE::cu_TaskID ; RECONCILE::cu_TaskID ]
+	If [ import_RECONCILE::Kind = "New" ]
+		# Setting a field across fImportReconcile_URITP_PEOPLE creates the person.
+		Set Field [ fImportReconcile_URITP_PEOPLE::fkCU_TaskID ; import_RECONCILE::cu_TaskID ]
 		Set Variable [ $j ; Value: 0 ]
 		Loop [ Flush: Always ]
 			Set Variable [ $j ; Value: $j + 1 ]
-			Exit Loop If [ $j > ValueCount ( $fields ) ]
-			Set Variable [ $f ; Value: GetValue ( $fields ; $j ) ]
-			Set Field By Name [ "RECONCILE__PEOPLE::" & $f ; GetField ( "RECONCILE__import_PEOPLE::import_" & $f ) ]
+			Exit Loop If [ $j > ValueCount ( $write ) ]
+			Set Field By Name [ GetValue ( $write ; $j ) ; GetField ( GetValue ( $staged ; $j ) ) ]
 		End Loop
-	Else If [ RECONCILE::Kind = "Changed" ]
-		Set Field By Name [ "RECONCILE__PEOPLE::" & RECONCILE::FieldName ; RECONCILE::CU_Value ]
+	Else If [ import_RECONCILE::Kind = "Changed" ]
+		# Find which of the five this row is, by the field name Compare wrote.
+		Set Variable [ $j ; Value: 0 ]
+		Set Variable [ $target ; Value: "" ]
+		Loop [ Flush: Always ]
+			Set Variable [ $j ; Value: $j + 1 ]
+			Exit Loop If [ $j > ValueCount ( $write ) or not IsEmpty ( $target ) ]
+			If [ GetValue ( Substitute ( GetValue ( $write ; $j ) ; "::" ; ¶ ) ; 2 ) = import_RECONCILE::FieldName ]
+				Set Variable [ $target ; Value: GetValue ( $write ; $j ) ]
+			End If
+		End Loop
+		If [ not IsEmpty ( $target ) ]
+			Set Field By Name [ $target ; import_RECONCILE::CU_Value ]
+		End If
 	End If
-	Set Field [ RECONCILE::AppliedTimestamp ; Get ( CurrentTimestamp ) ]
+	Set Field [ import_RECONCILE::AppliedTimestamp ; Get ( CurrentTimestamp ) ]
 	Commit Records/Requests [ With dialog: Off ]
 	If [ Get ( LastError ) ≠ 0 ]
 		Revert Record/Request [ With dialog: Off ]
-		Set Variable [ $failed ; Value: List ( $failed ; RECONCILE::PersonName & " " & RECONCILE::FieldName ) ]
+		Set Variable [ $failed ; Value: List ( $failed ; import_RECONCILE::PersonName & " " & import_RECONCILE::FieldName ) ]
 	Else
 		Set Variable [ $done ; Value: $done + 1 ]
 	End If

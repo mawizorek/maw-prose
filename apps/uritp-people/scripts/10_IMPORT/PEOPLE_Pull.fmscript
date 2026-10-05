@@ -1,23 +1,23 @@
 # PEOPLE_Pull
 # Button: Import from ClickUp.
-# Pulls the PEOPLE view into import_PEOPLE, writes RECONCILE rows, opens Reconcile People.
-# Changes nothing in PEOPLE. PEOPLE_Apply does that.
+# Pulls the PEOPLE view into import_CRM, writes import_RECONCILE rows, opens Reconcile People.
+# Changes nothing in URITP_PEOPLE. PEOPLE_Apply does that.
 Set Error Capture [ On ]
 Allow User Abort [ Off ]
 Freeze Window
 Set Variable [ $origLayout ; Value: Get ( LayoutName ) ]
 #
-# 1. Token from SETTINGS, view from IMPORT_SOURCES row PEOPLE. SQL text is built from GetFieldName, so renames follow.
-Set Variable [ $sqlToken ; Value: Let ( [ ~t = Substitute ( GetFieldName ( SETTINGS::cu_APIToken ) ; "::" ; ¶ ) ] ; "SELECT \"" & GetValue ( ~t ; 2 ) & "\" FROM \"" & GetValue ( ~t ; 1 ) & "\"" ) ]
+# 1. Token from App_Setup, view from the import_SOURCES row named PEOPLE. SQL text is built from GetFieldName, so renames follow.
+Set Variable [ $sqlToken ; Value: Let ( [ ~t = Substitute ( GetFieldName ( App_Setup::cu_APIToken ) ; "::" ; ¶ ) ] ; "SELECT \"" & GetValue ( ~t ; 2 ) & "\" FROM \"" & GetValue ( ~t ; 1 ) & "\"" ) ]
 Set Variable [ $token ; Value: ExecuteSQL ( $sqlToken ; "" ; "" ) ]
 If [ IsEmpty ( $token ) or Left ( $token ; 1 ) = "?" or ValueCount ( $token ) > 1 ]
-	Show Custom Dialog [ "Import from ClickUp" ; "SETTINGS needs exactly one record, with a ClickUp API token." ]
+	Show Custom Dialog [ "Import from ClickUp" ; "App_Setup needs exactly one record, with a ClickUp API token." ]
 	Exit Script [ Text Result: 0 ]
 End If
-Set Variable [ $sqlSource ; Value: Let ( [ ~v = Substitute ( GetFieldName ( IMPORT_SOURCES::cu_ViewID ) ; "::" ; ¶ ) ; ~k = Substitute ( GetFieldName ( IMPORT_SOURCES::PrimaryKey ) ; "::" ; ¶ ) ; ~n = Substitute ( GetFieldName ( IMPORT_SOURCES::SourceName ) ; "::" ; ¶ ) ] ; "SELECT \"" & GetValue ( ~v ; 2 ) & "\", \"" & GetValue ( ~k ; 2 ) & "\" FROM \"" & GetValue ( ~v ; 1 ) & "\" WHERE \"" & GetValue ( ~n ; 2 ) & "\" = ?" ) ]
+Set Variable [ $sqlSource ; Value: Let ( [ ~v = Substitute ( GetFieldName ( import_SOURCES::cu_ViewID ) ; "::" ; ¶ ) ; ~k = Substitute ( GetFieldName ( import_SOURCES::PrimaryKey ) ; "::" ; ¶ ) ; ~n = Substitute ( GetFieldName ( import_SOURCES::Name ) ; "::" ; ¶ ) ] ; "SELECT \"" & GetValue ( ~v ; 2 ) & "\", \"" & GetValue ( ~k ; 2 ) & "\" FROM \"" & GetValue ( ~v ; 1 ) & "\" WHERE \"" & GetValue ( ~n ; 2 ) & "\" = ?" ) ]
 Set Variable [ $src ; Value: ExecuteSQL ( $sqlSource ; ¶ ; "|" ; "PEOPLE" ) ]
 If [ IsEmpty ( $src ) or Left ( $src ; 1 ) = "?" or PatternCount ( $src ; "|" ) > 0 or IsEmpty ( GetValue ( $src ; 1 ) ) ]
-	Show Custom Dialog [ "Import from ClickUp" ; "IMPORT_SOURCES needs exactly one row named PEOPLE, with a ClickUp view ID." ]
+	Show Custom Dialog [ "Import from ClickUp" ; "import_SOURCES needs exactly one row named PEOPLE, with a ClickUp view ID." ]
 	Exit Script [ Text Result: 0 ]
 End If
 Set Variable [ $viewID ; Value: GetValue ( $src ; 1 ) ]
@@ -27,7 +27,7 @@ Set Variable [ $sourceID ; Value: GetValue ( $src ; 2 ) ]
 Go to Layout [ "import_SESSIONS" ; Animation: None ]
 New Record/Request
 Set Field [ import_SESSIONS::fkImportSource ; $sourceID ]
-Set Field [ import_SESSIONS::SourceViewID ; $viewID ]
+Set Field [ import_SESSIONS::script_SourceViewID ; $viewID ]
 Commit Records/Requests [ With dialog: Off ]
 Set Variable [ $session ; Value: import_SESSIONS::PrimaryKey ]
 #
@@ -37,11 +37,11 @@ Set Variable [ $cfLastName ; Value: "4e8a61ba-3162-4e9a-89fd-9fe0e24fad8e" ]
 Set Variable [ $cfAltName ; Value: "d5cba607-c034-4eb3-a699-9f5a3f4a4144" ]
 Set Variable [ $cfPronouns ; Value: "da51a70d-2beb-46eb-ba14-2d46ac37004b" ]
 #
-# 4. Page through the view, one staged row per task
+# 4. Page through the view, 30 tasks a page, one staged row per task
 Set Variable [ $curl ; Value: "--header " & Quote ( "Authorization: " & $token ) ]
 Set Variable [ $page ; Value: 0 ]
 Set Variable [ $pulled ; Value: 0 ]
-Go to Layout [ "import_PEOPLE" ; Animation: None ]
+Go to Layout [ "import_CRM" ; Animation: None ]
 Loop [ Flush: Always ]
 	Set Variable [ $url ; Value: "https://api.clickup.com/api/v2/view/" & $viewID & "/task?page=" & $page ]
 	Insert from URL [ Select ; With dialog: Off ; Target: $response ; $url ; Verify SSL Certificates ; cURL options: $curl ]
@@ -50,7 +50,7 @@ Loop [ Flush: Always ]
 	If [ $err ≠ 0 or not IsEmpty ( $cuErr ) or Left ( JSONFormatElements ( $response ) ; 1 ) = "?" ]
 		Set Variable [ $msg ; Value: "ClickUp page " & $page & " failed. FileMaker error " & $err & ". " & $cuErr ]
 		Go to Layout [ "import_SESSIONS" ; Animation: None ]
-		Set Field [ import_SESSIONS::ErrorText ; $msg ]
+		Set Field [ import_SESSIONS::script_ErrorText ; $msg ]
 		Commit Records/Requests [ With dialog: Off ]
 		Go to Layout [ Layout Name by calculation: $origLayout ; Animation: None ]
 		Show Custom Dialog [ "Import from ClickUp" ; $msg ]
@@ -64,27 +64,27 @@ Loop [ Flush: Always ]
 		# Our four custom fields as one flat object. Every key exists, so a field ClickUp left out reads as empty.
 		Set Variable [ $cf ; Value: While ( [ ~arr = JSONGetElement ( $task ; "custom_fields" ) ; ~n = ValueCount ( JSONListKeys ( ~arr ; "" ) ) ; ~i = 0 ; ~ours = List ( $cfLegalFirstName ; $cfLastName ; $cfAltName ; $cfPronouns ) ; ~out = JSONSetElement ( "{}" ; [ $cfLegalFirstName ; "" ; JSONString ] ; [ $cfLastName ; "" ; JSONString ] ; [ $cfAltName ; "" ; JSONString ] ; [ $cfPronouns ; "" ; JSONString ] ) ] ; ~i < ~n ; [ ~id = JSONGetElement ( ~arr ; "[" & ~i & "].id" ) ; ~has = not IsEmpty ( FilterValues ( JSONListKeys ( ~arr ; "[" & ~i & "]" ) ; "value" ) ) ; ~out = If ( ~has and not IsEmpty ( FilterValues ( ~ours ; ~id ) ) ; JSONSetElement ( ~out ; ~id ; JSONGetElement ( ~arr ; "[" & ~i & "].value" ) ; JSONString ) ; ~out ) ; ~i = ~i + 1 ] ; ~out ) ]
 		New Record/Request
-		Set Field [ import_PEOPLE::fkImportSession ; $session ]
-		Set Field [ import_PEOPLE::cu_TaskID ; JSONGetElement ( $task ; "id" ) ]
-		Set Field [ import_PEOPLE::import_Name ; JSONGetElement ( $task ; "name" ) ]
-		Set Field [ import_PEOPLE::import_cu_Status ; JSONGetElement ( $task ; "status.status" ) ]
-		Set Field [ import_PEOPLE::import_LegalFirstName ; JSONGetElement ( $cf ; $cfLegalFirstName ) ]
-		Set Field [ import_PEOPLE::import_LastName ; JSONGetElement ( $cf ; $cfLastName ) ]
-		Set Field [ import_PEOPLE::import_AltName ; JSONGetElement ( $cf ; $cfAltName ) ]
-		Set Field [ import_PEOPLE::import_Pronouns ; JSONGetElement ( $cf ; $cfPronouns ) ]
-		Set Field [ import_PEOPLE::import_DateUpdated ; GetAsTimestamp ( Int ( JSONGetElement ( $task ; "date_updated" ) / 1000 ) + 62135596800 ) ]
-		Set Field [ import_PEOPLE::import_raw_payload ; $task ]
+		Set Field [ import_CRM::fkImportSession ; $session ]
+		Set Field [ import_CRM::cu_TaskID ; JSONGetElement ( $task ; "id" ) ]
+		Set Field [ import_CRM::import_TaskName ; JSONGetElement ( $task ; "name" ) ]
+		Set Field [ import_CRM::Import_cu_Status_Person ; JSONGetElement ( $task ; "status.status" ) ]
+		Set Field [ import_CRM::import_Name_First ; JSONGetElement ( $cf ; $cfLegalFirstName ) ]
+		Set Field [ import_CRM::import_Name_Last ; JSONGetElement ( $cf ; $cfLastName ) ]
+		Set Field [ import_CRM::import_Name_Alternate ; JSONGetElement ( $cf ; $cfAltName ) ]
+		Set Field [ import_CRM::import_Pronouns ; JSONGetElement ( $cf ; $cfPronouns ) ]
+		Set Field [ import_CRM::import_DateUpdated ; GetAsTimestamp ( Int ( JSONGetElement ( $task ; "date_updated" ) / 1000 ) + 62135596800 ) ]
+		Set Field [ import_CRM::import_payload ; $task ]
 		Commit Records/Requests [ With dialog: Off ]
 		Set Variable [ $i ; Value: $i + 1 ]
 	End Loop
 	Set Variable [ $pulled ; Value: $pulled + $n ]
-	Exit Loop If [ $n = 0 or JSONGetElement ( $response ; "last_page" ) = 1 or JSONGetElement ( $response ; "last_page" ) = "true" or $page ≥ 100 ]
+	Exit Loop If [ $n = 0 or JSONGetElement ( $response ; "last_page" ) = 1 or $page ≥ 100 ]
 	Set Variable [ $page ; Value: $page + 1 ]
 End Loop
 #
 # 5. Receipt. Nothing pulled means nothing to compare against.
 Go to Layout [ "import_SESSIONS" ; Animation: None ]
-Set Field [ import_SESSIONS::CountPulled ; $pulled ]
+Set Field [ import_SESSIONS::script_CountPulled ; $pulled ]
 Commit Records/Requests [ With dialog: Off ]
 If [ $pulled = 0 ]
 	Go to Layout [ Layout Name by calculation: $origLayout ; Animation: None ]
@@ -97,14 +97,14 @@ Perform Script [ Specified: From list ; "PEOPLE_Compare" ; Parameter: $session ]
 Set Variable [ $rows ; Value: Get ( ScriptResult ) ]
 Go to Layout [ Layout Name by calculation: $origLayout ; Animation: None ]
 If [ $rows = 0 ]
-	Show Custom Dialog [ "Import from ClickUp" ; $pulled & " people pulled. PEOPLE already matches ClickUp." ]
+	Show Custom Dialog [ "Import from ClickUp" ; $pulled & " people pulled. URITP_PEOPLE already matches ClickUp." ]
 	Exit Script [ Text Result: 0 ]
 End If
 #
 # 7. Review window
-New Window [ Style: Document ; Name: "Reconcile People" ; Using layout: "RECONCILE" ]
+New Window [ Style: Document ; Name: "Reconcile People" ; Using layout: "import_RECONCILE" ]
 Enter Find Mode [ Pause: Off ]
-Set Field [ RECONCILE::fkImportSession ; "==" & $session ]
+Set Field [ import_RECONCILE::fkImportSession ; "==" & $session ]
 Perform Find [ ]
 Sort Records [ Restore ; With dialog: Off ]
 Go to Record/Request/Page [ First ]
