@@ -1,8 +1,10 @@
-# PEOPLE_Compare
-# Called by PEOPLE_Pull. Parameter: the session PrimaryKey.
-# Writes one import_RECONCILE row per difference. Result: how many rows it wrote.
+# PEOPLE_Compare · Called by PEOPLE_Pull. Parameter: the session PrimaryKey. Writes one import_RECONCILE row per difference. Result: how many rows.
+Set Variable [ $p ; Value: Get ( ScriptParameter ) ]
+If [ IsEmpty ( $p ) ]
+	Exit Script [ Text Result: 0 ]
+End If
+#
 Set Error Capture [ On ]
-Set Variable [ $session ; Value: Get ( ScriptParameter ) ]
 # Field map. Same five, same order, in every import script: first, last, alternate, pronouns, status.
 Set Variable [ $fmp ; Value: List ( GetFieldName ( URITP_PEOPLE::Name_First ) ; GetFieldName ( URITP_PEOPLE::Name_Last ) ; GetFieldName ( URITP_PEOPLE::Name_Alternate ) ; GetFieldName ( URITP_PEOPLE::Pronouns ) ; GetFieldName ( URITP_PEOPLE::status_Person ) ) ]
 Set Variable [ $cu ; Value: List ( GetFieldName ( import_CRM::import_Name_First ) ; GetFieldName ( import_CRM::import_Name_Last ) ; GetFieldName ( import_CRM::import_Name_Alternate ) ; GetFieldName ( import_CRM::import_Pronouns ) ; GetFieldName ( import_CRM::Import_cu_Status_Person ) ) ]
@@ -11,14 +13,13 @@ Set Variable [ $r ; Value: 0 ]
 Set Variable [ $new ; Value: 0 ]
 Set Variable [ $changed ; Value: 0 ]
 Set Variable [ $gone ; Value: 0 ]
-#
 # 1. New and Changed: walk this session's staged rows
 Go to Layout [ "import_CRM" ; Animation: None ]
 Enter Find Mode [ Pause: Off ]
-Set Field [ import_CRM::fkImportSession ; "==" & $session ]
+Set Field [ import_CRM::fkImportSession ; "==" & $p ]
 Perform Find [ ]
 Go to Record/Request/Page [ First ]
-Loop [ Flush: Always ]
+Loop
 	Set Variable [ $id ; Value: import_CRM::cu_TaskID ]
 	Set Variable [ $ids ; Value: List ( $ids ; $id ) ]
 	If [ IsEmpty ( URITP_PEOPLE::fkCU_TaskID ) ]
@@ -27,7 +28,7 @@ Loop [ Flush: Always ]
 		Set Variable [ $new ; Value: $new + 1 ]
 	Else
 		Set Variable [ $j ; Value: 0 ]
-		Loop [ Flush: Always ]
+		Loop
 			Set Variable [ $j ; Value: $j + 1 ]
 			Exit Loop If [ $j > ValueCount ( $fmp ) ]
 			Set Variable [ $a ; Value: GetField ( GetValue ( $fmp ; $j ) ) ]
@@ -43,13 +44,12 @@ Loop [ Flush: Always ]
 	End If
 	Go to Record/Request/Page [ Next ; Exit after last: On ]
 End Loop
-#
 # 2. Gone: people FileMaker has that this pull did not return
 Go to Layout [ "URITP_PEOPLE" ; Animation: None ]
 Show All Records
 If [ Get ( FoundCount ) > 0 ]
 	Go to Record/Request/Page [ First ]
-	Loop [ Flush: Always ]
+	Loop
 		If [ IsEmpty ( FilterValues ( $ids ; URITP_PEOPLE::fkCU_TaskID ) ) ]
 			Set Variable [ $rows ; Value: JSONSetElement ( $rows ; "[" & $r & "]" ; JSONSetElement ( "{}" ; [ "kind" ; "Gone" ; JSONString ] ; [ "id" ; URITP_PEOPLE::fkCU_TaskID ; JSONString ] ; [ "imp" ; "" ; JSONString ] ; [ "name" ; Trim ( URITP_PEOPLE::Name_First & " " & URITP_PEOPLE::Name_Last ) ; JSONString ] ; [ "field" ; "" ; JSONString ] ; [ "fmp" ; URITP_PEOPLE::status_Person ; JSONString ] ; [ "cu" ; "" ; JSONString ] ) ; JSONObject ) ]
 			Set Variable [ $r ; Value: $r + 1 ]
@@ -58,15 +58,14 @@ If [ Get ( FoundCount ) > 0 ]
 		Go to Record/Request/Page [ Next ; Exit after last: On ]
 	End Loop
 End If
-#
 # 3. Write the review rows
 Go to Layout [ "import_RECONCILE" ; Animation: None ]
 Set Variable [ $k ; Value: 0 ]
-Loop [ Flush: Always ]
+Loop
 	Exit Loop If [ $k ≥ $r ]
 	Set Variable [ $row ; Value: JSONGetElement ( $rows ; "[" & $k & "]" ) ]
 	New Record/Request
-	Set Field [ import_RECONCILE::fkImportSession ; $session ]
+	Set Field [ import_RECONCILE::fkImportSession ; $p ]
 	Set Field [ import_RECONCILE::Kind ; JSONGetElement ( $row ; "kind" ) ]
 	Set Field [ import_RECONCILE::cu_TaskID ; JSONGetElement ( $row ; "id" ) ]
 	Set Field [ import_RECONCILE::fkImportPerson ; JSONGetElement ( $row ; "imp" ) ]
@@ -78,11 +77,10 @@ Loop [ Flush: Always ]
 	Commit Records/Requests [ With dialog: Off ]
 	Set Variable [ $k ; Value: $k + 1 ]
 End Loop
-#
 # 4. Counts onto the session
 Go to Layout [ "import_SESSIONS" ; Animation: None ]
 Enter Find Mode [ Pause: Off ]
-Set Field [ import_SESSIONS::PrimaryKey ; "==" & $session ]
+Set Field [ import_SESSIONS::PrimaryKey ; "==" & $p ]
 Perform Find [ ]
 Set Field [ import_SESSIONS::script_CountNew ; $new ]
 Set Field [ import_SESSIONS::script_CountChanged ; $changed ]
