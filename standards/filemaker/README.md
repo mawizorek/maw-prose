@@ -12,6 +12,8 @@ This shelf answers one question: **what does every FileMaker file we build agree
 
 `app-catalog.md` is the record every file keeps of its own tables and layouts: `APP_TABLES` and `APP_LAYOUTS`, generated from the file's schema, keyed on FileMaker's internal ids, carrying only what FileMaker cannot store. It is also how every app gets its navigation menu. Its registers are in `tables/` and its scripts in `scripts/`, mirrored the way an app package mirrors the *Manage* menu.
 
+`clipboard-snippets.md` is how a script written here gets into FileMaker without retyping: every `.fmscript` has an `.xml` twin, and `fmpaste` puts it on the clipboard in the format Script Workspace accepts. `fmcopy` brings steps back out.
+
 `custom-functions/` holds the shared function families. A family is a small set of functions that solve one job, defined once here and **installed** into each solution — never re-derived per file. Three families exist:
 
 - **`json-params/`** — the nine-function script-parameter layer (`PText` · `PNum` · `PBool` · `PJSON` · `Param` · `ParamHas` · `ParamGetText` · `ParamGetNumber` · `ParamGetBoolean`). Locked at nine; its notes carry an explicit list of what must never be added.
@@ -28,7 +30,7 @@ The test before you cut one: does this solve a recurring cross-app job, can no e
 
 ## Gaps
 
-No family ships a packaged clipboard snippet. Installing is one manual paste per function, and until an `fmxmlsnippet` export exists that is the only supported path.
+Script steps paste; nothing else has been proven yet. Fields, tables, custom functions and layout objects each have their own clipboard type, and until one is pasted for real, installing those is still by hand.
 
 No conformance runner is published here. Each solution writes its own and reports into whatever its utility-report surface is called. If a second app writes one, compare the two and describe the better one at the family level.
 
