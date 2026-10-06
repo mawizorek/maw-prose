@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fmxmlsnippet type="FMObjectList">
+<Step enable="True" id="89" name="# (comment)"><Text>PEOPLE_Compare · Called by PEOPLE_Pull. Parameter: the session PrimaryKey. Writes one import_RECONCILE row per difference. Result: how many rows.</Text></Step>
+<Step enable="True" id="141" name="Set Variable"><Value><Calculation><![CDATA[Get ( ScriptParameter )]]></Calculation></Value><Repetition><Calculation><![CDATA[1]]></Calculation></Repetition><Name>$p</Name></Step>
+<Step enable="True" id="68" name="If"><Calculation><![CDATA[IsEmpty ( $p )]]></Calculation></Step>
+<Step enable="True" id="103" name="Exit Script"><Calculation><![CDATA[0]]></Calculation></Step>
+<Step enable="True" id="70" name="End If"></Step>
+<Step enable="True" id="89" name="# (comment)"><Text></Text></Step>
+<Step enable="True" id="86" name="Set Error Capture"><Set state="True"/></Step>
+<Step enable="True" id="89" name="# (comment)"><Text>Field map. Same five, same order, in every import script: first, last, alternate, pronouns, status.</Text></Step>
+<Step enable="True" id="141" name="Set Variable"><Value><Calculation><![CDATA[List ( GetFieldName ( URITP_PEOPLE::Name_First ) ; GetFieldName ( URITP_PEOPLE::Name_Last ) ; GetFieldName ( URITP_PEOPLE::Name_Alternate ) ; GetFieldName ( URITP_PEOPLE::Pronouns ) ; GetFieldName ( URITP_PEOPLE::status_Person ) )]]></Calculation></Value><Repetition><Calculation><![CDATA[1]]></Calculation></Repetition><Name>$fmp</Name></Step>
+<Step enable="True" id="141" name="Set Variable"><Value><Calculation><![CDATA[List ( GetFieldName ( import_CRM::import_Name_First ) ; GetFieldName ( import_CRM::import_Name_Last ) ; GetFieldName ( import_CRM::import_Name_Alternate ) ; GetFieldName ( import_CRM::import_Pronouns ) ; GetFieldName ( import_CRM::Import_cu_Status_Person ) )]]></Calculation></Value><Repetition><Calculation><![CDATA[1]]></Calculation></Repetition><Name>$cu</Name></Step>
+<Step enable="True" id="141" name="Set Variable"><Value><Calculation><![CDATA["[]"]]></Calculation></Value><Repetition><Calculation><![CDATA[1]]></Calculation></Repetition><Name>$rows</Name></Step>
+<Step enable="True" id="141" name="Set Variable"><Value><Calculation><![CDATA[0]]></Calculation></Value><Repetition><Calculation><![CDATA[1]]></Calculation></Repetition><Name>$r</Name></Step>
+<Step enable="True" id="141" name="Set Variable"><Value><Calculation><![CDATA[0]]></Calculation></Value><Repetition><Calculation><![CDATA[1]]></Calculation></Repetition><Name>$new</Name></Step>
+<Step enable="True" id="141" name="Set Variable"><Value><Calculation><![CDATA[0]]></Calculation></Value><Repetition><Calculation><![CDATA[1]]></Calculation></Repetition><Name>$changed</Name></Step>
+<Step enable="True" id="141" name="Set Variable"><Value><Calculation><![CDATA[0]]></Calculation></Value><Repetition><Calculation><![CDATA[1]]></Calculation></Repetition><Name>$gone</Name></Step>
+<Step enable="True" id="89" name="# (comment)"><Text>1. New and Changed: walk this session's staged rows</Text></Step>
+<Step enable="True" id="6" name="Go to Layout"><LayoutDestination value="SelectedLayout"/><Layout id="0" name="import_CRM"/></Step>
+<Step enable="True" id="22" name="Enter Find Mode"><Pause state="False"/></Step>
+<Step enable="True" id="76" name="Set Field"><Calculation><![CDATA["==" & $p]]></Calculation><Field table="import_CRM" id="0" name="fkImportSession"/></Step>
+<Step enable="True" id="28" name="Perform Find"><Restore state="False"/></Step>
+<Step enable="True" id="16" name="Go to Record/Request/Page"><NoInteract state="True"/><RowPageLocation value="First"/></Step>
+<Step enable="True" id="71" name="Loop"></Step>
+<Step enable="True" id="141" name="Set Variable"><Value><Calculation><![CDATA[import_CRM::cu_TaskID]]></Calculation></Value><Repetition><Calculation><![CDATA[1]]></Calculation></Repetition><Name>$id</Name></Step>
+<Step enable="True" id="141" name="Set Variable"><Value><Calculation><![CDATA[List ( $ids ; $id )]]></Calculation></Value><Repetition><Calculation><![CDATA[1]]></Calculation></Repetition><Name>$ids</Name></Step>
+<Step enable="True" id="68" name="If"><Calculation><![CDATA[IsEmpty ( URITP_PEOPLE::fkCU_TaskID )]]></Calculation></Step>
+<Step enable="True" id="141" name="Set Variable"><Value><Calculation><![CDATA[JSONSetElement ( $rows ; "[" & $r & "]" ; JSONSetElement ( "{}" ; [ "kind" ; "New" ; JSONString ] ; [ "id" ; $id ; JSONString ] ; [ "imp" ; import_CRM::PrimaryKey ; JSONString ] ; [ "name" ; import_CRM::import_TaskName ; JSONString ] ; [ "field" ; "" ; JSONString ] ; [ "fmp" ; "" ; JSONString ] ; [ "cu" ; import_CRM::import_TaskName ; JSONString ] ) ; JSONObject )]]></Calculation></Value><Repetition><Calculation><![CDATA[1]]></Calculation></Repetition><Name>$rows</Name></Step>
+<Step enable="True" id="141" name="Set Variable"><Value><Calculation><![CDATA[$r + 1]]></Calculation></Value><Repetition><Calculation><![CDATA[1]]></Calculation></Repetition><Name>$r</Name></Step>
+<Step enable="True" id="141" name="Set Variable"><Value><Calculation><![CDATA[$new + 1]]></Calculation></Value><Repetition><Calculation><![CDATA[1]]></Calculation></Repetition><Name>$new</Name></Step>
+<Step enable="True" id="69" name="Else"></Step>
+<Step enable="True" id="141" name="Set Variable"><Value><Calculation><![CDATA[0]]></Calculation></Value><Repetition><Calculation><![CDATA[1]]></Calculation></Repetition><Name>$j</Name></Step>
+<Step enable="True" id="71" name="Loop"></Step>
+<Step enable="True" id="141" name="Set Variable"><Value><Calculation><![CDATA[$j + 1]]></Calculation></Value><Repetition><Calculation><![CDATA[1]]></Calculation></Repetition><Name>$j</Name></Step>
+<Step enable="True" id="72" name="Exit Loop If"><Calculation><![CDATA[$j > ValueCount ( $fmp )]]></Calculation></Step>
+<Step enable="True" id="141" name="Set Variable"><Value><Calculation><![CDATA[GetField ( GetValue ( $fmp ; $j ) )]]></Calculation></Value><Repetition><Calculation><![CDATA[1]]></Calculation></Repetition><Name>$a</Name></Step>
+<Step enable="True" id="141" name="Set Variable"><Value><Calculation><![CDATA[GetField ( GetValue ( $cu ; $j ) )]]></Calculation></Value><Repetition><Calculation><![CDATA[1]]></Calculation></Repetition><Name>$b</Name></Step>
+<Step enable="True" id="89" name="# (comment)"><Text>Exact, not =. FileMaker's = ignores case.</Text></Step>
+<Step enable="True" id="68" name="If"><Calculation><![CDATA[not Exact ( $a ; $b )]]></Calculation></Step>
+<Step enable="True" id="141" name="Set Variable"><Value><Calculation><![CDATA[GetValue ( Substitute ( GetValue ( $fmp ; $j ) ; "::" ; ¶ ) ; 2 )]]></Calculation></Value><Repetition><Calculation><![CDATA[1]]></Calculation></Repetition><Name>$f</Name></Step>
+<Step enable="True" id="141" name="Set Variable"><Value><Calculation><![CDATA[JSONSetElement ( $rows ; "[" & $r & "]" ; JSONSetElement ( "{}" ; [ "kind" ; "Changed" ; JSONString ] ; [ "id" ; $id ; JSONString ] ; [ "imp" ; import_CRM::PrimaryKey ; JSONString ] ; [ "name" ; import_CRM::import_TaskName ; JSONString ] ; [ "field" ; $f ; JSONString ] ; [ "fmp" ; $a ; JSONString ] ; [ "cu" ; $b ; JSONString ] ) ; JSONObject )]]></Calculation></Value><Repetition><Calculation><![CDATA[1]]></Calculation></Repetition><Name>$rows</Name></Step>
+<Step enable="True" id="141" name="Set Variable"><Value><Calculation><![CDATA[$r + 1]]></Calculation></Value><Repetition><Calculation><![CDATA[1]]></Calculation></Repetition><Name>$r</Name></Step>
+<Step enable="True" id="141" name="Set Variable"><Value><Calculation><![CDATA[$changed + 1]]></Calculation></Value><Repetition><Calculation><![CDATA[1]]></Calculation></Repetition><Name>$changed</Name></Step>
+<Step enable="True" id="70" name="End If"></Step>
+<Step enable="True" id="73" name="End Loop"></Step>
+<Step enable="True" id="70" name="End If"></Step>
+<Step enable="True" id="16" name="Go to Record/Request/Page"><NoInteract state="True"/><Exit state="True"/><RowPageLocation value="Next"/></Step>
+<Step enable="True" id="73" name="End Loop"></Step>
+<Step enable="True" id="89" name="# (comment)"><Text>2. Gone: people FileMaker has that this pull did not return</Text></Step>
+<Step enable="True" id="6" name="Go to Layout"><LayoutDestination value="SelectedLayout"/><Layout id="0" name="URITP_PEOPLE"/></Step>
+<Step enable="True" id="23" name="Show All Records"></Step>
+<Step enable="True" id="68" name="If"><Calculation><![CDATA[Get ( FoundCount ) > 0]]></Calculation></Step>
+<Step enable="True" id="16" name="Go to Record/Request/Page"><NoInteract state="True"/><RowPageLocation value="First"/></Step>
+<Step enable="True" id="71" name="Loop"></Step>
+<Step enable="True" id="68" name="If"><Calculation><![CDATA[IsEmpty ( FilterValues ( $ids ; URITP_PEOPLE::fkCU_TaskID ) )]]></Calculation></Step>
+<Step enable="True" id="141" name="Set Variable"><Value><Calculation><![CDATA[JSONSetElement ( $rows ; "[" & $r & "]" ; JSONSetElement ( "{}" ; [ "kind" ; "Gone" ; JSONString ] ; [ "id" ; URITP_PEOPLE::fkCU_TaskID ; JSONString ] ; [ "imp" ; "" ; JSONString ] ; [ "name" ; Trim ( URITP_PEOPLE::Name_First & " " & URITP_PEOPLE::Name_Last ) ; JSONString ] ; [ "field" ; "" ; JSONString ] ; [ "fmp" ; URITP_PEOPLE::status_Person ; JSONString ] ; [ "cu" ; "" ; JSONString ] ) ; JSONObject )]]></Calculation></Value><Repetition><Calculation><![CDATA[1]]></Calculation></Repetition><Name>$rows</Name></Step>
+<Step enable="True" id="141" name="Set Variable"><Value><Calculation><![CDATA[$r + 1]]></Calculation></Value><Repetition><Calculation><![CDATA[1]]></Calculation></Repetition><Name>$r</Name></Step>
+<Step enable="True" id="141" name="Set Variable"><Value><Calculation><![CDATA[$gone + 1]]></Calculation></Value><Repetition><Calculation><![CDATA[1]]></Calculation></Repetition><Name>$gone</Name></Step>
+<Step enable="True" id="70" name="End If"></Step>
+<Step enable="True" id="16" name="Go to Record/Request/Page"><NoInteract state="True"/><Exit state="True"/><RowPageLocation value="Next"/></Step>
+<Step enable="True" id="73" name="End Loop"></Step>
+<Step enable="True" id="70" name="End If"></Step>
+<Step enable="True" id="89" name="# (comment)"><Text>3. Write the review rows</Text></Step>
+<Step enable="True" id="6" name="Go to Layout"><LayoutDestination value="SelectedLayout"/><Layout id="0" name="import_RECONCILE"/></Step>
+<Step enable="True" id="141" name="Set Variable"><Value><Calculation><![CDATA[0]]></Calculation></Value><Repetition><Calculation><![CDATA[1]]></Calculation></Repetition><Name>$k</Name></Step>
+<Step enable="True" id="71" name="Loop"></Step>
+<Step enable="True" id="72" name="Exit Loop If"><Calculation><![CDATA[$k ≥ $r]]></Calculation></Step>
+<Step enable="True" id="141" name="Set Variable"><Value><Calculation><![CDATA[JSONGetElement ( $rows ; "[" & $k & "]" )]]></Calculation></Value><Repetition><Calculation><![CDATA[1]]></Calculation></Repetition><Name>$row</Name></Step>
+<Step enable="True" id="7" name="New Record/Request"></Step>
+<Step enable="True" id="76" name="Set Field"><Calculation><![CDATA[$p]]></Calculation><Field table="import_RECONCILE" id="0" name="fkImportSession"/></Step>
+<Step enable="True" id="76" name="Set Field"><Calculation><![CDATA[JSONGetElement ( $row ; "kind" )]]></Calculation><Field table="import_RECONCILE" id="0" name="Kind"/></Step>
+<Step enable="True" id="76" name="Set Field"><Calculation><![CDATA[JSONGetElement ( $row ; "id" )]]></Calculation><Field table="import_RECONCILE" id="0" name="cu_TaskID"/></Step>
+<Step enable="True" id="76" name="Set Field"><Calculation><![CDATA[JSONGetElement ( $row ; "imp" )]]></Calculation><Field table="import_RECONCILE" id="0" name="fkImportPerson"/></Step>
+<Step enable="True" id="76" name="Set Field"><Calculation><![CDATA[JSONGetElement ( $row ; "name" )]]></Calculation><Field table="import_RECONCILE" id="0" name="PersonName"/></Step>
+<Step enable="True" id="76" name="Set Field"><Calculation><![CDATA[JSONGetElement ( $row ; "field" )]]></Calculation><Field table="import_RECONCILE" id="0" name="FieldName"/></Step>
+<Step enable="True" id="76" name="Set Field"><Calculation><![CDATA[JSONGetElement ( $row ; "fmp" )]]></Calculation><Field table="import_RECONCILE" id="0" name="FMP_Value"/></Step>
+<Step enable="True" id="76" name="Set Field"><Calculation><![CDATA[JSONGetElement ( $row ; "cu" )]]></Calculation><Field table="import_RECONCILE" id="0" name="CU_Value"/></Step>
+<Step enable="True" id="76" name="Set Field"><Calculation><![CDATA[If ( JSONGetElement ( $row ; "kind" ) = "Gone" ; "Flag" ; "Apply" )]]></Calculation><Field table="import_RECONCILE" id="0" name="Decision"/></Step>
+<Step enable="True" id="75" name="Commit Records/Requests"><NoInteract state="True"/></Step>
+<Step enable="True" id="141" name="Set Variable"><Value><Calculation><![CDATA[$k + 1]]></Calculation></Value><Repetition><Calculation><![CDATA[1]]></Calculation></Repetition><Name>$k</Name></Step>
+<Step enable="True" id="73" name="End Loop"></Step>
+<Step enable="True" id="89" name="# (comment)"><Text>4. Counts onto the session</Text></Step>
+<Step enable="True" id="6" name="Go to Layout"><LayoutDestination value="SelectedLayout"/><Layout id="0" name="import_SESSIONS"/></Step>
+<Step enable="True" id="22" name="Enter Find Mode"><Pause state="False"/></Step>
+<Step enable="True" id="76" name="Set Field"><Calculation><![CDATA["==" & $p]]></Calculation><Field table="import_SESSIONS" id="0" name="PrimaryKey"/></Step>
+<Step enable="True" id="28" name="Perform Find"><Restore state="False"/></Step>
+<Step enable="True" id="76" name="Set Field"><Calculation><![CDATA[$new]]></Calculation><Field table="import_SESSIONS" id="0" name="script_CountNew"/></Step>
+<Step enable="True" id="76" name="Set Field"><Calculation><![CDATA[$changed]]></Calculation><Field table="import_SESSIONS" id="0" name="script_CountChanged"/></Step>
+<Step enable="True" id="76" name="Set Field"><Calculation><![CDATA[$gone]]></Calculation><Field table="import_SESSIONS" id="0" name="script_CountGone"/></Step>
+<Step enable="True" id="75" name="Commit Records/Requests"><NoInteract state="True"/></Step>
+<Step enable="True" id="103" name="Exit Script"><Calculation><![CDATA[$r]]></Calculation></Step>
+</fmxmlsnippet>
