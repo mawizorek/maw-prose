@@ -3,7 +3,7 @@ id: fmp-clipboard-snippets
 title: Clipboard snippets
 status: public
 type: standard
-summary: How a script written in this repo gets into FileMaker without retyping it. Every .fmscript has an .xml twin, and one shell command puts it on the clipboard in the format Script Workspace accepts.
+summary: How a script written in this repo gets into FileMaker without retyping it. The fmp-renderer turns the .fmscript into FileMaker's clipboard format on demand; nothing generated is stored.
 revised: 2026-10
 ---
 
@@ -11,31 +11,30 @@ revised: 2026-10
 
 ## Why plain text does not paste
 
-FileMaker's Script Workspace ignores ordinary text on the clipboard. It only accepts steps in its own XML, `fmxmlsnippet`, carried under a private clipboard type. Copy a `.fmscript` from GitHub and paste it, and nothing happens. Proven on URITP People's PEOPLE_Compare, 89 steps, 2026-10-05.
+FileMaker's Script Workspace ignores ordinary text on the clipboard. It only accepts steps in its own XML, `fmxmlsnippet`, carried under a private clipboard type, `XMSS`. Copy a `.fmscript` from GitHub and paste it, and nothing happens. Proven on URITP People's PEOPLE_Compare, 89 steps, 2026-10-05.
 
-## Every script has two files
+## The .fmscript is the only source
 
-`<name>.fmscript` is the readable copy: what reviews read, what diffs show, what a person types from if they must. `<name>.xml` is the paste copy: the same steps as an `fmxmlsnippet`. They describe the same script and change together; an `.xml` that disagrees with its `.fmscript` is a defect.
+A script lives here once, as its readable `.fmscript`. Its XML is derived, so it is never committed: a stored copy is a second version of the script that drifts the first time someone edits one and not the other.
 
-The `.xml` is a copy target in the strictest sense. Everything in it lands in the script, so status and history go in the `.notes.md` sidecar like any other copy target.
+## Getting a script into FileMaker
 
-## The two commands
+Open the app in the fmp-renderer, go to Scripts, pick the script, press Copy for FileMaker. The renderer reads the `.fmscript`, builds the XML in the browser, and copies a one-line Terminal command with the XML baked in. Paste it into Terminal, press Enter, click into an empty script in FileMaker, press ⌘V. Nothing touches the disk, so it does not matter where or whether the repo is checked out.
 
-Put these in `~/.zshrc` once:
+A browser cannot put FileMaker's private clipboard type on the clipboard itself, which is the only reason Terminal is in the loop.
+
+## Steps that do not translate yet
+
+The renderer translates only steps whose XML has been proven by a real paste. Any other step pastes as a comment reading `TYPE BY HAND:` followed by the original line, and shows in red before you copy, so a script never pastes silently short. Type those few by hand.
+
+To teach the renderer a new step: build it once in FileMaker, copy it, and read what FileMaker wrote. This command saves the clipboard's steps to a file:
 
 ```
-fmpaste() { osascript -e "set the clipboard to «data XMSS$(xxd -p "$1" | tr -d '\n')»"; }
-fmcopy()  { osascript -e 'the clipboard as «class XMSS»' | sed 's/^«data XMSS//; s/»$//' | xxd -r -p > "$1"; }
+osascript -e 'the clipboard as «class XMSS»' | sed 's/^«data XMSS//; s/»$//' | xxd -r -p > step.xml
 ```
 
-`fmpaste file.xml` loads a snippet; then click into an empty script and press ⌘V. `fmcopy file.xml` goes the other way: select steps in Script Workspace, ⌘C, run it, and the steps land in the file. That is how an improvement made in FileMaker comes back to the repo instead of living only in the file.
+That file is what the translation for the step gets written from, so the renderer only ever writes XML FileMaker itself produced.
 
-`XMSS` is the type for script steps. FileMaker uses other four-letter types for other objects, and the commands work the same way with the type swapped.
+## What resolves on paste
 
-## What resolves on paste and what does not
-
-Fields resolve by table occurrence and field name, so a snippet written against the spec's names pastes cleanly into any file that uses them. A name that does not exist pastes as a missing-field marker rather than failing, which makes it easy to find. Layout references are the weak spot: check every Go to Layout step after a paste.
-
-## Writing a snippet
-
-Each step is one `<Step enable="True" id="…" name="…">` element, with its calculations in CDATA. The ids are FileMaker's own step ids: Set Variable 141, If 68, Else 69, Else If 125, End If 70, Loop 71, Exit Loop If 72, End Loop 73, Set Field 76, Set Field By Name 147, Go to Layout 6, Go to Record/Request/Page 16, Enter Find Mode 22, Perform Find 28, Show All Records 23, New Record/Request 7, Commit Records/Requests 75, Exit Script 103, Set Error Capture 86, comment 89. When in doubt about a step's XML, build the step once in FileMaker, `fmcopy` it, and read what FileMaker wrote.
+Fields resolve by table occurrence and field name, so a script written against the file's real names pastes cleanly. A name that does not exist pastes as a missing-field marker rather than failing, which makes it easy to find. Check every Go to Layout step after a paste.
