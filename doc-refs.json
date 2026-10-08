@@ -1,7 +1,7 @@
 {
   "site": "mawprose",
   "base_url": "https://mawizorek.github.io/maw-prose/",
-  "built": "2026-10-08T03:58:09Z",
+  "built": "2026-10-08T04:25:53Z",
   "engine": "0.1.0",
   "totals": {
     "pages": 60,
@@ -58,7 +58,7 @@
   "pages": {
     "assignment-art-cue-mood-project": {
       "title": "Art Cue 'Mood' Project",
-      "url": "coursework/sign-content-disclosure/",
+      "url": "coursework/assignment-art-cue-mood-project/",
       "type": "page",
       "references": [],
       "referenced_by": [

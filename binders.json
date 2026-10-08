@@ -52,7 +52,7 @@
   "apps/uritp-people/tables/SETTINGS/": "uritp-people-table-settings",
   "apps/uritp-people/tables/import_PEOPLE/": "uritp-people-table-import-people",
   "apps/uritp-people/tables/import_SESSIONS/": "uritp-people-table-import-sessions",
-  "coursework/sign-content-disclosure/": "assignment-art-cue-mood-project",
+  "coursework/assignment-art-cue-mood-project/": "assignment-art-cue-mood-project",
   "standards/filemaker/app-catalog/": "fmp-app-catalog",
   "standards/filemaker/clipboard-snippets/": "fmp-clipboard-snippets",
   "standards/filemaker/scripts/APP_CatalogRefresh.notes/": "fmp-app-catalog-scripts"

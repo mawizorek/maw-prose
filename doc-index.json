@@ -2,7 +2,7 @@
   "site": "mawprose",
   "name": "MAW Prose",
   "base_url": "https://mawizorek.github.io/maw-prose/",
-  "built": "2026-10-08T03:58:09Z",
+  "built": "2026-10-08T04:25:53Z",
   "engine": "0.1.0",
   "engine_ref": "073bf5cf20f005f51356784dddd5b8e9b20e0516",
   "pages": [
@@ -10,7 +10,7 @@
       "id": "assignment-art-cue-mood-project",
       "type": "page",
       "title": "Art Cue 'Mood' Project",
-      "url": "coursework/sign-content-disclosure/",
+      "url": "coursework/assignment-art-cue-mood-project/",
       "status": "public",
       "gloss": null,
       "print_gloss": null
