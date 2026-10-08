@@ -1,16 +1,15 @@
 {
   "site": "mawprose",
   "base_url": "https://mawizorek.github.io/maw-prose/",
-  "built": "2026-10-08T03:56:14Z",
+  "built": "2026-10-08T03:58:09Z",
   "engine": "0.1.0",
   "totals": {
     "pages": 60,
-    "edges": 144,
+    "edges": 145,
     "broken": 6,
-    "no_inbound": 13
+    "no_inbound": 12
   },
   "no_inbound": [
-    "assignment-art-cue-mood-project",
     "fmp-app-catalog-scripts",
     "fmp-clipboard-snippets",
     "maw-prose-home",
@@ -62,8 +61,10 @@
       "url": "coursework/sign-content-disclosure/",
       "type": "page",
       "references": [],
-      "referenced_by": [],
-      "inbound": 0,
+      "referenced_by": [
+        "maw-prose-home"
+      ],
+      "inbound": 1,
       "outbound": 0
     },
     "build-sheet": {
@@ -188,10 +189,18 @@
       "title": "MAW Prose",
       "url": "./",
       "type": "index",
-      "references": [],
+      "references": [
+        {
+          "token": "assignment-art-cue-mood-project",
+          "kind": "page",
+          "target": "assignment-art-cue-mood-project",
+          "resolved": true,
+          "count": 1
+        }
+      ],
       "referenced_by": [],
       "inbound": 0,
-      "outbound": 0
+      "outbound": 1
     },
     "prev-production-calendar-app": {
       "title": "Prev Calendar App Build",
