@@ -1,0 +1,95 @@
+# APP_CatalogRefresh
+# Rebuilds APP_TABLES and APP_LAYOUTS from the file's own schema. Typed fields are never touched.
+# OnFirstWindowOpen, and a developer button after schema work. Needs FileMaker 19.4 or later.
+Set Error Capture [ On ]
+Allow User Abort [ Off ]
+Freeze Window
+Set Variable [ $origLayout ; Value: Get ( LayoutName ) ]
+Set Variable [ $now ; Value: Get ( CurrentTimestamp ) ]
+Set Variable [ $required ; Value: List ( "PrimaryKey" ; "CreationTimestamp" ; "CreatedBy" ; "ModificationTimestamp" ; "ModifiedBy" ) ]
+#
+# 1. Tables
+Set Variable [ $rows ; Value: ExecuteSQL ( "SELECT BaseTableId, BaseTableName FROM FileMaker_BaseTables" ; "|" ; ¶ ) ]
+If [ IsEmpty ( $rows ) or Left ( $rows ; 1 ) = "?" ]
+	Show Custom Dialog [ "App catalog" ; "FileMaker did not return its table list. The catalog needs FileMaker 19.4 or later." ]
+	Exit Script [ Text Result: 0 ]
+End If
+Go to Layout [ "APP_TABLES" ; Animation: None ]
+Set Variable [ $i ; Value: 0 ]
+Loop [ Flush: Always ]
+	Set Variable [ $i ; Value: $i + 1 ]
+	Exit Loop If [ $i > ValueCount ( $rows ) ]
+	Set Variable [ $row ; Value: Substitute ( GetValue ( $rows ; $i ) ; "|" ; ¶ ) ]
+	Set Variable [ $id ; Value: GetValue ( $row ; 1 ) ]
+	Set Variable [ $name ; Value: GetValue ( $row ; 2 ) ]
+	Set Variable [ $have ; Value: ExecuteSQL ( "SELECT FieldName FROM FileMaker_BaseTableFields WHERE BaseTableName = ?" ; "" ; ¶ ; $name ) ]
+	Set Variable [ $gap ; Value: While ( [ ~j = 0 ; ~out = "" ] ; ~j < ValueCount ( $required ) ; [ ~j = ~j + 1 ; ~f = GetValue ( $required ; ~j ) ; ~out = If ( IsEmpty ( FilterValues ( $have ; ~f ) ) ; List ( ~out ; ~f ) ; ~out ) ] ; ~out ) ]
+	Enter Find Mode [ Pause: Off ]
+	Set Field [ APP_TABLES::fm_TableID ; "==" & $id ]
+	Perform Find [ ]
+	If [ Get ( FoundCount ) = 0 ]
+		New Record/Request
+		Set Field [ APP_TABLES::fm_TableID ; $id ]
+	End If
+	Set Field [ APP_TABLES::fm_TableName ; $name ]
+	Set Field [ APP_TABLES::AuditGap ; $gap ]
+	Set Field [ APP_TABLES::LastSeenTimestamp ; $now ]
+	Set Field [ APP_TABLES::RemovedTimestamp ; "" ]
+	Commit Records/Requests [ With dialog: Off ]
+End Loop
+# Tables this refresh did not see
+Enter Find Mode [ Pause: Off ]
+Set Field [ APP_TABLES::LastSeenTimestamp ; "<" & $now ]
+Perform Find [ ]
+If [ Get ( FoundCount ) > 0 ]
+	Go to Record/Request/Page [ First ]
+	Loop [ Flush: Always ]
+		If [ IsEmpty ( APP_TABLES::RemovedTimestamp ) ]
+			Set Field [ APP_TABLES::RemovedTimestamp ; $now ]
+			Commit Records/Requests [ With dialog: Off ]
+		End If
+		Go to Record/Request/Page [ Next ; Exit after last: On ]
+	End Loop
+End If
+#
+# 2. Layouts. LayoutIDs and LayoutNames list the same layouts in the same order.
+Set Variable [ $ids ; Value: LayoutIDs ( Get ( FileName ) ) ]
+Set Variable [ $names ; Value: LayoutNames ( Get ( FileName ) ) ]
+Go to Layout [ "APP_LAYOUTS" ; Animation: None ]
+Set Variable [ $i ; Value: 0 ]
+Loop [ Flush: Always ]
+	Set Variable [ $i ; Value: $i + 1 ]
+	Exit Loop If [ $i > ValueCount ( $ids ) ]
+	Set Variable [ $id ; Value: GetValue ( $ids ; $i ) ]
+	Set Variable [ $name ; Value: GetValue ( $names ; $i ) ]
+	If [ not IsEmpty ( $id ) and not IsEmpty ( $name ) and $name ≠ "-" ]
+		Enter Find Mode [ Pause: Off ]
+		Set Field [ APP_LAYOUTS::fm_LayoutID ; "==" & $id ]
+		Perform Find [ ]
+		If [ Get ( FoundCount ) = 0 ]
+			New Record/Request
+			Set Field [ APP_LAYOUTS::fm_LayoutID ; $id ]
+		End If
+		Set Field [ APP_LAYOUTS::fm_LayoutName ; $name ]
+		Set Field [ APP_LAYOUTS::LastSeenTimestamp ; $now ]
+		Set Field [ APP_LAYOUTS::RemovedTimestamp ; "" ]
+		Commit Records/Requests [ With dialog: Off ]
+	End If
+End Loop
+# Layouts this refresh did not see
+Enter Find Mode [ Pause: Off ]
+Set Field [ APP_LAYOUTS::LastSeenTimestamp ; "<" & $now ]
+Perform Find [ ]
+If [ Get ( FoundCount ) > 0 ]
+	Go to Record/Request/Page [ First ]
+	Loop [ Flush: Always ]
+		If [ IsEmpty ( APP_LAYOUTS::RemovedTimestamp ) ]
+			Set Field [ APP_LAYOUTS::RemovedTimestamp ; $now ]
+			Commit Records/Requests [ With dialog: Off ]
+		End If
+		Go to Record/Request/Page [ Next ; Exit after last: On ]
+	End Loop
+End If
+#
+Go to Layout [ Layout Name by calculation: $origLayout ; Animation: None ]
+Exit Script [ Text Result: 1 ]

@@ -1,0 +1,15 @@
+sort	Field_Name	Type	Options	Notes	group
+{.conf}	fm_TableID	Number	Indexed · unique · not empty	FileMaker's internal base-table id. The match key; survives renames	From the file
+{.conf}	fm_TableName	Text		Current base-table name. Rewritten every refresh	From the file
+{.conf}	AuditGap	Text		Standard fields this table lacks, one per line. Empty means it conforms	From the file
+{.conf}	LastSeenTimestamp	Timestamp		The last refresh that found it	From the file
+{.conf}	RemovedTimestamp	Timestamp		Set when a refresh no longer finds it. Never deleted	From the file
+{.conf}	DisplayName	Text		What a person reads	Typed
+{.conf}	ClickUpFed	Number	1 or empty	An import from ClickUp writes this table	Typed
+{.conf}	Notes	Text			Typed
+{.conf}	PrimaryKey	Text	UUID · auto-enter · unique · can't modify		Audit
+{.conf}	CreationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	CreatedBy	Text	Auto-enter		Audit
+{.conf}	ModificationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	ModifiedBy	Text	Auto-enter		Audit
+- EOF -					

@@ -1,22 +1,28 @@
 {
   "site": "mawprose",
   "base_url": "https://mawizorek.github.io/maw-prose/",
-  "built": "2026-10-04T13:11:48Z",
+  "built": "2026-10-08T03:56:14Z",
   "engine": "0.1.0",
   "totals": {
-    "pages": 41,
-    "edges": 105,
-    "broken": 3,
-    "no_inbound": 7
+    "pages": 60,
+    "edges": 144,
+    "broken": 6,
+    "no_inbound": 13
   },
   "no_inbound": [
+    "assignment-art-cue-mood-project",
+    "fmp-app-catalog-scripts",
+    "fmp-clipboard-snippets",
     "maw-prose-home",
     "prev-production-calendar-app",
     "production-mawster",
     "table-fiscal-years",
     "table-people",
     "table-producer-info",
-    "table-venues"
+    "table-venues",
+    "uritp-people-next-build",
+    "uritp-people-script-reconcile-setall",
+    "uritp-people-table-app-layouts"
   ],
   "broken": [
     {
@@ -33,9 +39,33 @@
       "from": "table-import-events",
       "token": "audit-fields",
       "kind": "page"
+    },
+    {
+      "from": "uritp-people-next-build",
+      "token": "uritp-people-relationships",
+      "kind": "page"
+    },
+    {
+      "from": "uritp-people-table-people",
+      "token": "uritp-people-relationships",
+      "kind": "page"
+    },
+    {
+      "from": "uritp-people-table-reconcile",
+      "token": "uritp-people-relationships",
+      "kind": "page"
     }
   ],
   "pages": {
+    "assignment-art-cue-mood-project": {
+      "title": "Art Cue 'Mood' Project",
+      "url": "coursework/sign-content-disclosure/",
+      "type": "page",
+      "references": [],
+      "referenced_by": [],
+      "inbound": 0,
+      "outbound": 0
+    },
     "build-sheet": {
       "title": "Build Sheet",
       "url": "apps/production-mawster-no-use/build-sheet/",
@@ -64,6 +94,46 @@
         "production-mawster"
       ],
       "inbound": 1,
+      "outbound": 0
+    },
+    "fmp-app-catalog": {
+      "title": "The app catalog",
+      "url": "standards/filemaker/app-catalog/",
+      "type": "standard",
+      "references": [],
+      "referenced_by": [
+        "fmp-app-catalog-scripts",
+        "uritp-people-next-build",
+        "uritp-people-table-app-layouts",
+        "uritp-people-table-app-tables"
+      ],
+      "inbound": 4,
+      "outbound": 0
+    },
+    "fmp-app-catalog-scripts": {
+      "title": "App catalog scripts",
+      "url": "standards/filemaker/scripts/APP_CatalogRefresh.notes/",
+      "type": "standard",
+      "references": [
+        {
+          "token": "fmp-app-catalog",
+          "kind": "page",
+          "target": "fmp-app-catalog",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [],
+      "inbound": 0,
+      "outbound": 1
+    },
+    "fmp-clipboard-snippets": {
+      "title": "Clipboard snippets",
+      "url": "standards/filemaker/clipboard-snippets/",
+      "type": "standard",
+      "references": [],
+      "referenced_by": [],
+      "inbound": 0,
       "outbound": 0
     },
     "integration": {
@@ -1184,6 +1254,464 @@
       ],
       "inbound": 1,
       "outbound": 25
+    },
+    "uritp-people-layout-reconcile": {
+      "title": "Reconcile People window",
+      "url": "apps/uritp-people/layouts/RECONCILE/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "uritp-people-script-people-pull",
+          "kind": "page",
+          "target": "uritp-people-script-people-pull",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "uritp-people-next-build",
+        "uritp-people-script-people-apply",
+        "uritp-people-script-people-pull",
+        "uritp-people-table-app-layouts",
+        "uritp-people-table-people"
+      ],
+      "inbound": 5,
+      "outbound": 1
+    },
+    "uritp-people-next-build": {
+      "title": "URITP People build sheet",
+      "url": "apps/uritp-people/next-build-spec/",
+      "type": "page",
+      "references": [
+        {
+          "token": "fmp-app-catalog",
+          "kind": "page",
+          "target": "fmp-app-catalog",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "uritp-people-layout-reconcile",
+          "kind": "page",
+          "target": "uritp-people-layout-reconcile",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "uritp-people-relationships",
+          "kind": "page",
+          "target": "uritp-people-relationships",
+          "resolved": false,
+          "count": 1
+        },
+        {
+          "token": "uritp-people-table-contact-information",
+          "kind": "page",
+          "target": "uritp-people-table-contact-information",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "uritp-people-table-import-people",
+          "kind": "page",
+          "target": "uritp-people-table-import-people",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "uritp-people-table-import-sessions",
+          "kind": "page",
+          "target": "uritp-people-table-import-sessions",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "uritp-people-table-import-sources",
+          "kind": "page",
+          "target": "uritp-people-table-import-sources",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "uritp-people-table-people",
+          "kind": "page",
+          "target": "uritp-people-table-people",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "uritp-people-table-reconcile",
+          "kind": "page",
+          "target": "uritp-people-table-reconcile",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "uritp-people-table-settings",
+          "kind": "page",
+          "target": "uritp-people-table-settings",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [],
+      "inbound": 0,
+      "outbound": 10
+    },
+    "uritp-people-script-people-apply": {
+      "title": "PEOPLE_Apply",
+      "url": "apps/uritp-people/scripts/10_IMPORT/PEOPLE_Apply.notes/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "uritp-people-layout-reconcile",
+          "kind": "page",
+          "target": "uritp-people-layout-reconcile",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "uritp-people-script-people-compare",
+        "uritp-people-script-reconcile-setall",
+        "uritp-people-table-people"
+      ],
+      "inbound": 3,
+      "outbound": 1
+    },
+    "uritp-people-script-people-compare": {
+      "title": "PEOPLE_Compare",
+      "url": "apps/uritp-people/scripts/10_IMPORT/PEOPLE_Compare.notes/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "uritp-people-script-people-apply",
+          "kind": "page",
+          "target": "uritp-people-script-people-apply",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "uritp-people-script-people-pull",
+          "kind": "page",
+          "target": "uritp-people-script-people-pull",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "uritp-people-script-people-pull"
+      ],
+      "inbound": 1,
+      "outbound": 2
+    },
+    "uritp-people-script-people-pull": {
+      "title": "PEOPLE_Pull",
+      "url": "apps/uritp-people/scripts/10_IMPORT/PEOPLE_Pull.notes/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "uritp-people-layout-reconcile",
+          "kind": "page",
+          "target": "uritp-people-layout-reconcile",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "uritp-people-script-people-compare",
+          "kind": "page",
+          "target": "uritp-people-script-people-compare",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "uritp-people-table-import-people",
+          "kind": "page",
+          "target": "uritp-people-table-import-people",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "uritp-people-table-import-sessions",
+          "kind": "page",
+          "target": "uritp-people-table-import-sessions",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "uritp-people-table-import-sources",
+          "kind": "page",
+          "target": "uritp-people-table-import-sources",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "uritp-people-table-settings",
+          "kind": "page",
+          "target": "uritp-people-table-settings",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "uritp-people-layout-reconcile",
+        "uritp-people-script-people-compare",
+        "uritp-people-table-import-sources"
+      ],
+      "inbound": 3,
+      "outbound": 6
+    },
+    "uritp-people-script-reconcile-setall": {
+      "title": "RECONCILE_SetAll and RECONCILE_ShowSession",
+      "url": "apps/uritp-people/scripts/10_IMPORT/RECONCILE_SetAll.notes/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "uritp-people-script-people-apply",
+          "kind": "page",
+          "target": "uritp-people-script-people-apply",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [],
+      "inbound": 0,
+      "outbound": 1
+    },
+    "uritp-people-table-app-layouts": {
+      "title": "APP_LAYOUTS",
+      "url": "apps/uritp-people/tables/APP_LAYOUTS/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "fmp-app-catalog",
+          "kind": "page",
+          "target": "fmp-app-catalog",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "uritp-people-layout-reconcile",
+          "kind": "page",
+          "target": "uritp-people-layout-reconcile",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [],
+      "inbound": 0,
+      "outbound": 2
+    },
+    "uritp-people-table-app-tables": {
+      "title": "APP_TABLES",
+      "url": "apps/uritp-people/tables/APP_TABLES/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "fmp-app-catalog",
+          "kind": "page",
+          "target": "fmp-app-catalog",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "uritp-people-table-import-sources",
+          "kind": "page",
+          "target": "uritp-people-table-import-sources",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "uritp-people-table-import-sources"
+      ],
+      "inbound": 1,
+      "outbound": 2
+    },
+    "uritp-people-table-contact-information": {
+      "title": "CONTACT_INFORMATION",
+      "url": "apps/uritp-people/tables/CONTACT_INFORMATION/",
+      "type": "reference",
+      "references": [],
+      "referenced_by": [
+        "uritp-people-next-build",
+        "uritp-people-table-people"
+      ],
+      "inbound": 2,
+      "outbound": 0
+    },
+    "uritp-people-table-import-people": {
+      "title": "import_PEOPLE",
+      "url": "apps/uritp-people/tables/import_PEOPLE/",
+      "type": "reference",
+      "references": [],
+      "referenced_by": [
+        "uritp-people-next-build",
+        "uritp-people-script-people-pull",
+        "uritp-people-table-import-sessions",
+        "uritp-people-table-people"
+      ],
+      "inbound": 4,
+      "outbound": 0
+    },
+    "uritp-people-table-import-sessions": {
+      "title": "import_SESSIONS",
+      "url": "apps/uritp-people/tables/import_SESSIONS/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "uritp-people-table-import-people",
+          "kind": "page",
+          "target": "uritp-people-table-import-people",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "uritp-people-table-import-sources",
+          "kind": "page",
+          "target": "uritp-people-table-import-sources",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "uritp-people-next-build",
+        "uritp-people-script-people-pull",
+        "uritp-people-table-import-sources"
+      ],
+      "inbound": 3,
+      "outbound": 2
+    },
+    "uritp-people-table-import-sources": {
+      "title": "IMPORT_SOURCES",
+      "url": "apps/uritp-people/tables/IMPORT_SOURCES/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "uritp-people-script-people-pull",
+          "kind": "page",
+          "target": "uritp-people-script-people-pull",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "uritp-people-table-app-tables",
+          "kind": "page",
+          "target": "uritp-people-table-app-tables",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "uritp-people-table-import-sessions",
+          "kind": "page",
+          "target": "uritp-people-table-import-sessions",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "uritp-people-table-settings",
+          "kind": "page",
+          "target": "uritp-people-table-settings",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "uritp-people-next-build",
+        "uritp-people-script-people-pull",
+        "uritp-people-table-app-tables",
+        "uritp-people-table-import-sessions",
+        "uritp-people-table-settings"
+      ],
+      "inbound": 5,
+      "outbound": 4
+    },
+    "uritp-people-table-people": {
+      "title": "PEOPLE",
+      "url": "apps/uritp-people/tables/PEOPLE/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "uritp-people-layout-reconcile",
+          "kind": "page",
+          "target": "uritp-people-layout-reconcile",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "uritp-people-relationships",
+          "kind": "page",
+          "target": "uritp-people-relationships",
+          "resolved": false,
+          "count": 1
+        },
+        {
+          "token": "uritp-people-script-people-apply",
+          "kind": "page",
+          "target": "uritp-people-script-people-apply",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "uritp-people-table-contact-information",
+          "kind": "page",
+          "target": "uritp-people-table-contact-information",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "uritp-people-table-import-people",
+          "kind": "page",
+          "target": "uritp-people-table-import-people",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "uritp-people-next-build"
+      ],
+      "inbound": 1,
+      "outbound": 5
+    },
+    "uritp-people-table-reconcile": {
+      "title": "RECONCILE",
+      "url": "apps/uritp-people/tables/RECONCILE/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "uritp-people-relationships",
+          "kind": "page",
+          "target": "uritp-people-relationships",
+          "resolved": false,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "uritp-people-next-build"
+      ],
+      "inbound": 1,
+      "outbound": 1
+    },
+    "uritp-people-table-settings": {
+      "title": "SETTINGS",
+      "url": "apps/uritp-people/tables/SETTINGS/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "uritp-people-table-import-sources",
+          "kind": "page",
+          "target": "uritp-people-table-import-sources",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "uritp-people-next-build",
+        "uritp-people-script-people-pull",
+        "uritp-people-table-import-sources"
+      ],
+      "inbound": 3,
+      "outbound": 1
     },
     "user-experience": {
       "title": "UX",

@@ -2,10 +2,19 @@
   "site": "mawprose",
   "name": "MAW Prose",
   "base_url": "https://mawizorek.github.io/maw-prose/",
-  "built": "2026-10-04T13:11:48Z",
+  "built": "2026-10-08T03:56:14Z",
   "engine": "0.1.0",
-  "engine_ref": "d88762ef9369df5f6a646cedab70af9279a3e115",
+  "engine_ref": "073bf5cf20f005f51356784dddd5b8e9b20e0516",
   "pages": [
+    {
+      "id": "assignment-art-cue-mood-project",
+      "type": "page",
+      "title": "Art Cue 'Mood' Project",
+      "url": "coursework/sign-content-disclosure/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
     {
       "id": "build-sheet",
       "type": "reference",
@@ -20,6 +29,33 @@
       "type": "reference",
       "title": "Data standards",
       "url": "apps/production-mawster-no-use/data-standards/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "fmp-app-catalog",
+      "type": "standard",
+      "title": "The app catalog",
+      "url": "standards/filemaker/app-catalog/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "fmp-app-catalog-scripts",
+      "type": "standard",
+      "title": "App catalog scripts",
+      "url": "standards/filemaker/scripts/APP_CatalogRefresh.notes/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "fmp-clipboard-snippets",
+      "type": "standard",
+      "title": "Clipboard snippets",
+      "url": "standards/filemaker/clipboard-snippets/",
       "status": "public",
       "gloss": null,
       "print_gloss": null
@@ -353,6 +389,141 @@
       "type": "index",
       "title": "Tables",
       "url": "apps/production-mawster-no-use/20-tables/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-people-layout-reconcile",
+      "type": "reference",
+      "title": "Reconcile People window",
+      "url": "apps/uritp-people/layouts/RECONCILE/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-people-next-build",
+      "type": "page",
+      "title": "URITP People build sheet",
+      "url": "apps/uritp-people/next-build-spec/",
+      "status": "unlisted",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-people-script-people-apply",
+      "type": "reference",
+      "title": "PEOPLE_Apply",
+      "url": "apps/uritp-people/scripts/10_IMPORT/PEOPLE_Apply.notes/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-people-script-people-compare",
+      "type": "reference",
+      "title": "PEOPLE_Compare",
+      "url": "apps/uritp-people/scripts/10_IMPORT/PEOPLE_Compare.notes/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-people-script-people-pull",
+      "type": "reference",
+      "title": "PEOPLE_Pull",
+      "url": "apps/uritp-people/scripts/10_IMPORT/PEOPLE_Pull.notes/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-people-script-reconcile-setall",
+      "type": "reference",
+      "title": "RECONCILE_SetAll and RECONCILE_ShowSession",
+      "url": "apps/uritp-people/scripts/10_IMPORT/RECONCILE_SetAll.notes/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-people-table-app-layouts",
+      "type": "reference",
+      "title": "APP_LAYOUTS",
+      "url": "apps/uritp-people/tables/APP_LAYOUTS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-people-table-app-tables",
+      "type": "reference",
+      "title": "APP_TABLES",
+      "url": "apps/uritp-people/tables/APP_TABLES/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-people-table-contact-information",
+      "type": "reference",
+      "title": "CONTACT_INFORMATION",
+      "url": "apps/uritp-people/tables/CONTACT_INFORMATION/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-people-table-import-people",
+      "type": "reference",
+      "title": "import_PEOPLE",
+      "url": "apps/uritp-people/tables/import_PEOPLE/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-people-table-import-sessions",
+      "type": "reference",
+      "title": "import_SESSIONS",
+      "url": "apps/uritp-people/tables/import_SESSIONS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-people-table-import-sources",
+      "type": "reference",
+      "title": "IMPORT_SOURCES",
+      "url": "apps/uritp-people/tables/IMPORT_SOURCES/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-people-table-people",
+      "type": "reference",
+      "title": "PEOPLE",
+      "url": "apps/uritp-people/tables/PEOPLE/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-people-table-reconcile",
+      "type": "reference",
+      "title": "RECONCILE",
+      "url": "apps/uritp-people/tables/RECONCILE/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-people-table-settings",
+      "type": "reference",
+      "title": "SETTINGS",
+      "url": "apps/uritp-people/tables/SETTINGS/",
       "status": "public",
       "gloss": null,
       "print_gloss": null

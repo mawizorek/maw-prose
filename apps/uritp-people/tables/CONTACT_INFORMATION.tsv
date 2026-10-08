@@ -1,0 +1,12 @@
+sort	Field_Name	Type	Options	Notes	group
+{.conf}	cu_TaskID	Text	Indexed · unique · not empty	The EMAILS or PHONE NUMBERS task id. Match key for the pull	Integration
+{.conf}	fkPERSON	Text	Indexed	← PEOPLE relationship. The person's ClickUp task id; matches PEOPLE::cu_TaskID	Integration
+{.conf}	ContactKind	Text	Set by the pull pass	Email or Phone: which list the row came from	Integration
+{.conf}	ContactValue	Text	Indexed	← Contact Email (EMAILS) or Phone Number (PHONE NUMBERS)	From ClickUp
+{.conf}	ContactType	Text	Return-separated	← Email TYPE | TAG (EMAILS only): Primary, Secondary, Personal, Work, Dropbox	From ClickUp
+{.conf}	PrimaryKey	Text	UUID · auto-enter · unique · can't modify	Machine-only	Audit
+{.conf}	CreationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	CreatedBy	Text	Auto-enter		Audit
+{.conf}	ModificationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	ModifiedBy	Text	Auto-enter		Audit
+- EOF -					

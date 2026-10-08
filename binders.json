@@ -37,6 +37,24 @@
   "apps/production-mawster-no-use/20-tables/versions/": "table-versions",
   "apps/production-mawster-no-use/70-scripts/": "scripts",
   "apps/production-mawster-no-use/90-file-imports-temp/prevProductionCalendarApp/": "prev-production-calendar-app",
-  "apps/production-mawster-no-use/90-file-imports-temp/prevProductionCalendarApp/script-review/": "legacy-script-review"
+  "apps/production-mawster-no-use/90-file-imports-temp/prevProductionCalendarApp/script-review/": "legacy-script-review",
+  "apps/uritp-people/layouts/RECONCILE/": "uritp-people-layout-reconcile",
+  "apps/uritp-people/scripts/10_IMPORT/PEOPLE_Apply.notes/": "uritp-people-script-people-apply",
+  "apps/uritp-people/scripts/10_IMPORT/PEOPLE_Compare.notes/": "uritp-people-script-people-compare",
+  "apps/uritp-people/scripts/10_IMPORT/PEOPLE_Pull.notes/": "uritp-people-script-people-pull",
+  "apps/uritp-people/scripts/10_IMPORT/RECONCILE_SetAll.notes/": "uritp-people-script-reconcile-setall",
+  "apps/uritp-people/tables/APP_LAYOUTS/": "uritp-people-table-app-layouts",
+  "apps/uritp-people/tables/APP_TABLES/": "uritp-people-table-app-tables",
+  "apps/uritp-people/tables/CONTACT_INFORMATION/": "uritp-people-table-contact-information",
+  "apps/uritp-people/tables/IMPORT_SOURCES/": "uritp-people-table-import-sources",
+  "apps/uritp-people/tables/PEOPLE/": "uritp-people-table-people",
+  "apps/uritp-people/tables/RECONCILE/": "uritp-people-table-reconcile",
+  "apps/uritp-people/tables/SETTINGS/": "uritp-people-table-settings",
+  "apps/uritp-people/tables/import_PEOPLE/": "uritp-people-table-import-people",
+  "apps/uritp-people/tables/import_SESSIONS/": "uritp-people-table-import-sessions",
+  "coursework/sign-content-disclosure/": "assignment-art-cue-mood-project",
+  "standards/filemaker/app-catalog/": "fmp-app-catalog",
+  "standards/filemaker/clipboard-snippets/": "fmp-clipboard-snippets",
+  "standards/filemaker/scripts/APP_CatalogRefresh.notes/": "fmp-app-catalog-scripts"
  }
 }

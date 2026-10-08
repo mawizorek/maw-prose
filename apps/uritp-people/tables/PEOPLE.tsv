@@ -1,0 +1,15 @@
+sort	Field_Name	Type	Options	Notes	group
+{.conf}	cu_TaskID	Text	Indexed · unique · not empty	Native ClickUp task id. Match key for the import and for every join into PEOPLE	Integration
+{.conf}	LegalFirstName	Text		← Legal First Name (b8397952-bcaf-423d-a182-62bc152cf160)	From ClickUp
+{.conf}	LastName	Text		← Last Name (4e8a61ba-3162-4e9a-89fd-9fe0e24fad8e)	From ClickUp
+{.conf}	AltName	Text		← Alt. Name (d5cba607-c034-4eb3-a699-9f5a3f4a4144)	From ClickUp
+{.conf}	Pronouns	Text		← Pronouns (da51a70d-2beb-46eb-ba14-2d46ac37004b)	From ClickUp
+{.conf}	cu_Status	Text		← task status (status.status): new, active, complete, circle back, connect with	From ClickUp
+{.est}	calc_MatchPrimary	(c→Text)	Unstored · result "Primary"	Constant side of the primary-email relationship	Calculated
+{.conf}	calc_ClickUpURL	(c→Text)	Unstored	"https://app.clickup.com/t/" & cu_TaskID. Behind an Open in ClickUp button	Calculated
+{.conf}	PrimaryKey	Text	UUID · auto-enter · unique · can't modify	Machine-only	Audit
+{.conf}	CreationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	CreatedBy	Text	Auto-enter		Audit
+{.conf}	ModificationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	ModifiedBy	Text	Auto-enter		Audit
+- EOF -					
