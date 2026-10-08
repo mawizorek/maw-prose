@@ -10,6 +10,8 @@ summary: Long-form notes, standards and FileMaker application documentation.
 
 # MAW Prose
 
+[](@assignment-art-cue-mood-project)  
+
 Handoff docs: handbooks, guides, standards, venues and apps. Written for whoever holds the role next.
 
 Most pages are still `status: hidden` while they move to the doc-render format. Flip a page to `public` and it appears here on the next publish.
