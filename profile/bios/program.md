@@ -3,7 +3,7 @@ id: bio-program
 title: Program bio
 status: unlisted
 type: page
-summary: Michael's playbill bio, about 90 words with five select credits, for show programs.
+summary: Michael's playbill bio, about 100 words with five select credits, for show programs.
 revised: 2026-10
 source: https://app.clickup.com/36074068/v/li/901301222067
 related: [bio-short, bio-faculty]
@@ -17,7 +17,7 @@ Michael A Wizorek (he/him) is a Senior Lecturer in Theater and the Production Ma
 
 ## Where it goes
 
-Playbills and show programs. When the production is one of his own, drop that credit from the list and let the program's own listing carry it.
+Playbills and show programs. If the show the program is for is one of the five credits, swap it for the next strongest credit; the program's own listing already carries it.
 
 <!-- Opening and closing lines are from his 2024 Bay Street program bios (Biographies > Production in ClickUp), with "avid theater-making" corrected to "theater-maker". Credits from Production History: Oedipus 2024-09 (Projection Designer, Interim PM), What I Know, Now 2024-07 (PSM), The Crucible at Bay Street (PSM), Hedwig 2022-02 (LX Designer), Singin' in the Rain at Ogunquit (record says Scenic Electrics Supervisor; his published bios say Production Electrician, which is the job title). -->
 

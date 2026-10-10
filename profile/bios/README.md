@@ -12,8 +12,8 @@ revised: 2026-10
 ## Pages
 
 - **[Short](@bio-short)** - about 60 words. Post signatures, conference listings, anywhere one paragraph fits.
-- **[Program](@bio-program)** - about 90 words with five select credits. Playbills and show programs.
-- **[Faculty](@bio-faculty)** - about 270 words. The University of Rochester Theater People page and anything academic.
+- **[Program](@bio-program)** - about 100 words with five select credits. Playbills and show programs.
+- **[Faculty](@bio-faculty)** - about 280 words. The University of Rochester Theater People page and anything academic.
 
 ## Keeping them current
 
@@ -21,4 +21,6 @@ When the title changes, all three change in the same commit. Credits in the prog
 
 A bio written for one production, with that show's framing, is a record of that production. It stays in ClickUp with the show and is not added here.
 
-The copy is third person because a bio is read about him. Everything around the copy follows the rest of the profile.
+The copy is in the third person because a bio is read about its subject.
+
+<!-- Word counts measured 2026-10-10 at write time: short 59, program 98, faculty 279. -->
