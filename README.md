@@ -36,6 +36,13 @@ What is true about a particular application we built. `apps/` is `venues/` for s
 
 - **[HML_LLC](./apps/hml-llc/)** — the FileMaker loan-servicing solution.
 
+## Profile
+
+What is true about Michael's own career, as resume source. Hidden from the site.
+
+- **[Master profile](./profile/master/)** — [summaries](./profile/master/summaries.md) · [bullet bank](./profile/master/bullet-bank.md)
+- **[Resumes](./profile/resumes/)** — [data and systems](./profile/resumes/data-systems.md)
+
 ## Programs
 
 What someone has to read and sign.
