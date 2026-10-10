@@ -20,4 +20,6 @@ Dates, employers, show credits and credentials are records, so they stay in Clic
 
 The University appointment is titled Senior Lecturer/Production Manager on every resume.
 
-**Not written yet:** summaries for the drafting, audio and safety lanes, and a bio in the long and short forms a program or conference asks for. Write each when an application first needs it, from the bullets already here.
+Bios, long and short, live in `../bios/` (D-045).
+
+**Not written yet:** summaries for the drafting, audio and safety lanes. Write each when an application first needs it, from the bullets already here.
