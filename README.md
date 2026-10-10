@@ -38,10 +38,12 @@ What is true about a particular application we built. `apps/` is `venues/` for s
 
 ## Profile
 
-What is true about Michael's own career, as resume source. Hidden from the site.
+What is true about Michael's own work. Resume source stays hidden from the site; projects and bios publish unlisted, by link only.
 
 - **[Master profile](./profile/master/)** — [summaries](./profile/master/summaries.md) · [bullet bank](./profile/master/bullet-bank.md)
 - **[Resumes](./profile/resumes/)** — [data and systems](./profile/resumes/data-systems.md)
+- **[Projects](./profile/projects/)** - [FileMaker production systems](./profile/projects/filemaker-production-systems.md)
+- **[Bios](./profile/bios/)** - [short](./profile/bios/short.md) · [program](./profile/bios/program.md) · [faculty](./profile/bios/faculty.md)
 
 ## Programs
 
