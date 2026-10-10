@@ -20,11 +20,11 @@ Publishing is decided page by page with `status:`. `hidden` is merged but held, 
 ## Packages
 
 - **[Projects](@profile-projects)** - one page per body of work: what it is, why it matters, and how it is shaped.
+- **[Bios](@profile-bios)** - the canonical bios at three lengths. Every program, playbill and web bio is cut from one of these.
 
 **Not written yet:**
 
 - `experience/` - one page per role held, named `<org>-<role>.md`. Opens with its first page.
-- `bios/` - the canonical bios by length: `short`, `program`, `faculty`. Every program bio is cut from these rather than rewritten from scratch.
 - `posts/` - one packet per post, named `<surface>-<slug>.md`, holding the copy, alt text and asset pointers, with its parent page in `related:`. No date in the name: publish dates belong to the Content Calendar, and they slip.
 - `articles/` - long-form pieces. Opens with the first one.
 
