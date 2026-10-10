@@ -42,8 +42,8 @@ What is true about Michael's own work. Resume source stays hidden from the site;
 
 - **[Master profile](./profile/master/)** — [summaries](./profile/master/summaries.md) · [bullet bank](./profile/master/bullet-bank.md)
 - **[Resumes](./profile/resumes/)** — [data and systems](./profile/resumes/data-systems.md)
-- **[Projects](./profile/projects/)** — [FileMaker production systems](./profile/projects/filemaker-production-systems.md)
-- **[Bios](./profile/bios/)** — [short](./profile/bios/short.md) · [program](./profile/bios/program.md) · [faculty](./profile/bios/faculty.md)
+- **[Projects](./profile/projects/)** - [FileMaker production systems](./profile/projects/filemaker-production-systems.md)
+- **[Bios](./profile/bios/)** - [short](./profile/bios/short.md) · [program](./profile/bios/program.md) · [faculty](./profile/bios/faculty.md)
 
 ## Programs
 
