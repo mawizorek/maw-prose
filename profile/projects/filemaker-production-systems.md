@@ -16,7 +16,11 @@ keywords: [FileMaker, database, ClickUp, production management, data standards]
 
 A production office runs on information that changes every day: who is on a crew, how to reach them, what a show has spent, which version of a document is current. I build FileMaker solutions that hold that information in one place, so it gets looked up instead of re-asked.
 
-The current set includes URITP People, for people and contacts, alongside Production MAWster, MAW Budget, a URITP budget file, and a shared setup layer the URITP files build on.
+The current set: URITP People (people and contacts), Production MAWster, MAW Budget, a URITP budget file, and the shared setup layer the URITP files build on.
+
+## Why it matters on a production
+
+The payoff is the next production, not this one. A crew list built once, a budget that rolls forward, and documentation a new hire can read cold mean the program keeps what it learned when students graduate and staff move on.
 
 ## How the work is shaped
 
@@ -30,10 +34,8 @@ FileMaker cannot share a custom function or a naming rule between files, so cons
 
 Every file also carries its own catalog of tables and layouts, generated from the file's schema by a refresh script and keyed on FileMaker's internal ids. Names are never typed by hand, so a rename follows the object instead of breaking whatever pointed at it. The same refresh reports gaps against the data standards, which turns a style guide into a check that runs.
 
-## Why it matters on a production
-
-The payoff is the next production, not this one. A crew list built once, a budget that rolls forward, and documentation a new hire can read cold mean the program keeps what it learned when students graduate and staff move on.
+<!-- Facts sourced from DECISIONS.md D-037, D-040, D-041, D-042, D-043. HML LLC omitted (Corso: no side-work signals in public copy). Table/script count omitted until Michael confirms. -->
 
 ## Related
 
-- [Projects](./README.md)
+- [Projects](@profile-projects)

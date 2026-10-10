@@ -11,6 +11,6 @@ revised: 2026-10
 
 ## Pages
 
-- **[FileMaker production systems](./filemaker-production-systems.md)** - spec-first FileMaker apps for URITP, the ClickUp feed that makes people records one source of truth, and the cross-app standards that keep separate files consistent.
+- **[FileMaker production systems](@filemaker-production-systems)** - spec-first FileMaker apps for URITP, the ClickUp feed that makes people records one source of truth, and the cross-app standards that keep separate files consistent.
 
 **Not written yet, in this order:** the URITP safety program; production systems beyond FileMaker (ClickUp and the contact reconcile); courses built; Vectorworks standards and Braceworks.

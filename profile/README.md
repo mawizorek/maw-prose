@@ -9,15 +9,17 @@ revised: 2026-10
 
 # Profile
 
-## What this is
+## How pages publish
 
 Every other type in this repo documents a thing: a venue, an app, a production phase. This one documents a person's work, and it is the first part of the repo written to be published.
 
-Publishing is decided page by page with `status:`. `hidden` is merged but held, `unlisted` is shareable by link, `public` is on the site. Merging puts a page in canon; it does not put it in front of anyone. The ruling is D-044.
+Publishing is decided page by page with `status:`. `hidden` is merged but held, `unlisted` is shareable by link, `public` is on the site. Merging puts a page in canon; it does not put it in front of anyone.
+
+<!-- Ruled in DECISIONS.md D-044, amending D-033. -->
 
 ## Packages
 
-- **[Projects](./projects/README.md)** - one page per body of work: what it is, how it is shaped, and why it matters.
+- **[Projects](@profile-projects)** - one page per body of work: what it is, why it matters, and how it is shaped.
 
 **Not written yet:**
 
@@ -28,6 +30,8 @@ Publishing is decided page by page with `status:`. `hidden` is merged but held, 
 
 ## Facts and records
 
-Pages narrate; records list. Credits, dates, employers and certifications live in ClickUp, in the Production History, Work Experience and Trainings lists, and each page names where its facts came from in `source:`. Nothing here is a copy of a record (D-025b, D-039).
+Pages narrate; records list. Credits, dates, employers and certifications live in ClickUp, in the Production History, Work Experience and Trainings lists, and each page names where its facts came from in `source:`. Nothing here is a copy of a record.
 
 Resumes older than the current Rochester CV are not a source. Drafts are written in their Content Calendar task until scrubbed, then land here by pull request.
+
+<!-- Records rule: DECISIONS.md D-025b and D-039. -->
