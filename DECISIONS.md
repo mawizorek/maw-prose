@@ -8,6 +8,10 @@ Settled calls about this repo and its contents. **One line each, newest first.**
 
 ---
 
+## Profile · 2026-10-10
+
+- **D-044** — **Michael's resume source lives here, in `profile/`: `master/` holds the summaries and the bullet bank, `resumes/` holds one resume per job lane.** It earns a type folder on the same test as `venues/` and `apps/`, what is true about one specific thing, and its packages are countable today. Resumes are named by lane, never by employer, because which posting got which resume is a record of the job search and lives on that application's ClickUp task. Dates, credits and credentials stay records in ClickUp under D-025b, D-028 and D-039; a resume carries them only as delivered text, and is corrected from ClickUp, never the other way round. Every page is `status: hidden`. The repo is public and Michael accepted that on 2026-10-10, so no phone number or other contact value beyond the public email is committed; it is added at export.
+
 ## FileMaker standards · 2026-10-05
 
 - **D-043** — **Every FileMaker file carries the app catalog: `APP_TABLES` and `APP_LAYOUTS`, generated from the file's own schema by a refresh script, keyed on FileMaker's internal ids, holding only what FileMaker cannot store.** Typed by hand: display names, menu placement, a ClickUp-fed flag, notes. Never typed: an id or a name. Anything that points at a table or layout points at a catalog record; the layout catalog is the app's navigation menu; the refresh's `AuditGap` is the conformance check against the data standards. Removed objects are stamped, never deleted. Registers and scripts live once in `standards/filemaker/`, and app table notes point their `data` slot at them rather than copying. Same day: SQL text is built from `GetFieldName`, so a rename follows the field instead of returning empty. Adopted first by URITP People.
