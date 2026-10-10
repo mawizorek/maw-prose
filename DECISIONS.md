@@ -8,6 +8,10 @@ Settled calls about this repo and its contents. **One line each, newest first.**
 
 ---
 
+## Profile · 2026-10-10
+
+- **D-044** - **Michael's own work gets a type, `profile/`, inside this repo, and it publishes page by page through `status:`, not by splitting the repo.** Amends D-033, whose trigger was to split "when something actually does" publish: this is the first thing here built to publish, and the ruling (ClickUp session of 2026-10-09) is that it stays. `hidden` is merged but held, `unlisted` is shareable by link, `public` is on the site; a merge puts a page in canon and never by itself in front of anyone. No profile-specific header keys: every page carries the D-041 header, and employer, dates and role go in the body. Packages are `projects/`, `experience/`, `bios/` and `posts/`, with `articles/` named but not opened until it has a page (D-035). Post packets are `<surface>-<slug>.md` with no date in the name, because publish dates live in the Content Calendar and slip. Facts stay records in ClickUp under D-025b and D-039 and are cited in `source:`; resumes older than the current Rochester CV are not a source. Drafts are written in their Content Calendar task until scrubbed, then land here by pull request. Superseded ClickUp bio and resume pages are flagged for deletion only after their content is harvested.
+
 ## FileMaker standards · 2026-10-05
 
 - **D-043** — **Every FileMaker file carries the app catalog: `APP_TABLES` and `APP_LAYOUTS`, generated from the file's own schema by a refresh script, keyed on FileMaker's internal ids, holding only what FileMaker cannot store.** Typed by hand: display names, menu placement, a ClickUp-fed flag, notes. Never typed: an id or a name. Anything that points at a table or layout points at a catalog record; the layout catalog is the app's navigation menu; the refresh's `AuditGap` is the conformance check against the data standards. Removed objects are stamped, never deleted. Registers and scripts live once in `standards/filemaker/`, and app table notes point their `data` slot at them rather than copying. Same day: SQL text is built from `GetFieldName`, so a rename follows the field instead of returning empty. Adopted first by URITP People.
@@ -38,7 +42,7 @@ Settled calls about this repo and its contents. **One line each, newest first.**
 - **D-036** — The Vectorworks research findings migrate as **lookup notes, not a numbered register.** `F-NNN` numbering dropped: nobody looks up F-011, they look up how to get a list out of a file, so the filename carries the question.
 - **D-035** — **Do not scaffold empty files.** Seven heading-only phase skeletons were deleted the day after they shipped. A file appears when there is something to put in it; gaps get NAMED in the package README instead. An empty container makes a project look further along than it is.
 - **D-034** — **Roles go in `handbooks/<role>/`; production phases go in `guides/production-phases/`.** A handbook belongs to a person in a role, a phase guide belongs to the phase. Five departments live through the same load-in, so it is written once and cited, never copied per role.
-- **D-033** — Everything stays in **this one repo**. A second repo was proposed to separate personal from institutional prose; that solves a PUBLISHING boundary, and nothing publishes yet. Split when something actually does.
+- **D-033** — Everything stays in **this one repo**. A second repo was proposed to separate personal from institutional prose; that solves a PUBLISHING boundary, and nothing publishes yet. Split when something actually does. *(Amended by D-044: `profile/` publishes from inside this repo, gated per page by `status:`.)*
 
 ## This repo · 2026-07-29
 
