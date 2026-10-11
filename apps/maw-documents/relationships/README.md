@@ -5,6 +5,9 @@ Manage → Database → Relationships
 **THE source of truth for the FK map, TO groups and join logic.** When a table page and this page
 disagree, **this page is right.**
 
+⚠️ **Table names below use the LIVE `ALL_CAPS` convention** (reversed 2026-09-16). Ten `tables/`
+filenames still carry the dead PascalCase names; **the names here are the ones to build.**
+
 ## The graph, Phase 1
 
 ```
@@ -12,76 +15,110 @@ GLOBAL_USE_VARIABLES
         |
         +-- drives hub filters / current lens / mode / selected record
         |
-Documents ------<  DocumentVariants  ------<  DocumentFiles
+DOCUMENTS ------<  DOCUMENT_VARIANTS  ------<  DOCUMENT_FILES
+    |              \____ 🔴 may be MERGED as DOCUMENT_INSTANCES — unverified ____/
     |                                              |
-    |                                              +--<  ImportBatches
+    |                                              +--<  IMPORT_BATCHES
     |
-    +-- 1:1 --  BibliographicDetails  -- fkPublisher -->  Organizations
+    +-- 1:1 --  BIBLIOGRAPHIC_DETAILS  -- fkPublisher -->  ORGANIZATIONS
     |
-    +------<  DocumentCopies
+    +------<  DOCUMENT_COPIES
     |              |
-    |              +------<  CopyLoans  -- fkPerson -->  People
+    |              +------<  COPY_LOANS  -- fkPerson -->  PEOPLE
     |              |
-    |              +------<  PurchaseLines  -- fkPurchase -->  Purchases
+    |              +------<  PURCHASE_LINES  -- fkPurchase -->  PURCHASES
     |                                                             |
-    |                                       fkVendor --------------+--> Organizations
-    |                                       fkReceiptDocument -----+--> Documents
+    |                                       fkVendor --------------+--> ORGANIZATIONS
+    |                                       fkReceiptDocument -----+--> DOCUMENTS
     |
-    +------<  DocumentPeople  -- fkPerson -->  People
+    +------<  DOCUMENT_PEOPLE  -- fkPerson -->  PEOPLE
     |              |
-    |              +--------- fkRole ------->  ContributorRoles
+    |              +--------- fkRole ------->  CONTRIBUTOR_ROLES
     |
-    +------<  DocumentContexts  --  Contexts
+    +------<  DOCUMENT_PRODUCTIONS  -- fkProduction --> (cross-app, no local table)
+    |              |
+    |              +--------- fkDocumentInstance --> 🔴 BLOCKED, see below
     |
-    +------<  DocumentSubjects  --  Subjects
+    +------<  DOCUMENT_CONTEXTS  --  CONTEXTS
     |
-    +--------- fkDocumentType ----->  DocumentTypes
+    +------<  DOCUMENT_SUBJECTS  --  SUBJECTS
+    |
+    +--------- fkDocumentType ----->  DOCUMENT_TYPES
 ```
 
-🚧 `DocumentVariants`, `DocumentFiles`, `ImportBatches`, `Contexts`, `DocumentContexts`, `Subjects`,
-`DocumentSubjects`, `DocumentTypes` and `GLOBAL_USE_VARIABLES` are **designed but not yet cut as
-files** (pre-J3 naming, awaiting the rename pass). **The shape above is correct; the file set is
-incomplete.**
+🔴 **BLOCKER — `DOCUMENT_INSTANCES`.** `data-standards.md` names it as a live base table while
+`DocumentCopies.md` still exists beside it. Three readings and **they are not the same build**:
+copies renamed · variant+file merged · all three collapsed. ⚠️ **Nobody has read Manage.** It
+decides whether the spine cut is six tables or two, so `fkDocumentInstance` above stays unbuilt
+until it is answered. Full statement → `next-build-spec.md` step 1.
+
+🚧 `DOCUMENT_VARIANTS`, `DOCUMENT_FILES`, `IMPORT_BATCHES`, `CONTEXTS`, `DOCUMENT_CONTEXTS`,
+`SUBJECTS`, `DOCUMENT_SUBJECTS` and `GLOBAL_USE_VARIABLES` are **designed but not yet cut as
+files.** **The shape above is correct; the file set is incomplete.**
+
+🔴 **`DOCUMENT_PRODUCTIONS`, `DOCUMENT_CONTEXTS` and `DOCUMENT_SUBJECTS` are three different axes
+and none is redundant.** `CONTEXTS` is the WORLD (URITP · HML_LLC · home) — a bucket.
+`SUBJECTS` is ABOUTNESS (rigging, power, photometrics). A **production is an ENTITY** carrying
+dates, a venue and a season. ⭐ **Measured in ClickUp 2026-10-11:** the `TAGS` value list
+(`901329124550`) carries all three axes plus four more in 38 rows, and `| URITP |` alone is on **61
+of 252** documents. **The axes are all real and heavily used; they were never separable inside one
+value list.**
 
 ## FK map
 
 | From | Field | To | Card. | Notes |
 |---|---|---|---|---|
-| BibliographicDetails | fkDocument | Documents | 1:1 | ⚠️ uniqueness is script-enforced |
-| BibliographicDetails | fkPublisher | Organizations | N:1 | publisher role |
-| DocumentCopies | fkDocument | Documents | N:1 | many copies of one work |
-| DocumentCopies | fkStorageLocation | StorageLocations | N:1 | 🚧 target not built |
-| DocumentPeople | fkDocument | Documents | N:1 | |
-| DocumentPeople | fkPerson | People | N:1 | |
-| DocumentPeople | fkRole | ContributorRoles | N:1 | 🔴 unique on the triple |
-| Purchases | fkVendor | Organizations | N:1 | vendor role |
-| Purchases | fkReceiptDocument | Documents | N:1 | the receipt is itself archived |
-| PurchaseLines | fkPurchase | Purchases | N:1 | 🔴 THE write relationship |
-| PurchaseLines | fkDocumentCopy | DocumentCopies | N:1 | 🔴 a copy, never a work |
-| CopyLoans | fkDocumentCopy | DocumentCopies | N:1 | append-only history |
-| CopyLoans | fkPerson | People | N:1 | borrower or lender, per Direction |
+| BIBLIOGRAPHIC_DETAILS | fkDocument | DOCUMENTS | 1:1 | ⚠️ uniqueness is script-enforced |
+| BIBLIOGRAPHIC_DETAILS | fkPublisher | ORGANIZATIONS | N:1 | publisher role |
+| DOCUMENT_COPIES | fkDocument | DOCUMENTS | N:1 | many copies of one work |
+| DOCUMENT_COPIES | fkStorageLocation | STORAGE_LOCATIONS | N:1 | 🔴 target NEVER CUT — resolves to nothing, silently |
+| DOCUMENT_PEOPLE | fkDocument | DOCUMENTS | N:1 | |
+| DOCUMENT_PEOPLE | fkPerson | PEOPLE | N:1 | |
+| DOCUMENT_PEOPLE | fkRole | CONTRIBUTOR_ROLES | N:1 | 🔴 unique on the triple |
+| DOCUMENT_PRODUCTIONS | fkDocument | DOCUMENTS | N:1 | the WORK, never a copy |
+| DOCUMENT_PRODUCTIONS | fkProduction | — | N:1 | 🔴 **CROSS-APP, no local authority yet** |
+| DOCUMENT_PRODUCTIONS | fkDocumentInstance | — | N:1 | 🔴 **BLOCKED** — leave unbuilt |
+| PURCHASES | fkVendor | ORGANIZATIONS | N:1 | vendor role |
+| PURCHASES | fkReceiptDocument | DOCUMENTS | N:1 | the receipt is itself archived |
+| PURCHASE_LINES | fkPurchase | PURCHASES | N:1 | 🔴 THE write relationship |
+| PURCHASE_LINES | fkDocumentCopy | DOCUMENT_COPIES | N:1 | 🔴 a copy, never a work |
+| COPY_LOANS | fkDocumentCopy | DOCUMENT_COPIES | N:1 | append-only history |
+| COPY_LOANS | fkPerson | PEOPLE | N:1 | borrower or lender, per Direction |
 
-## The two many-to-manys
+## The three many-to-manys
 
 | Join | Between | Carries |
 |---|---|---|
-| `DocumentPeople` | works and people | the ROLE, plus billing order and scope notes |
-| `PurchaseLines` | orders and copies | the PRICE, plus quantity and the receipt's wording |
+| `DOCUMENT_PEOPLE` | works and people | the ROLE, plus billing order and scope notes |
+| `PURCHASE_LINES` | orders and copies | the PRICE, plus quantity and the receipt's wording |
+| `DOCUMENT_PRODUCTIONS` | works and productions | the NOTES, plus per-show paperwork status |
 
 🔴 **The test for whether a relationship needs a join row: does it carry a VALUE, a CLOCK, or both?**
-Either one rules out a flag. `CopyLoans` carries both, which is why it is append-only.
+Either one rules out a flag. `COPY_LOANS` carries both, which is why it is append-only.
 
-## 🚩 Two shortcuts that must never be re-added
+⭐ **`DOCUMENT_PRODUCTIONS` is the matrix.** Paperwork items are rows, productions are columns, **a
+cell is one record.** A pivot is a PROJECTION of this table and never a column definition — if
+adding a production changes a column set anywhere, the pivot is built in the wrong place.
 
-1. **`Documents.fkPeopleJoins`** — a single FK on the ONE side of the contribution many-to-many.
-2. **`DocumentCopies.LentTo`** — a scalar where a history belongs.
+## 🚩 Three shortcuts that must never be re-added
 
-<!-- AGENT NOTE · why both will be proposed again.
-A single field always looks cheaper than a join read. Neither is a shortcut; both are second claimants
+1. **`DOCUMENTS.fkPeopleJoins`** — a single FK on the ONE side of the contribution many-to-many.
+2. **`DOCUMENT_COPIES.LentTo`** — a scalar where a history belongs.
+3. **`DOCUMENTS.fkCurrentProduction`** — a single FK on the ONE side of the production
+   many-to-many. **Struck before it was built**, 2026-10-10.
+
+<!-- AGENT NOTE · why all three will be proposed again.
+A single field always looks cheaper than a join read. None is a shortcut; all are second claimants
 on a fact the join already owns. fkPeopleJoins is correct until contributor #2 exists, then silently
-wrong forever. LentTo destroys the previous loan on the next one. Struck once each, 2026-09-16.
-A join table carrying only two keys is a membership flag. Both joins here carry more than membership,
-which is why they are tables rather than repeating fields.
+wrong forever. LentTo destroys the previous loan on the next one. Struck 2026-09-16.
+A join table carrying only two keys is a membership flag. All three joins here carry more than
+membership, which is why they are tables rather than repeating fields.
+SHORTCUT 3 IS THE FIFTH INSTANCE OF THIS ONE HABIT and the first caught pre-build. The fourth lives
+outside FileMaker: uritp-docs REPO_PAGES/current-production-{accessibility,egress,house,timings}.md,
+where "current" is the single-slot defect expressed as a filename. Four live files, same defect class.
+A SIXTH lives one runtime over: a ClickUp Tasks-in-Multiple-Lists membership is a join with NO ROW,
+so it cannot carry fkRole or SortOrder and it EVAPORATES at migration. See next-build-spec.md.
+Also barred: a stored IsCurrent on or near DOCUMENT_PRODUCTIONS. That is Q1's two-current-versions bug.
 -->
 
 ## Table-occurrence groups
@@ -91,25 +128,32 @@ Drawn around **what a layout needs to see at once**, not around subject matter.
 | Group | Anchor | Purpose |
 |---|---|---|
 | Library hub | `GLOBAL_USE_VARIABLES` | hub filters, current lens, the found-set engine |
-| Document detail | `Documents` | one work + bibliographic row, copies, contributors, contexts |
-| Acquisition | `Purchases` | the order + its lines + their copies — 🔴 **the write path** |
+| Document detail | `DOCUMENTS` | one work + bibliographic row, copies, contributors, contexts |
+| Acquisition | `PURCHASES` | the order + its lines + their copies — 🔴 **the write path** |
+| Production paperwork | `DOCUMENTS` | 🚧 the production join, for the matrix export |
 
 ⚠️ **Do not reach across groups in a script when a group anchor exists for the job.**
+⚠️ **No TO naming applied yet** — name occurrences before drawing them; renaming a TO breaks every
+layout bound to it.
 
 ## 🔴 Atomicity depends on the GRAPH, not just the script
 
 The FMP19 money-write pattern requires **all rows in one commit to be reachable through ONE
 relationship from a single parent record**, so `Revert Record` discards the whole set.
 
-For a purchase: navigate to the `Purchases` parent, create lines **through the `PurchaseLines`
+For a purchase: navigate to the `PURCHASES` parent, create lines **through the `PURCHASE_LINES`
 relationship from that record**, never commit inside the block. **A line created from any other context
 is outside revert scope — the script looks correct and the rollback silently leaves it behind.**
 
 ## Open
 
-- No TO naming applied yet (convention: context prefix, underscored). ⚠️ **Name occurrences before
-  drawing them** — renaming a TO breaks every layout bound to it.
-- 🔴 **No `ExecuteSQL` until the pre-J3 rename pass is done.**
-- ⚠️ Whether `DocumentCopies` should hang off `DocumentVariants` rather than `Documents`. A scan is a
+- 🔴 **The `DOCUMENT_INSTANCES` blocker**, above. Read Manage before cutting any spine table.
+- 🔴 **No `ExecuteSQL` until naming is settled.** SQL embeds table names as text and drifts silently.
+- ⚠️ Whether `DOCUMENT_COPIES` should hang off `DOCUMENT_VARIANTS` rather than `DOCUMENTS`. A scan is a
   variant, and a copy of a scan is arguably a copy of the variant. **Currently copies attach to the
-  work; this is the one join in the graph that is not obviously right.**
+  work; this is the one join in the graph that is not obviously right.** ⚠️ `DOCUMENT_PRODUCTIONS`
+  inherits the identical question and the identical provisional answer.
+- 🔴 **`fkProduction` has no authority table.** Thin local stub, bare external key, or the join moves
+  to the URITP app. **A bare key with no authority accepts typos as new productions.**
+- ⚠️ **No ClickUp row carries a `PrimaryKey`** — zero UUIDs across four lists, so nothing on that side
+  can be matched to a row here or to a TSV.
