@@ -2,9 +2,9 @@
   "site": "mawprose",
   "name": "MAW Prose",
   "base_url": "https://mawizorek.github.io/maw-prose/",
-  "built": "2026-10-08T04:26:15Z",
+  "built": "2026-10-11T13:25:14Z",
   "engine": "0.1.0",
-  "engine_ref": "073bf5cf20f005f51356784dddd5b8e9b20e0516",
+  "engine_ref": "b63d3970df50f53a7bf691d83003ce1c73a8a6f5",
   "pages": [
     {
       "id": "assignment-art-cue-mood-project",
@@ -12,6 +12,33 @@
       "title": "Art Cue 'Mood' Project",
       "url": "coursework/assignment-art-cue-mood-project/",
       "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "bio-faculty",
+      "type": "page",
+      "title": "Faculty bio",
+      "url": "profile/bios/faculty/",
+      "status": "unlisted",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "bio-program",
+      "type": "page",
+      "title": "Program bio",
+      "url": "profile/bios/program/",
+      "status": "unlisted",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "bio-short",
+      "type": "page",
+      "title": "Short bio",
+      "url": "profile/bios/short/",
+      "status": "unlisted",
       "gloss": null,
       "print_gloss": null
     },
@@ -30,6 +57,15 @@
       "title": "Data standards",
       "url": "apps/production-mawster-no-use/data-standards/",
       "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "filemaker-production-systems",
+      "type": "page",
+      "title": "FileMaker production systems",
+      "url": "profile/projects/filemaker-production-systems/",
+      "status": "unlisted",
       "gloss": null,
       "print_gloss": null
     },

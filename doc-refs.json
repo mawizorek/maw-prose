@@ -1,12 +1,12 @@
 {
   "site": "mawprose",
   "base_url": "https://mawizorek.github.io/maw-prose/",
-  "built": "2026-10-08T04:26:15Z",
+  "built": "2026-10-11T13:25:14Z",
   "engine": "0.1.0",
   "totals": {
-    "pages": 60,
-    "edges": 145,
-    "broken": 6,
+    "pages": 64,
+    "edges": 156,
+    "broken": 10,
     "no_inbound": 12
   },
   "no_inbound": [
@@ -24,6 +24,26 @@
     "uritp-people-table-app-layouts"
   ],
   "broken": [
+    {
+      "from": "bio-faculty",
+      "token": "profile-bios",
+      "kind": "page"
+    },
+    {
+      "from": "bio-program",
+      "token": "profile-bios",
+      "kind": "page"
+    },
+    {
+      "from": "bio-short",
+      "token": "profile-bios",
+      "kind": "page"
+    },
+    {
+      "from": "filemaker-production-systems",
+      "token": "profile-projects",
+      "kind": "page"
+    },
     {
       "from": "table-calendar-emphasis",
       "token": "audit-fields",
@@ -67,6 +87,115 @@
       "inbound": 1,
       "outbound": 0
     },
+    "bio-faculty": {
+      "title": "Faculty bio",
+      "url": "profile/bios/faculty/",
+      "type": "page",
+      "references": [
+        {
+          "token": "bio-program",
+          "kind": "page",
+          "target": "bio-program",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "bio-short",
+          "kind": "page",
+          "target": "bio-short",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "profile-bios",
+          "kind": "page",
+          "target": "profile-bios",
+          "resolved": false,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "bio-program",
+        "bio-short"
+      ],
+      "inbound": 2,
+      "outbound": 3
+    },
+    "bio-program": {
+      "title": "Program bio",
+      "url": "profile/bios/program/",
+      "type": "page",
+      "references": [
+        {
+          "token": "bio-faculty",
+          "kind": "page",
+          "target": "bio-faculty",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "bio-short",
+          "kind": "page",
+          "target": "bio-short",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "profile-bios",
+          "kind": "page",
+          "target": "profile-bios",
+          "resolved": false,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "bio-faculty",
+        "bio-short"
+      ],
+      "inbound": 2,
+      "outbound": 3
+    },
+    "bio-short": {
+      "title": "Short bio",
+      "url": "profile/bios/short/",
+      "type": "page",
+      "references": [
+        {
+          "token": "bio-faculty",
+          "kind": "page",
+          "target": "bio-faculty",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "bio-program",
+          "kind": "page",
+          "target": "bio-program",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "filemaker-production-systems",
+          "kind": "page",
+          "target": "filemaker-production-systems",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "profile-bios",
+          "kind": "page",
+          "target": "profile-bios",
+          "resolved": false,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "bio-faculty",
+        "bio-program"
+      ],
+      "inbound": 2,
+      "outbound": 4
+    },
     "build-sheet": {
       "title": "Build Sheet",
       "url": "apps/production-mawster-no-use/build-sheet/",
@@ -96,6 +225,25 @@
       ],
       "inbound": 1,
       "outbound": 0
+    },
+    "filemaker-production-systems": {
+      "title": "FileMaker production systems",
+      "url": "profile/projects/filemaker-production-systems/",
+      "type": "page",
+      "references": [
+        {
+          "token": "profile-projects",
+          "kind": "page",
+          "target": "profile-projects",
+          "resolved": false,
+          "count": 2
+        }
+      ],
+      "referenced_by": [
+        "bio-short"
+      ],
+      "inbound": 1,
+      "outbound": 1
     },
     "fmp-app-catalog": {
       "title": "The app catalog",

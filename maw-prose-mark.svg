@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="maw-prose-mark-title">
+  <title id="maw-prose-mark-title">MAW Prose</title>
+  <rect x="0.75" y="0.75" width="62.5" height="62.5" rx="10" fill="#192221" stroke="#506361" stroke-width="1.5"/>
+  <path fill="#4fc8c0" d="M28 13h20v6h-4v32h-6V19h-4v32h-6V36a11.5 11.5 0 0 1 0-23z"/>
+  <rect x="17" y="47" width="5" height="4" fill="#46e08a"/>
+</svg>
