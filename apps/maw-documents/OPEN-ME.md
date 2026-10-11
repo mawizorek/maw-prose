@@ -6,7 +6,7 @@ notes: >
   PLACEHOLDER here: this app has no assigned theme yet.
 ---
 
-# MAW Documents (Personal Document Library) — Doc Tree (v1.2)
+# MAW Documents (Personal Document Library) — Doc Tree (v1.3)
 
 Personal digital library + document repository. **Books, textbooks, paperwork, scans and PDFs
 are all `Documents`** — a book is a document with better metadata. Library engine underneath,
@@ -35,6 +35,7 @@ apps/maw-documents/
 │   ├── CopyLoans.md                possession over time
 │   ├── DocumentCopies.md           the object you hold
 │   ├── DocumentPeople.md           contribution join (role lives here)
+│   ├── DocumentProductions.md      production join (the NOTES live here)
 │   ├── Documents.md                the work's identity
 │   ├── Organizations.md            publishers, vendors, libraries
 │   ├── People.md                   name-authority record
@@ -50,6 +51,7 @@ This map was verified against a live directory listing, and tables/ is alphabeti
 that is the order the filesystem returns. DO NOT hand-maintain it — regenerate from the tree.
 The sibling app's map drifted (wrong viewer filename + eight omitted root files) and nobody
 caught it for six weeks; a cold agent following it concluded design-decisions.md did not exist.
+Field-register .tsv siblings are not listed here, matching the existing convention.
 -->
 
 ## Build order (Phase 1)
@@ -60,6 +62,8 @@ caught it for six weeks; a cold agent following it concluded design-decisions.md
 4. `Organizations` — the party authority, before anything points at it
 5. `Purchases` + `PurchaseLines` — ⚠️ money write, FMP19 pattern
 6. `CopyLoans` — possession over time
+7. `DocumentProductions` — the paperwork × production join. 🔴 **BLOCKED:** `fkProduction` has no
+   authority table, and a bare key with no authority accepts typos as new productions
 
 Exit tests for each → [next-build-spec.md](./next-build-spec.md).
 ⚠️ **No `ExecuteSQL` until the pre-J3 rename pass is done** — SQL embeds table names as text
@@ -80,6 +84,9 @@ table" in Manage Database and in every TO name. A convention that erases its own
 worse than the exception.
 No layout renders exist yet, so viewer.html (the LAYOUT renderer, in apps/hml-llc/) is
 deliberately not copied here. An empty dropdown is worse than an absent tool.
+DocumentProductions WAS cut despite its target being unbuilt, because the join itself is fully
+specified and the missing piece is named in its Open section. A page with a stated blocker is not
+a stub; a page with nothing in it is.
 -->
 
 ## The two viewers are different tools
@@ -103,4 +110,8 @@ a ruling. Every J block's "Reflected on" line names a file in THIS tree, not a C
 This app has six weeks of evidence for that exact failure.
 LINEAGE: MAW Documents is the REFERENCE IMPLEMENTATION of the shared document/variant/version
 engine. apps/hml-llc/ is the sibling deployment. Settle the engine here, then clone.
+ONE LIVE EXCEPTION, 2026-10-10: the MAW Documents Decision Log page BODY refuses writes, so J10
+onward and Q10 are parked as COMMENTS on that page. A parked J block survives intact; a parked Q
+block has INERT CHECKBOXES, so that log cannot accept a Q block until the body is editable. Q10
+was answered by ClickKit button instead.
 -->

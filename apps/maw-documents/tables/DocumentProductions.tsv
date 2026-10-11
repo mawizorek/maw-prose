@@ -1,0 +1,12 @@
+Field::text.key	Type::text	FMP Comment::prose	TO::text	⚠️::prose
+PrimaryKey	text	UUID, never serial. Auto-enter Get(UUID).		
+fkDocument	text	FK to Documents.PrimaryKey. The WORK, not a copy.	Documents	
+fkProduction	text	FK to the production. Target table is not owned by this app.		🔴 cross-app key, see Open
+fkDocumentInstance	text	Optional. WHICH version was used on this show. Empty means the work generally.		🚧 target not built
+PaperworkStatus	text	This document's state FOR THIS SHOW. Not the document's own state.		⚠️ needs its own value list
+Notes	text	THE PAYLOAD. Per-show notes. The reason this table exists.		
+SortOrder	number	Display order within one production.		
+CreatedAt	timestamp	Audit. See data-standards.md.		
+CreatedBy	text	Audit.		
+ModifiedAt	timestamp	Audit.		
+ModifiedBy	text	Audit.		
