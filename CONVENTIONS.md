@@ -118,10 +118,25 @@ The split has to be the whole file rather than a section above a marker: a `#` l
 
 **Numbers:** if you would put it on a drawing, it lives in the model. If you would tell it to a new hire on their first walk, it lives here.
 
-**Personnel:** this repo is private, so names are not a leak. But "Charlie has the key" decays the day Charlie leaves, while "the key lives in the PM office, ask the PM" survives. Write the version that outlives the person.
+**Personnel:** 🔴 **this repo is PUBLIC** — see the visibility section below — so a name written here is a name published. Beyond that, "Charlie has the key" decays the day Charlie leaves, while "the key lives in the PM office, ask the PM" survives. Write the version that outlives the person, and for the public reason as well as the durable one.
 
-## Private
+## 🔴 Visibility — VERIFIED PUBLIC, and the mismatch is UNRESOLVED
 
-This repo is private and Michael is the only way anything leaves it. Write freely.
+**This repository is public.** Verified 2026-10-10 against the repositories API: `private: false`, `visibility: public`.
 
-⚠️ **That is also load-bearing now, not just convenient.** A loan-servicing fixture in the public `ClickUp_apps` shipped a real payee name and a payment handle on 2026-07-29 because the content was financial and the repo was public. Sample data, payment instructions and anything account-adjacent belong on this side of the fence.
+🪦 **Until that date this section read:** *"This repo is private and Michael is the only way anything leaves it. Write freely."* It was wrong, it had been wrong, and it was the single most load-bearing sentence in this file — it is the sentence an author checks before deciding what is safe to write down. Two other passages agreed with it, so a reader got three confirmations of a false fact.
+
+⚠️ **The inversion was worse than the error.** The incident note below cited the 2026-07-29 exposure in the public `ClickUp_apps` and told authors that account-adjacent material *"belongs on this side of the fence."* **Both sides of that fence are public.** The lesson of the incident was pointed at a repo that cannot absorb it.
+
+**This is not fixed by this commit, and nobody should read it as fixed.** Two remedies exist and the choice is Michael's:
+
+1. **Flip the repo to private** — if private was always the intent, the setting is the defect and this section goes back to roughly its old wording.
+2. **Keep it public and sweep** — then everything written here under the false premise needs an exposure pass, because "write freely" was standing guidance for an unknown period.
+
+Either way, **an exposure sweep is owed** for content authored while this file said private. No agent can change repository visibility; that is a human action in repository settings.
+
+**Until it is resolved, write for a public reader.** The scope test from the sibling repos applies here: *if a stranger read this page, would it matter?* If yes, it does not belong in this repo yet.
+
+### The incident this section exists because of
+
+A loan-servicing fixture in the public `ClickUp_apps` shipped a real payee name and a payment handle on 2026-07-29 because the content was financial and the repo was public. **Sample data, payment instructions and anything account-adjacent belong in FileMaker**, which is the only surface in this stack with real access control — not in this repo, and not in `ClickUp_apps`.
