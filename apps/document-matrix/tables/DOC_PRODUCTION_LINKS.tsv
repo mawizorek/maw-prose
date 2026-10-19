@@ -1,0 +1,13 @@
+sort	Field_Name	Type	Options	Notes	group
+{.conf}	PrimaryKey	Text	UUID · auto-enter · unique · can't modify	Machine-only	Audit
+{.conf}	fkDoc	Text	Not empty	-> [DOCS](@document-matrix-table-docs).PrimaryKey	Join
+{.conf}	fkProduction	Text	Not empty	-> [PRODUCTIONS](@document-matrix-table-productions).PrimaryKey	Join
+{.conf}	DocStatus	Text	Not empty · default "NOT_STARTED"	NOT_STARTED · DRAFT · IN_REVIEW · PUBLISHED · N_A	Core
+{.conf}	SortIndex	Number		Per-production order within the binder	Core
+{.conf}	PrintFlag	Number	Default 0	1 = include in printed build	Core
+{.conf}	DateLinked	Timestamp		When this pairing was created	Lifecycle
+{.conf}	DateEnded	Timestamp		When this pairing was retired. Null = active	Lifecycle
+{.conf}	Notes	Text		Free text	Core
+{.conf}	CreationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	ModificationTimestamp	Timestamp	Auto-enter		Audit
+- EOF -
