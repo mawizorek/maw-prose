@@ -1,0 +1,7 @@
+sort	Field_Name	Type	Options	Notes	group
+{.conf}	PrimaryKey	Text	UUID · auto-enter · unique · can't modify	Machine-only	Audit
+{.conf}	fkReference	Text	Not empty	-> [REFERENCES](@document-matrix-table-references).PrimaryKey	Join
+{.conf}	URL	Text	Not empty	The full URL	Core
+{.conf}	CreationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	ModificationTimestamp	Timestamp	Auto-enter		Audit
+- EOF -
