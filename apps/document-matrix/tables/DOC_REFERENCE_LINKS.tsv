@@ -1,0 +1,15 @@
+sort	Field_Name	Type	Options	Notes	group
+{.conf}	PrimaryKey	Text	UUID · auto-enter · unique · can't modify	Machine-only	Audit
+{.est}	fkDoc	Text		-> [DOCS](@document-matrix-table-docs).PrimaryKey. Populated for canonical-level refs. Null when fkDocProdLink is set	Join
+{.est}	fkDocProdLink	Text		-> [DOC_PRODUCTION_LINKS](@document-matrix-table-doc-production-links).PrimaryKey. Populated for instance-level refs. Null when fkDoc is set	Join
+{.conf}	fkReference	Text	Not empty	-> [REFERENCES](@document-matrix-table-references).PrimaryKey	Join
+{.conf}	RefRole	Text	Not empty · default "DEFAULT"	EDIT · VIEW · PRINT · SOURCE · DEFAULT	Core
+{.conf}	VersionLabel	Text		"Rev A", "Rev B", or null for unversioned	Version
+{.conf}	VersionSeq	Number		Monotonic integer. Always increments regardless of label	Version
+{.conf}	VersionDate	Timestamp		When this version was created or received	Version
+{.conf}	IsCurrent	Number	Default 1	1 = active version. 0 = historical. Only one row per fkDocProdLink + RefRole should be current	Version
+{.conf}	Notes	Text		What changed in this version: "channel 42 repositioned"	Version
+{.conf}	SortIndex	Number		Display order when multiple roles shown side by side	Core
+{.conf}	CreationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	ModificationTimestamp	Timestamp	Auto-enter		Audit
+- EOF -
