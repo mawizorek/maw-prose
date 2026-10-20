@@ -1,0 +1,12 @@
+sort	Field_Name	Type	Options	Notes	group
+{.conf}	PrimaryKey	Text	UUID · auto-enter · unique · can't modify	Machine-only	Audit
+{.conf}	g_Slot1_fkProduction	Text		-> [PRODUCTIONS](@document-matrix-table-productions).PrimaryKey	Slots
+{.conf}	g_Slot2_fkProduction	Text		-> [PRODUCTIONS](@document-matrix-table-productions).PrimaryKey	Slots
+{.conf}	g_Slot3_fkProduction	Text		-> [PRODUCTIONS](@document-matrix-table-productions).PrimaryKey	Slots
+{.conf}	g_Slot4_fkProduction	Text		-> [PRODUCTIONS](@document-matrix-table-productions).PrimaryKey	Slots
+{.conf}	g_Slot5_fkProduction	Text		-> [PRODUCTIONS](@document-matrix-table-productions).PrimaryKey	Slots
+{.conf}	g_CurrentLayout	Text	Default "Matrix_Hub"	Active layout name	UI State
+{.conf}	g_SelectedDocPK	Text		Currently selected doc PK	UI State
+{.conf}	g_SelectedProductionPK	Text		Currently selected production PK	UI State
+{.conf}	g_SelectedLinkPK	Text		Currently selected link PK	UI State
+- EOF -

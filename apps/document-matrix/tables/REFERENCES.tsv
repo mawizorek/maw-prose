@@ -1,0 +1,8 @@
+sort	Field_Name	Type	Options	Notes	group
+{.conf}	PrimaryKey	Text	UUID · auto-enter · unique · can't modify	Machine-only	Audit
+{.conf}	RefLabel	Text		Human name: "Big Love Light Plot Rev C", "Risk Assessment master (Google Doc)"	Core
+{.conf}	IsVerified	Number	Default 0	1 = confirmed reachable. Manual in v1	Core
+{.conf}	LastVerifiedAt	Timestamp		When verification last ran	Core
+{.conf}	CreationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	ModificationTimestamp	Timestamp	Auto-enter		Audit
+- EOF -
