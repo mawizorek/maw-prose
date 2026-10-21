@@ -1,0 +1,12 @@
+status	Field_Name	Type	Options	Notes
+[Normalized]{.conf}	date_NeededFirst	Date		PAGE BOUND, not a schedule fact. Lower edge of the grid (pre-pro exists)
+[Normalized]{.conf}	date_NeededLast	Date		PAGE BOUND. Legacy fed this into CalendarDaysNeeded - it sized the grid
+[Normalized]{.conf}	fkProduction	[Text]{.rel}		First rehearsal + opening are READ THROUGH THIS. Never copied down
+[Normalized]{.conf}	fkDefaultPrintSet	[Text]{.rel}		
+[Not implemented]{.gap}	fkSemester	[Text]{.rel}		Property of the CALENDAR, not the production. Two calendars = two semesters, one show
+[Audit Fields]{.est}	PrimaryKey	Text		
+[Audit Fields]{.est}	CreationTimestamp	Timestamp		
+[Audit Fields]{.est}	CreatedBy	Text		
+[Audit Fields]{.est}	ModificationTimestamp	Timestamp		
+[Audit Fields]{.est}	ModifiedBy	Text		
+- EOF -				

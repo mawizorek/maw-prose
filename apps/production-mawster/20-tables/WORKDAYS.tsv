@@ -1,0 +1,25 @@
+id	Field_Name	Type	Options	Notes
+GRAIN: one canonical row per REAL DATE. calendar-agnostic, production-agnostic. J19, 2026-08-12				
+NORMALIZED FIELDS				
+{.conf}	Date	Date	[Indexed + UNIQUE + Not empty]{.gap}	THE IDENTITY. unique is a constraint, not a convention
+{.conf}	calc_MonthNum	[Number]{.calc}	[STORED, indexed]{.gap}	Month ( Date ). the join key into MONTHS
+{.conf}	dateFormat_Colloquial	[Text]{.calc}	[typed Number in file - WRONG]{.verify}	= Date. display only, never a join key
+{.conf}	dateFormat_Display	[Text]{.calc}	[typed Number in file - WRONG]{.verify}	= Date. display only
+EVICTED BY J19 - a per-calendar opinion cannot sit on a shared row				
+{.gap}	Title	Text	[LEAVES]{.hi}	holds TWO grains: Thanksgiving (canonical) + First Rehearsal (one show's name). also a 3-value vocabulary in a Text field
+{.gap}	TitleShort	Text	[LEAVES]{.hi}	same
+{.gap}	bool_HideFromCalendar	Number	[LEAVES - contested]{.verify}	one calendar's decision. 08-09 says move to CALENDAR_EMPHASIS, that page says stay. UNRESOLVED
+{.gap}	Manual_Override	Date	[DELETE]{.hi}	an override date on a table whose identity IS the date
+{.tbc}	Sort	Number	[UNDECIDED]{.tbc}	calendar-relative print order. per-calendar (move to projection) or pure date sort (derive, don't store)?
+RELATIONSHIPS				
+{.conf} {.tbc}	< EVENTS|span			RANGE: DATE >= Start_DATE, DATE <= End_DATE, fkCalendar =. the fkCalendar leg is what scopes a shared workday
+{.conf} {.gap}	< CALENDAR_EMPHASIS			RANGE, sorted Priority then span. resolve PER VECTOR (label / style independently). NOT a stored flag
+{.gap}	> MONTHS			calc_MonthNum = MONTHS::MonthNum. indexed equality. colour path
+{.tbc}	fkWeek		[DEAD]{.hi}	WEEKS parked with no job (J8). revive trigger: a report that groups BY week
+AUDIT FIELDS				
+{.conf}	PrimaryKey	Text		UUID. never sequential - phase 2 is a merge (J6)
+{.conf}		Timestamp		
+{.conf}		Text		
+{.conf}		Timestamp		
+{.conf}		Text		
+- EOF -				

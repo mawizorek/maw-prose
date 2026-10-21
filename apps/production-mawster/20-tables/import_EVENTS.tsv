@@ -1,0 +1,33 @@
+sort	Field_Name	Type	Options	Notes
+NORMALIZED				
+{.conf}	import_raw_payload	Text		Whole original row/JSON, verbatim
+{.conf}	import_Name	Text		
+{.conf}	import_dateSTART	Text		just get the data in and safe. paste something if imported BLANK?
+{.conf}	import_dateEND	Text		just get the data in and safe
+{.conf}	import_Style_Key	Text		just get the data in and safe 
+{.conf}	import_RowNumber	Number		Position in the import file
+{.conf}	fkImportSession	[Relationship]{.hi}		
+{.conf}	fkProduction	[Relationship]{.hi}		Stamped from the session, never derived
+OPTIONAL				
+{.conf}	bool_AllDay	Number		default = 0
+CALCULATED | SCRIPTED				
+{.conf}	fkStandardEvent	Text	Nullable	Crosswalk result
+{.conf}	start_date	[Date]{.calc}	from Start_dateTime	
+{.conf}	End_date	[Date]{.calc}	from End_dateTime	
+{.conf}	Start_time	[Time]{.calc}	from Start_dateTime	
+{.conf}	End_time	[Time]{.calc}	from End_dateTime	
+{.conf}	Start_dateTime	[Timestamp]{.calc}	STORED, not unstored	scripted. leave BLANK if actaully blank.
+{.conf}	End_dateTime	[Timestamp]{.calc}	STORED, not unstored	scripted
+{.conf}	Start_AMPM	[Text]{.calc}		ENDPOINT copied to EVENT
+{.conf}	End_AMPM	[Text]{.calc}		ENDPOINT copied to EVENT
+{.conf}	hash_history	[Text]{.calc}	Auto-enter, do NOT replace existing value	
+INTEGRATION				
+{.conf}{.gap}	cu_TaskID	Text	Indexed	CU source task
+{.tbc}	CU_StatusToken	Text		Raw label text, unmapped
+AUDIT FIELDS				
+{.conf}	PrimaryKey	Text		UUID, auto-enter, unique, can't modify
+{.conf}		Timestamp		
+{.conf}		Text		
+{.conf}		Timestamp		
+{.conf}		Text		
+- EOF -				

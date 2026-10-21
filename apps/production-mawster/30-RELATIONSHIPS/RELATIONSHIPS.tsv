@@ -1,0 +1,51 @@
+id	Anchor	TO_Name	Base_Table	Parent_TO	Predicates	Allow_Create	Allow_Delete	Sorted_By	Used_By	Purpose	Status
+A1 · HOME											
+{.tbc}	HOME	HOME	ORGANIZATION	—	— (anchor)	no	no	—	Home	the tenant record. layout plan anchored this on GLOBAL_USE, which has 0 records	planned
+{.conf}	HOME	HOME_PRODUCER	PRODUCERS	HOME	HOME::fkProducer = PRODUCERS::PrimaryKey	no	no	—	Home	house name + logo read THROUGH here, never copied	planned
+{.conf}	HOME	HOME_THEME	THEMES	HOME	HOME::fkDefaultTheme = THEMES::PrimaryKey	no	no	—	Home · resolve cascade	the house floor	planned
+{.tbc}	HOME	HOME_LAYOUTS	auto_LAYOUTS	HOME	cartesian (x)	no	no	Sort asc	Home	the layout registry	planned
+{.conf}	HOME	HOME_SESSION	GLOBAL_USE	HOME	constant 1 = constant 1	no	no	—	Home	reach session state from the anchor	planned
+A2 · WORKDAYS											
+{.conf}	WORKDAYS	WORKDAYS	WORKDAYS	—	— (anchor)	no	no	Date asc	Working Form · the grid	canonical date table, one row per real date	planned
+{.tbc}	WORKDAYS	WORKDAYS_EVENTS	EVENTS_WORKDAYS	WORKDAYS	WORKDAYS::Date = EVENTS_WORKDAYS::Date	no	yes	see note	the day cell portal	SEE CALENDAR-SCOPE NOTE. needs a 2nd predicate it cannot have	planned
+{.conf}	WORKDAYS	WORKDAYS_EV_EVENT	EVENTS	WORKDAYS_EVENTS	WORKDAYS_EVENTS::fkEvent = EVENTS::PrimaryKey	no	no	—	the day cell portal	identity lives HERE, never on the projection row	planned
+{.conf}	WORKDAYS	WORKDAYS_EV_STYLE	STYLES	WORKDAYS_EV_EVENT	WORKDAYS_EV_EVENT::ovr_fkStyle = STYLES::PrimaryKey	no	no	—	cell rendering	the token. never reach a colour table directly	planned
+{.conf}	WORKDAYS	WORKDAYS_HIGHLIGHTS	CALENDAR_HIGHLIGHTS	WORKDAYS	Date >= calc_ResolvedStart AND Date <= calc_ResolvedEnd	no	no	Priority desc, span width asc	cell emphasis + hide	inequality join, unindexed by nature. first related row wins	planned
+A3 · ROLE ASSIGNMENTS											
+{.conf}	ROLES	ROLES	ROLES	—	— (anchor)	no	no	Title asc	Role Assignments	the role library	planned
+{.conf}	ROLES	ROLES_ASSIGNMENTS	ROLE_ASSIGNMENTS	ROLES	ROLES::PrimaryKey = ROLE_ASSIGNMENTS::fkRole	yes	yes	Sort asc	the assignments portal	the credit line, one per production per role	planned
+{.tbc}	ROLES	ROLES_ASG_PRODUCTION	PRODUCTIONS	ROLES_ASSIGNMENTS	ROLE_ASSIGNMENTS::fkProduction = PRODUCTIONS::PrimaryKey	no	no	—	the assignments portal	which show this credit belongs to	planned
+{.tbc}	ROLES	ROLES_ASG_PERSON	—	ROLES_ASSIGNMENTS	fkPerson = ?	no	no	—	—	THERE IS NO PEOPLE TABLE. fkPerson points at nothing on BOTH tables	blocked
+A4 · DOCUMENTS											
+{.tbc}	DOCS	DOCS	STANDARD_DOCS	—	— (anchor)	no	no	Sort asc	Documents	TABLE DOES NOT EXIST. likely the index EXPORT_SET_ITEMS::fkDocument points at	blocked
+{.tbc}	DOCS	DOCS_EDITIONS	EDITIONS	DOCS	DOCS::PrimaryKey = EDITIONS::fkDocument	yes	yes	date_TakesPrecednace asc	the editions portal	EDITIONS has fkCalendar, not fkDocument. edition model never ruled	blocked
+{.tbc}	DOCS	DOCS_ED_VERSIONS	VERSIONS	DOCS_EDITIONS	DOCS_EDITIONS::PrimaryKey = VERSIONS::fkEdition	yes	no	ID asc	the versions portal	append-only. a print is a version of an edition	blocked
+A5 · STYLES (Theme Studio)											
+{.conf}	STYLES	STYLES	STYLES	—	— (anchor)	no	no	vl_Domain asc, Sort asc	Styles Form	token identity, theme-invariant	planned
+{.conf}	STYLES	STYLES_ACTIVE	THEMES_x_STYLES	STYLES	PrimaryKey = fkStyle AND g_currentTheme = fkTheme	yes	no	—	live preview + all rendering	needs a GLOBAL match field. see calendar-scope note	planned
+{.conf}	STYLES	STYLES_HOUSE	THEMES_x_STYLES	STYLES	PrimaryKey = fkStyle AND g_houseTheme = fkTheme	yes	no	—	the fallback branch	second cascade level, same shape different global	planned
+{.conf}	STYLES	STYLES_FILL	THEME_COLORS	STYLES_ACTIVE	STYLES_ACTIVE::fkColor_Fill = THEME_COLORS::PrimaryKey	no	no	—	cell fill	R/G/B read through here	planned
+{.conf}	STYLES	STYLES_TEXT	THEME_COLORS	STYLES_ACTIVE	STYLES_ACTIVE::fkColor_Text = THEME_COLORS::PrimaryKey	no	no	—	text colour	second occurrence of the same table, deliberate	planned
+{.conf}	STYLES	STYLES_TYPE	THEME_TYPOGRAPHY	STYLES_ACTIVE	STYLES_ACTIVE::fkTypography = THEME_TYPOGRAPHY::PrimaryKey	no	no	—	font / size / weight	—	planned
+{.conf}	STYLES	STYLES_THEMEPICK	THEMES	STYLES	cartesian (x)	no	no	Sort asc	the theme popup	value list source. two-field, store PK show Name	planned
+A6 · IMPORT											
+{.conf}	IMPORT	IMPORT	IMPORT_SESSIONS	—	— (anchor)	no	no	dateTime_Complete desc	Import Form	the session is the parent, rows are children	planned
+{.conf}	IMPORT	IMPORT_ROWS	IMPORT_EVENTS	IMPORT	IMPORT::PrimaryKey = IMPORT_EVENTS::fkImportSssion	yes	no	import_RowNumber asc	the main portal	parent key is misspelled fkImportSssion in the file	planned
+{.conf}	IMPORT	IMPORT_SOURCE	IMPORT_SOURCES	IMPORT	IMPORT::fkSource = IMPORT_SOURCES::PrimaryKey	no	no	—	source popup	csv path or api link	planned
+{.conf}	IMPORT	IMPORT_CROSSWALK	STANDARD_EVENTS	IMPORT_ROWS	IMPORT_ROWS::import_Name = STANDARD_EVENTS::Name	no	no	—	the crosswalk	REQUIRES STANDARD_EVENTS::Name INDEXED. it is not today	planned
+{.conf}	IMPORT	IMPORT_TARGET	EVENTS	IMPORT_ROWS	cu_TaskID = cuTaskId AND fkProduction = fkProduction	yes	no	—	the upsert	REQUIRES EVENTS::fkProduction INDEXED. it is not today	planned
+A7 · EXPORT											
+{.conf}	EXPORT	EXPORT	EXPORT_SETS	—	— (anchor)	no	no	Name asc	Export Set	the batch header	planned
+{.conf}	EXPORT	EXPORT_ITEMS	EXPORT_SET_ITEMS	EXPORT	EXPORT::PrimaryKey = EXPORT_SET_ITEMS::fkPrintSet	yes	yes	Sort asc	the items portal	child key still named fkPrintSet after the rename	planned
+{.conf}	EXPORT	EXPORT_ITEM_PRESET	EXPORT_PRESETS	EXPORT_ITEMS	EXPORT_ITEMS::fkPreset = EXPORT_PRESETS::PrimaryKey	no	no	—	the HOW	everything not overridden on the line resolves here	planned
+{.conf}	EXPORT	EXPORT_SESSIONS	EXPORT_SESSIONS	EXPORT	EXPORT::PrimaryKey = EXPORT_SESSIONS::fkPrintSet	yes	no	PrintedAt desc	the run log	append-only, never edited	planned
+{.tbc}	EXPORT	EXPORT_HIGHLIGHTS	CALENDAR_HIGHLIGHTS	EXPORT	?	yes	yes	Priority desc	the highlights portal	GRAIN MISMATCH: highlights belong to a CALENDAR, not an export set	planned
+A8 · SETUP + UTILITY											
+{.conf}	SETUP	SETUP_VL	VALUE_LISTS	—	— (anchor)	no	no	Name asc	Value Lists	—	planned
+{.conf}	SETUP	SETUP_VL_VALUES	VALUES	SETUP_VL	SETUP_VL::PrimaryKey = VALUES::fkList	yes	yes	Sort asc	the values portal	VALUES is a SQL reserved word and now holds 8 records	planned
+{.conf}	SETUP	SETUP_PRODUCERS	PRODUCERS	HOME	cartesian (x)	yes	no	Name asc	Producers + Venues	—	planned
+{.conf}	SETUP	SETUP_LOCATIONS	LOCATIONS	HOME	cartesian (x)	yes	no	Name asc	Producers + Venues	—	planned
+{.conf}	SETUP	SETUP_LOC_TYPE	LOCATION_TYPES	SETUP_LOCATIONS	SETUP_LOCATIONS::fkLocationType = LOCATION_TYPES::PrimaryKey	no	no	Sort asc	location type popup	—	planned
+{.conf}	UTIL	UTIL_REPORTS	UTILITY_REPORTS	—	— (anchor)	no	no	dateTime_Start desc	Utility Reports	the run spine	planned
+{.conf}	UTIL	UTIL_LOGS	UTILITY_LOGS	UTIL_REPORTS	UTIL_REPORTS::PrimaryKey = UTILITY_LOGS::fkRunReport	yes	no	CreationTimestamp asc	the log portal	drop UTILITY_LOGS::fkReport first, two claimants	planned
+- EOF -											

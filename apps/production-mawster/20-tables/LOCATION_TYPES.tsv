@@ -1,0 +1,9 @@
+id	Field_Name	Type	Options	Notes
+[Normalized]{.conf}	Name	Text	Indexed	
+[Normalized]{.conf}	Sort	Number		
+[Audit Fields]{.est}	PrimaryKey	Text		
+[Audit Fields]{.est}	CreationTimestamp	Timestamp		
+[Audit Fields]{.est}	CreatedBy	Text		
+[Audit Fields]{.est}	ModificationTimestamp	Timestamp		
+[Audit Fields]{.est}	ModifiedBy	Text		
+- EOF -				

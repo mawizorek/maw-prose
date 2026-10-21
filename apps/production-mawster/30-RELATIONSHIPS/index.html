@@ -1,0 +1,2956 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Long-form notes, standards, and FileMaker application documentation.">
+      
+      
+      
+        <link rel="canonical" href="https://mawizorek.github.io/maw-prose/apps/production-mawster/30-RELATIONSHIPS/">
+      
+      
+        <link rel="prev" href="../print-geometry/">
+      
+      
+        <link rel="next" href="../document-templates/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../maw-prose-mark.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Relationships - MAW Prose</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Chakra+Petch:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400&display=swap">
+    
+      <link rel="stylesheet" href="../../../assets/base.cb2a5e8e.css">
+    
+      <link rel="stylesheet" href="../../../assets/chrome.d566ec28.css">
+    
+      <link rel="stylesheet" href="../../../assets/nav.067adc60.css">
+    
+      <link rel="stylesheet" href="../../../assets/type.91cafb45.css">
+    
+      <link rel="stylesheet" href="../../../assets/foot.63f3ef78.css">
+    
+      <link rel="stylesheet" href="../../../assets/data.128ef73b.css">
+    
+      <link rel="stylesheet" href="../../../assets/data-list.a2fcd731.css">
+    
+      <link rel="stylesheet" href="../../../assets/tokens.462f4ff9.css">
+    
+      <link rel="stylesheet" href="../../../assets/marks.ff1eabcb.css">
+    
+      <link rel="stylesheet" href="../../../assets/blocks.088f5b45.css">
+    
+      <link rel="stylesheet" href="../../../assets/print.a2642659.css">
+    
+      <link rel="stylesheet" href="../../../assets/print-chrome.3cbbe704.css">
+    
+      <link rel="stylesheet" href="../../../assets/print-flow.94a36205.css">
+    
+      <link rel="stylesheet" href="../../../assets/print-type.deb822e6.css">
+    
+      <link rel="stylesheet" href="../../../assets/print-space.9005cf84.css">
+    
+      <link rel="stylesheet" href="../../../assets/print-callout.c62c07f1.css">
+    
+      <link rel="stylesheet" href="../../../assets/print-identity.138473bd.css">
+    
+      <link rel="stylesheet" href="../../../assets/print-ink.64220656.css">
+    
+      <link rel="stylesheet" href="../../../assets/print-md-bridge.0e7a70e9.css">
+    
+      <link rel="stylesheet" href="../../../assets/flow.1b743610.css">
+    
+      <link rel="stylesheet" href="../../../assets/qr.f4398d01.css">
+    
+      <link rel="stylesheet" href="../../../assets/align.0ac1ea6c.css">
+    
+      <link rel="stylesheet" href="../../../assets/gloss.4c85baaf.css">
+    
+      <link rel="stylesheet" href="../../../assets/packet.f475f0ac.css">
+    
+      <link rel="stylesheet" href="../../../assets/print-packet.d560d2cf.css">
+    
+      <link rel="stylesheet" href="../../../assets/tasklist.a288354c.css">
+    
+      <link rel="stylesheet" href="../../../assets/printctl.8e75bde2.css">
+    
+      <link rel="stylesheet" href="../../../assets/printcompose.6215733d.css">
+    
+      <link rel="stylesheet" href="../../../assets/copytext.3ccf3ec3.css">
+    
+      <link rel="stylesheet" href="../../../assets/site.039790fb.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#relationships" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="MAW Prose" class="md-header__button md-logo" aria-label="MAW Prose" data-md-component="logo">
+      
+  <img src="../../../maw-prose-mark.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MAW Prose
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Relationships
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="MAW Prose" class="md-nav__button md-logo" aria-label="MAW Prose" data-md-component="logo">
+      
+  <img src="../../../maw-prose-mark.svg" alt="logo">
+
+    </a>
+    MAW Prose
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MAW Prose
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apps
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Apps
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../production-mawster-no-use/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Production MAWster
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Production MAWster
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Production MAWster
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../10-ux/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UX
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../15-runtime/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../16-printing/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Printing
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build-sheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build Sheet
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ddr-punch-list/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DDR Punch List
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../print-first-runbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Print-first Runbook
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build & Use Workflow
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../projection-law/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projection Law
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../theme-resolution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme Resolution
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../theme-state/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme State (observed)
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../theme-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme Selection
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../20-tables/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tables
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ClickUp Integration
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../theme-build-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme Build Order
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../theme-event-styling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event Styling
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../theme-vector-grain/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vector Grain (what is data, what is layout)
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../theme-template-layout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Styled Objects Template (build spec)
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data-standards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data standards
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../device-handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Device Handoff
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../print-geometry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Print & iPad Geometry
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_22" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="./" class="md-nav__link md-nav__link--active">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relationships
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_22_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2_22">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Relationships
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../document-templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Document Templates
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../50-LAYOUTS/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Layouts
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../60-custom-functions/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Functions
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../70-scripts/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scripts
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../90-file-imports-temp/prevProductionCalendarApp/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    90 file imports temp
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../../uritp-people/layouts/RECONCILE/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Uritp people
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../../../standards/filemaker/clipboard-snippets/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standards
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../coursework/assignment-art-cue-mood-project/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Coursework
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-these-columns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why these columns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anchor-and-buoy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anchor and buoy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#retired-vocabulary-house" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🪦 Retired vocabulary · "HOUSE"
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resolved-2026-08-16-the-global-in-predicate-fork" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ RESOLVED 2026-08-16 · the global-in-predicate fork
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-theme-resolution-chain-the-shape-to-build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎨 The theme resolution chain (the shape to build)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎨 The theme resolution chain (the shape to build)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-events-branch-has-the-same-defect-and-a-flip-order-trap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔴 The EVENTS branch has the same defect, and a flip-order trap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-floor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The floor
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-the-first-draft-already-caught" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What the first draft already caught
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fields
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<p class="buildstamp buildstamp--corner" hidden><span class="buildstamp__row"><span class="buildstamp__mark" aria-hidden="true" style="background-image:url(&quot;../../../maw-prose-mark.svg&quot;)"></span><span class="buildstamp__text"><span class="buildstamp__id">MAW Prose</span><span class="buildstamp__sep"> · </span><span class="buildstamp__when">Fall 2026</span></span></span></p><h1 id="relationships">Relationships<a class="headerlink" href="#relationships" title="Permanent link">&para;</a></h1>
+<p class="dr-lede">What the graph SHOULD be. The DDR is what it IS. The value is the diff.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Grain</p>
+<p>One row per table occurrence. Grouped by the ANCHOR that owns it.</p>
+</div>
+<p>🔴 <strong>This file holds INTENT, never inventory.</strong> What should exist, why, which anchor owns it, whether creation is allowed through it. <strong>The DDR already generates what DOES exist</strong> — its overview line counts and lists every relationship on every export. Keeping a second hand-written list of the same fact is a second claimant, and the hand-written one always loses.</p>
+<p><strong>So: this is the plan, the DDR is the audit, and the useful artifact is the DIFF between them.</strong></p>
+<p>⚠️ <strong>It only survives if a row is written BEFORE the relationship is built.</strong> Written after, it is transcription, and transcription gets skipped on the first busy afternoon. Written before, it is the design step — decide the predicates and the create flag here, then go tick the boxes. <strong>The same reason the layouts TSV works.</strong></p>
+<p>🚫 <strong>Never write a relationship count on this page. The rows are the count.</strong></p>
+<h2 id="why-these-columns">Why these columns<a class="headerlink" href="#why-these-columns" title="Permanent link">&para;</a></h2>
+<p>Most of them are self-evident. Two are not, and they are the reason the file exists:</p>
+<ul>
+<li><strong><code>Allow_Create</code></strong> — the transaction pattern depends on this checkbox and <strong>it is invisible on the graph</strong>. A relationship that silently lost it breaks a rebuild script with no error.</li>
+<li><strong><code>Used_By</code></strong> — which layout or script depends on the occurrence. <strong>This is what makes deleting one safe</strong>, and no DDR can tell you.</li>
+</ul>
+<p><code>Sorted_By</code> earns its place too: the sorted-relationship mechanism is load-bearing three separate times here — value lists, emphasis resolution, and span portals — and a sort living on the wrong side of a relationship has already cost an afternoon.</p>
+<h2 id="anchor-and-buoy">Anchor and buoy<a class="headerlink" href="#anchor-and-buoy" title="Permanent link">&para;</a></h2>
+<p>One <strong>anchor</strong> occurrence per table a layout is built on, with <strong>buoys</strong> hanging off it for everything that anchor must reach. Never one interconnected web.</p>
+<p><strong>Why:</strong> in a web-shaped graph, adding a relationship for a new report silently changes what existing layouts can see, and the symptom arrives on a printed page weeks later. <strong>In anchor and buoy, a change to one anchor's buoys cannot affect another anchor. Ever.</strong></p>
+<p><strong>Cost, stated honestly:</strong> the graph gets wide. <code>LOCATIONS</code> may appear under several anchors. You will scroll — and you will never debug a cross-anchor side effect, because there cannot be one.</p>
+<p>⚠️ <strong>A <code>view | TABLE</code> occurrence is used by its OWN layout and nothing else.</strong> The moment a portal on another anchor points at one, they become shared buoys and the web is back.</p>
+<p>⚠️ <strong>Naming, corrected 2026-08-16:</strong> this page specified <code>&lt;ANCHOR&gt;_&lt;PATH&gt;</code>; the file uses <strong><code>&lt;TABLE&gt;_for_&lt;ANCHOR&gt;</code></strong> (<code>STYLES_for_WORKDAYS</code>, <code>THEMES_X_STYLES_for_EVENTS</code>). <strong>The file's version wins</strong> — it reads as a sentence and sorts by target table, which is how you actually hunt an occurrence. Documented convention updated to match the build.</p>
+<h2 id="retired-vocabulary-house">🪦 Retired vocabulary · "HOUSE"<a class="headerlink" href="#retired-vocabulary-house" title="Permanent link">&para;</a></h2>
+<p>🚫 <strong>The word HOUSE is retired from this app's theme vocabulary as of 2026-08-16. The word is DEFAULT.</strong></p>
+<p>It came from the 08-09 config design, where the fallback theme was a <strong>record</strong>: <code>ORGANIZATION.fkDefaultTheme</code> was called the <em>house theme</em> because ORGANIZATION represented the company that owns the copy of the app, cascading <code>PRODUCERS.fkTheme</code> → house → magenta. In that model "house" carried real meaning: it named a <strong>level of ownership</strong>, distinct from a producer.</p>
+<p>🔴 <strong>That cascade is not what got built.</strong> The file resolves the floor from <strong><code>GLOBAL_USE::g_pkDefaultTheme</code></strong>, true Global storage, set at startup. There is no ORGANIZATION hop and no producer hop in the styling chain — <strong>two globals, <code>g_pkCurrentTheme</code> and <code>g_pkDefaultTheme</code>, and that is the whole cascade.</strong></p>
+<p>⭐ <strong>So "house" now names a level that does not exist</strong>, which is worse than a merely unfamiliar word: it implies a hop a reader will go looking for. The theme named <code>default</code> is a row in <code>THEMES</code>; the global is <code>g_pkDefaultTheme</code>; <strong>the branch is the DEFAULT branch.</strong> One word, three surfaces, no translation.</p>
+<p>⚠️ Historical note kept deliberately, because the ORGANIZATION cascade may still return for <strong>logos and brand</strong>, which is what that level was genuinely for. If it does, it will be a <em>producer/organization</em> cascade feeding the theme choice — not a fourth fallback rung inside the styling resolve.</p>
+<h2 id="resolved-2026-08-16-the-global-in-predicate-fork">✅ RESOLVED 2026-08-16 · the global-in-predicate fork<a class="headerlink" href="#resolved-2026-08-16-the-global-in-predicate-fork" title="Permanent link">&para;</a></h2>
+<p>This page previously carried an open three-way fork: a relationship matches two occurrences only, so it <em>"cannot reach <code>GLOBAL_USE::g_currentCalendar</code> from the WORKDAYS side."</em> The three drafted options were (1) put the global field on WORKDAYS, (2) portal filter, (3) re-anchor the grid on <code>GLOBAL_USE</code>. It was flagged as also hitting <code>STYLES_ACTIVE</code> and <code>STYLES_HOUSE</code>, with <em>decide once, apply to all three.</em></p>
+<p>🔴 <strong>The premise was wrong, and that is why none of the three options was satisfying.</strong></p>
+<p>⭐ <strong>OPTION 4 — A GLOBAL FIELD IS READABLE FROM ANY CONTEXT IN A CALCULATION, WITH NO RELATIONSHIP AT ALL.</strong> That is what global storage <em>is</em>: one value, file-wide, not reached through the graph. So the source table does not need the global; it needs a <strong>calculation that references it</strong>.</p>
+<div class="highlight"><pre><span></span><code>STYLES::calc_ActiveThemeKey  =  GLOBAL_USE::g_pkCurrentTheme &amp; "&gt;" &amp; PrimaryKey
+</code></pre></div>
+<p>Unstored (it must be — it references a global), and <strong>unstored is fine because it is the LEFT side of the relationship.</strong> Only the right side needs a stored, indexed field.</p>
+<p><strong>Why it beats all three drafted options:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 · global field on the source table</td>
+<td>🚫 <strong>Second claimant on the session value.</strong> Two fields named for one truth, and nothing keeps them equal.</td>
+</tr>
+<tr>
+<td>2 · portal filter</td>
+<td>🚫 <strong>Display only.</strong> No effect on a found set, a report, or a PDF — and this app's whole purpose is print.</td>
+</tr>
+<tr>
+<td>3 · re-anchor on <code>GLOBAL_USE</code></td>
+<td>⚠️ Works, and is right for a Home/dashboard layout that is <em>about</em> session state. <strong>Wrong for a data grid</strong>, whose anchor should be its own records.</td>
+</tr>
+<tr>
+<td><strong>4 · unstored calc reading the global</strong></td>
+<td>✅ <strong>One origin, no restructuring, works for found sets and print.</strong></td>
+</tr>
+</tbody>
+</table>
+<p>⚠️ <strong>The cost, stated:</strong> an unstored calc referencing a global <strong>cannot be indexed</strong>, so it may never be the right side of a relationship and never a stored match target. In this pattern it never is.</p>
+<p>⚠️ <strong>Apply to all three</strong> as the original fork instructed: <code>STYLES_ACTIVE</code>, <code>STYLES_DEFAULT</code> (drafted as <code>STYLES_HOUSE</code>), and the <code>WORKDAYS_EVENTS</code> calendar predicate.</p>
+<h2 id="the-theme-resolution-chain-the-shape-to-build">🎨 The theme resolution chain (the shape to build)<a class="headerlink" href="#the-theme-resolution-chain-the-shape-to-build" title="Permanent link">&para;</a></h2>
+<p>Full reasoning: [<a href="../theme-resolution/">Theme Resolution</a>] · observed state: [<a href="../theme-state/">Theme State</a>].</p>
+<p>⭐ <strong>The two key calcs live on the STYLES BASE TABLE, so every occurrence of STYLES inherits them for free</strong> — <code>STYLES_for_WORKDAYS</code>, <code>STYLES_for_EVENTS</code>, and any future consumer. <strong>Fields are shared across occurrences; TOs are not.</strong> That is why extending this to a second anchor costs predicates and buoys, never fields.</p>
+<div class="highlight"><pre><span></span><code>ANCHOR: WORKDAYS  (the print grid)
+  |
+  +-- STYLES_for_WORKDAYS            StyleJoin_auto = calc_Key
+  |     |                             (built 08-16)
+  |     |
+  |     +-- TXS_ACTIVE_for_WORKDAYS   calc_ActiveThemeKey  = calc_ThemeStyleKey
+  |     |     |                        g_pkCurrentTheme &amp; "&gt;" &amp; PrimaryKey
+  |     |     +-- COLOR_ACTIVE_for_WORKDAYS    fkColor_Text = PrimaryKey
+  |     |     +-- TYPE_ACTIVE_for_WORKDAYS     fkTypography = PrimaryKey
+  |     |
+  |     +-- TXS_DEFAULT_for_WORKDAYS  calc_DefaultThemeKey = calc_ThemeStyleKey
+  |           |                        g_pkDefaultTheme &amp; "&gt;" &amp; PrimaryKey
+  |           +-- COLOR_DEFAULT_for_WORKDAYS   fkColor_Text = PrimaryKey
+  |           +-- TYPE_DEFAULT_for_WORKDAYS    fkTypography = PrimaryKey
+</code></pre></div>
+<p>🔴 <strong>TWO parallel appearance branches, not one.</strong> Active and default. The per-vector coalesce needs <strong>both sides simultaneously</strong>, so it cannot be done by re-pointing one relationship.</p>
+<p>🔴 <strong>A single composite predicate per hop, never two separate predicates.</strong> <code>fkTheme</code> + <code>fkStyle</code> as two predicates would need two match fields on the STYLES side; one composite key needs one. Same argument that produced <code>calc_Key</code>, one level down.</p>
+<p>🔴 <strong><code>THEMES_x_STYLES</code> needs a new stored key:</strong> <code>calc_ThemeStyleKey = fkTheme &amp; "&gt;" &amp; fkStyle</code>, <strong>stored and indexed</strong>, and <strong>backfilled</strong> across all 18 existing rows — auto-enter does not populate rows that already exist.</p>
+<p>⚠️ <strong>Verify what <code>fkTheme</code> and <code>fkStyle</code> actually STORE before writing that key.</strong> The table view displays <code>default</code> and <code>monthLabel&gt;january</code>, which is either the stored value or a value-list display of a UUID. <strong>A composite built from a display label is not a key.</strong> If they store UUIDs, the composite is UUID-based and correct; if they store the readable strings, that is a separate finding.</p>
+<p>⚠️ <strong>The four leaf occurrences are unavoidable.</strong> Text colour and typography are different tables, and active and default are different rows, so it is 2 × 2. Anchor–buoy forbids sharing them with the EVENTS chain — <strong>that duplication is the pattern working, not a cost of it.</strong></p>
+<h3 id="the-events-branch-has-the-same-defect-and-a-flip-order-trap">🔴 The EVENTS branch has the same defect, and a flip-order trap<a class="headerlink" href="#the-events-branch-has-the-same-defect-and-a-flip-order-trap" title="Permanent link">&para;</a></h3>
+<p><code>THEMES_X_STYLES_for_EVENTS</code> matches on <strong><code>fkStyle</code> alone</strong> — no theme predicate. It works today only because <code>default</code> is the only theme with rows, so one style matches exactly one record. <strong>Repoint it to <code>calc_ActiveThemeKey = calc_ThemeStyleKey</code> and mirror the default branch</strong>, exactly as WORKDAYS.</p>
+<p>🔴 <strong>THE TRAP:</strong> <code>g_pkCurrentTheme</code> is set to <code>URITP</code>, which has <strong>zero</strong> appearance rows. <strong>The instant that predicate is repointed, every event style on every layout goes blank</strong>, because <code>URITP&gt;...</code> matches nothing and the default branch does not exist yet to catch it. ⚠️ <strong>It looks like the change broke the relationship, when it actually started telling the truth</strong> — the old match was hiding an unset theme.</p>
+<p>✅ Safe orders: set <code>g_pkCurrentTheme</code> to <code>default</code> FIRST, then repoint · or build both branches and the resolve calc in one sitting, then flip the global. 🚫 <strong>Never repoint and then go build the default branch afterwards</strong> — that leaves the file visibly broken between two edits, which is exactly when a session gets interrupted.</p>
+<h3 id="the-floor">The floor<a class="headerlink" href="#the-floor" title="Permanent link">&para;</a></h3>
+<p>✅ <strong><code>GLOBAL_USE</code> already holds both halves as true Global storage:</strong> <code>g_pkCurrentTheme</code> and <code>g_pkDefaultTheme</code>. 🔴 <strong>So the default-theme floor is a GLOBAL, not <code>ORGANIZATION.fkDefaultTheme</code></strong> — the 08-09 plan put it on a record and the file put it in session state. <strong>The 08-09 open item is satisfied differently than written, and every doc claiming the floor is missing is stale.</strong></p>
+<p>⚠️ But a global is <em>volatile</em>: something must SET it at startup, and an empty <code>g_pkDefaultTheme</code> prints the whole file magenta. <code>OnFirstWindowOpen</code> owns that, and the completeness report must check it. <strong>This is the one real advantage the record-based design had, and it is now a startup obligation instead of a stored fact.</strong></p>
+<h2 id="what-the-first-draft-already-caught">What the first draft already caught<a class="headerlink" href="#what-the-first-draft-already-caught" title="Permanent link">&para;</a></h2>
+<p>Written before a single relationship exists, it surfaced: <strong>two blocked anchors</strong> (no PEOPLE table, no STANDARD_DOCS) · <strong>two joins that cannot work until an index is added</strong> (the crosswalk, the upsert) · <strong>one grain mismatch in the layouts plan</strong> (highlights hanging off an export set rather than a calendar) · and <strong>three misspelled keys</strong> that must be fixed before a relationship binds them.</p>
+<h2 id="fields">Fields<a class="headerlink" href="#fields" title="Permanent link">&para;</a></h2>
+<div class="dr-data" id="data-catalog">
+<table class="dr-data__table">
+<thead><tr>
+<th class="dr-col--tok">id</th>
+<th class="dr-col--tok">Anchor</th>
+<th class="dr-col--tok">TO_Name</th>
+<th class="dr-col--tok">Base_Table</th>
+<th class="dr-col--tok">Parent_TO</th>
+<th class="dr-col--prose">Predicates</th>
+<th class="dr-col--tok">Allow_Create</th>
+<th class="dr-col--tok">Allow_Delete</th>
+<th class="dr-col--prose">Sorted_By</th>
+<th class="dr-col--prose">Used_By</th>
+<th class="dr-col--prose">Purpose</th>
+<th class="dr-col--tok">Status</th>
+</tr></thead>
+<tbody>
+<tr class="dr-data__section"><th colspan="12"><span class="dr-data__section-label">A1 · HOME</span></th></tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="tbc" title="Not yet verified against a source. Do not rely on this without checking.">To be confirmed</span></td>
+<td class="dr-col--tok">HOME</td>
+<td class="dr-col--tok">HOME</td>
+<td class="dr-col--tok">ORGANIZATION</td>
+<td class="dr-col--tok">—</td>
+<td class="dr-col--prose">— (anchor)</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">—</td>
+<td class="dr-col--prose">Home</td>
+<td class="dr-col--prose">the tenant record. layout plan anchored this on GLOBAL_USE, which has 0 records</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">HOME</td>
+<td class="dr-col--tok">HOME_PRODUCER</td>
+<td class="dr-col--tok">PRODUCERS</td>
+<td class="dr-col--tok">HOME</td>
+<td class="dr-col--prose">HOME::fkProducer = PRODUCERS::PrimaryKey</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">—</td>
+<td class="dr-col--prose">Home</td>
+<td class="dr-col--prose">house name + logo read THROUGH here, never copied</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">HOME</td>
+<td class="dr-col--tok">HOME_THEME</td>
+<td class="dr-col--tok">THEMES</td>
+<td class="dr-col--tok">HOME</td>
+<td class="dr-col--prose">HOME::fkDefaultTheme = THEMES::PrimaryKey</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">—</td>
+<td class="dr-col--prose">Home · resolve cascade</td>
+<td class="dr-col--prose">the house floor</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="tbc" title="Not yet verified against a source. Do not rely on this without checking.">To be confirmed</span></td>
+<td class="dr-col--tok">HOME</td>
+<td class="dr-col--tok">HOME_LAYOUTS</td>
+<td class="dr-col--tok">auto_LAYOUTS</td>
+<td class="dr-col--tok">HOME</td>
+<td class="dr-col--prose">cartesian (x)</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">Sort asc</td>
+<td class="dr-col--prose">Home</td>
+<td class="dr-col--prose">the layout registry</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">HOME</td>
+<td class="dr-col--tok">HOME_SESSION</td>
+<td class="dr-col--tok">GLOBAL_USE</td>
+<td class="dr-col--tok">HOME</td>
+<td class="dr-col--prose">constant 1 = constant 1</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">—</td>
+<td class="dr-col--prose">Home</td>
+<td class="dr-col--prose">reach session state from the anchor</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr class="dr-data__section"><th colspan="12"><span class="dr-data__section-label">A2 · WORKDAYS</span></th></tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">WORKDAYS</td>
+<td class="dr-col--tok">WORKDAYS</td>
+<td class="dr-col--tok">WORKDAYS</td>
+<td class="dr-col--tok">—</td>
+<td class="dr-col--prose">— (anchor)</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">Date asc</td>
+<td class="dr-col--prose">Working Form · the grid</td>
+<td class="dr-col--prose">canonical date table, one row per real date</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="tbc" title="Not yet verified against a source. Do not rely on this without checking.">To be confirmed</span></td>
+<td class="dr-col--tok">WORKDAYS</td>
+<td class="dr-col--tok">WORKDAYS_EVENTS</td>
+<td class="dr-col--tok">EVENTS_WORKDAYS</td>
+<td class="dr-col--tok">WORKDAYS</td>
+<td class="dr-col--prose">WORKDAYS::Date = EVENTS_WORKDAYS::Date</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--tok">yes</td>
+<td class="dr-col--prose">see note</td>
+<td class="dr-col--prose">the day cell portal</td>
+<td class="dr-col--prose">SEE CALENDAR-SCOPE NOTE. needs a 2nd predicate it cannot have</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">WORKDAYS</td>
+<td class="dr-col--tok">WORKDAYS_EV_EVENT</td>
+<td class="dr-col--tok">EVENTS</td>
+<td class="dr-col--tok">WORKDAYS_EVENTS</td>
+<td class="dr-col--prose">WORKDAYS_EVENTS::fkEvent = EVENTS::PrimaryKey</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">—</td>
+<td class="dr-col--prose">the day cell portal</td>
+<td class="dr-col--prose">identity lives HERE, never on the projection row</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">WORKDAYS</td>
+<td class="dr-col--tok">WORKDAYS_EV_STYLE</td>
+<td class="dr-col--tok">STYLES</td>
+<td class="dr-col--tok">WORKDAYS_EV_EVENT</td>
+<td class="dr-col--prose">WORKDAYS_EV_EVENT::ovr_fkStyle = STYLES::PrimaryKey</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">—</td>
+<td class="dr-col--prose">cell rendering</td>
+<td class="dr-col--prose">the token. never reach a colour table directly</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">WORKDAYS</td>
+<td class="dr-col--tok">WORKDAYS_HIGHLIGHTS</td>
+<td class="dr-col--tok">CALENDAR_HIGHLIGHTS</td>
+<td class="dr-col--tok">WORKDAYS</td>
+<td class="dr-col--prose">Date &gt;= calc_ResolvedStart AND Date &lt;= calc_ResolvedEnd</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">Priority desc, span width asc</td>
+<td class="dr-col--prose">cell emphasis + hide</td>
+<td class="dr-col--prose">inequality join, unindexed by nature. first related row wins</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr class="dr-data__section"><th colspan="12"><span class="dr-data__section-label">A3 · ROLE ASSIGNMENTS</span></th></tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">ROLES</td>
+<td class="dr-col--tok">ROLES</td>
+<td class="dr-col--tok">ROLES</td>
+<td class="dr-col--tok">—</td>
+<td class="dr-col--prose">— (anchor)</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">Title asc</td>
+<td class="dr-col--prose">Role Assignments</td>
+<td class="dr-col--prose">the role library</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">ROLES</td>
+<td class="dr-col--tok">ROLES_ASSIGNMENTS</td>
+<td class="dr-col--tok">ROLE_ASSIGNMENTS</td>
+<td class="dr-col--tok">ROLES</td>
+<td class="dr-col--prose">ROLES::PrimaryKey = ROLE_ASSIGNMENTS::fkRole</td>
+<td class="dr-col--tok">yes</td>
+<td class="dr-col--tok">yes</td>
+<td class="dr-col--prose">Sort asc</td>
+<td class="dr-col--prose">the assignments portal</td>
+<td class="dr-col--prose">the credit line, one per production per role</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="tbc" title="Not yet verified against a source. Do not rely on this without checking.">To be confirmed</span></td>
+<td class="dr-col--tok">ROLES</td>
+<td class="dr-col--tok">ROLES_ASG_PRODUCTION</td>
+<td class="dr-col--tok">PRODUCTIONS</td>
+<td class="dr-col--tok">ROLES_ASSIGNMENTS</td>
+<td class="dr-col--prose">ROLE_ASSIGNMENTS::fkProduction = PRODUCTIONS::PrimaryKey</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">—</td>
+<td class="dr-col--prose">the assignments portal</td>
+<td class="dr-col--prose">which show this credit belongs to</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="tbc" title="Not yet verified against a source. Do not rely on this without checking.">To be confirmed</span></td>
+<td class="dr-col--tok">ROLES</td>
+<td class="dr-col--tok">ROLES_ASG_PERSON</td>
+<td class="dr-col--tok">—</td>
+<td class="dr-col--tok">ROLES_ASSIGNMENTS</td>
+<td class="dr-col--prose">fkPerson = ?</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">—</td>
+<td class="dr-col--prose">—</td>
+<td class="dr-col--prose">THERE IS NO PEOPLE TABLE. fkPerson points at nothing on BOTH tables</td>
+<td class="dr-col--tok">blocked</td>
+</tr>
+<tr class="dr-data__section"><th colspan="12"><span class="dr-data__section-label">A4 · DOCUMENTS</span></th></tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="tbc" title="Not yet verified against a source. Do not rely on this without checking.">To be confirmed</span></td>
+<td class="dr-col--tok">DOCS</td>
+<td class="dr-col--tok">DOCS</td>
+<td class="dr-col--tok">STANDARD_DOCS</td>
+<td class="dr-col--tok">—</td>
+<td class="dr-col--prose">— (anchor)</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">Sort asc</td>
+<td class="dr-col--prose">Documents</td>
+<td class="dr-col--prose">TABLE DOES NOT EXIST. likely the index EXPORT_SET_ITEMS::fkDocument points at</td>
+<td class="dr-col--tok">blocked</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="tbc" title="Not yet verified against a source. Do not rely on this without checking.">To be confirmed</span></td>
+<td class="dr-col--tok">DOCS</td>
+<td class="dr-col--tok">DOCS_EDITIONS</td>
+<td class="dr-col--tok">EDITIONS</td>
+<td class="dr-col--tok">DOCS</td>
+<td class="dr-col--prose">DOCS::PrimaryKey = EDITIONS::fkDocument</td>
+<td class="dr-col--tok">yes</td>
+<td class="dr-col--tok">yes</td>
+<td class="dr-col--prose">date_TakesPrecednace asc</td>
+<td class="dr-col--prose">the editions portal</td>
+<td class="dr-col--prose">EDITIONS has fkCalendar, not fkDocument. edition model never ruled</td>
+<td class="dr-col--tok">blocked</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="tbc" title="Not yet verified against a source. Do not rely on this without checking.">To be confirmed</span></td>
+<td class="dr-col--tok">DOCS</td>
+<td class="dr-col--tok">DOCS_ED_VERSIONS</td>
+<td class="dr-col--tok">VERSIONS</td>
+<td class="dr-col--tok">DOCS_EDITIONS</td>
+<td class="dr-col--prose">DOCS_EDITIONS::PrimaryKey = VERSIONS::fkEdition</td>
+<td class="dr-col--tok">yes</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">ID asc</td>
+<td class="dr-col--prose">the versions portal</td>
+<td class="dr-col--prose">append-only. a print is a version of an edition</td>
+<td class="dr-col--tok">blocked</td>
+</tr>
+<tr class="dr-data__section"><th colspan="12"><span class="dr-data__section-label">A5 · STYLES (Theme Studio)</span></th></tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">STYLES</td>
+<td class="dr-col--tok">STYLES</td>
+<td class="dr-col--tok">STYLES</td>
+<td class="dr-col--tok">—</td>
+<td class="dr-col--prose">— (anchor)</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">vl_Domain asc, Sort asc</td>
+<td class="dr-col--prose">Styles Form</td>
+<td class="dr-col--prose">token identity, theme-invariant</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">STYLES</td>
+<td class="dr-col--tok">STYLES_ACTIVE</td>
+<td class="dr-col--tok">THEMES_x_STYLES</td>
+<td class="dr-col--tok">STYLES</td>
+<td class="dr-col--prose">PrimaryKey = fkStyle AND g_currentTheme = fkTheme</td>
+<td class="dr-col--tok">yes</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">—</td>
+<td class="dr-col--prose">live preview + all rendering</td>
+<td class="dr-col--prose">needs a GLOBAL match field. see calendar-scope note</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">STYLES</td>
+<td class="dr-col--tok">STYLES_HOUSE</td>
+<td class="dr-col--tok">THEMES_x_STYLES</td>
+<td class="dr-col--tok">STYLES</td>
+<td class="dr-col--prose">PrimaryKey = fkStyle AND g_houseTheme = fkTheme</td>
+<td class="dr-col--tok">yes</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">—</td>
+<td class="dr-col--prose">the fallback branch</td>
+<td class="dr-col--prose">second cascade level, same shape different global</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">STYLES</td>
+<td class="dr-col--tok">STYLES_FILL</td>
+<td class="dr-col--tok">THEME_COLORS</td>
+<td class="dr-col--tok">STYLES_ACTIVE</td>
+<td class="dr-col--prose">STYLES_ACTIVE::fkColor_Fill = THEME_COLORS::PrimaryKey</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">—</td>
+<td class="dr-col--prose">cell fill</td>
+<td class="dr-col--prose">R/G/B read through here</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">STYLES</td>
+<td class="dr-col--tok">STYLES_TEXT</td>
+<td class="dr-col--tok">THEME_COLORS</td>
+<td class="dr-col--tok">STYLES_ACTIVE</td>
+<td class="dr-col--prose">STYLES_ACTIVE::fkColor_Text = THEME_COLORS::PrimaryKey</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">—</td>
+<td class="dr-col--prose">text colour</td>
+<td class="dr-col--prose">second occurrence of the same table, deliberate</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">STYLES</td>
+<td class="dr-col--tok">STYLES_TYPE</td>
+<td class="dr-col--tok">THEME_TYPOGRAPHY</td>
+<td class="dr-col--tok">STYLES_ACTIVE</td>
+<td class="dr-col--prose">STYLES_ACTIVE::fkTypography = THEME_TYPOGRAPHY::PrimaryKey</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">—</td>
+<td class="dr-col--prose">font / size / weight</td>
+<td class="dr-col--prose">—</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">STYLES</td>
+<td class="dr-col--tok">STYLES_THEMEPICK</td>
+<td class="dr-col--tok">THEMES</td>
+<td class="dr-col--tok">STYLES</td>
+<td class="dr-col--prose">cartesian (x)</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">Sort asc</td>
+<td class="dr-col--prose">the theme popup</td>
+<td class="dr-col--prose">value list source. two-field, store PK show Name</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr class="dr-data__section"><th colspan="12"><span class="dr-data__section-label">A6 · IMPORT</span></th></tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">IMPORT</td>
+<td class="dr-col--tok">IMPORT</td>
+<td class="dr-col--tok">IMPORT_SESSIONS</td>
+<td class="dr-col--tok">—</td>
+<td class="dr-col--prose">— (anchor)</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">dateTime_Complete desc</td>
+<td class="dr-col--prose">Import Form</td>
+<td class="dr-col--prose">the session is the parent, rows are children</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">IMPORT</td>
+<td class="dr-col--tok">IMPORT_ROWS</td>
+<td class="dr-col--tok">IMPORT_EVENTS</td>
+<td class="dr-col--tok">IMPORT</td>
+<td class="dr-col--prose">IMPORT::PrimaryKey = IMPORT_EVENTS::fkImportSssion</td>
+<td class="dr-col--tok">yes</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">import_RowNumber asc</td>
+<td class="dr-col--prose">the main portal</td>
+<td class="dr-col--prose">parent key is misspelled fkImportSssion in the file</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">IMPORT</td>
+<td class="dr-col--tok">IMPORT_SOURCE</td>
+<td class="dr-col--tok">IMPORT_SOURCES</td>
+<td class="dr-col--tok">IMPORT</td>
+<td class="dr-col--prose">IMPORT::fkSource = IMPORT_SOURCES::PrimaryKey</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">—</td>
+<td class="dr-col--prose">source popup</td>
+<td class="dr-col--prose">csv path or api link</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">IMPORT</td>
+<td class="dr-col--tok">IMPORT_CROSSWALK</td>
+<td class="dr-col--tok">STANDARD_EVENTS</td>
+<td class="dr-col--tok">IMPORT_ROWS</td>
+<td class="dr-col--prose">IMPORT_ROWS::import_Name = STANDARD_EVENTS::Name</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">—</td>
+<td class="dr-col--prose">the crosswalk</td>
+<td class="dr-col--prose">REQUIRES STANDARD_EVENTS::Name INDEXED. it is not today</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">IMPORT</td>
+<td class="dr-col--tok">IMPORT_TARGET</td>
+<td class="dr-col--tok">EVENTS</td>
+<td class="dr-col--tok">IMPORT_ROWS</td>
+<td class="dr-col--prose">cu_TaskID = cuTaskId AND fkProduction = fkProduction</td>
+<td class="dr-col--tok">yes</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">—</td>
+<td class="dr-col--prose">the upsert</td>
+<td class="dr-col--prose">REQUIRES EVENTS::fkProduction INDEXED. it is not today</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr class="dr-data__section"><th colspan="12"><span class="dr-data__section-label">A7 · EXPORT</span></th></tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">EXPORT</td>
+<td class="dr-col--tok">EXPORT</td>
+<td class="dr-col--tok">EXPORT_SETS</td>
+<td class="dr-col--tok">—</td>
+<td class="dr-col--prose">— (anchor)</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">Name asc</td>
+<td class="dr-col--prose">Export Set</td>
+<td class="dr-col--prose">the batch header</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">EXPORT</td>
+<td class="dr-col--tok">EXPORT_ITEMS</td>
+<td class="dr-col--tok">EXPORT_SET_ITEMS</td>
+<td class="dr-col--tok">EXPORT</td>
+<td class="dr-col--prose">EXPORT::PrimaryKey = EXPORT_SET_ITEMS::fkPrintSet</td>
+<td class="dr-col--tok">yes</td>
+<td class="dr-col--tok">yes</td>
+<td class="dr-col--prose">Sort asc</td>
+<td class="dr-col--prose">the items portal</td>
+<td class="dr-col--prose">child key still named fkPrintSet after the rename</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">EXPORT</td>
+<td class="dr-col--tok">EXPORT_ITEM_PRESET</td>
+<td class="dr-col--tok">EXPORT_PRESETS</td>
+<td class="dr-col--tok">EXPORT_ITEMS</td>
+<td class="dr-col--prose">EXPORT_ITEMS::fkPreset = EXPORT_PRESETS::PrimaryKey</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">—</td>
+<td class="dr-col--prose">the HOW</td>
+<td class="dr-col--prose">everything not overridden on the line resolves here</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">EXPORT</td>
+<td class="dr-col--tok">EXPORT_SESSIONS</td>
+<td class="dr-col--tok">EXPORT_SESSIONS</td>
+<td class="dr-col--tok">EXPORT</td>
+<td class="dr-col--prose">EXPORT::PrimaryKey = EXPORT_SESSIONS::fkPrintSet</td>
+<td class="dr-col--tok">yes</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">PrintedAt desc</td>
+<td class="dr-col--prose">the run log</td>
+<td class="dr-col--prose">append-only, never edited</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="tbc" title="Not yet verified against a source. Do not rely on this without checking.">To be confirmed</span></td>
+<td class="dr-col--tok">EXPORT</td>
+<td class="dr-col--tok">EXPORT_HIGHLIGHTS</td>
+<td class="dr-col--tok">CALENDAR_HIGHLIGHTS</td>
+<td class="dr-col--tok">EXPORT</td>
+<td class="dr-col--prose">?</td>
+<td class="dr-col--tok">yes</td>
+<td class="dr-col--tok">yes</td>
+<td class="dr-col--prose">Priority desc</td>
+<td class="dr-col--prose">the highlights portal</td>
+<td class="dr-col--prose">GRAIN MISMATCH: highlights belong to a CALENDAR, not an export set</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr class="dr-data__section"><th colspan="12"><span class="dr-data__section-label">A8 · SETUP + UTILITY</span></th></tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">SETUP</td>
+<td class="dr-col--tok">SETUP_VL</td>
+<td class="dr-col--tok">VALUE_LISTS</td>
+<td class="dr-col--tok">—</td>
+<td class="dr-col--prose">— (anchor)</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">Name asc</td>
+<td class="dr-col--prose">Value Lists</td>
+<td class="dr-col--prose">—</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">SETUP</td>
+<td class="dr-col--tok">SETUP_VL_VALUES</td>
+<td class="dr-col--tok">VALUES</td>
+<td class="dr-col--tok">SETUP_VL</td>
+<td class="dr-col--prose">SETUP_VL::PrimaryKey = VALUES::fkList</td>
+<td class="dr-col--tok">yes</td>
+<td class="dr-col--tok">yes</td>
+<td class="dr-col--prose">Sort asc</td>
+<td class="dr-col--prose">the values portal</td>
+<td class="dr-col--prose">VALUES is a SQL reserved word and now holds 8 records</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">SETUP</td>
+<td class="dr-col--tok">SETUP_PRODUCERS</td>
+<td class="dr-col--tok">PRODUCERS</td>
+<td class="dr-col--tok">HOME</td>
+<td class="dr-col--prose">cartesian (x)</td>
+<td class="dr-col--tok">yes</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">Name asc</td>
+<td class="dr-col--prose">Producers + Venues</td>
+<td class="dr-col--prose">—</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">SETUP</td>
+<td class="dr-col--tok">SETUP_LOCATIONS</td>
+<td class="dr-col--tok">LOCATIONS</td>
+<td class="dr-col--tok">HOME</td>
+<td class="dr-col--prose">cartesian (x)</td>
+<td class="dr-col--tok">yes</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">Name asc</td>
+<td class="dr-col--prose">Producers + Venues</td>
+<td class="dr-col--prose">—</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">SETUP</td>
+<td class="dr-col--tok">SETUP_LOC_TYPE</td>
+<td class="dr-col--tok">LOCATION_TYPES</td>
+<td class="dr-col--tok">SETUP_LOCATIONS</td>
+<td class="dr-col--prose">SETUP_LOCATIONS::fkLocationType = LOCATION_TYPES::PrimaryKey</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">Sort asc</td>
+<td class="dr-col--prose">location type popup</td>
+<td class="dr-col--prose">—</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">UTIL</td>
+<td class="dr-col--tok">UTIL_REPORTS</td>
+<td class="dr-col--tok">UTILITY_REPORTS</td>
+<td class="dr-col--tok">—</td>
+<td class="dr-col--prose">— (anchor)</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">dateTime_Start desc</td>
+<td class="dr-col--prose">Utility Reports</td>
+<td class="dr-col--prose">the run spine</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">UTIL</td>
+<td class="dr-col--tok">UTIL_LOGS</td>
+<td class="dr-col--tok">UTILITY_LOGS</td>
+<td class="dr-col--tok">UTIL_REPORTS</td>
+<td class="dr-col--prose">UTIL_REPORTS::PrimaryKey = UTILITY_LOGS::fkRunReport</td>
+<td class="dr-col--tok">yes</td>
+<td class="dr-col--tok">no</td>
+<td class="dr-col--prose">CreationTimestamp asc</td>
+<td class="dr-col--prose">the log portal</td>
+<td class="dr-col--prose">drop UTILITY_LOGS::fkReport first, two claimants</td>
+<td class="dr-col--tok">planned</td>
+</tr>
+<tr class="dr-data__section"><th colspan="12"><span class="dr-data__section-label">- EOF -</span></th></tr>
+</tbody></table>
+<p class="dr-data__source">41 rows &middot; <a href="RELATIONSHIPS.tsv" download>RELATIONSHIPS.tsv</a></p>
+</div>
+
+<p class="dr-revised"><em>Revised 2026-08</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/production-mawster/30-RELATIONSHIPS/index.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">67b605d</span></span></p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../print-geometry/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Print &amp; iPad Geometry">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Print & iPad Geometry
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../document-templates/" class="md-footer__link md-footer__link--next" aria-label="Next: Document Templates">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Document Templates
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.indexes", "navigation.prune", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy", "toc.follow"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../../assets/data.3b5a8c4f.js"></script>
+      
+        <script src="../../../assets/printdial.f88803ef.js"></script>
+      
+        <script src="../../../assets/printfurn.1d5007a1.js"></script>
+      
+        <script src="../../../assets/printctl.fce9ce6c.js"></script>
+      
+        <script src="../../../assets/printcompose.c5fc15c1.js"></script>
+      
+        <script src="../../../assets/copytext.c705bf07.js"></script>
+      
+    
+  </body>
+</html>

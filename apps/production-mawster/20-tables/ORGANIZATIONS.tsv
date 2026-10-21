@@ -1,0 +1,10 @@
+id	Field_Name	Type	Options	Notes
+[Normalize]{.conf}	Name	Text		Order the outputs are produced in
+[Normalize]{.conf}	fkProducer	[Text]{.rel}		what it's called in this set. auto in from the canonical then never auto-ed again
+[Normalize]{.conf}	fkDefaultTheme	[Text]{.rel}		the final per-file export path choice. may be a reference to the SET's root
+[Audit Field]{.est}	PrimaryKey	Text		
+[Audit Field]{.est}	CreationTimestamp	Timestamp		
+[Audit Field]{.est}	CreatedBy	Text		
+[Audit Field]{.est}	ModificationTimestamp	Timestamp		
+[Audit Field]{.est}	ModifiedBy	Text		
+- EOF -				

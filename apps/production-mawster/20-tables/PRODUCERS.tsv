@@ -1,8 +1,8 @@
 id	Field_Name	Type	Options	Notes
 NORMALIZED FIELDS				
-{.conf}	Name	Text		Indexed
+{.conf}	Name	Text	Indexed	
 {.conf}	NameShort	Text		
-{.conf}	NameDisplay	Text		Indexed, Auto-Enter Calculation
+{.conf}	NameDisplay	Text	Indexed, Auto-Enter Calculation	
 {.conf}	media_LogoWide	Container		Legacy SETUP::VenueLOGO lived as a global. This is the right home
 {.conf}	media_LogoSquare	Container		
 AUDIT FIELDS				

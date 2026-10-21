@@ -1,0 +1,20 @@
+status	Field_Name	Type	Notes
+NORMALIZED FIELDS			
+{.conf}	PrintedAt	Timestamp	
+{.conf}	EventRowCount	Number	What was on the page at print time
+{.conf}	snap_ExportPath	Text	fkExport_Set export path may change. this is a log.
+{.conf}	Result_Pointer	Text	Link to the actual upload, if applicable.
+{.conf}	media_Report	Comtainer	where the run report is exported to. A cover page, and then each exported file appended on to the end. Or a ZIP or the full tree.
+RELATIONSHIPS			
+{.conf}	fkPrintSet		Which saved export settings produced this run
+CHILDREN			
+{.conf} {.gap}	"Versions::Notes"	( related )	< fkPrintSet < fkVersion >
+{.conf} {.gap}	( fkEDITION )	( related )	< fkPrintSet < fkVersion < fkEdition >
+{.conf} {.gap}	( fkPRODUCTION )	( related )	< fkPrintSet < fkVersion < fkEdition < fkProduction >
+AUDIT FIELDS			
+{.conf}	< need to fill these in >	Text	
+{.conf}		Text	
+{.conf}		Text	
+{.conf}		Text	
+{.conf}		Text	
+- EOF -			

@@ -1,0 +1,16 @@
+status	Field_Name	Type	Options	Notes
+NORMALIZED FIELDS				
+{.conf}	Name	Number		
+{.conf}	date_TakesPrecedence			(optional) When this edition is scheduled to become the new SOURCE OF TRUTH. maybe removalble if fkPreceeded by is successful.
+RELATIONSHIPS				
+{.conf}	fkCalendar	Text	[stamped]{.hi}	stamped.
+{.conf}	fkSuperseededBy			self-join to other EDITIONS, *not* required to be of the same doc. A Tech Schedule can superseed a Production Calendar.
+CHILDREN				
+	< Version			
+AUDIT FIELDS				
+	PrimaryKey			
+	[[Audit Fields](@audit-fields)]{.hi}			
+				
+				
+	< Versions			
+- EOF -				

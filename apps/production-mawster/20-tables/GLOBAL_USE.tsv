@@ -1,0 +1,10 @@
+status	Field_Name	Type	Options	Notes
+NORMALIZED FIELDS				
+{.conf} {.gap}	g_pkCurrentTheme	Text		
+AUDIT FIELDS				
+{.conf}	PrimaryKey	Text		
+{.conf}	CreationTimestamp	Timestamp		
+{.conf}	CreatedBy	Text		
+{.conf}	ModificationTimestamp	Timestamp		
+{.conf}	ModifiedBy	Text		
+- EOF -				

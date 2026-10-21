@@ -2,7 +2,7 @@
   "site": "mawprose",
   "name": "MAW Prose",
   "base_url": "https://mawizorek.github.io/maw-prose/",
-  "built": "2026-10-21T13:44:25Z",
+  "built": "2026-10-21T13:53:15Z",
   "engine": "0.1.0",
   "engine_ref": "ec3575005181afe820165ffd4bf46bd8cb0ed5ac",
   "pages": [
@@ -52,10 +52,73 @@
       "print_gloss": null
     },
     {
+      "id": "cf-errjson",
+      "type": "reference",
+      "title": "ErrJSON",
+      "url": "apps/production-mawster/60-custom-functions/errjson/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "custom-functions",
+      "type": "index",
+      "title": "Custom Functions",
+      "url": "apps/production-mawster/60-custom-functions/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
       "id": "data-standards",
       "type": "reference",
       "title": "Data standards",
       "url": "apps/production-mawster-no-use/data-standards/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "ddr-punch-list",
+      "type": "reference",
+      "title": "DDR Punch List",
+      "url": "apps/production-mawster/ddr-punch-list/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "delete-me-app-open",
+      "type": "reference",
+      "title": "\ud83d\udd34 DELETE ME \u2014 90-Utlity/APP-OPEN.md",
+      "url": "apps/production-mawster/70-scripts/90-Utlity/DELETE-ME-app-open/",
+      "status": "unlisted",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "delete-me-new-activity-log",
+      "type": "reference",
+      "title": "\ud83d\udd34 DELETE ME \u2014 90-Utlity/NEW-ACTIVITY-LOG.md",
+      "url": "apps/production-mawster/70-scripts/90-Utlity/DELETE-ME-new-activity-log/",
+      "status": "unlisted",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "device-handoff",
+      "type": "reference",
+      "title": "Device Handoff",
+      "url": "apps/production-mawster/device-handoff/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "document-templates",
+      "type": "reference",
+      "title": "Document Templates",
+      "url": "apps/production-mawster/document-templates/",
       "status": "public",
       "gloss": null,
       "print_gloss": null
@@ -106,6 +169,24 @@
       "print_gloss": null
     },
     {
+      "id": "layout-theme-rendering",
+      "type": "reference",
+      "title": "Layout Theme Renderinng",
+      "url": "apps/production-mawster/50-LAYOUTS/layout-theme-rendering/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "layouts",
+      "type": "index",
+      "title": "Layouts",
+      "url": "apps/production-mawster/50-LAYOUTS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
       "id": "legacy-script-review",
       "type": "reference",
       "title": "Legacy Script Review",
@@ -124,10 +205,64 @@
       "print_gloss": null
     },
     {
+      "id": "menu-database",
+      "type": "page",
+      "title": "Database",
+      "url": "apps/production-mawster/10-ux/menu_database/",
+      "status": "unlisted",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "menu-fields",
+      "type": "page",
+      "title": "Fields",
+      "url": "apps/production-mawster/10-ux/menu_fields/",
+      "status": "unlisted",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "menu-relationships",
+      "type": "page",
+      "title": "Relationships",
+      "url": "apps/production-mawster/10-ux/menu_relationships/",
+      "status": "unlisted",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "menu-tables",
+      "type": "page",
+      "title": "Tables",
+      "url": "apps/production-mawster/10-ux/menu_tables/",
+      "status": "unlisted",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
       "id": "prev-production-calendar-app",
       "type": "index",
       "title": "Prev Calendar App Build",
       "url": "apps/production-mawster-no-use/90-file-imports-temp/prevProductionCalendarApp/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "print-first-runbook",
+      "type": "page",
+      "title": "Print-first Runbook",
+      "url": "apps/production-mawster/print-first-runbook/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "print-geometry",
+      "type": "reference",
+      "title": "Print & iPad Geometry",
+      "url": "apps/production-mawster/print-geometry/",
       "status": "public",
       "gloss": null,
       "print_gloss": null
@@ -160,10 +295,100 @@
       "print_gloss": null
     },
     {
+      "id": "relationships",
+      "type": "index",
+      "title": "Relationships",
+      "url": "apps/production-mawster/30-RELATIONSHIPS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "retired-app-startup",
+      "type": "reference",
+      "title": "App_Startup (RETIRED)",
+      "url": "apps/production-mawster/70-scripts/_retired/app-startup/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "retired-exit-w-errors",
+      "type": "reference",
+      "title": "exit w/ errors (RETIRED)",
+      "url": "apps/production-mawster/70-scripts/_retired/exit-w-errors/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "retired-new-utility-log",
+      "type": "reference",
+      "title": "new_UTILITY_LOG (RETIRED)",
+      "url": "apps/production-mawster/70-scripts/_retired/new-utility-log/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "retired-trigger-app-open",
+      "type": "reference",
+      "title": "trigger_App_Open (RETIRED)",
+      "url": "apps/production-mawster/70-scripts/_retired/trigger-app-open/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
       "id": "runtime",
       "type": "page",
       "title": "Runtime",
       "url": "apps/production-mawster-no-use/11-runtime/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "script-file-close",
+      "type": "reference",
+      "title": "FILE \u00b7 Close",
+      "url": "apps/production-mawster/70-scripts/file-close/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "script-file-open",
+      "type": "reference",
+      "title": "FILE \u00b7 Open",
+      "url": "apps/production-mawster/70-scripts/file-open/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "script-file-save-backup",
+      "type": "reference",
+      "title": "FILE \u00b7 Save Backup",
+      "url": "apps/production-mawster/70-scripts/file-save-backup/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "script-find-all-or-none",
+      "type": "reference",
+      "title": "FIND \u00b7 All Or None",
+      "url": "apps/production-mawster/70-scripts/find-all-or-none/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "script-goto",
+      "type": "reference",
+      "title": "GOTO \u00b7 (the family)",
+      "url": "apps/production-mawster/70-scripts/goto/",
       "status": "public",
       "gloss": null,
       "print_gloss": null
@@ -178,10 +403,64 @@
       "print_gloss": null
     },
     {
+      "id": "script-template",
+      "type": "reference",
+      "title": "_TEMPLATE \u00b7 New Script",
+      "url": "apps/production-mawster/70-scripts/_TEMPLATE-new-script/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "script-util-run-end",
+      "type": "reference",
+      "title": "UTIL \u00b7 Run End",
+      "url": "apps/production-mawster/70-scripts/util-run-end/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "script-util-run-start",
+      "type": "reference",
+      "title": "UTIL \u00b7 Run Start",
+      "url": "apps/production-mawster/70-scripts/util-run-start/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "script-util-value-index-move",
+      "type": "reference",
+      "title": "UTIL \u00b7 Value Index Move (+ FIND \u00b7 Values)",
+      "url": "apps/production-mawster/70-scripts/util-value-index-move/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
       "id": "scripts",
       "type": "index",
       "title": "Scripts",
       "url": "apps/production-mawster-no-use/70-scripts/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "scripts-importing-evemts",
+      "type": "page",
+      "title": "Importing Events, scripts",
+      "url": "apps/production-mawster/70-scripts/40-importing-records/events/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "scripts-retired",
+      "type": "index",
+      "title": "Retired Scripts",
+      "url": "apps/production-mawster/70-scripts/_retired/",
       "status": "public",
       "gloss": null,
       "print_gloss": null
@@ -200,6 +479,15 @@
       "type": "reference",
       "title": "CALENDAR_EMPHASIS",
       "url": "apps/production-mawster-no-use/20-tables/CALENDAR_EMPHASIS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-colors",
+      "type": "reference",
+      "title": "Colors",
+      "url": "apps/production-mawster/20-tables/theme_colors/",
       "status": "public",
       "gloss": null,
       "print_gloss": null
@@ -232,11 +520,29 @@
       "print_gloss": null
     },
     {
+      "id": "table-export-presets",
+      "type": "reference",
+      "title": "EXPORT_PRESETS",
+      "url": "apps/production-mawster/20-tables/EXPORT_PRESETS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
       "id": "table-fiscal-years",
       "type": "reference",
       "title": "FISCAL_YEARS",
       "url": "apps/production-mawster-no-use/20-tables/FISCAL_YEARS/",
       "status": "unlisted",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-global-export",
+      "type": "reference",
+      "title": "GLOBAL_EXPORT_VARIABLES",
+      "url": "apps/production-mawster/20-tables/global_export/",
+      "status": "public",
       "gloss": null,
       "print_gloss": null
     },
@@ -277,6 +583,15 @@
       "print_gloss": null
     },
     {
+      "id": "table-import-sources",
+      "type": "reference",
+      "title": "IMPORT_SOURCES",
+      "url": "apps/production-mawster/20-tables/import_sources/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
       "id": "table-location-types",
       "type": "reference",
       "title": "Location Types",
@@ -290,6 +605,15 @@
       "type": "reference",
       "title": "Locations",
       "url": "apps/production-mawster-no-use/20-tables/LOCATIONS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-organizations",
+      "type": "reference",
+      "title": "ORGANIZATIONS",
+      "url": "apps/production-mawster/20-tables/organizations/",
       "status": "public",
       "gloss": null,
       "print_gloss": null
@@ -403,6 +727,60 @@
       "print_gloss": null
     },
     {
+      "id": "table-themes",
+      "type": "reference",
+      "title": "Themes",
+      "url": "apps/production-mawster/20-tables/themes./",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-themes_x_styles",
+      "type": "reference",
+      "title": "THEMES_x_STYLES",
+      "url": "apps/production-mawster/20-tables/themes_x_styles/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-typography",
+      "type": "reference",
+      "title": "Typography",
+      "url": "apps/production-mawster/20-tables/theme_typography/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-utility-logs",
+      "type": "reference",
+      "title": "Utility logs",
+      "url": "apps/production-mawster/20-tables/utility_logs/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-utility-reports",
+      "type": "reference",
+      "title": "Utility Reports",
+      "url": "apps/production-mawster/20-tables/utility_reports/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-utility_logs",
+      "type": "reference",
+      "title": "Utility Logs",
+      "url": "apps/production-mawster/20-tables/utility_logmaw/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
       "id": "table-value-lists",
       "type": "reference",
       "title": "Value Lists",
@@ -461,6 +839,69 @@
       "type": "index",
       "title": "Tables",
       "url": "apps/production-mawster-no-use/20-tables/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "theme-build-order",
+      "type": "reference",
+      "title": "Theme Build Order",
+      "url": "apps/production-mawster/theme-build-order/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "theme-event-styling",
+      "type": "reference",
+      "title": "Event Styling",
+      "url": "apps/production-mawster/theme-event-styling/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "theme-resolution",
+      "type": "reference",
+      "title": "Theme Resolution",
+      "url": "apps/production-mawster/theme-resolution/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "theme-selection",
+      "type": "reference",
+      "title": "Theme Selection",
+      "url": "apps/production-mawster/theme-selection/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "theme-state",
+      "type": "reference",
+      "title": "Theme State (observed)",
+      "url": "apps/production-mawster/theme-state/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "theme-template-layout",
+      "type": "reference",
+      "title": "Styled Objects Template (build spec)",
+      "url": "apps/production-mawster/theme-template-layout/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "theme-vector-grain",
+      "type": "reference",
+      "title": "Vector Grain (what is data, what is layout)",
+      "url": "apps/production-mawster/theme-vector-grain/",
       "status": "public",
       "gloss": null,
       "print_gloss": null
@@ -610,10 +1051,28 @@
       "print_gloss": null
     },
     {
+      "id": "ux",
+      "type": "index",
+      "title": "UX",
+      "url": "apps/production-mawster/10-ux/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
       "id": "workflow",
       "type": "reference",
       "title": "Build & Use Workflow",
       "url": "apps/production-mawster-no-use/workflow/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "workflow-import-events",
+      "type": "page",
+      "title": "Importing Events, workflow",
+      "url": "apps/production-mawster/15-runtime/importing-records/events/",
       "status": "public",
       "gloss": null,
       "print_gloss": null

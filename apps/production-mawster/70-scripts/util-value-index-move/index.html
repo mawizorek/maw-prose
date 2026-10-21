@@ -1,0 +1,3083 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Long-form notes, standards, and FileMaker application documentation.">
+      
+      
+      
+        <link rel="canonical" href="https://mawizorek.github.io/maw-prose/apps/production-mawster/70-scripts/util-value-index-move/">
+      
+      
+        <link rel="prev" href="../find-all-or-none/">
+      
+      
+        <link rel="next" href="../_retired/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../maw-prose-mark.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>UTIL · Value Index Move (+ FIND · Values) - MAW Prose</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Chakra+Petch:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400&display=swap">
+    
+      <link rel="stylesheet" href="../../../../assets/base.cb2a5e8e.css">
+    
+      <link rel="stylesheet" href="../../../../assets/chrome.d566ec28.css">
+    
+      <link rel="stylesheet" href="../../../../assets/nav.067adc60.css">
+    
+      <link rel="stylesheet" href="../../../../assets/type.91cafb45.css">
+    
+      <link rel="stylesheet" href="../../../../assets/foot.63f3ef78.css">
+    
+      <link rel="stylesheet" href="../../../../assets/data.128ef73b.css">
+    
+      <link rel="stylesheet" href="../../../../assets/data-list.a2fcd731.css">
+    
+      <link rel="stylesheet" href="../../../../assets/tokens.462f4ff9.css">
+    
+      <link rel="stylesheet" href="../../../../assets/marks.ff1eabcb.css">
+    
+      <link rel="stylesheet" href="../../../../assets/blocks.088f5b45.css">
+    
+      <link rel="stylesheet" href="../../../../assets/print.a2642659.css">
+    
+      <link rel="stylesheet" href="../../../../assets/print-chrome.3cbbe704.css">
+    
+      <link rel="stylesheet" href="../../../../assets/print-flow.94a36205.css">
+    
+      <link rel="stylesheet" href="../../../../assets/print-type.deb822e6.css">
+    
+      <link rel="stylesheet" href="../../../../assets/print-space.9005cf84.css">
+    
+      <link rel="stylesheet" href="../../../../assets/print-callout.c62c07f1.css">
+    
+      <link rel="stylesheet" href="../../../../assets/print-identity.138473bd.css">
+    
+      <link rel="stylesheet" href="../../../../assets/print-ink.64220656.css">
+    
+      <link rel="stylesheet" href="../../../../assets/print-md-bridge.0e7a70e9.css">
+    
+      <link rel="stylesheet" href="../../../../assets/flow.1b743610.css">
+    
+      <link rel="stylesheet" href="../../../../assets/qr.f4398d01.css">
+    
+      <link rel="stylesheet" href="../../../../assets/align.0ac1ea6c.css">
+    
+      <link rel="stylesheet" href="../../../../assets/gloss.4c85baaf.css">
+    
+      <link rel="stylesheet" href="../../../../assets/packet.f475f0ac.css">
+    
+      <link rel="stylesheet" href="../../../../assets/print-packet.d560d2cf.css">
+    
+      <link rel="stylesheet" href="../../../../assets/tasklist.a288354c.css">
+    
+      <link rel="stylesheet" href="../../../../assets/printctl.8e75bde2.css">
+    
+      <link rel="stylesheet" href="../../../../assets/printcompose.6215733d.css">
+    
+      <link rel="stylesheet" href="../../../../assets/copytext.3ccf3ec3.css">
+    
+      <link rel="stylesheet" href="../../../../assets/site.039790fb.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#util-value-index-move" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="MAW Prose" class="md-header__button md-logo" aria-label="MAW Prose" data-md-component="logo">
+      
+  <img src="../../../../maw-prose-mark.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MAW Prose
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              UTIL · Value Index Move (+ FIND · Values)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="MAW Prose" class="md-nav__button md-logo" aria-label="MAW Prose" data-md-component="logo">
+      
+  <img src="../../../../maw-prose-mark.svg" alt="logo">
+
+    </a>
+    MAW Prose
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MAW Prose
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apps
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Apps
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../production-mawster-no-use/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Production MAWster
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Production MAWster
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Production MAWster
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../10-ux/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UX
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../15-runtime/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runtime
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../16-printing/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Printing
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../build-sheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build Sheet
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ddr-punch-list/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DDR Punch List
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../print-first-runbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Print-first Runbook
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build & Use Workflow
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projection-law/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projection Law
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../theme-resolution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme Resolution
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../theme-state/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme State (observed)
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../theme-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme Selection
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../20-tables/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tables
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ClickUp Integration
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../theme-build-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme Build Order
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../theme-event-styling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event Styling
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../theme-vector-grain/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vector Grain (what is data, what is layout)
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../theme-template-layout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Styled Objects Template (build spec)
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data-standards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data standards
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../device-handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Device Handoff
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../print-geometry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Print & iPad Geometry
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../30-RELATIONSHIPS/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relationships
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../document-templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Document Templates
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../50-LAYOUTS/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Layouts
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../60-custom-functions/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Functions
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_26" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scripts
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_2_26" id="__nav_2_2_26_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_26_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2_26">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Scripts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../_TEMPLATE-new-script/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    _TEMPLATE · New Script
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../util-run-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UTIL · Run Start
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../goto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GOTO · (the family)
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../util-run-end/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UTIL · Run End
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file-open/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FILE · Open
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file-close/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FILE · Close
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file-save-backup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FILE · Save Backup
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../find-all-or-none/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FIND · All Or None
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UTIL · Value Index Move (+ FIND · Values)
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UTIL · Value Index Move (+ FIND · Values)
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-it-is-two-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why it is two scripts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#find-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FIND · Values
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FIND · Values">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#error-401-is-not-an-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔴 Error 401 is not an error
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sort-records-restore-is-replaced-by-a-sort-on-a-real-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔴 Sort Records [ Restore ] is replaced by a sort on a real field
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#util-value-index-move_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UTIL · Value Index Move
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-changed-and-why" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What changed, and why
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What changed, and why">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-last-default-on-a-missing-mode-is-removed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔴 The "last" default on a missing mode is removed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-abort-sentinel-is-gone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔴 The "abort" sentinel is gone
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-empty-if-at-line-35-is-resolved" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The empty If [ ] at line 35 is resolved
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clamping-instead-of-erroring-at-the-ends" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clamping instead of erroring at the ends
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#naming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Naming
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unverified" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unverified
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../_retired/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Retired Scripts
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../40-importing-records/events/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    40 importing records
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../../90-file-imports-temp/prevProductionCalendarApp/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    90 file imports temp
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../../../uritp-people/layouts/RECONCILE/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Uritp people
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../../../../standards/filemaker/clipboard-snippets/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standards
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../coursework/assignment-art-cue-mood-project/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Coursework
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-it-is-two-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why it is two scripts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#find-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FIND · Values
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FIND · Values">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#error-401-is-not-an-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔴 Error 401 is not an error
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sort-records-restore-is-replaced-by-a-sort-on-a-real-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔴 Sort Records [ Restore ] is replaced by a sort on a real field
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#util-value-index-move_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UTIL · Value Index Move
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-changed-and-why" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What changed, and why
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What changed, and why">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-last-default-on-a-missing-mode-is-removed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔴 The "last" default on a missing mode is removed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-abort-sentinel-is-gone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔴 The "abort" sentinel is gone
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-empty-if-at-line-35-is-resolved" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The empty If [ ] at line 35 is resolved
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clamping-instead-of-erroring-at-the-ends" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clamping instead of erroring at the ends
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#naming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Naming
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unverified" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unverified
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<p class="buildstamp buildstamp--corner" hidden><span class="buildstamp__row"><span class="buildstamp__mark" aria-hidden="true" style="background-image:url(&quot;../../../../maw-prose-mark.svg&quot;)"></span><span class="buildstamp__text"><span class="buildstamp__id">MAW Prose</span><span class="buildstamp__sep"> · </span><span class="buildstamp__when">Fall 2026</span></span></span></p><h1 id="util-value-index-move">UTIL · Value Index Move<a class="headerlink" href="#util-value-index-move" title="Permanent link">&para;</a></h1>
+<p class="dr-lede">Steps to first, last, next or previous within one value list's sort order. Rewrite of status_index_move, split in two.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Grain</p>
+<p>One step per call, within one list.</p>
+</div>
+<p><strong>Retired name:</strong> <a href="./">status_index_move</a>{ .dr-mark-link .dr-mark--cls-alias .dr-mark--box .dr-gloss data-gloss="A RETIRED NAME. Point it at the live one so paperwork quoting the old name still lands: <a href="@alias:table-x#calc-fkCalendar">fkCal</a>. For an old VALUE rather than an old name, use was." data-role-print="A RETIRED NAME. Point it at the live one so paperwork quoting the old name still lands: <a href="@alias:table-x#calc-fkCalendar">fkCal</a>. For an old VALUE rather than an old name, use was." }. Both scripts call <a class="dr-mark-link dr-mark--cls-schema dr-gloss" data-gloss="A calculated value. NOTHING in FileMaker lists every calc in a file, so this marker is the only register there is. The link form takes a heading anchor: @calc:table-x#calc-name." data-role-print="A calculated value. NOTHING in FileMaker lists every calc in a file, so this marker is the only register there is. The link form takes a heading anchor: @calc:table-x#calc-name." href="../../60-custom-functions/errjson/">ErrJSON</a>.</p>
+<h2 id="why-it-is-two-scripts">Why it is two scripts<a class="headerlink" href="#why-it-is-two-scripts" title="Permanent link">&para;</a></h2>
+<p>The original does a find <em>and</em> the stepping logic. House rule 3 says the find moves out — but the real argument is not the rule, it is that <strong>the find is reusable and the stepping is not.</strong> Anything that needs the values of one list wants <code>FIND · Values</code>; only a stepper wants the arithmetic. Fused, the find is unreachable from anywhere else and gets typed inline a second time.</p>
+<hr />
+<h2 id="find-values">FIND · Values<a class="headerlink" href="#find-values" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code># ═══════════════════════════════════════════════════
+# FIND · Values
+# Purpose: the VALUES rows for one list, in sort order
+# Params (JSON): fkList   MANDATORY
+# Returns (JSON): ok, count
+# ═══════════════════════════════════════════════════
+
+Set Error Capture [ On ]
+Allow User Abort [ Off ]
+
+Set Variable [ $p      ; Get ( ScriptParameter ) ]
+Set Variable [ $fkList ; ParamGetText ( $p ; "fkList" ; "" ) ]
+
+If [ IsEmpty ( $fkList ) ]
+    Exit Script [ ErrJSON ( 0 ; "FIND · Values" ; "fkList is required" ) ]
+End If
+
+Perform Script [ GOTO · Values ]
+
+Enter Find Mode [ Pause: Off ]
+Set Field [ util_VALUES::fkList ; $fkList ]
+Perform Find [ ]
+
+#  401 = no records match. That is an ANSWER, not a failure.
+Set Variable [ $err ; Get ( LastError ) ]
+If [ $err = 401 ]
+    Exit Script [ Param ( List (
+        PBool ( "ok"    ; 1 ) ;
+        PNum  ( "count" ; 0 ) ) ) ]
+Else If [ $err ≠ 0 ]
+    Exit Script [ ErrJSON ( $err ; "FIND · Values / Perform Find" ; $fkList ) ]
+End If
+
+Sort Records [ By field: util_VALUES::Sort ; ascending ; With dialog: Off ]
+If [ Get ( LastError ) ≠ 0 ]
+    Exit Script [ ErrJSON ( Get ( LastError ) ; "FIND · Values / Sort" ; "" ) ]
+End If
+
+Exit Script [ Param ( List (
+    PBool ( "ok"    ; 1 ) ;
+    PNum  ( "count" ; Get ( FoundCount ) ) ) ) ]
+</code></pre></div>
+<p>Calls <a class="dr-mark-link dr-mark--cls-schema dr-gloss" data-gloss="A script. Link it and the report becomes a call graph rather than a list of names." data-role-print="A script. Link it and the report becomes a call graph rather than a list of names." href="../goto/">GOTO · Values</a> and <a class="dr-mark-link dr-mark--cls-schema dr-gloss" data-gloss="A calculated value. NOTHING in FileMaker lists every calc in a file, so this marker is the only register there is. The link form takes a heading anchor: @calc:table-x#calc-name." data-role-print="A calculated value. NOTHING in FileMaker lists every calc in a file, so this marker is the only register there is. The link form takes a heading anchor: @calc:table-x#calc-name." href="../../60-custom-functions/errjson/">ErrJSON</a>. Lands on <span class="dr-mark dr-mark--box dr-mark--cls-layout" data-mark="layout" title="A layout. Prefer the link form where the layout has a page, so the report records which layouts a workflow actually touches.">util_VALUES</span> <span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="tbc" title="Not yet verified against a source. Do not rely on this without checking.">To be confirmed</span>, finds on <span class="dr-mark dr-mark--box dr-mark--cls-layout" data-mark="field" title="A field placed on a layout. Names the object the user types into, not the underlying schema field -- for that, look the table up.">fkList</span>, sorts on <code>VALUES::Sort</code> <span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="gap" style="--dr-mark-color: var(--dr-bad)" title="This fact should exist and does not. The absence is known, not overlooked.">Not recorded</span>.</p>
+<p>🚫 <strong><code>$fkList</code> goes into the log through <a class="dr-mark-link dr-mark--cls-schema dr-gloss" data-gloss="A calculated value. NOTHING in FileMaker lists every calc in a file, so this marker is the only register there is. The link form takes a heading anchor: @calc:table-x#calc-name." data-role-print="A calculated value. NOTHING in FileMaker lists every calc in a file, so this marker is the only register there is. The link form takes a heading anchor: @calc:table-x#calc-name." href="../../60-custom-functions/errjson/">ErrJSON</a>, and it is a KEY, which is why it is allowed.</strong> A UUID identifies a row; it is not a person's name or a value someone typed. <strong>Never widen this to the search TERM</strong> — that is the exact call that puts real data in a permanent log, and it is the tempting one while debugging.</p>
+<h3 id="error-401-is-not-an-error">🔴 Error 401 is not an error<a class="headerlink" href="#error-401-is-not-an-error" title="Permanent link">&para;</a></h3>
+<p>The live script does <code>If [ Get ( LastError ) ≠ 0 ]</code> straight after <code>Perform Find</code> and treats the result as failure. <strong><code>401</code> means "no records match", which is the correct and expected outcome of a find against an empty list.</strong> Treated as a hard error, an empty list becomes a crash instead of a zero.</p>
+<p>⭐ <strong>This is the mirror of the swallowed-error problem, and it is the reason house rule 2 is easy to get wrong in both directions.</strong> Not checking means missing real failures; checking bluntly means inventing failures that are not there. <strong>Branch on the code, never on <code>≠ 0</code> alone, after any step whose "nothing found" case is legitimate.</strong> Finds are the main one; <code>Go to Record [Next]</code> at the end of a found set (error 101) is the other one this file will hit.</p>
+<h3 id="sort-records-restore-is-replaced-by-a-sort-on-a-real-field">🔴 <code>Sort Records [ Restore ]</code> is replaced by a sort on a real field<a class="headerlink" href="#sort-records-restore-is-replaced-by-a-sort-on-a-real-field" title="Permanent link">&para;</a></h3>
+<p>The live script uses <code>Restore</code>, which stores the sort specification <strong>inside the script</strong>. Change the intended order and the script keeps silently sorting by the old spec — no error, no symptom, just a "next" that goes to the wrong place.</p>
+<p>⭐ Same shape as everything else settled this week: <strong>a value that looks authored and is actually a stale copy.</strong> The fix is the same one used on themes and on standard events — <strong>make the order DATA.</strong> A <code>Sort</code> field is visible, editable and diffable. A stored sort spec is none of those.</p>
+<p>⚠️ <span class="dr-mark dr-mark--plain dr-mark--cls-schema" data-mark="rel" title="A relationship between tables. The Graph shows it; nothing lists it as text. Prefer the link form so the report records the EDGE and not just the mention.">VALUES</span> was renamed to <code>VALUE_ITEMS</code> in the open fix queue (SQL reserved word). <strong>If that rename lands, this script and its <a class="dr-mark-link dr-mark--cls-schema dr-gloss" data-gloss="A script. Link it and the report becomes a call graph rather than a list of names." data-role-print="A script. Link it and the report becomes a call graph rather than a list of names." href="../goto/">GOTO ·</a> change with it</strong> — noted here so the pair is not discovered separately. The old name will need an <span class="dr-mark dr-mark--box dr-mark--cls-alias" data-mark="alias" title="A RETIRED NAME. Point it at the live one so paperwork quoting the old name still lands: <a href="@alias:table-x#calc-fkCalendar">fkCal</a>. For an old VALUE rather than an old name, use was.">VALUES</span> row.</p>
+<hr />
+<h2 id="util-value-index-move_1">UTIL · Value Index Move<a class="headerlink" href="#util-value-index-move_1" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code># ═══════════════════════════════════════════════════
+# UTIL · Value Index Move
+# Purpose: step within one list's sort order
+# Params (JSON): fkList    MANDATORY
+#                mode      MANDATORY  first|last|next|previous
+#                curIndex  required when mode is next|previous
+# Returns (JSON): ok, index, count, atEnd
+# ═══════════════════════════════════════════════════
+
+Set Error Capture [ On ]
+Allow User Abort [ Off ]
+
+Set Variable [ $p      ; Get ( ScriptParameter ) ]
+Set Variable [ $fkList ; ParamGetText ( $p ; "fkList" ; "" ) ]
+Set Variable [ $mode   ; ParamGetText ( $p ; "mode"   ; "" ) ]
+
+If [ IsEmpty ( $fkList ) or IsEmpty ( $mode ) ]
+    Exit Script [ ErrJSON ( 0 ; "UTIL · Value Index Move" ;
+        "fkList and mode are both required" ) ]
+End If
+
+If [ $mode = "next" or $mode = "previous" ]
+    Set Variable [ $cur ; ParamGetNumber ( $p ; "curIndex" ; "" ) ]
+    If [ IsEmpty ( $cur ) ]
+        Exit Script [ ErrJSON ( 0 ; "UTIL · Value Index Move" ;
+            "curIndex is required for mode " &amp; $mode ) ]
+    End If
+End If
+
+Perform Script [ FIND · Values ; Param ( PText ( "fkList" ; $fkList ) ) ]
+Set Variable [ $r ; Get ( ScriptResult ) ]
+If [ not ParamGetBoolean ( $r ; "ok" ; 0 ) ]
+    Exit Script [ $r ]
+End If
+
+Set Variable [ $count ; ParamGetNumber ( $r ; "count" ; 0 ) ]
+If [ $count = 0 ]
+    Exit Script [ Param ( List (
+        PBool ( "ok"    ; 1 ) ;
+        PNum  ( "count" ; 0 ) ;
+        PBool ( "atEnd" ; 1 ) ) ) ]
+End If
+
+#  -- resolve the target index, clamped ---------------
+Set Variable [ $i ; Case (
+    $mode = "first"    ; 1 ;
+    $mode = "last"     ; $count ;
+    $mode = "next"     ; Min ( $cur + 1 ; $count ) ;
+    $mode = "previous" ; Max ( $cur - 1 ; 1 ) ;
+    0 ) ]
+
+If [ $i = 0 ]
+    Exit Script [ ErrJSON ( 0 ; "UTIL · Value Index Move" ;
+        "unknown mode: " &amp; $mode ) ]
+End If
+
+Go to Record/Request [ $i ]
+If [ Get ( LastError ) ≠ 0 ]
+    Exit Script [ ErrJSON ( Get ( LastError ) ; "Go to Record" ; $i ) ]
+End If
+
+Exit Script [ Param ( List (
+    PBool ( "ok"    ; 1 ) ;
+    PNum  ( "index" ; $i ) ;
+    PNum  ( "count" ; $count ) ;
+    PBool ( "atEnd" ; $i = 1 or $i = $count ) ) ) ]
+</code></pre></div>
+<p>⭐ <strong><code>Exit Script [ $r ]</code> passes the inner failure up UNMODIFIED, and that is deliberate.</strong> Re-wrapping it in a fresh <a class="dr-mark-link dr-mark--cls-schema dr-gloss" data-gloss="A calculated value. NOTHING in FileMaker lists every calc in a file, so this marker is the only register there is. The link form takes a heading anchor: @calc:table-x#calc-name." data-role-print="A calculated value. NOTHING in FileMaker lists every calc in a file, so this marker is the only register there is. The link form takes a heading anchor: @calc:table-x#calc-name." href="../../60-custom-functions/errjson/">ErrJSON</a> here would overwrite <code>where</code> with this script's name and lose the fact that the find is what failed. <strong>A caller wants the site of the failure, not the site of the last handler that touched it.</strong></p>
+<h2 id="what-changed-and-why">What changed, and why<a class="headerlink" href="#what-changed-and-why" title="Permanent link">&para;</a></h2>
+<h3 id="the-last-default-on-a-missing-mode-is-removed">🔴 The <code>"last"</code> default on a missing mode is removed<a class="headerlink" href="#the-last-default-on-a-missing-mode-is-removed" title="Permanent link">&para;</a></h3>
+<p>The live script reads <code>ParamGetText ( $p ; "mode" ; "last" )</code>. <strong>A caller that forgot to pass a mode silently jumps to the end of the list</strong> — a real action, taken confidently, on no instruction. Mode is mandatory now and absence is an error.</p>
+<p>⭐ Same family as <a class="dr-mark-link dr-mark--cls-schema dr-gloss" data-gloss="A script. Link it and the report becomes a call graph rather than a list of names." data-role-print="A script. Link it and the report becomes a call graph rather than a list of names." href="../_retired/new-utility-log/">new_UTILITY_LOG</a> defaulting its action type to <code>"script"</code>: <strong>a default that is also a plausible real value cannot be distinguished from a working system.</strong> Both scripts in this pass had one.</p>
+<h3 id="the-abort-sentinel-is-gone">🔴 The <code>"abort"</code> sentinel is gone<a class="headerlink" href="#the-abort-sentinel-is-gone" title="Permanent link">&para;</a></h3>
+<p><code>ParamGetText ( $p ; "vl" ; "abort" )</code> then <code>If [ $vl = "abort" ]</code> cannot tell a missing parameter from a caller who deliberately sent <code>"abort"</code>. Empty is the missing marker. Written up in full on <a class="dr-mark-link dr-mark--cls-schema dr-gloss" data-gloss="A script. Link it and the report becomes a call graph rather than a list of names." data-role-print="A script. Link it and the report becomes a call graph rather than a list of names." href="../find-all-or-none/">FIND · All Or None</a>.</p>
+<h3 id="the-empty-if-at-line-35-is-resolved">The empty <code>If [ ]</code> at line 35 is resolved<a class="headerlink" href="#the-empty-if-at-line-35-is-resolved" title="Permanent link">&para;</a></h3>
+<p>The live script ends on an <code>If</code> with no condition and no body — the unfinished stepping logic. That is what the <code>Case</code> block above is for. ⚠️ <strong>An empty <code>If</code> is not inert: it is a decision someone was in the middle of making</strong>, and it is the single most useful thing in the original script because it marks exactly where the thinking stopped.</p>
+<h3 id="clamping-instead-of-erroring-at-the-ends">Clamping instead of erroring at the ends<a class="headerlink" href="#clamping-instead-of-erroring-at-the-ends" title="Permanent link">&para;</a></h3>
+<p><code>Min</code> / <code>Max</code> hold the index inside the found set, and <code>atEnd</code> tells the caller it did. A stepper that errors at the boundary makes every caller write the same guard; one that clamps and reports makes the boundary visible without making it fatal.</p>
+<h3 id="naming">Naming<a class="headerlink" href="#naming" title="Permanent link">&para;</a></h3>
+<p><span class="dr-mark dr-mark--box dr-mark--cls-alias" data-mark="alias" title="A RETIRED NAME. Point it at the live one so paperwork quoting the old name still lands: <a href="@alias:table-x#calc-fkCalendar">fkCal</a>. For an old VALUE rather than an old name, use was.">status_index_move</span> names neither what it does (steps within a list) nor what it operates on (<span class="dr-mark dr-mark--plain dr-mark--cls-schema" data-mark="rel" title="A relationship between tables. The Graph shows it; nothing lists it as text. Prefer the link form so the report records the EDGE and not just the mention.">VALUES</span>), and the word <em>status</em> is a leftover from one caller. <strong>A script named after one of its callers gets copied the day a second caller appears.</strong></p>
+<h2 id="unverified">Unverified<a class="headerlink" href="#unverified" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>VALUES::Sort</code> is assumed to exist. <span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="gap" style="--dr-mark-color: var(--dr-bad)" title="This fact should exist and does not. The absence is known, not overlooked.">Not recorded</span> The live script sorted by a stored spec, so the field may not be there. <strong>Confirm before entering</strong> — and if it is missing, adding it is the correct fix, not reinstating <code>Restore</code>.</li>
+<li>Whether <code>Go to Record/Request [ by calculation ]</code> accepts a variable directly in the installed version. <span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="tbc" title="Not yet verified against a source. Do not rely on this without checking.">To be confirmed</span> It does in every version this file will run on, but it has not been tested here.</li>
+<li>Who actually calls this. <span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="gap" style="--dr-mark-color: var(--dr-bad)" title="This fact should exist and does not. The absence is known, not overlooked.">Not recorded</span> It is referenced in a stray comment inside <a class="dr-mark-link dr-mark--cls-schema dr-gloss" data-gloss="A script. Link it and the report becomes a call graph rather than a list of names." data-role-print="A script. Link it and the report becomes a call graph rather than a list of names." href="../_retired/new-utility-log/">new_UTILITY_LOG</a> and nowhere else that has been read. <strong>A utility with no live caller is a utility whose contract nobody has pressure-tested.</strong></li>
+</ul>
+<p class="dr-revised"><em>Revised Aug 2026</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/production-mawster/70-scripts/util-value-index-move.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">67b605d</span></span></p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../find-all-or-none/" class="md-footer__link md-footer__link--prev" aria-label="Previous: FIND · All Or None">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                FIND · All Or None
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../_retired/" class="md-footer__link md-footer__link--next" aria-label="Next: Retired Scripts">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Retired Scripts
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.indexes", "navigation.prune", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy", "toc.follow"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../../../assets/data.3b5a8c4f.js"></script>
+      
+        <script src="../../../../assets/printdial.f88803ef.js"></script>
+      
+        <script src="../../../../assets/printfurn.1d5007a1.js"></script>
+      
+        <script src="../../../../assets/printctl.fce9ce6c.js"></script>
+      
+        <script src="../../../../assets/printcompose.c5fc15c1.js"></script>
+      
+        <script src="../../../../assets/copytext.c705bf07.js"></script>
+      
+    
+  </body>
+</html>

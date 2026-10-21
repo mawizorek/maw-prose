@@ -1,0 +1,18 @@
+status	Field_Name	Type	Options	Notes
+[Normalized]{.conf}	Name	Text		Cleaned. Raw stays in import_EVENTS.Raw_Payload
+[Normalized]{.conf}	dateTime_Start	Timestamp		Stored. Time-of-day display
+[Normalized]{.conf}	dateTime_End	Timestamp		Stored. The minimum requirement.
+[Normalized]{.conf}	bool_AllDay	Number	Auto-enter Data	default = 0
+[Normalized]{.conf}	cuTaskID	Text		Indexed. Half the upsert key
+[Normalized]{.conf}	WatchHash_Current	Text		Copied from the winning import row. Cheap change detection
+[Normalized]{.conf}	fkLastImportSession	[Test]{.rel}		Which session last wrote this row
+[Normalized]{.conf}	fkProduction	[Test]{.rel}		Indexed. Other half of the upsert key. NEVER upsert on TaskID alone. <seems calculable tho......> from CALENDAR, whcihwe need more.
+[Normalized]{.conf}	fkCalendar	[Test]{.rel}		Resolved at import. A production can have two calendars - stops a spring event printing on a fall grid
+[Nullable]{.hi}	fkStandardEvent	[Test]{.rel}		Nullable. Crosswalk result. The season-report spine
+[Nullable]{.hi}	fkStyle	[Test]{.rel}		STYLES row, domain event-status
+[Audit Fields]{.est}	PrimaryKey	Text		
+[Audit Fields]{.est}		Timstamp		
+[Audit Fields]{.est}		Text		
+[Audit Fields]{.est}		Timestamp		
+[Audit Fields]{.est}		Text		
+- EOF -				

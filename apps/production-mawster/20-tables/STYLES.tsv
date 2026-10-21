@@ -5,7 +5,7 @@ NORMALIZED FIELDS
 [Normalized]{.conf}	LegendText			Feeds the printed legend
 [Normalized]{.conf}	Sort	Number		
 [Audit Field]{.est}	PrimaryKey	Text		
-[Audit Field]{.est}	Timestamp			
+[Audit Field]{.est}		Timestamp		
 [Audit Field]{.est}		Text		
 [Audit Field]{.est}		Timestamp		
 [Audit Field]{.est}		Text		
