@@ -1,0 +1,11 @@
+sort	Field_Name	Type	Notes
+NORMALIZED			
+[Normalized]{.conf}	Title	Text	
+[Normalized]{.conf}	TitleShort	Text	
+[Audit Fields]{.est}	PrimaryKey	Text	UUID, auto-enter, unique, can't modify
+[Audit Fields]{.est}		Timestamp	
+[Audit Fields]{.est}		Text	
+[Audit Fields]{.est}		Text	
+[Audit Fields]{.est}		Timestamp	
+[Audit Fields]{.est}		Text	
+- EOF -			

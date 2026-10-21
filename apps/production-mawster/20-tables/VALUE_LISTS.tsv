@@ -1,0 +1,14 @@
+id	Field_Name	Type	Options	Notes
+NORMALIZED				
+{.conf}	Name	Text	Indexed	
+{.conf}	Sort	Number		
+{.conf}	bool_isSatusList			default = 0
+CHILDREN				
+{.gap}	< VALUES			
+AUDIT FIELDS				
+{.conf}	PrimaryKey	Text		
+{.conf}	CreationTimestamp	Timestamp		
+{.conf}	CreatedBy	Text		
+{.conf}	ModificationTimestamp	Timestamp		
+{.conf}	ModifiedBy	Text		
+- EOF -				

@@ -1,0 +1,8 @@
+ClickUp Field	FMP Field
+PRODUCTION CALENDAR EVENTS	
+Task Name [Required]{.hi}	Import_Event Name
+Start Date [nullable]{.est}	Import_Event Start Date
+Due Date [Required]{.hi}	Import_Event End Date
+Calendar Color [nullable]{.est}	Import_Style
+[Import Field]{.est}	import_raw_payload
+- EOF -	

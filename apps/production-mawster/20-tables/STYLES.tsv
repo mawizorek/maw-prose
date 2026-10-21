@@ -1,0 +1,12 @@
+id	Field_Name	Type	Options	Notes
+NORMALIZED FIELDS				
+[Normalized]{.conf}	vl_Domain	Text		month | event-status | watermark | emphasis | base
+[Normalized]{.conf}	vl_Label	Text		Human name seen over stored pk. Prelim| slugs, etc. <should be filterable by DOMAIN via relationship........)>
+[Normalized]{.conf}	LegendText			Feeds the printed legend
+[Normalized]{.conf}	Sort	Number		
+[Audit Field]{.est}	PrimaryKey	Text		
+[Audit Field]{.est}	Timestamp			
+[Audit Field]{.est}		Text		
+[Audit Field]{.est}		Timestamp		
+[Audit Field]{.est}		Text		
+- EOF -				

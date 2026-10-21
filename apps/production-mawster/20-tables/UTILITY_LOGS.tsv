@@ -1,0 +1,27 @@
+id	Field_Name	Type	Options	Notes
+NORMALIZED FIELDS				
+{.tbc}	SessionToken	Text	Indexed	One UUID per file session. Pairs the open row to the close row. Every script run in that session carries the same token
+{.tbc}	vl_Kind	Text	Indexed	session | script. The only thing separating the two grains in this table
+{.tbc}	ScriptName	Text	Indexed	FILE - Open, FILE - Close, or the calling script's name
+{.tbc}	vl_Status	Text	Indexed	running | ok | error | abandoned. Written running by Run Start, overwritten by Run End
+{.tbc}	ts_Start	Timestamp		Written by Run Start. Never rewritten
+{.tbc}	ts_End	Timestamp		Written by Run End. Empty means the run never finished
+{.tbc}	calc_Duration	[Number]{.calc}	Unstored	= ts_End - ts_Start. Empty while running
+{.tbc}	ErrorCode	Number		Get(LastError) from the failing step, 0 on success
+{.tbc}	Comment	Text		Human sentence. What happened, in words
+{.tbc}	json_Params	Text		The inbound script parameter, verbatim
+{.tbc}	json_Context	Text		Entry layout and found count, captured before the utility navigated
+ENVIRONMENT				
+{.tbc}	AccountName	Text		Get(AccountName)
+{.tbc}	UserName	Text		Get(UserName)
+{.tbc}	HostName	Text		Get(UserName). Which machine, for the cross-device thread
+{.tbc}	AppVersion	Text		Get(ApplicationVersion). The 19.6 floor is visible here after the fact
+RELATIONSHIPS				
+{.gap}	< GLOBAL_USE|byLogPK			GLOBAL_USE::g_logPK = UTILITY_LOGS::PrimaryKey. REQUIRED BY Run End - it edits the log row through this relationship instead of finding it
+AUDIT FIELDS				
+{.tbc}	PrimaryKey	Text		UUID, unique
+{.tbc}	CreationTimestamp	Timestamp		
+{.tbc}	CreatedBy	Text		
+{.tbc}	ModificationTimestamp	Timestamp		
+{.tbc}	ModifiedBy	Text		
+- EOF -				
