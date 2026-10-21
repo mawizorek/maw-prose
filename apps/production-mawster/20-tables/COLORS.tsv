@@ -1,0 +1,17 @@
+status	Field_Name	Type	Options	Notes
+NORMALIZED FIELDS				
+{.conf}	Name	Text		
+{.conf}	R	Number		
+{.conf}	G	Number		
+{.conf}	B	Number		
+{.tbc}	probablyCalcAHex?	[Text]{.calc}		
+RELATIONSHIP				
+CHILDREN				
+{.conf}	< STYLES			
+AUDIT FIELDS				
+{.conf}	PrimaryKey	Text		
+{.conf}	CreationTimestamp	Timestamp		
+{.conf}	CreatedBy	Text		
+{.conf}	ModificationTimestamp	Timestamp		
+{.conf}	ModifiedBy	Text		
+- EOF -				

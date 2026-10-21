@@ -1,0 +1,21 @@
+sort	Field_Name	Type	Options	Notes
+NORMALIZED				
+{.conf}	dateTime_Complete	Timestamp		When the import is complete. Stamp failed runs too. Normalized.
+				
+{.conf}	fkSource	[Relationship]{.hi}		SOURCES: csv | api
+{.conf}	fkProduction	[Relationship]{.hi}		*not* fkCalendar
+{.conf}	fkRunReport	[Relationship]{.hi}		
+{.conf}	RowCount_File	Number		
+{.conf}	RowCount_Landed	Number		Mismatch = reconcile before trusting the pull
+{.conf}	RowCount_Flagged	Number		Rows whose production token did not resolve
+OPTIONAL				
+{.conf}	Notes	Text		
+ASSUMED				
+{.conf}{.gap}	( vl_Status )	( assumed )	complete | partial | failed	< fkRunReport >
+AUDIT FIELDS				
+{.conf}	PrimaryKey	Text		UUID, auto-enter, unique, can't modify
+{.conf}	Created	Timestamp		
+{.conf}		Text		
+{.conf}		Timestamp		
+{.conf}		Text		
+- EOF -				

@@ -1,0 +1,52 @@
+id	Name	Associate Table Occurnace	Editing Surface For	View Surface For	Utility Surface For	Views	Menu Set	Notes
+[Landing page]{.tbc}	Home	GLOBAL_USE				Form	[File Default]	
+			[< ORGANIZATION]				[File Default]	
+			[< auto_LAYOUTS]{.tbc}				[File Default]	
+				[< APP_SETUP]{.tbc}			[File Default]	
+[Working Form]{.tbc}	WORKDAYS	WORKDAYS	WORKDAYS			Form	[File Default]	join that to WORKDAYS. (filterable by PRODUCTION, STANDARD EVENT, or CALENDAR via "EVENTS" relationship.
+			[EVENT_X_WORKDAYS]{.tbc}			[Portal]{.portal}		
+[Working Form]{.tbc}	ROLE ASSIGNMENTS	ROLES		ROLES	ROLES	Form	[File Default]	(equivalent to STANDARD_DOCS)
+			[< ROLE_ASSIGNMENTS]{.tbc}			[Portal]{.portal}		
+[Working Form]{.tbc}	DOCUMENTS	STANDARD_DOCS				Form	[File Default]	
+			[< EDITION]{.tbc}			[Portal]{.portal}		
+			[< VERSION]{.tbc}			[Portal]{.portal}		
+[Styles Form]{.tbc}	STYLES	STYLES				Form	[File Default]	
+				[< THEMES]{.tbc}	[< THEMES]{.tbc}	[Popup]{.portal}		
+			[< THEME_COLORS]{.tbc}			[Popup]{.portal}		
+			[< THEME_TYOPGROPHY]{.tbc}			[Popup]{.portal}		
+					[< THEMES_X_STYLES]{.tbc}	[Popup]{.portal}		these records are generate via script? and jsut set here?
+IMPORTING								
+[Import Form]{.tbc}	Import NEW Evenets	IMPORT_SESSIONS	[IMPORT_SESSIONS]{.tbc}			Table	[File Default]	Add new session, go back a session, view this session's report | select g_pkCurrentProduction](@field:table-global-use-variables#g_pkCurrentProduction)
+				[< IMPORT_SOURCES]{.tbc}		[Form]{.popup}	[File Default]	
+				[< IMPORT_EVENTS]{.tbc}	[< IMPORT_EVENTS]{.tbc}	[[main]{.portal}]{.term}	[File Default]	Scripted in. Maintained and spot edited here. Sent to Events
+EXPORTING								
+{.tbc}	Export Set	EXPORT_SETS	EXPORT_SETS			Form	[File Default]	
+			[< CALENDAR_HIGHLIGHTS]{.tbc}			[Form]{.popup}		a main portal on the window. the rest of the fields related are more like "menus" and "settings" on this page of "CAL HIs"
+			[< EXPORT_SET_ITEMS]{.tbc}			[Form]{.popup}		
+			[< EXPORT_SESSIONS]{.tbc}			[Form]{.popup}	[File Default]	
+			[< EXPORT_PRESETS]{.tbc}					
+[SETUP]{.tbc}	Value Lists	VALUE_LISTS	VALUE_LISTS			Form	[File Default]	
+			[< VALUES]{.tbc}					
+	Setup Producer and Venues	GLOBAL_USE_VARIABLES						
+			< PRODUCERS			[Portal]{.portal}		
+			< LOCATIONS			[Portal]{.portal}		
+UTLITY PAGES								
+{.tbc}	Global Setup	< GLOBAL_USE	GLOBAL_USE		APP_SETUP	Form	[File Default]	App Version, branding, etc. (Repeat general GLOBALS here too)
+			< APP_DEVICE_SETUP		GLOBAL_USE			for globl setup, app versioning. utility layout
+			< GLOBAL_EXPORT		GLOBAL_EXPORT			
+{.tbc}	Utility Reports	UTILITY_REPORTS	UTILITY_REPORTS			Form	[File Default]	
+			[< UTILITY_LOGS]{.tbc}					Viewing indivudal log comments.
+VIEW TABLES								
+[Normalized]{.conf}	view | PRODUCTIONS	view | PRODUCTIONS	PRODUCTIONS			Table	[File Default]	
+[Normalized]{.conf}	view | ROLES	view | ROLES	ROLES			Table	[File Default]	
+[Normalized]{.conf}	view | WEEKS	view | WEEKS	WEEKS			Table	[File Default]	
+[Normalized]{.conf}	view | STYLES	view | STYLES	STYLES			Table	[File Default]	
+[Normalized]{.conf}	view | THEMES	view | THEMES	THEMES			Table	[File Default]	
+[Normalized]{.conf}	view | EVENTS	view | EVENTS	EVENTS			Table	[File Default]	the stored, cleaned up import
+[Normalized]{.conf}	view | STANDARD_EVENTS	view | STANDARD_EVENTS	STANDARD_EVENTS			Table	[File Default]	
+[Normalized]{.conf}	view | CALENDARS	view | CALENDARS	CALENDARS			Table	[File Default]	
+[Normalized]{.conf}	view | LOCATION_TPYES	view | LOCATION_TYPES	LOCATION_TYPES			Table	[File Default]	
+[Normalized]{.conf}	view | IMPORT_SOURCES	view | IMPORT_SOURCES	IMPORT_SOURCES		IMPORT_SOURCES			
+[Normalized]{.tbc}	view | IMPORT_EVENTS	view | IMPORT_EVENTS	IMPORT_EVENTS					
+[Normalized]{.conf}	view | THEMES_X_STYLES	view | THEMES_X_STYLES	THEMES_X_STYLES					
+- EOF -								

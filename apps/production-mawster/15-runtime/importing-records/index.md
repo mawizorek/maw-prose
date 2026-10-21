@@ -33,4 +33,3 @@ All user imports hub from either: [Import Sessions](@button:layout-session-impor
 !!! note "script: remove non-data rows"
     - Remove blank rows usually at the top of the file.
     - And imported header rows.  
-

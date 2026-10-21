@@ -1,0 +1,749 @@
+=== CHUNK 3/6 | SET c62bc61b-8b27-446c-99e3-8f983928154b | UUID 698dd497-b225-4ab9-b29f-4443def1a51f | START ===
+[Agent: Read this chunk fully. Verify the START and END UUID match and the sequence is in order. Echo "read 3/6, uuid verified" in chat. Then STOP and wait for the human; do not read or fetch the next chunk on your own.]
+
+Index Language: English
+PrimaryKey	Normal, Text	Auto-Enter:
+Context table: EXPORT_SESSIONS
+Calculation: Get( UUID )
+Validation:
+Only during data entry
+Not empty
+Unique
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: Minimal
+Automatically create indexes as needed
+Index Language: Unicode Raw
+Unique identifier of each record in this table	
+CreationTimestamp	Normal, Timestamp	Auto-Enter:
+Creation timestamp
+Validation:
+Only during data entry
+Strict data type: 4 digit year
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Date and time each record was created	
+CreatedBy	Normal, Text	Auto-Enter:
+Creation account name
+Validation:
+Only during data entry
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Account name of the user who created each record	
+ModificationTimestamp	Normal, Timestamp	Auto-Enter:
+Modification timestamp
+Validation:
+Only during data entry
+Strict data type: 4 digit year
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Date and time each record was last modified	
+ModifiedBy	Normal, Text	Auto-Enter:
+Modification account name
+Validation:
+Only during data entry
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Account name of the user who last modified each record	
+Result_Pointer	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Link to the actual upload, if applicable.	
+Report_Container	Normal, Binary	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+where the run report is exported to. A cover page, and then each exported file appended on to the end. Or a ZIP or the full tree.	
+
+Table Name: EXPORT_SETS - 10 Fields
+Field Name	Type	Options	Comments	On Layouts	In Relationships	In Scripts	In Value Lists
+Name	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+SetExportPath	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+if a file does not have a specified destination. <Show>_Calendar_<YYYYMMDD> convention	
+bool_RevertRecord	Normal, Number	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+default = 0	
+bool_ScratchRecord	Normal, Number	Auto-Enter:
+Constant data: 0
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+default = 0	
+bool_DefaultRecord	Normal, Number	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+default = 0	
+PrimaryKey	Normal, Text	Auto-Enter:
+Context table: EXPORT_SETS
+Calculation: Get( UUID )
+Validation:
+Only during data entry
+Not empty
+Unique
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: Minimal
+Automatically create indexes as needed
+Index Language: Unicode Raw
+Unique identifier of each record in this table	
+CreationTimestamp	Normal, Timestamp	Auto-Enter:
+Creation timestamp
+Validation:
+Only during data entry
+Strict data type: 4 digit year
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Date and time each record was created	
+CreatedBy	Normal, Text	Auto-Enter:
+Creation account name
+Validation:
+Only during data entry
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Account name of the user who created each record	
+ModificationTimestamp	Normal, Timestamp	Auto-Enter:
+Modification timestamp
+Validation:
+Only during data entry
+Strict data type: 4 digit year
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Date and time each record was last modified	
+ModifiedBy	Normal, Text	Auto-Enter:
+Modification account name
+Validation:
+Only during data entry
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Account name of the user who last modified each record	
+
+Table Name: EXPORT_SET_ITEMS - 15 Fields
+Field Name	Type	Options	Comments	On Layouts	In Relationships	In Scripts	In Value Lists
+Sort	Normal, Number	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+NameLocal	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+FileExportPath	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+the final per-file export path choice. may be a reference to the SET's root	
+ovr_vl_OutputSize	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+ovr_WeekStartDay	Normal, Number	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+ovr_ShowLegend	Normal, Number	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+fkDocument	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+back to the canonical DOC index. Decides WHICH overrides apply (based on <defa	
+fkPrintSet	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+fkPreset	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+The HOW. Everything not overridden above resolves from here	
+fkEdition	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Prelim | For Bid Only | Final. A PRINT is a VERSION of an edition	
+PrimaryKey	Normal, Text	Auto-Enter:
+Context table: EXPORT_SET_ITEMS
+Calculation: Get( UUID )
+Validation:
+Only during data entry
+Not empty
+Unique
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: Minimal
+Automatically create indexes as needed
+Index Language: Unicode Raw
+Unique identifier of each record in this table	
+CreationTimestamp	Normal, Timestamp	Auto-Enter:
+Creation timestamp
+Validation:
+Only during data entry
+Strict data type: 4 digit year
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Date and time each record was created	
+CreatedBy	Normal, Text	Auto-Enter:
+Creation account name
+Validation:
+Only during data entry
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Account name of the user who created each record	
+ModificationTimestamp	Normal, Timestamp	Auto-Enter:
+Modification timestamp
+Validation:
+Only during data entry
+Strict data type: 4 digit year
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Date and time each record was last modified	
+ModifiedBy	Normal, Text	Auto-Enter:
+Modification account name
+Validation:
+Only during data entry
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Account name of the user who last modified each record	
+
+Table Name: EXPORT_PRESETS - 12 Fields
+Field Name	Type	Options	Comments	On Layouts	In Relationships	In Scripts	In Value Lists
+Name	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+11x17 Full Company, Light Lab Only, Agenda	
+vl_OutputSize	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+WeekStartDay	Normal, Number	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+1=Sun ... 7=Sat. default = 1, SUNDAY	
+bool_UseShortName	Normal, Number	Auto-Enter:
+Constant data: 0
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+default = 1	
+bool_ShowLegend	Normal, Number	Auto-Enter:
+Constant data: 0
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+default = 1	
+bool_ShowUnscheduled	Normal, Number	Auto-Enter:
+Constant data: 0
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+default = 1	
+ExportFolder	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Relative. Never absolute - Get(FilePath) resolves the file Relative. Never absolute - Get(FilePath) resolves the file	
+PrimaryKey	Normal, Text	Auto-Enter:
+Context table: PRINT_PRESETS
+Calculation: Get( UUID )
+Validation:
+Only during data entry
+Not empty
+Unique
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: Minimal
+Automatically create indexes as needed
+Index Language: Unicode Raw
+Unique identifier of each record in this table	
+CreationTimestamp	Normal, Timestamp	Auto-Enter:
+Creation timestamp
+Validation:
+Only during data entry
+Strict data type: 4 digit year
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Date and time each record was created	
+CreatedBy	Normal, Text	Auto-Enter:
+Creation account name
+Validation:
+Only during data entry
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Account name of the user who created each record	
+ModificationTimestamp	Normal, Timestamp	Auto-Enter:
+Modification timestamp
+Validation:
+Only during data entry
+Strict data type: 4 digit year
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Date and time each record was last modified	
+ModifiedBy	Normal, Text	Auto-Enter:
+Modification account name
+Validation:
+Only during data entry
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Account name of the user who last modified each record	
+
+Table Name: STANDARD_EVENTS - 11 Fields
+Field Name	Type	Options	Comments	On Layouts	In Relationships	In Scripts	In Value Lists
+Name	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+NameShort	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+NameDisplay	Normal, Text	Auto-Enter:
+Allow editing
+Do not replace existing value for field (if any)
+Context table: STANDARD_EVENTS
+Calculation: STANDARD_EVENTS::Name
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Sort	Normal, Number	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Production-convention order, not alphabetical	
+bool_isMilestone	Normal, Number	Auto-Enter:
+Constant data: 0
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+default = 0	
+fkStyle	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+PrimaryKey	Normal, Text	Auto-Enter:
+Context table: STANDARD_EVENTS
+Calculation: Get( UUID )
+Validation:
+Only during data entry
+Not empty
+Unique
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: Minimal
+Automatically create indexes as needed
+Index Language: Unicode Raw
+Unique identifier of each record in this table	
+CreationTimestamp	Normal, Timestamp	Auto-Enter:
+Creation timestamp
+Validation:
+Only during data entry
+Strict data type: 4 digit year
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Date and time each record was created	
+CreatedBy	Normal, Text	Auto-Enter:
+Creation account name
+Validation:
+Only during data entry
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Account name of the user who created each record	
+ModificationTimestamp	Normal, Timestamp	Auto-Enter:
+Modification timestamp
+Validation:
+Only during data entry
+Strict data type: 4 digit year
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Date and time each record was last modified	
+ModifiedBy	Normal, Text	Auto-Enter:
+Modification account name
+Validation:
+Only during data entry
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Account name of the user who last modified each record	
+
+Table Name: WORKDAYS - 12 Fields
+Field Name	Type	Options	Comments	On Layouts	In Relationships	In Scripts	In Value Lists
+Date	Normal, Date	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Title	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+TitleShort	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+bool_HideFromCalendar	Normal, Number	Auto-Enter:
+Constant data: 0
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+default = 0	
+ovr_ManualDate	Normal, Date	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Escape hatch, legacy parity	
+dateFormat_Colloquial	Calculated, Number	Calculation:
+Context table: WORKDAYS
+WORKDAYS::Date
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+dateFormat_Display	Calculated, Number	Calculation:
+Context table: WORKDAYS
+WORKDAYS::Date
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+PrimaryKey	Normal, Text	Auto-Enter:
+Context table: WORKDAYS
+Calculation: Get( UUID )
+Validation:
+Only during data entry
+Not empty
+Unique
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: Minimal
+Automatically create indexes as needed
+Index Language: Unicode Raw
+Unique identifier of each record in this table	
+CreationTimestamp	Normal, Timestamp	Auto-Enter:
+Creation timestamp
+Validation:
+Only during data entry
+Strict data type: 4 digit year
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Date and time each record was created	
+CreatedBy	Normal, Text	Auto-Enter:
+Creation account name
+Validation:
+Only during data entry
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Account name of the user who created each record	
+ModificationTimestamp	Normal, Timestamp	Auto-Enter:
+Modification timestamp
+Validation:
+Only during data entry
+Strict data type: 4 digit year
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+
+
+[Agent: Confirm this END UUID matches the START UUID above. Report completeness of part 3/6 in chat, then PAUSE and wait for the human's go-ahead before any next chunk.]
+=== CHUNK 3/6 | SET c62bc61b-8b27-446c-99e3-8f983928154b | UUID 698dd497-b225-4ab9-b29f-4443def1a51f | END ===

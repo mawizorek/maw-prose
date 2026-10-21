@@ -1,0 +1,52 @@
+id	Table_Name	Source	Notes	< Occurances >
+NORMALIZED TABLES				
+{.conf}	PRODUCERS	FileMaker		
+{.conf}	ROLES	FileMaker		
+{.conf}	PRODUCTIONS	FileMaker		
+{.conf}	WEEKS	FileMaker		
+	WORKDAYS	FileMaker		
+	STANDARD_EVENTS	FileMaker		
+[Enough for now]{.conf}	CALENDARS	FileMaker		
+	LOCATION_TYPES	FileMaker		
+WORKING DATA TABLES				
+	EVENTS			
+[Enough for now]{.conf}	EVENTS_WORKDAYS	FileMaker		
+	CALENDAR_HIGHLIGHTS	FileMaker		
+	ROLE_ASSIGNMENTS	FileMaker		
+	EDITIONS	FileMaker	{.conf}	
+	VERSIONS	FileMaker		
+	LOCATIONS	FileMaker		
+STYLING TABLES				
+{.conf}	STYLES	FileMaker		
+	STYLE_VALUES			
+	THEMES			
+{.conf}	THEME_COLORS			
+{.conf}	THEME_TYPOGRAPHY	FileMaker		
+IMPORT TABLES				
+	IMPORT_SESSIONS	FileMaker		
+{.gap}	IMPORT_SOURCES	FileMaker		
+	IMPORT_EVENTS	FileMaker		
+EXPORT TABLES				
+	EXPORT_SESSIONS	FileMaker		
+	EXPORT_PRESETS	FileMaker		
+	EXPORT_SETS	FileMaker		
+	EXPORT_SET_ITEMS	FileMaker		
+EXTERNAL DATA SOURCES				
+{.tbc}	FISCAL_YEARS	FileMaker	from URITP_GLOBAL	
+{.gap}	PEOPLE	FileMaker	from URITP_PEOPLE	
+{.tbc}		FileMaker		
+GLOBALS AND UTILITY				
+	GLOBAL_USE_VARIABLES	FileMaker		
+	GLOBAL_EXPORT_VARIABLES	FileMaker		
+{.gap}	UTILITY_REPORTS	FileMaker		
+{.tbc}	UTILITY_LOGS	FileMaker	> UTILITY_REPORTS. Field menu written 08-09, NOT built in the file. Needs TO UTILITY_LOGS|byLogPK off GLOBAL_USE	
+{.tbc}	auto_LAYOUTS	Filemaker	generated on file open for front lazy menu koading.	
+ESSENTIALLY VALUE LISTS				
+	LOCATION_TYPES	FileMaker	don't try to make it a value list.	
+	VALUE_LISTS	FileMaker		
+	VALUES	FileMaker		
+COME BACK TO				
+{.tbc}		FileMaker		
+CUT?				
+{.tbc}		FileMaker		
+- EOF -				

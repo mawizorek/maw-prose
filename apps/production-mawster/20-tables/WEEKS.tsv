@@ -1,0 +1,9 @@
+id	Field_Name	Type	Notes
+[Normalized]{.conf}	Number	Number	Indexed. Sequence within THIS build of the grid
+[Normalized]{.conf}	Weeks_Wednesday	Date	the WEDNESDAY of that week
+[Audit Feilds]{.est}	PrimaryKey	Text	
+[Audit Feilds]{.est}	CreationTimestamp	Timestamp	
+[Audit Feilds]{.est}	CreatedBy	Text	
+[Audit Feilds]{.est}	ModificationTimestamp	Timestamp	
+[Audit Feilds]{.est}	ModifiedBy	Text	
+- EOF -			

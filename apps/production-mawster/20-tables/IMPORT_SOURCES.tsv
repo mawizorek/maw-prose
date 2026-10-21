@@ -1,0 +1,11 @@
+sort	Field_Name	Type	Options	Notes
+[Normalized]{.conf}	dateTime_Complete	Timestamp		When the import is complete. Stamp failed runs too. Normalized.
+[Nullable]{.hi}	Path	Text		
+[Nullable]{.hi}	Link	Text		SOURCES: csv | api
+[Nullable]{.hi}	raw_Content	Container		*not* fkCalendar
+[Audit Field]{.est}	PrimaryKey	Text		UUID, auto-enter, unique, can't modify
+[Audit Field]{.est}	Created	Timestamp		
+[Audit Field]{.est}	CreatedBy	Text		
+[Audit Field]{.est}	Modified	Timestamp		
+[Audit Field]{.est}	ModifiedBy	Text		
+- EOF -				

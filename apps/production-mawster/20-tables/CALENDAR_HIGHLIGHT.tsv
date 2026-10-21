@@ -1,0 +1,26 @@
+id	Field_Name	Type	Notes
+NORMALIZED			
+{.conf}	AnchorMode	Text	range | event
+{.conf}	Name	Text	For list display
+{.conf}	LegendText	Text	Prints in the legend
+{.conf}	Priority	Number	Default 10, increment by 10. Highest wins; tie goes to narrowest span
+{.conf}	dateTime_Start	Timestamp	Typed. range mode only
+{.conf}	dateTime_End	Timestamp	Typed. Must be >= DateStart. Minimum required
+{.conf}	fkCalendar	Relationship	
+{.conf}	fkStyle	Relationship	STYLES row, domain emphasis
+OPTIONAL			
+{.conf}	fkStandardEvent	Relationship	event mode only. Matches EVERY event of this type in the production
+[DELETE??]{.tbc} 	DaysBefore	Number	Days to extend backward from the anchor. Default = 0
+[DELETE??]{.tbc} 	DaysAfter	Number	Days to extend forward from the anchor. Default = 0
+CALCULATIONS			
+{.conf} {.gap}	ResolvedStart	Calculation	Unstored. Typed date, or earliest matched event minus PadBefore
+{.conf} {.gap}	ResolvedEnd	Calculation	Unstored. Typed date, or latest matched event plus PadAfter
+{.tbc}	SpanDays	Calculation	Unstored. Tiebreaker for the sort
+{.tbc}	MatchCount	Calculation	Unstored. event mode: how many events matched. 0 = the row does nothing
+AUDIT FIELDS			
+{.conf}	PrimaryKey	Text	
+{.conf}		Timestamp	
+{.conf}		Text	
+{.conf}		Timestamp	
+{.conf}		Text	
+- EOF -			

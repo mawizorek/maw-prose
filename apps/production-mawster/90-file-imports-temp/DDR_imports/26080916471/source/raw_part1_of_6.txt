@@ -1,0 +1,769 @@
+=== CHUNK 1/6 | SET c62bc61b-8b27-446c-99e3-8f983928154b | UUID a75654e2-d4e8-4376-8079-130f4c3ca87f | START ===
+[Agent: Read this chunk fully. Verify the START and END UUID match and the sequence is in order. Echo "read 1/6, uuid verified" in chat. Then STOP and wait for the human; do not read or fetch the next chunk on your own.]
+
+Production_MAWster.fmp12
+
+Overview
+Tables	35
+Relationships	0
+Layouts	0
+Scripts	0
+Value Lists	8
+Custom Functions	0
+Accounts	0
+Privilege Sets	0
+Extended Privileges	0
+File Access (in / out)	0 / 0
+FileMaker Data Sources	0
+ODBC Data Sources	0
+Custom Menu Sets	0
+Custom Menus	0
+File Options
+Default custom menu set	[Standard FileMaker Menus]
+When opening file
+Minimum allowed version	12.0
+Login using	Account Name; Account= Admin
+Allow user to save password	Off
+Require iOS passcode	Off
+Switch to layout	Off
+Hide all toolbars	Off
+Script triggers
+OnFirstWindowOpen	Off
+OnLastWindowClose	Off
+OnWindowOpen	Off
+OnWindowClose	Off
+OnFileAVPlayerChange	Off
+Thumbnail Settings
+Generate Thumbnails	On; Temporary
+ 
+
+Tables
+
+Table Name	
+Statistics
+Occurrences in Relationship Graph
+GLOBAL_USE	
+6 fields defined, 0 record
+PRODUCTIONS	
+15 fields defined, 7 records
+ROLES	
+7 fields defined, 3 records
+ROLE_ASSIGNMENTS	
+15 fields defined, 0 record
+WEEKS	
+7 fields defined, 1 record
+EVENTS	
+16 fields defined, 1 record
+CALENDARS	
+9 fields defined, 7 records
+PRODUCERS	
+11 fields defined, 1 record
+LOCATIONS	
+9 fields defined, 6 records
+LOCATION_TYPES	
+7 fields defined, 5 records
+EDITIONS	
+9 fields defined, 0 record
+VERSIONS	
+7 fields defined, 0 record
+EXPORT_SESSIONS	
+11 fields defined, 0 record
+EXPORT_SETS	
+10 fields defined, 0 record
+EXPORT_SET_ITEMS	
+15 fields defined, 0 record
+EXPORT_PRESETS	
+12 fields defined, 0 record
+STANDARD_EVENTS	
+11 fields defined, 1 record
+WORKDAYS	
+12 fields defined, 0 record
+EVENTS_X_WORKDAYS	
+10 fields defined, 0 record
+CALENDAR_HIGHLIGHTS	
+18 fields defined, 0 record
+STYLES	
+9 fields defined, 1 record
+THEMES	
+7 fields defined, 1 record
+THEMES_X_STYLES	
+10 fields defined, 0 record
+THEME_COLORS	
+11 fields defined, 0 record
+THEME_TYPOGRAPHY	
+13 fields defined, 0 record
+VALUE_LISTS	
+9 fields defined, 2 records
+VALUES	
+9 fields defined, 8 records
+IMPORT_SESSIONS	
+13 fields defined, 0 record
+IMPORT_SOURCES	
+9 fields defined, 1 record
+IMPORT_EVENTS	
+25 fields defined, 0 record
+APP_DEVICE_SETUP	
+8 fields defined, 0 record
+UTILITY_REPORTS	
+13 fields defined, 0 record
+UTILITY_LOGS	
+11 fields defined, 0 record
+auto_LAYOUTS	
+7 fields defined, 0 record
+ORGANIZATION	
+8 fields defined, 0 record
+Fields
+
+Table Name: GLOBAL_USE - 6 Fields
+Field Name	Type	Options	Comments	On Layouts	In Relationships	In Scripts	In Value Lists
+PrimaryKey	Normal, Text	Auto-Enter:
+Context table: GLOBAL_USE_VARIABLES
+Calculation: Get( UUID )
+Validation:
+Only during data entry
+Not empty
+Unique
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: Minimal
+Automatically create indexes as needed
+Index Language: Unicode Raw
+Unique identifier of each record in this table	
+CreationTimestamp	Normal, Timestamp	Auto-Enter:
+Creation timestamp
+Validation:
+Only during data entry
+Strict data type: 4 digit year
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Date and time each record was created	
+CreatedBy	Normal, Text	Auto-Enter:
+Creation account name
+Validation:
+Only during data entry
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Account name of the user who created each record	
+ModificationTimestamp	Normal, Timestamp	Auto-Enter:
+Modification timestamp
+Validation:
+Only during data entry
+Strict data type: 4 digit year
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Date and time each record was last modified	
+ModifiedBy	Normal, Text	Auto-Enter:
+Modification account name
+Validation:
+Only during data entry
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Account name of the user who last modified each record	
+g_pkCurrnetTheme	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+
+Table Name: PRODUCTIONS - 15 Fields
+Field Name	Type	Options	Comments	On Layouts	In Relationships	In Scripts	In Value Lists
+Title	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: Minimal
+Automatically create indexes as needed
+Index Language: English
+TitleShort	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Unique
+Error message: Not a unique ID.
+Storage:
+Repetitions: 1
+Indexing: Minimal
+Automatically create indexes as needed
+Index Language: English
+TitleDisplay	Normal, Text	Auto-Enter:
+Allow editing
+Do not replace existing value for field (if any)
+Context table: view_PRODUCTIONS
+Calculation: view_PRODUCTIONS::Title
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+date_FirstRehearsal	Normal, Timestamp	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+TYPED, never derived. Contractual fact about the show. Calendar_START measures from it	
+date_Opening	Normal, Timestamp	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+TYPED. The production milestone. Season-report axis + value-list sort	
+cuProductionToken	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: All
+Index Language: English
+Indexed. EXACT ClickUp label string. A rename in CU breaks the join SILENTLY	
+cuProductionID	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: All
+Index Language: English
+Indexed. Empty until the API pull. Rename-proof successor	
+fkProducer	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+fkVenue	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+fkCourse	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+PrimaryKey	Normal, Text	Auto-Enter:
+Context table: view_PRODUCTIONS
+Calculation: Get( UUID )
+Validation:
+Only during data entry
+Not empty
+Unique
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: Minimal
+Automatically create indexes as needed
+Index Language: Unicode Raw
+Unique identifier of each record in this table	
+CreationTimestamp	Normal, Timestamp	Auto-Enter:
+Creation timestamp
+Validation:
+Only during data entry
+Strict data type: 4 digit year
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Date and time each record was created	
+CreatedBy	Normal, Text	Auto-Enter:
+Creation account name
+Validation:
+Only during data entry
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Account name of the user who created each record	
+ModificationTimestamp	Normal, Timestamp	Auto-Enter:
+Modification timestamp
+Validation:
+Only during data entry
+Strict data type: 4 digit year
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Date and time each record was last modified	
+ModifiedBy	Normal, Text	Auto-Enter:
+Modification account name
+Validation:
+Only during data entry
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Account name of the user who last modified each record	
+
+Table Name: ROLES - 7 Fields
+Field Name	Type	Options	Comments	On Layouts	In Relationships	In Scripts	In Value Lists
+Title	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+TitleShort	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+PrimaryKey	Normal, Text	Auto-Enter:
+Context table: view_ROLES
+Calculation: Get( UUID )
+Validation:
+Only during data entry
+Not empty
+Unique
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: Minimal
+Automatically create indexes as needed
+Index Language: Unicode Raw
+Unique identifier of each record in this table	
+CreationTimestamp	Normal, Timestamp	Auto-Enter:
+Creation timestamp
+Validation:
+Only during data entry
+Strict data type: 4 digit year
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Date and time each record was created	
+CreatedBy	Normal, Text	Auto-Enter:
+Creation account name
+Validation:
+Only during data entry
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Account name of the user who created each record	
+ModificationTimestamp	Normal, Timestamp	Auto-Enter:
+Modification timestamp
+Validation:
+Only during data entry
+Strict data type: 4 digit year
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Date and time each record was last modified	
+ModifiedBy	Normal, Text	Auto-Enter:
+Modification account name
+Validation:
+Only during data entry
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Account name of the user who last modified each record	
+
+Table Name: ROLE_ASSIGNMENTS - 15 Fields
+Field Name	Type	Options	Comments	On Layouts	In Relationships	In Scripts	In Value Lists
+vl_Section	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Defaults from ROLES.DefaultSection	
+Sort	Normal, Number	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+vl_CallsInclusions	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+vl_ReportsInclusion	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+ovr_Role_Title	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+bool_nonPerson	Normal, Number	Auto-Enter:
+Constant data: 0
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+default = 0	
+vl_DropboxStatus	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+fkProduction	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+fkRole	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+fkPerson	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+PrimaryKey	Normal, Text	Auto-Enter:
+Context table: ROLE_ASSIGNMENTS
+Calculation: Get( UUID )
+Validation:
+Only during data entry
+Not empty
+Unique
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: Minimal
+Automatically create indexes as needed
+Index Language: Unicode Raw
+Unique identifier of each record in this table	
+CreationTimestamp	Normal, Timestamp	Auto-Enter:
+Creation timestamp
+Validation:
+Only during data entry
+Strict data type: 4 digit year
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Date and time each record was created	
+CreatedBy	Normal, Text	Auto-Enter:
+Creation account name
+Validation:
+Only during data entry
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Account name of the user who created each record	
+ModificationTimestamp	Normal, Timestamp	Auto-Enter:
+Modification timestamp
+Validation:
+Only during data entry
+Strict data type: 4 digit year
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Date and time each record was last modified	
+ModifiedBy	Normal, Text	Auto-Enter:
+Modification account name
+Validation:
+Only during data entry
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Account name of the user who last modified each record	
+
+Table Name: WEEKS - 7 Fields
+Field Name	Type	Options	Comments	On Layouts	In Relationships	In Scripts	In Value Lists
+Number	Normal, Number	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Weeks_Wednesday	Normal, Date	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+PrimaryKey	Normal, Text	Auto-Enter:
+Context table: view_WEEKS
+Calculation: Get( UUID )
+Validation:
+Only during data entry
+Not empty
+Unique
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: Minimal
+Automatically create indexes as needed
+Index Language: Unicode Raw
+Unique identifier of each record in this table	
+CreationTimestamp	Normal, Timestamp	Auto-Enter:
+Creation timestamp
+Validation:
+Only during data entry
+Strict data type: 4 digit year
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Date and time each record was created	
+CreatedBy	Normal, Text	Auto-Enter:
+Creation account name
+Validation:
+Only during data entry
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Account name of the user who created each record	
+ModificationTimestamp	Normal, Timestamp	Auto-Enter:
+Modification timestamp
+Validation:
+Only during data entry
+Strict data type: 4 digit year
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Date and time each record was last modified	
+ModifiedBy	Normal, Text	Auto-Enter:
+Modification account name
+Validation:
+Only during data entry
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Account name of the user who last modified each record	
+
+Table Name: EVENTS - 16 Fields
+Field Name	Type	Options	Comments	On Layouts	In Relationships	In Scripts	In Value Lists
+Name	Normal, Text	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+dateTime_Start	Normal, Timestamp	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+dateTime_End	Normal, Timestamp	Auto-Enter:
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+bool_AllDay	Normal, Number	Auto-Enter:
+Constant data: 0
+Allow editing
+Validation:
+Only during data entry
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+default = 0	
+PrimaryKey	Normal, Text	Auto-Enter:
+Context table: view_EVENTS
+Calculation: Get( UUID )
+Validation:
+Only during data entry
+Not empty
+Unique
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: Minimal
+Automatically create indexes as needed
+Index Language: Unicode Raw
+Unique identifier of each record in this table	
+CreationTimestamp	Normal, Timestamp	Auto-Enter:
+Creation timestamp
+Validation:
+Only during data entry
+Strict data type: 4 digit year
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Date and time each record was created	
+CreatedBy	Normal, Text	Auto-Enter:
+Creation account name
+Validation:
+Only during data entry
+Not empty
+Strict validation
+Storage:
+Repetitions: 1
+Indexing: None
+Automatically create indexes as needed
+Index Language: English
+Account name of the user who created each record	
+
+
+[Agent: Confirm this END UUID matches the START UUID above. Report completeness of part 1/6 in chat, then PAUSE and wait for the human's go-ahead before any next chunk.]
+=== CHUNK 1/6 | SET c62bc61b-8b27-446c-99e3-8f983928154b | UUID a75654e2-d4e8-4376-8079-130f4c3ca87f | END ===

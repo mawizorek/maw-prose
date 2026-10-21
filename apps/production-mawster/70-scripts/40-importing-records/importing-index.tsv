@@ -1,0 +1,23 @@
+ClickUp Field	FMP Field	Source	Notes
+PRODUCTION CALENDAR EVENTS - verified against a live export, 2026-08-12 (115 events, Big Love)			
+Task ID [Required]{.hi}	cu_TaskID	CSV column	WAS MISSING FROM THIS TABLE. half the upsert key into EVENTS, and WatchHash has nothing to attach to without it
+Task Name [Required]{.hi}	import_Name	CSV column	26 of 115 rows arrived without the [BL] prefix - the prefix was doing fkProduction's job
+Start Date [nullable]{.est}	import_dateSTART	CSV column	lands as TEXT on purpose. 32 rows empty = deadline / all-day shape
+Due Date [Required]{.hi}	import_dateEND	CSV column	lands as TEXT. 3 rows arrived EMPTY - unschedulable, must be flagged not filed
+Calendar COLOR (drop down)	import_Style_Key	CSV column	6 tokens observed, not one vocabulary: PRODUCTION 44, Rehearsal 44, DEADLINE 9, Full Company 9, BLACK 5, UR General 4
+STAMPED BY THE SCRIPT - never mapped from a column			
+-	fkImportSession	global, auto-enter	[spelling unresolved: tsv says fkImportSession, chat said fkImport_Session, EVENTS says fkLastImportSession]{.verify}
+-	fkProduction	global, auto-enter	declared by the operator at session open. stamped from the session, NEVER derived from a name
+DERIVED ON CREATION - no column, no loop			
+-	bool_AllDay	auto-enter calc	[still 0 on all 115 rows including the 33 all-day ones]{.gap} rule: END time = 00:00 AND START empty -> 1
+-	Start_dateTime / End_dateTime	stored calc	WORKING. returned ? on the header row, which is the calc failing LOUD and is correct
+-	hash_history	auto-enter, do not replace	[currently an identity formula, so change detection is dead end to end]{.gap} watched set: start | end | name
+-	import_RowNumber	Replace Field Contents	[empty on all rows]{.gap} the ONE legitimate Replace: post-import found set, Get ( RecordNumber )
+NOT AVAILABLE ON THE CSV PIPE			
+-	import_raw_payload	[unobtainable]{.tbc}	FMP splits on tabs and maps to fields - there is NO whole-row value to capture. verbatim arrives with the API pipe only
+-	CU_StatusToken	[not exported]{.gap}	add to the export view or drop the field
+EXPORT VIEW RULES			
+field names as first row	OFF	-	[ON produced a header row as record 2 plus a blank record 1]{.gap} or skip the first row on import instead
+one view per production	-	-	one session = one show. a cross-listed event then arrives in BOTH sessions, which is correct
+unique lines	-	-	no expanded subtasks. collapsed is fine
+- EOF -			

@@ -12,9 +12,8 @@ OPTIONAL
 	RoleTitle_Override	Text		Per-show wording, incl. course-code prefix
 	bool_nonPerson	Number	default = 0	1 = non-person routing row (Production email, SM email)
 	vl_DropboxStatus	Text		1 = printed italic on the contact sheet. Typography carries data
-				
 AUDIT FIELDS				
-{.conf}	PrimaryKey	Text		UUID, auto-enter, unique, can't modify
+{.conf}	PrimaryKey	Text	UUID, auto-enter, unique, can't modify	
 {.conf}		Timestamp		
 {.conf}		Text		
 {.conf}		Timestamp		
