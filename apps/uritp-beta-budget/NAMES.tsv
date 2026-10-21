@@ -1,0 +1,32 @@
+key	current	proposed	status	grain
+t.global	GLOBAL_USE_VARIABLES	GLOBAL_USE_VARIABLES	keep	1 rec · app-wide globals · the hub's context
+t.scriptvars	GLOBAL_scriptVariabls	→ t.global	retire	2 globals that belong on t.global
+t.xxprint	XX_GLOBAL_PrintingVariables	→ t.global	retire	holding band
+t.xxsetup	XX_GLOBAL_fileSetup	→ t.global	retire	duplicate of t.global file fields
+t.versions	BUDGET_Versions	BudgetVersions	rename	one allocation version (A, B, Final…) per FY
+t.codes	Budget_Codes_Defintions	BudgetCodes	rename	one bucket, forever · renders its code from family+context+suffix
+t.yearconfig	BudgetCode_YearConfig	BudgetCodeYearConfigs	rename	one code in one FY · THE money target (J18)
+t.families	Budget_FamilyDefintions	BudgetFamilies	rename	first digits of a code
+t.contexts	Budget_ContextDefinitions	BudgetContexts	rename	middle digits · owns the operating line
+t.suffixes	Budget_ContextSuffixDefinitions	BudgetSuffixes	rename	last digits · scoped to family
+t.headers	BudgetCode_Header_Categories	BudgetHeaderCategories	rename	print grouping headers
+t.alloc	Budget_Allocation	BudgetAllocations	rename	money awarded to one yearconfig in one version
+t.alloc_others	Budget_Allocation_OthersCodes		open	2 rec · codes other departments use · grain unclear
+t.supervisors	Budget_Supervisors	BudgetSupervisors	rename	owner of a code
+t.sessions	IMPORT_SESSIONS	ImportSessions	rename	one Workday report import
+t.ledger	IMPORT_URF0985	LedgerRows	rename	one URF0985 line as the university sent it · never edited
+t.assign	URF_ROW_ASSIGNMENTS	LedgerAssignments	rename	one ledger row (or split) meeting one yearconfig
+t.coded	URF_CODED_TRANSACTIONS	→ t.assign	retire	Q12: fold into t.assign
+t.pending		PendingTransactions	new	a charge we know about before Workday posts it
+t.urf0989	Import_URF0989		open	0 rec · budget-vs-actual report lines · keep or drop?
+t.labour	Import_CumSaleLABOUR	LabourCumSaleRows	rename	one worker's FYTD earnings · must point at t.yearconfig
+t.fy_local	XXFiscal Years	→ Global Setup	retire	local FY copy · external file is canonical
+t.worknotes	file_WorkNotes		open	dev notes in the file · keep or move to repo?
+t.vlists	zfile_ValueLISTS	ufile_ValueLISTS	rename	house value-list pattern
+t.values	zfile_Values	ufile_Values	rename	house value-list pattern
+t.ur_spend	UR_SpendRevenueCategory	UrSpendCategories	rename	Workday reference · harvested, never authored
+t.ur_company	UR_Company	UrCompanies	rename	Workday reference
+t.ur_opline	UR_OperatingLineFAO	UrOperatingLines	rename	Workday reference
+t.ur_cost	UR_CostCenter	UrCostCenters	rename	Workday reference
+t.ur_fund	UR_Fund	UrFunds	rename	Workday reference
+t.ur_ledgeracct	UR_LedgerAccount	UrLedgerAccounts	rename	Workday reference

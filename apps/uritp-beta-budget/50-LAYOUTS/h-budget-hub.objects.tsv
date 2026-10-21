@@ -1,0 +1,36 @@
+#	Part	Object	Family	Source	Behaviour	New in file
+H1	Header	Toolbar band	cnt_toolbar	header part fill	—	—
+H2	Header	App title	tx_page_title	text "URITP Budget"	—	—
+H3	Header	Fiscal year picker	fd_dropdown_standard	ui_GLOBAL_BudgetHub::g_fkSelectedFiscalYear · VL popupEDS_FiscalYears	OnObjectModify → select | g FISCAL YEAR	—
+H4	Header	Budget version	fd_readonly_display	BUDGET_AllocationVersions::TITLE	browse entry off	—
+H5	Header	Last import stamp	tx_helper	merge <<hub_LastSession::ImportTimestamp>>	—	TO hub_LastSession
+H6	Header	Import button	btn_primary	"Import URF0985"	→ Create_New_URF_Import	—
+B0	Body	Body canvas	cnt_page_shell	body part fill	—	—
+T1	Body	Allocated tile	sum_metric_tile	ui_GLOBAL_BudgetHub::calc_HubAllocated	—	field
+T2	Body	Posted tile	sum_metric_tile	ui_GLOBAL_BudgetHub::calc_HubPosted	—	field
+T3	Body	Remaining tile	sum_metric_tile	ui_GLOBAL_BudgetHub::calc_HubRemaining	CF: < 0 → text bad	field
+T4	Body	Uncoded tile	sum_metric_tile_alert	ui_GLOBAL_BudgetHub::calc_HubUncoded	hide when = 0	field
+T5	Body	All-coded note	tx_muted	text "All coded ✓" (same rect as T4)	hide when > 0	—
+C1	Body	Codes card	cnt_section_card	—	—	—
+C2	Body	Codes heading	tx_section_header	"Codes " & merge <<Fiscal_Years_forCurrent::ShortName>>	—	—
+C3	Body	Code search	fd_search_filter	ui_GLOBAL_BudgetHub::gSearch	OnObjectSave → hub | Refresh	field gSearch
+C4	Body	Codes portal header	row_portal_header	labels in tx_field_label: CODE · NAME · ALLOC · POSTED · LEFT	—	—
+C5	Body	Codes portal	row_portal_standard	hub_YearConfigs · sort Code_snapshot asc · filter: IsEmpty ( gSearch ) or PatternCount ( Code_snapshot & " " & Name_snapshot ; gSearch )	row button → hub | Select Code { yearConfigID }	TO hub_YearConfigs
+C6	Body	Selected code row	row_portal_selected	CF on C5 row: hub_YearConfigs::PrimaryKey = g_fkSelectedCode	—	—
+C7	Body	Code cell	fd_readonly_display	hub_YearConfigs::Code_snapshot	—	—
+C8	Body	Name cell	fd_readonly_display	hub_YearConfigs::Name_snapshot	—	—
+C9	Body	Alloc cell	fd_currency_standard (readonly)	hub_YearConfigs::calc_Allocated	—	field
+C10	Body	Posted cell	fd_currency_standard (readonly)	hub_YearConfigs::calc_Posted	—	field
+C11	Body	Left cell	fd_currency_standard (readonly)	hub_YearConfigs::calc_Remaining	CF: < 0 → text bad	field
+R1	Body	Work card	cnt_section_card	—	—	—
+R2	Body	Uncoded toggle	nav_mode_inactive	text "Uncoded"	→ hub | Refresh { mode: "uncoded" } · CF: gHubMode = "uncoded" → nav_mode_active fill	field gHubMode
+R3	Body	Ledger toggle	nav_mode_inactive	text "Ledger"	→ hub | Refresh { mode: "ledger" } · CF: gHubMode = "ledger" → nav_mode_active fill	—
+R4	Body	Selected code name	tx_section_header	merge <<hub_SelectedCode::Name_snapshot>>	—	TO hub_SelectedCode
+R5	Body	Uncoded portal	row_portal_standard	hub_SessionRows · sort source_AccountingDate asc · filter: IsEmpty ( hub_SessionRowAssignments::PrimaryKey )	hide when gHubMode ≠ "uncoded"	TO hub_SessionRows + hub_SessionRowAssignments
+R6	Body	Uncoded cells	fd_readonly_display · fd_currency_standard	source_AccountingDate · source_Supplier · source_LineMemo_SupplierReferenceNumber · xxfkBUDGET_CODE (hint, tx_muted) · source_Amount	—	—
+R7	Body	Assign button	btn_quiet	"→"	→ ledger | Assign Row { rowID ; yearConfigID ; amount } · hide when IsEmpty ( g_fkSelectedCode )	—
+R8	Body	Ledger portal	row_portal_standard	hub_CodeAssignments · sort AssignedAt desc · same rect as R5	hide when gHubMode ≠ "ledger"	TO hub_CodeAssignments + hub_CodeAssignmentRows
+R9	Body	Ledger cells	fd_readonly_display · fd_currency_standard	hub_CodeAssignmentRows::source_AccountingDate · ::source_Supplier · hub_CodeAssignments::AssignedAmount	—	—
+R10	Body	Unassign button	btn_destructive	"✕"	→ ledger | Unassign (confirm dialog · Delete Portal Row)	—
+R11	Body	No-code hint	tx_muted	"Pick a code on the left"	hide when not IsEmpty ( g_fkSelectedCode )	—
+F1	Footer	File line	tx_helper	merge <<APP_VERSION>> · <<calc_HOSTED_STATUS>> · <<calc_FILENAME>>	—	—
