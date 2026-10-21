@@ -2,9 +2,9 @@
   "site": "mawprose",
   "name": "MAW Prose",
   "base_url": "https://mawizorek.github.io/maw-prose/",
-  "built": "2026-10-21T13:33:16Z",
+  "built": "2026-10-21T13:43:39Z",
   "engine": "0.1.0",
-  "engine_ref": "5070730f6ecb0a21819299c35a87bf53ff282436",
+  "engine_ref": "ec3575005181afe820165ffd4bf46bd8cb0ed5ac",
   "pages": [
     {
       "id": "assignment-art-cue-mood-project",
@@ -133,6 +133,15 @@
       "print_gloss": null
     },
     {
+      "id": "printing",
+      "type": "page",
+      "title": "Printing",
+      "url": "apps/production-mawster/16-printing/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
       "id": "production-mawster",
       "type": "index",
       "title": "Production MAWster",
@@ -155,6 +164,15 @@
       "type": "page",
       "title": "Runtime",
       "url": "apps/production-mawster-no-use/11-runtime/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "script-importing-records",
+      "type": "index",
+      "title": "Importing Records",
+      "url": "apps/production-mawster/15-runtime/importing-records/",
       "status": "public",
       "gloss": null,
       "print_gloss": null
@@ -380,6 +398,24 @@
       "type": "reference",
       "title": "Styles",
       "url": "apps/production-mawster-no-use/20-tables/STYLES/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-value-lists",
+      "type": "reference",
+      "title": "Value Lists",
+      "url": "apps/production-mawster/20-tables/VALUE_LISTS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-values",
+      "type": "reference",
+      "title": "Values",
+      "url": "apps/production-mawster/20-tables/VALUES/",
       "status": "public",
       "gloss": null,
       "print_gloss": null

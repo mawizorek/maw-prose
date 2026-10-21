@@ -1,0 +1,13 @@
+id	Field_Name	Type	Options	Notes
+[Normalized]{.conf}	Name	Text	Indexed	Load In, Q2Q, Designer Run
+[Normalized]{.conf}	NameShort	Text		
+[Normalized]{.conf}	NameDisplay	Text	Auto-Enter Calculation	
+[Normalized]{.conf}	Sort	Number		Production-convention order, not alphabetical
+[Normalized]{.conf}	bool_IsMilestone	Number	Auto-enter Data	default = 0
+[Nullable]{.hi}	fkStyle	[Text]{.rel}		→ STYLES. Optional skin beyond the raw CU status token
+[Audit Fields]{.est}	PrimaryKey	Text		
+[Audit Fields]{.est}	CreationTimestamp	Timestamp		
+[Audit Fields]{.est}	CreatedBy	Text		
+[Audit Fields]{.est}	ModificationTimestamp	Timestamp		
+[Audit Fields]{.est}	ModifiedBy	Text		
+- EOF -				

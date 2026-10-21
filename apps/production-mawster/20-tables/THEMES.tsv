@@ -1,0 +1,10 @@
+id	Field_Name	Type	Options	Notes
+NORMALIZED FIELDS				
+[Normalized]{.conf}	Name	Text		month | event-status | watermark | emphasis
+[Normalized]{.conf}	Sort	Text		Human name seen over stored pk. Prelim| slugs, etc. <should be filterable by DOMAIN via relationship........)>
+[Audit Field]{.est}	PrimaryKey	Text		
+[Audit Field]{.est}	Timestamp			
+[Audit Field]{.est}		Text		
+[Audit Field]{.est}		Timestamp		
+[Audit Field]{.est}		Text		
+- EOF -				
