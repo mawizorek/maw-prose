@@ -1,0 +1,27 @@
+{
+  "name": "page-id-autocomplete",
+  "displayName": "Page ID Autocomplete",
+  "description": "Autocomplete, hover, go-to-definition, diagnostics, quick fixes, and page creation for doc-render-engine markdown repos.",
+  "version": "0.6.0",
+  "publisher": "mawizorek",
+  "engines": { "vscode": "^1.60.0" },
+  "categories": ["Other"],
+  "activationEvents": ["onLanguage:markdown"],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      { "command": "pageId.createPage", "title": "New Page", "category": "Page ID" },
+      { "command": "pageId.vocabSource", "title": "Where is the vocabulary coming from?", "category": "Page ID" }
+    ],
+    "configuration": {
+      "title": "Page ID Autocomplete",
+      "properties": {
+        "pageId.enginePath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to a doc-render-engine checkout. Blank = look for ../doc-render-engine next to the open repo. When found, types, statuses, callouts and markers are read live from it."
+        }
+      }
+    }
+  }
+}
