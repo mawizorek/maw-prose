@@ -1,0 +1,15 @@
+id	Field_Name	Type	Options	Notes
+NORMALIZED				
+[Normalized]{.conf}	Title	Text		
+[Nullable]{.tbc}	Comment	Number		
+[Normalized]{.conf}	RunSummary	Text		Required to at least say pass/fail.
+[Normalized]{.conf}	dateTime_Start	Tmestamp		
+[Normalized]{.conf}	dateTime_End	Timestamp		
+[Normalized]{.conf}	media_RunReport			Run export contents (usually as a single pdf or zip)
+[Normalized]{.conf}	vl_Status			open | close
+[Audit Field]{.est}	PrimaryKey	Text		
+[Audit Field]{.est}	CreationTimestamp	Timestamp		
+[Audit Field]{.est}	CreatedBy	Text		
+[Audit Field]{.est}	ModificationTimestamp	Timestamp		
+[Audit Field]{.est}	ModifiedBy	Text		
+- EOF -				

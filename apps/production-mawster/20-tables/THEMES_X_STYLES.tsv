@@ -1,0 +1,13 @@
+id	Field_Name	Type	Options	Notes
+NORMALIZED FIELDS				
+[Normalized]{.conf}	fkTheme	[Text]{.rel}		
+[Normalized]{.conf}	fkStyle	[Text]{.rel}		
+[Nullable Override]{.gap}	fkColor_Text	[Text]{.rel}		
+[Nullable Override]{.gap}	fkColor_Fill	[Text]{.rel}		
+[Nullable Override]{.gap}	fkTypographty	[Text]{.rel}		
+[Audit Field]{.est}	PrimaryKey	Text		
+[Audit Field]{.est}		Timestamp		
+[Audit Field]{.est}		Text		
+[Audit Field]{.est}		Timestamp		
+[Audit Field]{.est}		Text		
+- EOF -				

@@ -1,0 +1,15 @@
+id	Field_Name	Type	Options	Notes
+NORMALIZED FIELDS				
+{.conf}	Name	Text		Human name seen over stored pk. Prelim| slugs, etc. <should be filterable by DOMAIN via relationship........)
+{.conf}	SortLabe	Text		Text for Gel swatch refernece or red-05 type grouping...?
+{.conf}	R	Number		Unstored, HexToRGB ( Hex ; "r" )
+{.conf}	G	Number		Unstored, HexToRGB ( Hex ; "g" )
+{.conf}	B	Number		Unstored, HexToRGB ( Hex ; "b" )
+{.conf}	calc_Hex	[Number]{.calc}		
+AUDIT FIELDS				
+{.conf}	PrimaryKey	Text		
+{.conf}		Timestamp		
+{.conf}		Text		
+{.conf}		Timestamp		
+{.conf}		Text		
+- EOF -				

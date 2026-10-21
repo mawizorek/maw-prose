@@ -1,0 +1,18 @@
+id	Field_Name	Type	Options	Notes
+NORMALIZED FIELDS				
+{.conf}	Name	Text		
+{.conf}	Font	Text		
+{.conf}	Size	Number		
+{.conf}	bool_Italic	Number		
+{.conf}	bool_bold	Number		
+{.conf}	bool_underline	Number		
+{.conf}	vl_Case	Text		none | upper | title | lower
+OPTIONAL				
+{.conf}	LineWeight	Number		LATER
+AUDIT FIELDS				
+{.conf}	PrimaryKey	Text		
+{.conf}		Timestamp		
+{.conf}		Text		
+{.conf}		Timestamp		
+{.conf}		Text		
+- EOF -				
