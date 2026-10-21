@@ -1,0 +1,2803 @@
+{
+"app": "URITP Budget.fmp12",
+"drop": "d77b61648a76",
+"export": "10/10/2026 10:39:13 PM",
+"objects": {
+"cf:1": {
+"h": "d2709a74aa",
+"n": "leadingZeros"
+},
+"cf:10": {
+"h": "e578ffadd2",
+"n": "ParamGetNumber"
+},
+"cf:11": {
+"h": "988a31b1eb",
+"n": "ParamGetBoolean"
+},
+"cf:12": {
+"h": "3d8bc70d29",
+"n": "--"
+},
+"cf:13": {
+"h": "f63109c9c1",
+"n": "AddMonths"
+},
+"cf:14": {
+"h": "ba0ca8187f",
+"n": "CSSPixelWidth"
+},
+"cf:15": {
+"h": "36e275baa3",
+"n": "exists"
+},
+"cf:16": {
+"h": "6f074ad2c1",
+"n": "MESSAGES"
+},
+"cf:17": {
+"h": "87ebb0c9a7",
+"n": "--"
+},
+"cf:18": {
+"h": "1949bde45e",
+"n": "MSG_ValueListErrors"
+},
+"cf:19": {
+"h": "5ff2255370",
+"n": "MSG_PreflightErrors"
+},
+"cf:2": {
+"h": "c7c649846b",
+"n": "JSON"
+},
+"cf:3": {
+"h": "5a75e61e7b",
+"n": "PNum"
+},
+"cf:4": {
+"h": "8b1aa7466b",
+"n": "PBool"
+},
+"cf:5": {
+"h": "1b8a04235b",
+"n": "PJSON"
+},
+"cf:6": {
+"h": "6006d5b4d2",
+"n": "Param"
+},
+"cf:7": {
+"h": "afdb5d4009",
+"n": "PText"
+},
+"cf:8": {
+"h": "cff7414e7b",
+"n": "ParamHas"
+},
+"cf:9": {
+"h": "59f91a7f88",
+"n": "ParamGetText"
+},
+"field:129:1": {
+"h": "4dde11c880",
+"n": "Budget_Allocation::PrimaryKey"
+},
+"field:129:10": {
+"h": "444c60dd70",
+"n": "Budget_Allocation::Notes"
+},
+"field:129:11": {
+"h": "c700ae23f1",
+"n": "Budget_Allocation::SummaryAmountAwarded"
+},
+"field:129:12": {
+"h": "99c505994a",
+"n": "Budget_Allocation::FLAG"
+},
+"field:129:13": {
+"h": "4a39f372e5",
+"n": "Budget_Allocation::WORKSHEET"
+},
+"field:129:14": {
+"h": "41ac44fe70",
+"n": "Budget_Allocation::NM_sort"
+},
+"field:129:15": {
+"h": "479e604626",
+"n": "Budget_Allocation::AllocationWorksheet"
+},
+"field:129:16": {
+"h": "9ab64fe817",
+"n": "Budget_Allocation::NM_Subtotal"
+},
+"field:129:17": {
+"h": "7ada7482cc",
+"n": "Budget_Allocation::Title"
+},
+"field:129:18": {
+"h": "5fac948fa1",
+"n": "Budget_Allocation::fkDefaultExtAllocation"
+},
+"field:129:6": {
+"h": "0422519d27",
+"n": "Budget_Allocation::fkBudgetCode"
+},
+"field:129:7": {
+"h": "bf5ca42261",
+"n": "Budget_Allocation::Description"
+},
+"field:129:8": {
+"h": "e5a3c6cd4f",
+"n": "Budget_Allocation::AmountAwarded"
+},
+"field:129:9": {
+"h": "bda3d27496",
+"n": "Budget_Allocation::fkBudgetVersion"
+},
+"field:130:1": {
+"h": "5c060c7435",
+"n": "Budget_Codes_Defintions::PrimaryKey"
+},
+"field:130:10": {
+"h": "daa1c2e403",
+"n": "Budget_Codes_Defintions::PVT Allocation Notes"
+},
+"field:130:11": {
+"h": "1bb70153db",
+"n": "Budget_Codes_Defintions::PUBLICNotes"
+},
+"field:130:12": {
+"h": "9b1c35f9f9",
+"n": "Budget_Codes_Defintions::xx_fkDefaultHeaderCategory"
+},
+"field:130:13": {
+"h": "8cde80c269",
+"n": "Budget_Codes_Defintions::_temp"
+},
+"field:130:14": {
+"h": "71f558a436",
+"n": "Budget_Codes_Defintions::fkAllocation"
+},
+"field:130:15": {
+"h": "329fdafe33",
+"n": "Budget_Codes_Defintions::calcTotalAllocation"
+},
+"field:130:17": {
+"h": "1fe5dda9fc",
+"n": "Budget_Codes_Defintions::xxFY27 Allocation Summary"
+},
+"field:130:18": {
+"h": "2ac9e1fcdf",
+"n": "Budget_Codes_Defintions::xxFY26 Allocation Summary"
+},
+"field:130:19": {
+"h": "1b677596fe",
+"n": "Budget_Codes_Defintions::calcDisplay_Code"
+},
+"field:130:20": {
+"h": "ad5c212a82",
+"n": "Budget_Codes_Defintions::xxFY26_Spent"
+},
+"field:130:21": {
+"h": "62582f9a4a",
+"n": "Budget_Codes_Defintions::xxFY26_REMAINING"
+},
+"field:130:22": {
+"h": "3bed2ab842",
+"n": "Budget_Codes_Defintions::xxFY26 Spent Summary"
+},
+"field:130:23": {
+"h": "050202787b",
+"n": "Budget_Codes_Defintions::xxFY26 Remaining Summary"
+},
+"field:130:24": {
+"h": "ecfc664823",
+"n": "Budget_Codes_Defintions::fkOWNER"
+},
+"field:130:26": {
+"h": "79e07ad2aa",
+"n": "Budget_Codes_Defintions::calc_CodeHundred"
+},
+"field:130:27": {
+"h": "0111c821ac",
+"n": "Budget_Codes_Defintions::calc_CodeTen"
+},
+"field:130:29": {
+"h": "0e65d972a3",
+"n": "Budget_Codes_Defintions::is_active"
+},
+"field:130:30": {
+"h": "3184beee6d",
+"n": "Budget_Codes_Defintions::fkBudget_FAMILY"
+},
+"field:130:31": {
+"h": "575499b4b8",
+"n": "Budget_Codes_Defintions::fkBudget_CONTEXT"
+},
+"field:130:32": {
+"h": "2bee33c571",
+"n": "Budget_Codes_Defintions::fkBudget_SUFFIX"
+},
+"field:130:33": {
+"h": "4bc422a70d",
+"n": "Budget_Codes_Defintions::fkUROperatingLine"
+},
+"field:130:34": {
+"h": "c35dd0ac06",
+"n": "Budget_Codes_Defintions::fkURSpendCateogry"
+},
+"field:130:35": {
+"h": "eae091fe1f",
+"n": "Budget_Codes_Defintions::calc_ExpectedCode"
+},
+"field:130:36": {
+"h": "b3b0c3c382",
+"n": "Budget_Codes_Defintions::Suffix_OVerride"
+},
+"field:130:37": {
+"h": "9402a2b6c1",
+"n": "Budget_Codes_Defintions::display_CodeCurrent"
+},
+"field:130:38": {
+"h": "f78c4ced51",
+"n": "Budget_Codes_Defintions::auto_Display_forPopups"
+},
+"field:130:6": {
+"h": "ab24f90775",
+"n": "Budget_Codes_Defintions::Default Name"
+},
+"field:130:7": {
+"h": "27cc335cd7",
+"n": "Budget_Codes_Defintions::Default Code"
+},
+"field:130:8": {
+"h": "c39fac154a",
+"n": "Budget_Codes_Defintions::xxFY26 Allocation"
+},
+"field:130:9": {
+"h": "5785d3a775",
+"n": "Budget_Codes_Defintions::xxFY27 Allocation"
+},
+"field:132:1": {
+"h": "2e5ac257ad",
+"n": "BudgetCode_Header_Categories::PrimaryKey"
+},
+"field:132:6": {
+"h": "380269d54e",
+"n": "BudgetCode_Header_Categories::HeaderStartNumber"
+},
+"field:132:7": {
+"h": "fe31faafb9",
+"n": "BudgetCode_Header_Categories::HeaderTITLE"
+},
+"field:133:1": {
+"h": "5cd865232f",
+"n": "BUDGET_Versions::PrimaryKey"
+},
+"field:133:10": {
+"h": "bfef08badd",
+"n": "BUDGET_Versions::fkFiscalYear"
+},
+"field:133:11": {
+"h": "ae810b5bf3",
+"n": "BUDGET_Versions::Notes"
+},
+"field:133:12": {
+"h": "6a43230eab",
+"n": "BUDGET_Versions::fkSuperseededBy"
+},
+"field:133:2": {
+"h": "4073d40dd0",
+"n": "BUDGET_Versions::CreationTimestamp"
+},
+"field:133:3": {
+"h": "15480a624d",
+"n": "BUDGET_Versions::CreatedBy"
+},
+"field:133:4": {
+"h": "79c21c9625",
+"n": "BUDGET_Versions::ModificationTimestamp"
+},
+"field:133:5": {
+"h": "60f5af45ad",
+"n": "BUDGET_Versions::ModifiedBy"
+},
+"field:133:6": {
+"h": "881bb6d467",
+"n": "BUDGET_Versions::TITLE"
+},
+"field:133:7": {
+"h": "c02c86eaf1",
+"n": "BUDGET_Versions::VERSION"
+},
+"field:133:8": {
+"h": "29a5d95851",
+"n": "BUDGET_Versions::DateReceived"
+},
+"field:133:9": {
+"h": "f62178ced7",
+"n": "BUDGET_Versions::SORT_ORDER"
+},
+"field:134:1": {
+"h": "2444fab8ff",
+"n": "GLOBAL_USE_VARIABLES::PrimaryKey"
+},
+"field:134:12": {
+"h": "63b0f8397b",
+"n": "GLOBAL_USE_VARIABLES::gPRINT_CodeSortedBy"
+},
+"field:134:13": {
+"h": "c086e8e545",
+"n": "GLOBAL_USE_VARIABLES::APP_TITLE"
+},
+"field:134:14": {
+"h": "79a3aaae6d",
+"n": "GLOBAL_USE_VARIABLES::APP_VERSION"
+},
+"field:134:15": {
+"h": "3ff479d371",
+"n": "GLOBAL_USE_VARIABLES::calc_FILEPATH"
+},
+"field:134:16": {
+"h": "f95f8edea1",
+"n": "GLOBAL_USE_VARIABLES::calc_FILENAME"
+},
+"field:134:17": {
+"h": "ec55bee65e",
+"n": "GLOBAL_USE_VARIABLES::calc_HOSTED_STATUS"
+},
+"field:134:18": {
+"h": "132e8a903b",
+"n": "GLOBAL_USE_VARIABLES::calc_FILESIZE_MB"
+},
+"field:134:19": {
+"h": "0d2a6e3e21",
+"n": "GLOBAL_USE_VARIABLES::script_Stats_RecordCounts"
+},
+"field:134:20": {
+"h": "082aeca4df",
+"n": "GLOBAL_USE_VARIABLES::script_LastSaved"
+},
+"field:134:21": {
+"h": "58dc00003e",
+"n": "GLOBAL_USE_VARIABLES::g_fkNEXT_BUDGET"
+},
+"field:134:22": {
+"h": "319a6b8743",
+"n": "GLOBAL_USE_VARIABLES::g_fkACTIVE_BUDGET"
+},
+"field:134:24": {
+"h": "48c21741c5",
+"n": "GLOBAL_USE_VARIABLES::g_fkSelectedCode"
+},
+"field:134:25": {
+"h": "2a2181d556",
+"n": "GLOBAL_USE_VARIABLES::g_fkSelectedImportURFSession"
+},
+"field:134:26": {
+"h": "41e07a3a26",
+"n": "GLOBAL_USE_VARIABLES::g_fkSelectedFiscalYear"
+},
+"field:134:27": {
+"h": "fd951a0a96",
+"n": "GLOBAL_USE_VARIABLES::gLIST_BudgetVersions"
+},
+"field:134:28": {
+"h": "e0fa56f258",
+"n": "GLOBAL_USE_VARIABLES::gLIST_2"
+},
+"field:134:29": {
+"h": "f36a39f425",
+"n": "GLOBAL_USE_VARIABLES::gLIST_StatusGROUPS"
+},
+"field:134:30": {
+"h": "7c7ee8ea43",
+"n": "GLOBAL_USE_VARIABLES::gLIST_ImportStatuses"
+},
+"field:134:32": {
+"h": "efc32defec",
+"n": "GLOBAL_USE_VARIABLES::g_fkImportURFSession"
+},
+"field:134:33": {
+"h": "aa2fe313a3",
+"n": "GLOBAL_USE_VARIABLES::g_tempImportContainer"
+},
+"field:134:34": {
+"h": "4031f93193",
+"n": "GLOBAL_USE_VARIABLES::gLIST_ImportSessionStatuses"
+},
+"field:134:4": {
+"h": "79c21c9625",
+"n": "GLOBAL_USE_VARIABLES::ModificationTimestamp"
+},
+"field:134:5": {
+"h": "5fd9e8af30",
+"n": "GLOBAL_USE_VARIABLES::ModifiedBy"
+},
+"field:134:6": {
+"h": "db988719d0",
+"n": "GLOBAL_USE_VARIABLES::g_fkSelectedBudgetVersion"
+},
+"field:134:8": {
+"h": "60d3b3539d",
+"n": "GLOBAL_USE_VARIABLES::g_fkPREVIOUS_BUDGET"
+},
+"field:134:9": {
+"h": "26ca3e5ccf",
+"n": "GLOBAL_USE_VARIABLES::g_fkCOMPARE_BUDGET"
+},
+"field:135:1": {
+"h": "9d05daa5d8",
+"n": "IMPORT_URF0985::PrimaryKey"
+},
+"field:135:10": {
+"h": "14e8f3e8d3",
+"n": "IMPORT_URF0985::source_FAOName"
+},
+"field:135:11": {
+"h": "90b8b015ba",
+"n": "IMPORT_URF0985::source_ObjectClassName"
+},
+"field:135:12": {
+"h": "069fd6b868",
+"n": "IMPORT_URF0985::source_ObjectClassSortOrder"
+},
+"field:135:13": {
+"h": "a291ae8a85",
+"n": "IMPORT_URF0985::source_LedgerAccount"
+},
+"field:135:14": {
+"h": "571616106b",
+"n": "IMPORT_URF0985::source_LedgerAccountIdentifier"
+},
+"field:135:15": {
+"h": "96a6682602",
+"n": "IMPORT_URF0985::source_FAC_ID"
+},
+"field:135:16": {
+"h": "97be94c9f4",
+"n": "IMPORT_URF0985::source_FACName"
+},
+"field:135:17": {
+"h": "9c542f11a1",
+"n": "IMPORT_URF0985::source_Supplier"
+},
+"field:135:18": {
+"h": "d4218c9454",
+"n": "IMPORT_URF0985::source_PONumber"
+},
+"field:135:19": {
+"h": "77b8561c97",
+"n": "IMPORT_URF0985::source_AccountingDate"
+},
+"field:135:20": {
+"h": "3e997799fe",
+"n": "IMPORT_URF0985::source_BudgetDate"
+},
+"field:135:21": {
+"h": "bed878a9ac",
+"n": "IMPORT_URF0985::source_JournalSource"
+},
+"field:135:22": {
+"h": "98d23d9624",
+"n": "IMPORT_URF0985::source_Reference"
+},
+"field:135:23": {
+"h": "d5ebc4e7d4",
+"n": "IMPORT_URF0985::source_BusinessDocument"
+},
+"field:135:25": {
+"h": "9f4fb59179",
+"n": "IMPORT_URF0985::source_HeaderMemo_PONumber"
+},
+"field:135:26": {
+"h": "a34b49bab4",
+"n": "IMPORT_URF0985::source_LineMemo_SupplierReferenceNumber"
+},
+"field:135:27": {
+"h": "d06622f6cb",
+"n": "IMPORT_URF0985::source_Amount"
+},
+"field:135:28": {
+"h": "2d19711f97",
+"n": "IMPORT_URF0985::source_Award"
+},
+"field:135:29": {
+"h": "179806efcc",
+"n": "IMPORT_URF0985::source_AwardName"
+},
+"field:135:30": {
+"h": "d36129accf",
+"n": "IMPORT_URF0985::source_FromDate"
+},
+"field:135:31": {
+"h": "b605d5dafa",
+"n": "IMPORT_URF0985::source_ToDate"
+},
+"field:135:32": {
+"h": "e8945087d0",
+"n": "IMPORT_URF0985::source_AwardLineAmount"
+},
+"field:135:34": {
+"h": "86167b1143",
+"n": "IMPORT_URF0985::source_PrincipalInvestigator"
+},
+"field:135:35": {
+"h": "8c24bfe4ec",
+"n": "IMPORT_URF0985::source_FiscalTimePeriodStartDate"
+},
+"field:135:36": {
+"h": "2e649602b1",
+"n": "IMPORT_URF0985::source_FiscalTimePeriodEndDate"
+},
+"field:135:37": {
+"h": "6475459388",
+"n": "IMPORT_URF0985::xxURF_UNIQUE"
+},
+"field:135:39": {
+"h": "75f549eda2",
+"n": "IMPORT_URF0985::xxfkBUDGET_CODE"
+},
+"field:135:40": {
+"h": "64342fb99c",
+"n": "IMPORT_URF0985::xxs_Amount"
+},
+"field:135:43": {
+"h": "e66b5a16cd",
+"n": "IMPORT_URF0985::xxFLAG"
+},
+"field:135:45": {
+"h": "41513f602c",
+"n": "IMPORT_URF0985::xxCODING_Notes"
+},
+"field:135:46": {
+"h": "8fefaf2e0d",
+"n": "IMPORT_URF0985::fkImportSession"
+},
+"field:135:47": {
+"h": "d81072d462",
+"n": "IMPORT_URF0985::CreationTimestamp"
+},
+"field:135:48": {
+"h": "4930f390ee",
+"n": "IMPORT_URF0985::CreatedBy"
+},
+"field:135:49": {
+"h": "28c228a5c8",
+"n": "IMPORT_URF0985::ModificationTimestamp"
+},
+"field:135:50": {
+"h": "a2629ec428",
+"n": "IMPORT_URF0985::ModifiedBy"
+},
+"field:135:51": {
+"h": "84ab8d1c8f",
+"n": "IMPORT_URF0985::sourceScripted_RowNumber"
+},
+"field:135:53": {
+"h": "6d2fe46a3a",
+"n": "IMPORT_URF0985::fkImportStatus"
+},
+"field:135:54": {
+"h": "6c6ac502dd",
+"n": "IMPORT_URF0985::is_first_seen_ever"
+},
+"field:135:55": {
+"h": "aa21bc7fd6",
+"n": "IMPORT_URF0985::was_seen_in_prior_import"
+},
+"field:135:56": {
+"h": "5b41bd2d28",
+"n": "IMPORT_URF0985::is_duplicate_within_session"
+},
+"field:135:57": {
+"h": "b20ba98cee",
+"n": "IMPORT_URF0985::is_revision_candidate"
+},
+"field:135:58": {
+"h": "e41d433710",
+"n": "IMPORT_URF0985::fkMatchedPriorRow"
+},
+"field:135:59": {
+"h": "1510b34844",
+"n": "IMPORT_URF0985::fkMatchedPriorSession"
+},
+"field:135:6": {
+"h": "8242994958",
+"n": "IMPORT_URF0985::source_Company"
+},
+"field:135:60": {
+"h": "e75b543f66",
+"n": "IMPORT_URF0985::calc_sourceUKey_LineFingerprint"
+},
+"field:135:61": {
+"h": "79ff6e5c87",
+"n": "IMPORT_URF0985::calc_sourceUKey_DocumentFingerprint"
+},
+"field:135:62": {
+"h": "27f9ad2611",
+"n": "IMPORT_URF0985::calc_NormalizedReference"
+},
+"field:135:63": {
+"h": "090491e421",
+"n": "IMPORT_URF0985::calc_NormalizedBusinessDocument"
+},
+"field:135:64": {
+"h": "f3b56b3ed4",
+"n": "IMPORT_URF0985::calc_NormalizedSupplier"
+},
+"field:135:65": {
+"h": "93cb8bee3f",
+"n": "IMPORT_URF0985::calc_NormalizedLineMemo"
+},
+"field:135:7": {
+"h": "d0061e370a",
+"n": "IMPORT_URF0985::source_Fund"
+},
+"field:135:8": {
+"h": "65d03c84d3",
+"n": "IMPORT_URF0985::source_CostCenter"
+},
+"field:135:9": {
+"h": "870f99ddcb",
+"n": "IMPORT_URF0985::source_FAO_ID"
+},
+"field:136:1": {
+"h": "a6e8249e52",
+"n": "XXFiscal Years::PrimaryKey"
+},
+"field:136:2": {
+"h": "4073d40dd0",
+"n": "XXFiscal Years::CreationTimestamp"
+},
+"field:136:3": {
+"h": "15480a624d",
+"n": "XXFiscal Years::CreatedBy"
+},
+"field:136:4": {
+"h": "79c21c9625",
+"n": "XXFiscal Years::ModificationTimestamp"
+},
+"field:136:5": {
+"h": "5fd9e8af30",
+"n": "XXFiscal Years::ModifiedBy"
+},
+"field:136:6": {
+"h": "6ccd6e0e29",
+"n": "XXFiscal Years::Start Date"
+},
+"field:136:7": {
+"h": "f7d42adab7",
+"n": "XXFiscal Years::End Date"
+},
+"field:136:8": {
+"h": "612462fc59",
+"n": "XXFiscal Years::ShortName"
+},
+"field:137:1": {
+"h": "c7338b5355",
+"n": "file_WorkNotes::PrimaryKey"
+},
+"field:137:2": {
+"h": "4073d40dd0",
+"n": "file_WorkNotes::CreationTimestamp"
+},
+"field:137:3": {
+"h": "15480a624d",
+"n": "file_WorkNotes::CreatedBy"
+},
+"field:137:4": {
+"h": "79c21c9625",
+"n": "file_WorkNotes::ModificationTimestamp"
+},
+"field:137:5": {
+"h": "5fd9e8af30",
+"n": "file_WorkNotes::ModifiedBy"
+},
+"field:137:6": {
+"h": "c64c69340d",
+"n": "file_WorkNotes::NOTES"
+},
+"field:137:7": {
+"h": "a6e0aa159d",
+"n": "file_WorkNotes::_temp"
+},
+"field:137:8": {
+"h": "3fe541731e",
+"n": "file_WorkNotes::URGENCY"
+},
+"field:138:1": {
+"h": "8a36ba921c",
+"n": "GLOBAL_scriptVariabls::PrimaryKey"
+},
+"field:138:6": {
+"h": "ef84faae23",
+"n": "GLOBAL_scriptVariabls::CODEpk"
+},
+"field:138:7": {
+"h": "0dc8462bb5",
+"n": "GLOBAL_scriptVariabls::_copyCode"
+},
+"field:139:1": {
+"h": "e850dc9d61",
+"n": "Budget_Supervisors::PrimaryKey"
+},
+"field:139:2": {
+"h": "4073d40dd0",
+"n": "Budget_Supervisors::CreationTimestamp"
+},
+"field:139:3": {
+"h": "15480a624d",
+"n": "Budget_Supervisors::CreatedBy"
+},
+"field:139:4": {
+"h": "79c21c9625",
+"n": "Budget_Supervisors::ModificationTimestamp"
+},
+"field:139:5": {
+"h": "5fd9e8af30",
+"n": "Budget_Supervisors::ModifiedBy"
+},
+"field:139:6": {
+"h": "aeec6c34c3",
+"n": "Budget_Supervisors::Name"
+},
+"field:140:1": {
+"h": "21b38c8583",
+"n": "XX_GLOBAL_PrintingVariables::PrimaryKey"
+},
+"field:140:2": {
+"h": "4073d40dd0",
+"n": "XX_GLOBAL_PrintingVariables::CreationTimestamp"
+},
+"field:140:3": {
+"h": "15480a624d",
+"n": "XX_GLOBAL_PrintingVariables::CreatedBy"
+},
+"field:140:4": {
+"h": "79c21c9625",
+"n": "XX_GLOBAL_PrintingVariables::ModificationTimestamp"
+},
+"field:140:5": {
+"h": "5fd9e8af30",
+"n": "XX_GLOBAL_PrintingVariables::ModifiedBy"
+},
+"field:140:7": {
+"h": "78c3e4d51f",
+"n": "XX_GLOBAL_PrintingVariables::xx_CodeSortedBy"
+},
+"field:141:1": {
+"h": "ce70ad0f18",
+"n": "Import_CumSaleLABOUR::PrimaryKey"
+},
+"field:141:10": {
+"h": "4bda91b60a",
+"n": "Import_CumSaleLABOUR::fkBudgetCode"
+},
+"field:141:11": {
+"h": "c16a026c76",
+"n": "Import_CumSaleLABOUR::Summary_Earnings"
+},
+"field:141:12": {
+"h": "2582b5529a",
+"n": "Import_CumSaleLABOUR::fkImportSession"
+},
+"field:141:2": {
+"h": "4073d40dd0",
+"n": "Import_CumSaleLABOUR::CreationTimestamp"
+},
+"field:141:3": {
+"h": "15480a624d",
+"n": "Import_CumSaleLABOUR::CreatedBy"
+},
+"field:141:4": {
+"h": "79c21c9625",
+"n": "Import_CumSaleLABOUR::ModificationTimestamp"
+},
+"field:141:5": {
+"h": "60f5af45ad",
+"n": "Import_CumSaleLABOUR::ModifiedBy"
+},
+"field:141:6": {
+"h": "f51773c35a",
+"n": "Import_CumSaleLABOUR::Worker"
+},
+"field:141:9": {
+"h": "74583c4731",
+"n": "Import_CumSaleLABOUR::FYTD_Regular_Extra"
+},
+"field:142:1": {
+"h": "8b9f17bb43",
+"n": "XX_GLOBAL_fileSetup::PrimaryKey"
+},
+"field:142:10": {
+"h": "9a53bf5fd4",
+"n": "XX_GLOBAL_fileSetup::calc_HostedStatus"
+},
+"field:142:11": {
+"h": "be5ef96034",
+"n": "XX_GLOBAL_fileSetup::script_Stats_RecordCounts"
+},
+"field:142:12": {
+"h": "8a006e85de",
+"n": "XX_GLOBAL_fileSetup::script_LastSaved"
+},
+"field:142:13": {
+"h": "e39d1a8109",
+"n": "XX_GLOBAL_fileSetup::calc_FileSize"
+},
+"field:142:2": {
+"h": "4073d40dd0",
+"n": "XX_GLOBAL_fileSetup::CreationTimestamp"
+},
+"field:142:3": {
+"h": "15480a624d",
+"n": "XX_GLOBAL_fileSetup::CreatedBy"
+},
+"field:142:4": {
+"h": "79c21c9625",
+"n": "XX_GLOBAL_fileSetup::ModificationTimestamp"
+},
+"field:142:5": {
+"h": "60f5af45ad",
+"n": "XX_GLOBAL_fileSetup::ModifiedBy"
+},
+"field:142:6": {
+"h": "89bcdd787c",
+"n": "XX_GLOBAL_fileSetup::APP_TITLE"
+},
+"field:142:7": {
+"h": "e531659a1f",
+"n": "XX_GLOBAL_fileSetup::APP_VERSION"
+},
+"field:142:8": {
+"h": "41f941f1f4",
+"n": "XX_GLOBAL_fileSetup::calc_FilePath"
+},
+"field:142:9": {
+"h": "b5a38c588c",
+"n": "XX_GLOBAL_fileSetup::calc_FileName"
+},
+"field:143:1": {
+"h": "f88c5520c5",
+"n": "IMPORT_SESSIONS::PrimaryKey"
+},
+"field:143:10": {
+"h": "249f68d9d8",
+"n": "IMPORT_SESSIONS::auto_FilesizeKB"
+},
+"field:143:11": {
+"h": "65e51020e9",
+"n": "IMPORT_SESSIONS::SessionLabel"
+},
+"field:143:12": {
+"h": "4d5fae23c4",
+"n": "IMPORT_SESSIONS::Notes"
+},
+"field:143:15": {
+"h": "78fbbd2289",
+"n": "IMPORT_SESSIONS::fkSessionStatus"
+},
+"field:143:16": {
+"h": "23485ae7db",
+"n": "IMPORT_SESSIONS::ImportedRowCount"
+},
+"field:143:17": {
+"h": "88194c404d",
+"n": "IMPORT_SESSIONS::CarryForwardRowCount"
+},
+"field:143:18": {
+"h": "38341c3b1e",
+"n": "IMPORT_SESSIONS::IgnoreDuplicateRowCount"
+},
+"field:143:19": {
+"h": "82505da550",
+"n": "IMPORT_SESSIONS::ReportMonthEnd"
+},
+"field:143:2": {
+"h": "4073d40dd0",
+"n": "IMPORT_SESSIONS::CreationTimestamp"
+},
+"field:143:20": {
+"h": "7f87dfccdd",
+"n": "IMPORT_SESSIONS::NewRowCount"
+},
+"field:143:21": {
+"h": "e9caccad7f",
+"n": "IMPORT_SESSIONS::NeedsReviewRowCount"
+},
+"field:143:3": {
+"h": "15480a624d",
+"n": "IMPORT_SESSIONS::CreatedBy"
+},
+"field:143:4": {
+"h": "79c21c9625",
+"n": "IMPORT_SESSIONS::ModificationTimestamp"
+},
+"field:143:5": {
+"h": "60f5af45ad",
+"n": "IMPORT_SESSIONS::ModifiedBy"
+},
+"field:143:6": {
+"h": "3fdc08c49b",
+"n": "IMPORT_SESSIONS::fkFiscalYear"
+},
+"field:143:7": {
+"h": "70984ec3d3",
+"n": "IMPORT_SESSIONS::ImportTimestamp"
+},
+"field:143:8": {
+"h": "dcc9f5af0e",
+"n": "IMPORT_SESSIONS::OriginalFile"
+},
+"field:143:9": {
+"h": "4e1814de3d",
+"n": "IMPORT_SESSIONS::auto_Filename"
+},
+"field:146:1": {
+"h": "b794319d2a",
+"n": "BudgetCode_YearConfig::PrimaryKey"
+},
+"field:146:10": {
+"h": "a674f4f9c8",
+"n": "BudgetCode_YearConfig::xx_fkCodeHeaderCategory"
+},
+"field:146:11": {
+"h": "8d6fb425d1",
+"n": "BudgetCode_YearConfig::calc_CodeHundred"
+},
+"field:146:12": {
+"h": "e131ee9be2",
+"n": "BudgetCode_YearConfig::calc_CodeTen"
+},
+"field:146:14": {
+"h": "d975e4d901",
+"n": "BudgetCode_YearConfig::calc_CodeInCurrentConfig"
+},
+"field:146:15": {
+"h": "d823814483",
+"n": "BudgetCode_YearConfig::auto_DisplayName"
+},
+"field:146:2": {
+"h": "4073d40dd0",
+"n": "BudgetCode_YearConfig::CreationTimestamp"
+},
+"field:146:3": {
+"h": "15480a624d",
+"n": "BudgetCode_YearConfig::CreatedBy"
+},
+"field:146:4": {
+"h": "79c21c9625",
+"n": "BudgetCode_YearConfig::ModificationTimestamp"
+},
+"field:146:5": {
+"h": "5fd9e8af30",
+"n": "BudgetCode_YearConfig::ModifiedBy"
+},
+"field:146:6": {
+"h": "2a712e7958",
+"n": "BudgetCode_YearConfig::fkBudgetCodeDefinition"
+},
+"field:146:7": {
+"h": "17162b802f",
+"n": "BudgetCode_YearConfig::fkFiscalYear"
+},
+"field:146:8": {
+"h": "207c4ae1e5",
+"n": "BudgetCode_YearConfig::Code_snapshot"
+},
+"field:146:9": {
+"h": "11d49ef54c",
+"n": "BudgetCode_YearConfig::Name_snapshot"
+},
+"field:147:1": {
+"h": "a6a1110ce5",
+"n": "zfile_ValueLISTS::PrimaryKey"
+},
+"field:147:10": {
+"h": "97375e842f",
+"n": "zfile_ValueLISTS::Notes"
+},
+"field:147:11": {
+"h": "4fd866a04a",
+"n": "zfile_ValueLISTS::sCount_Values"
+},
+"field:147:12": {
+"h": "fda065baf2",
+"n": "zfile_ValueLISTS::enforce_1_to_1"
+},
+"field:147:2": {
+"h": "4073d40dd0",
+"n": "zfile_ValueLISTS::CreationTimestamp"
+},
+"field:147:3": {
+"h": "15480a624d",
+"n": "zfile_ValueLISTS::CreatedBy"
+},
+"field:147:4": {
+"h": "79c21c9625",
+"n": "zfile_ValueLISTS::ModificationTimestamp"
+},
+"field:147:5": {
+"h": "5fd9e8af30",
+"n": "zfile_ValueLISTS::ModifiedBy"
+},
+"field:147:6": {
+"h": "22e2f3556b",
+"n": "zfile_ValueLISTS::Name"
+},
+"field:147:7": {
+"h": "92a8b01729",
+"n": "zfile_ValueLISTS::is_actve"
+},
+"field:147:8": {
+"h": "d792440c65",
+"n": "zfile_ValueLISTS::is_status_list"
+},
+"field:147:9": {
+"h": "d2cd5a640e",
+"n": "zfile_ValueLISTS::tester"
+},
+"field:148:1": {
+"h": "f97398ccc3",
+"n": "zfile_Values::PrimaryKey"
+},
+"field:148:12": {
+"h": "c53c1f53c4",
+"n": "zfile_Values::fkStatusCATEGORY"
+},
+"field:148:13": {
+"h": "ad3a2824a3",
+"n": "zfile_Values::sort_order"
+},
+"field:148:14": {
+"h": "0007b07ed1",
+"n": "zfile_Values::use_Notes"
+},
+"field:148:2": {
+"h": "4073d40dd0",
+"n": "zfile_Values::CreationTimestamp"
+},
+"field:148:3": {
+"h": "15480a624d",
+"n": "zfile_Values::CreatedBy"
+},
+"field:148:4": {
+"h": "79c21c9625",
+"n": "zfile_Values::ModificationTimestamp"
+},
+"field:148:5": {
+"h": "60f5af45ad",
+"n": "zfile_Values::ModifiedBy"
+},
+"field:148:6": {
+"h": "57582ee7a4",
+"n": "zfile_Values::Name"
+},
+"field:148:7": {
+"h": "c259457492",
+"n": "zfile_Values::fkList"
+},
+"field:149:1": {
+"h": "6f7742413f",
+"n": "Budget_Allocation_OthersCodes::PrimaryKey"
+},
+"field:149:11": {
+"h": "dd22085170",
+"n": "Budget_Allocation_OthersCodes::calc_combinedName"
+},
+"field:149:2": {
+"h": "4073d40dd0",
+"n": "Budget_Allocation_OthersCodes::CreationTimestamp"
+},
+"field:149:3": {
+"h": "15480a624d",
+"n": "Budget_Allocation_OthersCodes::CreatedBy"
+},
+"field:149:4": {
+"h": "79c21c9625",
+"n": "Budget_Allocation_OthersCodes::ModificationTimestamp"
+},
+"field:149:5": {
+"h": "5fd9e8af30",
+"n": "Budget_Allocation_OthersCodes::ModifiedBy"
+},
+"field:149:6": {
+"h": "486ac13801",
+"n": "Budget_Allocation_OthersCodes::Title"
+},
+"field:149:7": {
+"h": "61b43d827d",
+"n": "Budget_Allocation_OthersCodes::Description_and_notes"
+},
+"field:149:8": {
+"h": "8d8a9151f8",
+"n": "Budget_Allocation_OthersCodes::fkDefaultSpendCategory"
+},
+"field:149:9": {
+"h": "130dab2087",
+"n": "Budget_Allocation_OthersCodes::fkDefaultURITPBudgetCode"
+},
+"field:150:1": {
+"h": "e814149828",
+"n": "UR_SpendRevenueCategory::PrimaryKey"
+},
+"field:150:2": {
+"h": "4073d40dd0",
+"n": "UR_SpendRevenueCategory::CreationTimestamp"
+},
+"field:150:3": {
+"h": "15480a624d",
+"n": "UR_SpendRevenueCategory::CreatedBy"
+},
+"field:150:4": {
+"h": "79c21c9625",
+"n": "UR_SpendRevenueCategory::ModificationTimestamp"
+},
+"field:150:5": {
+"h": "5fd9e8af30",
+"n": "UR_SpendRevenueCategory::ModifiedBy"
+},
+"field:150:6": {
+"h": "d300e49d9f",
+"n": "UR_SpendRevenueCategory::Title"
+},
+"field:150:7": {
+"h": "8ebba0e45f",
+"n": "UR_SpendRevenueCategory::Code"
+},
+"field:150:8": {
+"h": "d3bdc2750c",
+"n": "UR_SpendRevenueCategory::auto_DisplayName"
+},
+"field:150:9": {
+"h": "c2a08639ea",
+"n": "UR_SpendRevenueCategory::Code_Prefix"
+},
+"field:151:1": {
+"h": "3ec666c94f",
+"n": "UR_OperatingLineFAO::PrimaryKey"
+},
+"field:151:10": {
+"h": "3e60244e6a",
+"n": "UR_OperatingLineFAO::auto_DisplayName"
+},
+"field:151:2": {
+"h": "4073d40dd0",
+"n": "UR_OperatingLineFAO::CreationTimestamp"
+},
+"field:151:3": {
+"h": "15480a624d",
+"n": "UR_OperatingLineFAO::CreatedBy"
+},
+"field:151:4": {
+"h": "79c21c9625",
+"n": "UR_OperatingLineFAO::ModificationTimestamp"
+},
+"field:151:5": {
+"h": "5fd9e8af30",
+"n": "UR_OperatingLineFAO::ModifiedBy"
+},
+"field:151:6": {
+"h": "c94555599a",
+"n": "UR_OperatingLineFAO::Title"
+},
+"field:151:7": {
+"h": "8ebba0e45f",
+"n": "UR_OperatingLineFAO::Code"
+},
+"field:151:8": {
+"h": "a4c575deff",
+"n": "UR_OperatingLineFAO::Code_Prefix"
+},
+"field:153:1": {
+"h": "92715bf182",
+"n": "Budget_FamilyDefintions::PrimaryKey"
+},
+"field:153:10": {
+"h": "95d3851849",
+"n": "Budget_FamilyDefintions::SuffixScope"
+},
+"field:153:2": {
+"h": "6c9dae9afc",
+"n": "Budget_FamilyDefintions::CreationTimestamp"
+},
+"field:153:3": {
+"h": "15480a624d",
+"n": "Budget_FamilyDefintions::CreatedBy"
+},
+"field:153:4": {
+"h": "79c21c9625",
+"n": "Budget_FamilyDefintions::ModificationTimestamp"
+},
+"field:153:5": {
+"h": "5fd9e8af30",
+"n": "Budget_FamilyDefintions::ModifiedBy"
+},
+"field:153:6": {
+"h": "22e2f3556b",
+"n": "Budget_FamilyDefintions::Name"
+},
+"field:153:7": {
+"h": "fe519bb1b3",
+"n": "Budget_FamilyDefintions::Digits"
+},
+"field:153:8": {
+"h": "fd40f4738b",
+"n": "Budget_FamilyDefintions::calc_DigitsAsText"
+},
+"field:153:9": {
+"h": "8cfdc42d9e",
+"n": "Budget_FamilyDefintions::auto_PopupName"
+},
+"field:154:1": {
+"h": "129c91144f",
+"n": "Budget_ContextDefinitions::PrimaryKey"
+},
+"field:154:10": {
+"h": "9b0db57051",
+"n": "Budget_ContextDefinitions::calcViz_code"
+},
+"field:154:11": {
+"h": "a68874b20b",
+"n": "Budget_ContextDefinitions::fkUROperatingLine"
+},
+"field:154:13": {
+"h": "93c3654cd1",
+"n": "Budget_ContextDefinitions::auto_popupName"
+},
+"field:154:2": {
+"h": "4073d40dd0",
+"n": "Budget_ContextDefinitions::CreationTimestamp"
+},
+"field:154:3": {
+"h": "15480a624d",
+"n": "Budget_ContextDefinitions::CreatedBy"
+},
+"field:154:4": {
+"h": "79c21c9625",
+"n": "Budget_ContextDefinitions::ModificationTimestamp"
+},
+"field:154:5": {
+"h": "5fd9e8af30",
+"n": "Budget_ContextDefinitions::ModifiedBy"
+},
+"field:154:6": {
+"h": "78982d1576",
+"n": "Budget_ContextDefinitions::Digit"
+},
+"field:154:7": {
+"h": "6494a92fee",
+"n": "Budget_ContextDefinitions::Name"
+},
+"field:154:8": {
+"h": "2e3388d8cd",
+"n": "Budget_ContextDefinitions::calc_DigitsAsText"
+},
+"field:154:9": {
+"h": "ab68e07e0d",
+"n": "Budget_ContextDefinitions::fkFamily_forContext"
+},
+"field:155:1": {
+"h": "fc054cb891",
+"n": "Budget_ContextSuffixDefinitions::PrimaryKey"
+},
+"field:155:10": {
+"h": "3079c2c701",
+"n": "Budget_ContextSuffixDefinitions::fkFamily_forSubContext"
+},
+"field:155:12": {
+"h": "72a2b07f31",
+"n": "Budget_ContextSuffixDefinitions::calcViz_code"
+},
+"field:155:2": {
+"h": "4073d40dd0",
+"n": "Budget_ContextSuffixDefinitions::CreationTimestamp"
+},
+"field:155:3": {
+"h": "15480a624d",
+"n": "Budget_ContextSuffixDefinitions::CreatedBy"
+},
+"field:155:4": {
+"h": "79c21c9625",
+"n": "Budget_ContextSuffixDefinitions::ModificationTimestamp"
+},
+"field:155:5": {
+"h": "5fd9e8af30",
+"n": "Budget_ContextSuffixDefinitions::ModifiedBy"
+},
+"field:155:6": {
+"h": "ff5a65ced0",
+"n": "Budget_ContextSuffixDefinitions::Name"
+},
+"field:155:7": {
+"h": "d45d95b49d",
+"n": "Budget_ContextSuffixDefinitions::Digits"
+},
+"field:155:9": {
+"h": "c66e885478",
+"n": "Budget_ContextSuffixDefinitions::calc_DigitsAsText"
+},
+"field:156:1": {
+"h": "2f9d68f5a4",
+"n": "URF_ROW_ASSIGNMENTS::PrimaryKey"
+},
+"field:156:10": {
+"h": "5a03688bd1",
+"n": "URF_ROW_ASSIGNMENTS::fkAssingmentStatus"
+},
+"field:156:11": {
+"h": "81568950eb",
+"n": "URF_ROW_ASSIGNMENTS::AssignedBy"
+},
+"field:156:12": {
+"h": "cd5fe283e0",
+"n": "URF_ROW_ASSIGNMENTS::AssignedAt"
+},
+"field:156:13": {
+"h": "ce65984145",
+"n": "URF_ROW_ASSIGNMENTS::Notes"
+},
+"field:156:2": {
+"h": "4073d40dd0",
+"n": "URF_ROW_ASSIGNMENTS::CreationTimestamp"
+},
+"field:156:3": {
+"h": "15480a624d",
+"n": "URF_ROW_ASSIGNMENTS::CreatedBy"
+},
+"field:156:4": {
+"h": "79c21c9625",
+"n": "URF_ROW_ASSIGNMENTS::ModificationTimestamp"
+},
+"field:156:5": {
+"h": "60f5af45ad",
+"n": "URF_ROW_ASSIGNMENTS::ModifiedBy"
+},
+"field:156:6": {
+"h": "b38e79060e",
+"n": "URF_ROW_ASSIGNMENTS::fkURFImportRow"
+},
+"field:156:7": {
+"h": "295b92ff3a",
+"n": "URF_ROW_ASSIGNMENTS::fkBudgetCode"
+},
+"field:156:8": {
+"h": "3bde3edce2",
+"n": "URF_ROW_ASSIGNMENTS::AssignedAmount"
+},
+"field:156:9": {
+"h": "bb28990323",
+"n": "URF_ROW_ASSIGNMENTS::AssignmentMethod"
+},
+"field:157:1": {
+"h": "58bf6156bb",
+"n": "URF_CODED_TRANSACTIONS::PrimaryKey"
+},
+"field:157:10": {
+"h": "d9f6c21779",
+"n": "URF_CODED_TRANSACTIONS::fkDefaultCode"
+},
+"field:157:2": {
+"h": "4073d40dd0",
+"n": "URF_CODED_TRANSACTIONS::CreationTimestamp"
+},
+"field:157:3": {
+"h": "15480a624d",
+"n": "URF_CODED_TRANSACTIONS::CreatedBy"
+},
+"field:157:4": {
+"h": "79c21c9625",
+"n": "URF_CODED_TRANSACTIONS::ModificationTimestamp"
+},
+"field:157:5": {
+"h": "5fd9e8af30",
+"n": "URF_CODED_TRANSACTIONS::ModifiedBy"
+},
+"field:157:6": {
+"h": "271a490237",
+"n": "URF_CODED_TRANSACTIONS::fkAssignment"
+},
+"field:157:7": {
+"h": "55613cefd8",
+"n": "URF_CODED_TRANSACTIONS::Amount"
+},
+"field:157:8": {
+"h": "c0be4b35d9",
+"n": "URF_CODED_TRANSACTIONS::PostingDate"
+},
+"field:157:9": {
+"h": "9ca71121fa",
+"n": "URF_CODED_TRANSACTIONS::SourceType"
+},
+"field:158:1": {
+"h": "3ccb6239f1",
+"n": "Import_URF0989::PrimaryKey"
+},
+"field:158:10": {
+"h": "49fa782dc7",
+"n": "Import_URF0989::fkLedgerAccount"
+},
+"field:158:11": {
+"h": "d28f978a7f",
+"n": "Import_URF0989::fkSpendCategory"
+},
+"field:158:12": {
+"h": "91d86221b4",
+"n": "Import_URF0989::import_OriginalBudget"
+},
+"field:158:13": {
+"h": "7a7e098741",
+"n": "Import_URF0989::import_CurrentBudget"
+},
+"field:158:14": {
+"h": "60b3b59482",
+"n": "Import_URF0989::import_MonthActual"
+},
+"field:158:15": {
+"h": "14d50d564f",
+"n": "Import_URF0989::import_FYTD Actual"
+},
+"field:158:16": {
+"h": "a6735cf986",
+"n": "Import_URF0989::import_BalanaceAvailable"
+},
+"field:158:17": {
+"h": "2d00dd289a",
+"n": "Import_URF0989::import_PercentUsed"
+},
+"field:158:18": {
+"h": "9436b18900",
+"n": "Import_URF0989::fkImportSession"
+},
+"field:158:2": {
+"h": "4073d40dd0",
+"n": "Import_URF0989::CreationTimestamp"
+},
+"field:158:3": {
+"h": "15480a624d",
+"n": "Import_URF0989::CreatedBy"
+},
+"field:158:4": {
+"h": "79c21c9625",
+"n": "Import_URF0989::ModificationTimestamp"
+},
+"field:158:5": {
+"h": "5fd9e8af30",
+"n": "Import_URF0989::ModifiedBy"
+},
+"field:158:6": {
+"h": "31e3a5ff11",
+"n": "Import_URF0989::fkFAO"
+},
+"field:158:7": {
+"h": "ee5a774fce",
+"n": "Import_URF0989::fkCompany"
+},
+"field:158:8": {
+"h": "992cf1cbc8",
+"n": "Import_URF0989::fkCostCenter"
+},
+"field:158:9": {
+"h": "77b3e34d68",
+"n": "Import_URF0989::fkFund"
+},
+"field:159:1": {
+"h": "9c5c71b2bd",
+"n": "UR_Company::PrimaryKey"
+},
+"field:159:2": {
+"h": "4073d40dd0",
+"n": "UR_Company::CreationTimestamp"
+},
+"field:159:3": {
+"h": "15480a624d",
+"n": "UR_Company::CreatedBy"
+},
+"field:159:4": {
+"h": "79c21c9625",
+"n": "UR_Company::ModificationTimestamp"
+},
+"field:159:5": {
+"h": "5fd9e8af30",
+"n": "UR_Company::ModifiedBy"
+},
+"field:159:6": {
+"h": "26629e418f",
+"n": "UR_Company::Name"
+},
+"field:159:7": {
+"h": "8f27f5f707",
+"n": "UR_Company::Code"
+},
+"field:159:8": {
+"h": "4dc13d9ba5",
+"n": "UR_Company::auto_DisplayName"
+},
+"field:160:1": {
+"h": "1f0bb4b552",
+"n": "UR_CostCenter::PrimaryKey"
+},
+"field:160:2": {
+"h": "4073d40dd0",
+"n": "UR_CostCenter::CreationTimestamp"
+},
+"field:160:3": {
+"h": "15480a624d",
+"n": "UR_CostCenter::CreatedBy"
+},
+"field:160:4": {
+"h": "79c21c9625",
+"n": "UR_CostCenter::ModificationTimestamp"
+},
+"field:160:5": {
+"h": "5fd9e8af30",
+"n": "UR_CostCenter::ModifiedBy"
+},
+"field:160:6": {
+"h": "aaf28a29a2",
+"n": "UR_CostCenter::auto_DisplayName"
+},
+"field:160:7": {
+"h": "8f27f5f707",
+"n": "UR_CostCenter::Code"
+},
+"field:160:8": {
+"h": "b6c5f891d3",
+"n": "UR_CostCenter::Code_Prefix"
+},
+"field:160:9": {
+"h": "97b72f7879",
+"n": "UR_CostCenter::Title"
+},
+"field:162:1": {
+"h": "34a442304c",
+"n": "UR_Fund::PrimaryKey"
+},
+"field:162:2": {
+"h": "4073d40dd0",
+"n": "UR_Fund::CreationTimestamp"
+},
+"field:162:3": {
+"h": "15480a624d",
+"n": "UR_Fund::CreatedBy"
+},
+"field:162:4": {
+"h": "79c21c9625",
+"n": "UR_Fund::ModificationTimestamp"
+},
+"field:162:5": {
+"h": "5fd9e8af30",
+"n": "UR_Fund::ModifiedBy"
+},
+"field:162:6": {
+"h": "d46677c715",
+"n": "UR_Fund::auto_DisplayName"
+},
+"field:162:7": {
+"h": "3627457a70",
+"n": "UR_Fund::Name"
+},
+"field:162:8": {
+"h": "9ee889bf9f",
+"n": "UR_Fund::Fund_Restrictions"
+},
+"field:164:1": {
+"h": "bd6104e48a",
+"n": "UR_LedgerAccount::PrimaryKey"
+},
+"field:164:2": {
+"h": "4073d40dd0",
+"n": "UR_LedgerAccount::CreationTimestamp"
+},
+"field:164:3": {
+"h": "15480a624d",
+"n": "UR_LedgerAccount::CreatedBy"
+},
+"field:164:4": {
+"h": "79c21c9625",
+"n": "UR_LedgerAccount::ModificationTimestamp"
+},
+"field:164:5": {
+"h": "5fd9e8af30",
+"n": "UR_LedgerAccount::ModifiedBy"
+},
+"field:164:6": {
+"h": "26629e418f",
+"n": "UR_LedgerAccount::Name"
+},
+"field:164:7": {
+"h": "0b44cd7811",
+"n": "UR_LedgerAccount::Code"
+},
+"field:164:8": {
+"h": "58bd215268",
+"n": "UR_LedgerAccount::auto_DisplayName"
+},
+"layout:1": {
+"h": "f20a3e2e2b",
+"n": "Current_Allocation"
+},
+"layout:10": {
+"h": "4a1b12ca0f",
+"n": "ui_GLOBAL_BudgetHub"
+},
+"layout:100": {
+"h": "5e4744b98f",
+"n": "(table) Budget CONTEXT Definitions"
+},
+"layout:101": {
+"h": "3e7d1772ca",
+"n": "(table) Budget SUFFIX Definitions"
+},
+"layout:104": {
+"h": "dfa892ac74",
+"n": "(table) Budget Code Year Configs"
+},
+"layout:105": {
+"h": "755e41ee22",
+"n": "(table) Generate Budget Codes"
+},
+"layout:107": {
+"h": "afdb7dba9f",
+"n": "(table) Import SESSIONS URF"
+},
+"layout:11": {
+"h": "60793f341c",
+"n": "(form) URITP Budget Code"
+},
+"layout:110": {
+"h": "1dd1efbc47",
+"n": "(table) Import URF LINES Excel"
+},
+"layout:111": {
+"h": "e3ca2bcb0b",
+"n": "(table) Import URF LINES"
+},
+"layout:112": {
+"h": "83ad2a856f",
+"n": "URF_ROW_ASSIGNMENTS"
+},
+"layout:113": {
+"h": "192b264683",
+"n": "URF_CODED_TRANSACTIONS"
+},
+"layout:114": {
+"h": "b72449ae40",
+"n": "(table) values"
+},
+"layout:118": {
+"h": "b33d601603",
+"n": "Print BUDGET CODES"
+},
+"layout:123": {
+"h": "e19e3bdf00",
+"n": "(Layout) NM Allocation Format Copy"
+},
+"layout:124": {
+"h": "c5d6aad32b",
+"n": "Import_URF0989"
+},
+"layout:125": {
+"h": "cf3c65a37a",
+"n": "fURF0989_UR_Company"
+},
+"layout:126": {
+"h": "45a3f905d7",
+"n": "fURF0989_UR_CostCenter"
+},
+"layout:127": {
+"h": "38febc6910",
+"n": "fURF0989_UR_Fund"
+},
+"layout:128": {
+"h": "9620a8896d",
+"n": "fURF0989_UR_LedgerAccount"
+},
+"layout:14": {
+"h": "cb8cbc5844",
+"n": "(List) Budget Versions"
+},
+"layout:15": {
+"h": "572fc28d0d",
+"n": "URF_IMPORT_ROWS"
+},
+"layout:16": {
+"h": "f230901fc4",
+"n": "URF_UNIQUE"
+},
+"layout:19": {
+"h": "06012150bb",
+"n": "Batch Assiging Budget Codes"
+},
+"layout:2": {
+"h": "3adc70a9e3",
+"n": "(table) URITP Budget Codes"
+},
+"layout:20": {
+"h": "4379c11877",
+"n": "UNASSIGNED"
+},
+"layout:23": {
+"h": "d04bd5285b",
+"n": "CodeSelectionPOPUP"
+},
+"layout:24": {
+"h": "741967d172",
+"n": "MOBILE Assiging Budget Codes Copy"
+},
+"layout:25": {
+"h": "17fdb8d228",
+"n": "(form) CODED Transactions"
+},
+"layout:26": {
+"h": "6f683f9a95",
+"n": "viewEXT_Fiscal_Years"
+},
+"layout:27": {
+"h": "fd021f4821",
+"n": "file_WorkNotes"
+},
+"layout:3": {
+"h": "7be8a805fa",
+"n": "XXimport_URF_AUX"
+},
+"layout:30": {
+"h": "1eb8dbfd46",
+"n": "(list) individual Allocations"
+},
+"layout:36": {
+"h": "9c595587c5",
+"n": "PRINT CODED TRANSACTIONS"
+},
+"layout:37": {
+"h": "64277575af",
+"n": "GLOBAL_scriptVariables"
+},
+"layout:39": {
+"h": "5fdf4317ac",
+"n": "(PRINT) CODED Transactions Copy"
+},
+"layout:40": {
+"h": "6159354ac4",
+"n": "relegate_Supervisors"
+},
+"layout:45": {
+"h": "7628479397",
+"n": "(Print) URITP Budget Codes FY26"
+},
+"layout:46": {
+"h": "54dc675efb",
+"n": "XX_GLOBAL_PrintingVariables"
+},
+"layout:47": {
+"h": "71fa66eafb",
+"n": "CumSale_LABOUR"
+},
+"layout:49": {
+"h": "9fc37039cf",
+"n": "CODED Ledgers"
+},
+"layout:53": {
+"h": "85b796f73e",
+"n": "-"
+},
+"layout:56": {
+"h": "85b796f73e",
+"n": "-"
+},
+"layout:6": {
+"h": "c12833929e",
+"n": "(Setup) Code Header Categories"
+},
+"layout:62": {
+"h": "85b796f73e",
+"n": "-"
+},
+"layout:63": {
+"h": "2f08b95193",
+"n": "XX_GLOBAL_fileSetup"
+},
+"layout:65": {
+"h": "d3c9e5d174",
+"n": "URF_IMPORT Copy"
+},
+"layout:69": {
+"h": "ed1739b915",
+"n": "(Layout) NM Allocation Format"
+},
+"layout:7": {
+"h": "884d3c563c",
+"n": "-"
+},
+"layout:70": {
+"h": "4ff773be9a",
+"n": "(form) Budget HISTORY"
+},
+"layout:71": {
+"h": "fe7461e385",
+"n": "(Print) URITP Budget Codes Allocation HISTORY"
+},
+"layout:72": {
+"h": "3a4a38ca83",
+"n": "IMPORT_SESSIONS"
+},
+"layout:75": {
+"h": "d75447770c",
+"n": "GLOBAL_VARIABLES | Imported"
+},
+"layout:78": {
+"h": "cf989655e9",
+"n": "File SETUP"
+},
+"layout:8": {
+"h": "abf10a73a9",
+"n": "DIAGRAMING and NOTES"
+},
+"layout:82": {
+"h": "84b3cafd6d",
+"n": "gBudget Codes"
+},
+"layout:88": {
+"h": "9b91167ab2",
+"n": "Value Lists"
+},
+"layout:9": {
+"h": "9b5c5b047c",
+"n": "(form) Budget Versions"
+},
+"layout:93": {
+"h": "11d1958ffe",
+"n": "(tabel) Codes tht Others Use"
+},
+"layout:94": {
+"h": "022a5d2011",
+"n": "UR_Spend_Categories"
+},
+"layout:95": {
+"h": "26f07629f0",
+"n": "UR_OperatingLines_FAOs"
+},
+"layout:99": {
+"h": "405e9ba462",
+"n": "(table) Budget FAMILY Definitions"
+},
+"rel:1": {
+"h": "585aa4bb6a",
+"n": "BUDGET_AllocationVersions ⇄ Budget_Allocation"
+},
+"rel:10": {
+"h": "a02caa360a",
+"n": "BudgetCode_Defintions ⇄ BudgetCode_Header_Categories"
+},
+"rel:11": {
+"h": "55eea53099",
+"n": "Fiscal_Years_forBudgetVersions ⇄ BUDGET_AllocationVersions"
+},
+"rel:12": {
+"h": "a4722d83ce",
+"n": "Budget_Supervisors ⇄ BudgetCode_Defintions"
+},
+"rel:13": {
+"h": "5215b4ec9b",
+"n": "URF_IMPORT_ROWS ⇄ IMPORT_SESSIONS"
+},
+"rel:15": {
+"h": "1aad76dc30",
+"n": "Fiscal_Years_forImports ⇄ IMPORT_SESSIONS"
+},
+"rel:20": {
+"h": "f6208f6c26",
+"n": "CumSale_LABOUR ⇄ URITPCodes_forCodingCumSale"
+},
+"rel:21": {
+"h": "e76205c257",
+"n": "CumSale_LABOUR ⇄ IMPORT_SESSIONS"
+},
+"rel:22": {
+"h": "13bed6f25e",
+"n": "ui_GLOBAL_BudgetHub ⇄ Fiscal_Years_forCurrent"
+},
+"rel:24": {
+"h": "cffd221ed1",
+"n": "ui_GLOBAL_BudgetHub ⇄ BUDGET_AllocationVersions"
+},
+"rel:25": {
+"h": "03a34c5b21",
+"n": "BUDGET_Versions_selfSuperseed ⇄ BUDGET_AllocationVersions"
+},
+"rel:26": {
+"h": "c3994fba8e",
+"n": "ufile_ValuesSelfStatusCategories ⇄ ufile_Values"
+},
+"rel:27": {
+"h": "ad4b513f3d",
+"n": "ufile_ValueLISTS ⇄ ufile_Values"
+},
+"rel:31": {
+"h": "1107765c4b",
+"n": "ui_ValueLISTS ⇄ ui_Values"
+},
+"rel:32": {
+"h": "7845cf004b",
+"n": "ui_ValuesSelfStatusCategories ⇄ ui_Values"
+},
+"rel:35": {
+"h": "b55336f908",
+"n": "UR_SpendRevenueCategory ⇄ Budget_Allocation_OthersCodes"
+},
+"rel:36": {
+"h": "8ac39a91ca",
+"n": "Budget_Allocation ⇄ Budget_Allocation_OthersCodes"
+},
+"rel:37": {
+"h": "2fbfbe298c",
+"n": "BudgetCodes_forDefaultOthersCodes ⇄ Budget_Allocation_OthersCodes"
+},
+"rel:38": {
+"h": "2dc8571dfd",
+"n": "OP_Lines ⇄ BudgetCode_Defintions"
+},
+"rel:40": {
+"h": "924ccc2c79",
+"n": "Budget_ContextDefinitions ⇄ BudgetCode_Defintions"
+},
+"rel:41": {
+"h": "8e721dcc49",
+"n": "BudgetCode_Defintions ⇄ Budget_ContextSuffixDefinitions"
+},
+"rel:42": {
+"h": "8860b39d21",
+"n": "Budget_Allocation ⇄ BudgetCode_YearConfig"
+},
+"rel:43": {
+"h": "9543a10305",
+"n": "BudgetCode_YearConfig ⇄ BudgetCode_Defintions"
+},
+"rel:44": {
+"h": "b545743796",
+"n": "Budget_FamilyDefintions ⇄ BudgetCode_Defintions"
+},
+"rel:45": {
+"h": "24067c021d",
+"n": "URF_IMPORT_ROWS ⇄ URF_ROW_ASSIGNMENTS"
+},
+"rel:46": {
+"h": "d5f555edb7",
+"n": "URF_CODED_TRANSACTIONS ⇄ URF_ROW_ASSIGNMENTS"
+},
+"rel:48": {
+"h": "9ce06c9222",
+"n": "SpecificBudgetCode_forURF_Assigning ⇄ URF_ROW_ASSIGNMENTS"
+},
+"rel:49": {
+"h": "b93602fa65",
+"n": "Code_Definitions ⇄ URF_CODED_TRANSACTIONS"
+},
+"rel:50": {
+"h": "259dd894fc",
+"n": "values_ImportStatuses ⇄ ufile_Values"
+},
+"rel:51": {
+"h": "6c87834cfd",
+"n": "values_StatusCategories ⇄ ufile_Values"
+},
+"rel:53": {
+"h": "3f474703e8",
+"n": "values_BudgetVersions ⇄ ufile_Values"
+},
+"rel:54": {
+"h": "7842aab67f",
+"n": "values_List2 ⇄ ufile_Values"
+},
+"rel:57": {
+"h": "cc30d48c34",
+"n": "ufile_Values_OtherSameListSameCategory ⇄ ufile_Values"
+},
+"rel:58": {
+"h": "f1bef0fca2",
+"n": "values_ImportSessionStatuses ⇄ ufile_Values"
+},
+"rel:63": {
+"h": "b1693241ef",
+"n": "Budget_Contexts_forPopup ⇄ BudgetCode_Defintions"
+},
+"rel:64": {
+"h": "04deb3162a",
+"n": "Budget_ContextSuffix_forPopup ⇄ BudgetCode_Defintions"
+},
+"rel:65": {
+"h": "8f35d499f0",
+"n": "Budget_ContextSuffixDefinitions_forFiltering ⇄ Budget_FamilyDefintions"
+},
+"rel:66": {
+"h": "b17dc76d72",
+"n": "Budget_ContextDefinitions_forFiltering ⇄ Budget_FamilyDefintions"
+},
+"rel:68": {
+"h": "1b7745a7eb",
+"n": "BudgetCode_Defintions ⇄ self_BudgetCodes_byCode"
+},
+"rel:69": {
+"h": "aab4d58813",
+"n": "Fiscal_Years_forBudgetCodeConfigs ⇄ BudgetCode_YearConfig"
+},
+"rel:70": {
+"h": "bd8fdeb50e",
+"n": "fURF0989_UR_Company ⇄ Import_URF0989"
+},
+"rel:71": {
+"h": "3e62de9361",
+"n": "fURF0989_UR_CostCenter ⇄ Import_URF0989"
+},
+"rel:72": {
+"h": "e29bf0c7eb",
+"n": "fURF0989_UR_OperatingLineFAO ⇄ Import_URF0989"
+},
+"rel:73": {
+"h": "61b87e4806",
+"n": "fURF0989_UR_Fund ⇄ Import_URF0989"
+},
+"rel:74": {
+"h": "ae730e9611",
+"n": "fURF0989_UR_LedgerAccount ⇄ Import_URF0989"
+},
+"rel:75": {
+"h": "335a9e17e5",
+"n": "fURF0989_UR_SpendRevenueCategory ⇄ Import_URF0989"
+},
+"rel:76": {
+"h": "bad2fada03",
+"n": "fURF0989_IMPORT_SESSIONS ⇄ Import_URF0989"
+},
+"script:1": {
+"h": "57168fdf3f",
+"n": "goToRelatedAllocations"
+},
+"script:10": {
+"h": "ee94ff729d",
+"n": "SORT_BudgetCodes"
+},
+"script:11": {
+"h": "70c17d3500",
+"n": "showUNASSIGNED"
+},
+"script:12": {
+"h": "73949a94e0",
+"n": "assignCODE"
+},
+"script:13": {
+"h": "5e9db79a73",
+"n": "useSelectedCode"
+},
+"script:14": {
+"h": "ead0b1dd74",
+"n": "goToCode"
+},
+"script:15": {
+"h": "0dd1a4368f",
+"n": "POPUP_selectCODE"
+},
+"script:17": {
+"h": "4054e9ec0f",
+"n": "showUNASSIGNED Copy"
+},
+"script:2": {
+"h": "e8bb839113",
+"n": "button_CurrentAllocationPupup"
+},
+"script:20": {
+"h": "ff70d9ded8",
+"n": "REPLACE_fkBudgetCode"
+},
+"script:21": {
+"h": "920e6ba746",
+"n": "COPY_code"
+},
+"script:22": {
+"h": "3b08549b58",
+"n": "PASTE_code"
+},
+"script:23": {
+"h": "76be498d61",
+"n": "buttonPassCodeNum"
+},
+"script:24": {
+"h": "2876ed658c",
+"n": "enterLayoutSpecificCodeURF"
+},
+"script:25": {
+"h": "0eafe9abaa",
+"n": "FilterSingleCodeASK"
+},
+"script:26": {
+"h": "908af7aaae",
+"n": "getCODEpk"
+},
+"script:27": {
+"h": "1e8149d1c7",
+"n": "New Script"
+},
+"script:28": {
+"h": "e19bdd8696",
+"n": "SortedbyHeader"
+},
+"script:29": {
+"h": "85a9b7f7c3",
+"n": "SortedbyCode10"
+},
+"script:3": {
+"h": "4af59141e5",
+"n": "showOnly_CurrentAllocation"
+},
+"script:30": {
+"h": "d998591d51",
+"n": "SortbyCode100"
+},
+"script:31": {
+"h": "91a5428abb",
+"n": "printAllCodeFormats"
+},
+"script:32": {
+"h": "4152c677a1",
+"n": "Layout #29"
+},
+"script:33": {
+"h": "aec21d8898",
+"n": "SortedbyCode10 Copy"
+},
+"script:37": {
+"h": "03c373d519",
+"n": "BudgetVersionBY_SortOrder"
+},
+"script:4": {
+"h": "0a2df3f3b2",
+"n": "RefreshCurrentAllocation"
+},
+"script:40": {
+"h": "dd1bf28616",
+"n": "sortByNMAllocation"
+},
+"script:41": {
+"h": "ccab515bb9",
+"n": "findAllocation"
+},
+"script:42": {
+"h": "c351bc1d9e",
+"n": "newAllocationWcurrent"
+},
+"script:43": {
+"h": "c1fa7b80c7",
+"n": "showOnlyActiveAllocation"
+},
+"script:44": {
+"h": "699c50dfd6",
+"n": "DuplicateWRelated"
+},
+"script:45": {
+"h": "9a5608f191",
+"n": "goToCodedTransactions"
+},
+"script:48": {
+"h": "32f3398e09",
+"n": "lastWindowClose"
+},
+"script:49": {
+"h": "a1852e3e63",
+"n": "firstWindowOpen"
+},
+"script:5": {
+"h": "ecf5da56ee",
+"n": "assignToCurrent"
+},
+"script:54": {
+"h": "94d003de32",
+"n": "set G | FILE RECORD STATS"
+},
+"script:57": {
+"h": "c4f4fc8a33",
+"n": "enter | GLOBAL SETUP"
+},
+"script:60": {
+"h": "9fd2356bf9",
+"n": "save zBACKUP | File"
+},
+"script:61": {
+"h": "a3fa25a710",
+"n": "set G | SELECTED CODE"
+},
+"script:68": {
+"h": "7ac8373c2b",
+"n": "navi | Select Code"
+},
+"script:69": {
+"h": "abdbe5b16b",
+"n": "set G | SELECTED Version from gFY"
+},
+"script:7": {
+"h": "0e56b7341e",
+"n": "commitSummaryButtonTriggerFY26"
+},
+"script:72": {
+"h": "cfc2ae8800",
+"n": "select | g FISCAL YEAR"
+},
+"script:73": {
+"h": "b579da9ccd",
+"n": "Create_New_URF_Import"
+},
+"script:74": {
+"h": "08e5c14cc0",
+"n": "Recompute_URF_Fingerprints"
+},
+"script:77": {
+"h": "8216835e90",
+"n": "new_square_window"
+},
+"script:8": {
+"h": "115e6ba33c",
+"n": "commitSummaryButtonTrigger CopyFY26"
+},
+"script:80": {
+"h": "39156d35cf",
+"n": "IMPORT_URF_Create_Session"
+},
+"script:83": {
+"h": "3b5cd75895",
+"n": "Omit_all"
+},
+"script:84": {
+"h": "c7d48673e7",
+"n": "IMPORT_URF_Preflight_Profile"
+},
+"script:85": {
+"h": "76c3de2204",
+"n": "commitRecord"
+},
+"script:86": {
+"h": "3ed5c6f627",
+"n": "IMPORT_rows_to_URF0985"
+},
+"script:87": {
+"h": "7f96be9808",
+"n": "sort | Budget Code SUFFIXES"
+},
+"script:88": {
+"h": "0df73dc580",
+"n": "sort | Budget Code Assignment Join"
+},
+"script:89": {
+"h": "27ed760b7b",
+"n": "sort | Budget Code SUFFIXES Copy"
+},
+"script:9": {
+"h": "3f381fa518",
+"n": "COMMIT_ALL"
+},
+"script:90": {
+"h": "d63e464df8",
+"n": "New Script"
+},
+"script:91": {
+"h": "aa17e4d9a2",
+"n": "CREATE Budget Code Year Config Snapshot"
+},
+"script:92": {
+"h": "409722343e",
+"n": "CHECK BudgetCodeDef"
+},
+"script:93": {
+"h": "2f32a634aa",
+"n": "sort | Budget Allocation VERSIONS"
+},
+"script:94": {
+"h": "da1fb08bf2",
+"n": "temp"
+},
+"table:129": {
+"h": "a27e16c129",
+"n": "Budget_Allocation"
+},
+"table:130": {
+"h": "1a912ec1ea",
+"n": "Budget_Codes_Defintions"
+},
+"table:132": {
+"h": "90111d9ddf",
+"n": "BudgetCode_Header_Categories"
+},
+"table:133": {
+"h": "3aa8659a5f",
+"n": "BUDGET_Versions"
+},
+"table:134": {
+"h": "436bd4fd13",
+"n": "GLOBAL_USE_VARIABLES"
+},
+"table:135": {
+"h": "f50aa7bb7d",
+"n": "IMPORT_URF0985"
+},
+"table:136": {
+"h": "42821498f4",
+"n": "XXFiscal Years"
+},
+"table:137": {
+"h": "fdc6b25c91",
+"n": "file_WorkNotes"
+},
+"table:138": {
+"h": "1dda2028af",
+"n": "GLOBAL_scriptVariabls"
+},
+"table:139": {
+"h": "5f592b48c8",
+"n": "Budget_Supervisors"
+},
+"table:140": {
+"h": "7a2a4a7cfd",
+"n": "XX_GLOBAL_PrintingVariables"
+},
+"table:141": {
+"h": "7997044709",
+"n": "Import_CumSaleLABOUR"
+},
+"table:142": {
+"h": "b0a7d9806c",
+"n": "XX_GLOBAL_fileSetup"
+},
+"table:143": {
+"h": "5d5617c297",
+"n": "IMPORT_SESSIONS"
+},
+"table:146": {
+"h": "95c04cca8d",
+"n": "BudgetCode_YearConfig"
+},
+"table:147": {
+"h": "86a15a4b77",
+"n": "zfile_ValueLISTS"
+},
+"table:148": {
+"h": "b7fd48b30e",
+"n": "zfile_Values"
+},
+"table:149": {
+"h": "642b4a96a6",
+"n": "Budget_Allocation_OthersCodes"
+},
+"table:150": {
+"h": "1b5b9aaf81",
+"n": "UR_SpendRevenueCategory"
+},
+"table:151": {
+"h": "6b86d90df5",
+"n": "UR_OperatingLineFAO"
+},
+"table:153": {
+"h": "b50c5727f0",
+"n": "Budget_FamilyDefintions"
+},
+"table:154": {
+"h": "b0d1c625ad",
+"n": "Budget_ContextDefinitions"
+},
+"table:155": {
+"h": "0b1c968701",
+"n": "Budget_ContextSuffixDefinitions"
+},
+"table:156": {
+"h": "222bd7acba",
+"n": "URF_ROW_ASSIGNMENTS"
+},
+"table:157": {
+"h": "080b120e2c",
+"n": "URF_CODED_TRANSACTIONS"
+},
+"table:158": {
+"h": "0fb2dce0cd",
+"n": "Import_URF0989"
+},
+"table:159": {
+"h": "4e6cdf1273",
+"n": "UR_Company"
+},
+"table:160": {
+"h": "486e37cbd4",
+"n": "UR_CostCenter"
+},
+"table:162": {
+"h": "35d3b5572a",
+"n": "UR_Fund"
+},
+"table:164": {
+"h": "667c665384",
+"n": "UR_LedgerAccount"
+},
+"to:1065089": {
+"h": "f1bebc8889",
+"n": "Budget_Allocation"
+},
+"to:1065090": {
+"h": "d6e04afd8d",
+"n": "BudgetCode_Defintions"
+},
+"to:1065093": {
+"h": "9fca2c0b66",
+"n": "BUDGET_AllocationVersions"
+},
+"to:1065096": {
+"h": "f15f8f9652",
+"n": "ui_GLOBAL_BudgetHub"
+},
+"to:1065098": {
+"h": "e43238c18f",
+"n": "URF_IMPORT_ROWS"
+},
+"to:1065099": {
+"h": "1edb660e47",
+"n": "Code_Definitions"
+},
+"to:1065100": {
+"h": "d37cb645b3",
+"n": "XXlocalFiscal_Years"
+},
+"to:1065101": {
+"h": "c16dd48054",
+"n": "file_WorkNotes"
+},
+"to:1065102": {
+"h": "c827f0ea6f",
+"n": "GLOBAL_scriptVariables"
+},
+"to:1065104": {
+"h": "1f5a11fa20",
+"n": "XX_GLOBAL_PrintingVariables"
+},
+"to:1065105": {
+"h": "57f6f5cbf4",
+"n": "CumSale_LABOUR"
+},
+"to:1065107": {
+"h": "28c3f31f4f",
+"n": "XX_GLOBAL_fileSetup"
+},
+"to:1065108": {
+"h": "433a493063",
+"n": "eds_Fiscal_Years"
+},
+"to:1065110": {
+"h": "3dbc840530",
+"n": "BudgetCode_Header_Categories"
+},
+"to:1065111": {
+"h": "64a8ae5639",
+"n": "Fiscal_Years_forBudgetVersions"
+},
+"to:1065112": {
+"h": "9b63a42968",
+"n": "Budget_Supervisors"
+},
+"to:1065113": {
+"h": "96eb60283b",
+"n": "IMPORT_SESSIONS"
+},
+"to:1065117": {
+"h": "b49dfd3fb4",
+"n": "eds_URITP_GLOBAL_Variables"
+},
+"to:1065118": {
+"h": "71d792c886",
+"n": "eds_Departments"
+},
+"to:1065119": {
+"h": "edae270257",
+"n": "Fiscal_Years_forImports"
+},
+"to:1065126": {
+"h": "40b0310391",
+"n": "URITPCodes_forCodingCumSale"
+},
+"to:1065127": {
+"h": "5168131102",
+"n": "GLOBAL_forIMPORTING"
+},
+"to:1065128": {
+"h": "9a39b8ab08",
+"n": "GLOBAL_USE_VARIABLES"
+},
+"to:1065129": {
+"h": "d16aed969c",
+"n": "BudgetCode_YearConfig"
+},
+"to:1065130": {
+"h": "3242b9679f",
+"n": "ufile_ValueLISTS"
+},
+"to:1065131": {
+"h": "5387d2d4bb",
+"n": "ufile_Values"
+},
+"to:1065132": {
+"h": "fc5485ac9e",
+"n": "Fiscal_Years_forCurrent"
+},
+"to:1065133": {
+"h": "2bcbfc8fbc",
+"n": "BUDGET_Versions_selfSuperseed"
+},
+"to:1065134": {
+"h": "53c3092117",
+"n": "ufile_ValuesSelfStatusCategories"
+},
+"to:1065141": {
+"h": "2fe4ec3922",
+"n": "ui_Values"
+},
+"to:1065142": {
+"h": "872be72a03",
+"n": "ui_ValueLISTS"
+},
+"to:1065143": {
+"h": "96d74e9e4f",
+"n": "ui_ValuesSelfStatusCategories"
+},
+"to:1065144": {
+"h": "2423c5c4d9",
+"n": "Budget_Allocation_OthersCodes"
+},
+"to:1065145": {
+"h": "3e5734182b",
+"n": "UR_SpendRevenueCategory"
+},
+"to:1065147": {
+"h": "3d7a783ca3",
+"n": "OP_Lines"
+},
+"to:1065148": {
+"h": "29da9cc5ef",
+"n": "BudgetCodes_forDefaultOthersCodes"
+},
+"to:1065150": {
+"h": "1b732ccdb3",
+"n": "Budget_FamilyDefintions"
+},
+"to:1065151": {
+"h": "5f0ee9958d",
+"n": "Budget_ContextDefinitions"
+},
+"to:1065152": {
+"h": "b18cbb3aa1",
+"n": "Budget_ContextSuffixDefinitions"
+},
+"to:1065153": {
+"h": "2ebdb36089",
+"n": "URF_ROW_ASSIGNMENTS"
+},
+"to:1065154": {
+"h": "66c4c2ebc8",
+"n": "URF_CODED_TRANSACTIONS"
+},
+"to:1065155": {
+"h": "abb8697407",
+"n": "SpecificBudgetCode_forURF_Assigning"
+},
+"to:1065156": {
+"h": "083a2d6b52",
+"n": "values_ImportStatuses"
+},
+"to:1065157": {
+"h": "353e18f28d",
+"n": "values_StatusCategories"
+},
+"to:1065158": {
+"h": "dc7fa9a832",
+"n": "values_List2"
+},
+"to:1065159": {
+"h": "cabda8e95b",
+"n": "values_BudgetVersions"
+},
+"to:1065160": {
+"h": "52502737dd",
+"n": "values_List2 2"
+},
+"to:1065162": {
+"h": "7e6253dd3f",
+"n": "ufile_Values_OtherSameListSameCategory"
+},
+"to:1065163": {
+"h": "cbc7e9c84e",
+"n": "values_ImportSessionStatuses"
+},
+"to:1065164": {
+"h": "aaf1fb6faf",
+"n": "Budget_ContextDefinitions_forFiltering"
+},
+"to:1065165": {
+"h": "51e89d3d2e",
+"n": "Budget_FamilyDefintions_forFiltering"
+},
+"to:1065166": {
+"h": "4a32eea53d",
+"n": "Budget_ContextSuffixDefinitions_forFiltering"
+},
+"to:1065168": {
+"h": "92ae85cc52",
+"n": "Budget_Contexts_forPopup"
+},
+"to:1065169": {
+"h": "bac5f0b053",
+"n": "Budget_ContextSuffix_forPopup"
+},
+"to:1065170": {
+"h": "7b40e827ce",
+"n": "self_BudgetCodes_byCode"
+},
+"to:1065172": {
+"h": "c81820e5f6",
+"n": "Fiscal_Years_forBudgetCodeConfigs"
+},
+"to:1065173": {
+"h": "1f6886338a",
+"n": "Import_URF0989"
+},
+"to:1065174": {
+"h": "270d58b129",
+"n": "fURF0989_UR_Company"
+},
+"to:1065175": {
+"h": "f798e7b3e5",
+"n": "fURF0989_UR_CostCenter"
+},
+"to:1065177": {
+"h": "3d5cb7f484",
+"n": "fURF0989_UR_Fund"
+},
+"to:1065179": {
+"h": "53deee9d70",
+"n": "fURF0989_UR_LedgerAccount"
+},
+"to:1065181": {
+"h": "495db1d223",
+"n": "fURF0989_UR_OperatingLineFAO"
+},
+"to:1065182": {
+"h": "92ccebb839",
+"n": "fURF0989_UR_SpendRevenueCategory"
+},
+"to:1065184": {
+"h": "c39ddc92a3",
+"n": "fURF0989_IMPORT_SESSIONS"
+},
+"vl:1": {
+"h": "7047d8596a",
+"n": "One"
+},
+"vl:10": {
+"h": "4a28479ce0",
+"n": "popup Budget Code Number"
+},
+"vl:11": {
+"h": "ea9a8eacef",
+"n": "fk_budgetOwners"
+},
+"vl:12": {
+"h": "1525849df9",
+"n": "(popup) Code HEADERS"
+},
+"vl:13": {
+"h": "f73c0a6659",
+"n": "NM_Worksheets"
+},
+"vl:15": {
+"h": "fea288e979",
+"n": "NM_AllocationWorksheets"
+},
+"vl:16": {
+"h": "152bc39589",
+"n": "NM_SubtotalCategories"
+},
+"vl:17": {
+"h": "72ca1205e2",
+"n": "popupEDS_FiscalYears"
+},
+"vl:18": {
+"h": "c11ad3526e",
+"n": "popupV_StatusCategories"
+},
+"vl:19": {
+"h": "56d6cb0f84",
+"n": "popupV_BudgetVersions"
+},
+"vl:2": {
+"h": "3acd58b28f",
+"n": "BUDGET_VERSIONS"
+},
+"vl:20": {
+"h": "ab45a4f931",
+"n": "popupV_List2"
+},
+"vl:21": {
+"h": "8b47654511",
+"n": "popupV_ValueLists"
+},
+"vl:22": {
+"h": "c6feb57cc2",
+"n": "popup_SpendCategories"
+},
+"vl:23": {
+"h": "9b94eeee91",
+"n": "popup_OPLines"
+},
+"vl:24": {
+"h": "8369896dd0",
+"n": "popup_BudgetFAMILIES"
+},
+"vl:25": {
+"h": "ea3f74affc",
+"n": "popup_BudgetCodeCONTEXTS"
+},
+"vl:26": {
+"h": "3f36582af3",
+"n": "popup_BudgetCodeContextSUFFIX_filtered"
+},
+"vl:27": {
+"h": "3c242b3563",
+"n": "popupV_ImportStatuses"
+},
+"vl:28": {
+"h": "a340ea192b",
+"n": "popupV_ImportSessionStatuses"
+},
+"vl:29": {
+"h": "c482f4143c",
+"n": "value_SuffixScope"
+},
+"vl:3": {
+"h": "f9e62222f4",
+"n": "Budget Code Extended Names"
+},
+"vl:30": {
+"h": "a034579e45",
+"n": "popup_BudgetCodeCONTEXTS_FilteredbyFamily"
+},
+"vl:31": {
+"h": "2847441422",
+"n": "popup_BudgetSUFFIX_byFamily"
+},
+"vl:32": {
+"h": "d3ce746335",
+"n": "values_Fund_Restrictions"
+},
+"vl:33": {
+"h": "6f5644c2b9",
+"n": "popupV_BudgetCode_fromCurrentConfig"
+},
+"vl:34": {
+"h": "bf704e4dc9",
+"n": "popup Budget Code DisplayName"
+},
+"vl:4": {
+"h": "d0d7fc0643",
+"n": "(dropdown) Budget_REVs"
+},
+"vl:6": {
+"h": "1855541f5b",
+"n": "(popup) Fiscal Year"
+},
+"vl:7": {
+"h": "30cc7f8b89",
+"n": "FAOs"
+},
+"vl:8": {
+"h": "c39aa1a053",
+"n": "Ledger Accounts"
+},
+"vl:9": {
+"h": "653bdc7204",
+"n": "FAC Names"
+}
+}
+}
