@@ -4,6 +4,69 @@
 
 📋 Decision history → [MAW Documents — Decision Log](https://app.clickup.com/36074068/docs/12cwjm-57453/12cwjm-80213)
 
+## 2026-10-10 (v1.3) · `DocumentProductions` — the paperwork × production join
+
+Michael answered **Q10 = A**: URITP paperwork is a **CONTEXT inside MAW Documents**, which settles a
+scope call left deliberately unruled since **2026-08-07** (J13) and unblocks the join he approved the
+same evening.
+
+<p></p>
+
+⭐ **This is the table that makes a paperwork matrix possible.** Paperwork items are rows, productions
+are columns, **a cell is one record.** Everything upstream of it was a surface that could not carry a
+per-show note: productions as ClickUp **tags**, and four `current-production-*.md` files in
+`uritp-docs` where `current` is a single slot holding one member of a many-to-many.
+
+### Three schema calls made, and flagged rather than assumed
+
+- 🔴 **A production is NOT a `Contexts` row.** Q10 answered which APP, not which table. `Contexts` is
+  the WORLD axis (URITP · HML_LLC · home) and a context is a bucket; a production is an **entity**
+  with dates, a venue and a season. `| URITP |` and `"Big Love"` are not peers. **Both joins exist
+  and neither is redundant.**
+- 🔴 **This app does not own `Productions`.** J7's boundary — *"a table with two owners has no
+  owner"* — the same reason `People` here is not URITP People. `fkProduction` is a **cross-app key
+  with no local authority**, named in the page's `Open` and in the FK map rather than invented.
+- ⭐ **`Notes` on the join row IS the payload**, and it is the whole reason the table exists. A tag
+  asserts membership and can never carry it.
+
+### 🚩 Fifth instance of one habit, and the first caught pre-build
+
+`Documents.fkCurrentProduction` is **struck before it was built.** Prior instances:
+`Documents.fkPeopleJoins` (J5, still in the built graph), `DocumentCopies.LentTo` (J7),
+`BibliographicDetails.fkOrgRoleJoin` (J19, created *after* the first was struck), and the four
+`current-production-*.md` files. **A single field always looks cheaper than a join read.**
+
+### Measured, not asserted
+
+- `INSTANCES / VERSIONS` (`901328990016`): **274 rows**, `>PRODUCTION_Instances` populated on **1**.
+  The ClickUp side already IS this associative entity and has never been joined.
+- `TAGS` (`901329124550`): **seven axes in 38 rows**. `Version Tags` reads state-or-empty on **231 of
+  274** instances, so it functions as a state field, not a grouping field.
+
+### Still open, and named in the page
+
+- 🔴 **`fkProduction` has no authority table.** Thin local stub · bare external key · or the join
+  moves to the URITP app. **A bare key with no authority accepts typos as new productions.**
+- ⚠️ **No DENOMINATOR exists**, so the matrix can show what EXISTS and never what is MISSING. Nothing
+  declares *"every production owes these N documents"*; `doc-specs/` (4 specs) and `SHOW TEMPLATE ▸
+  Paperwork (P0)` (32 rows, mixed task types) are the nearest candidates and neither is a spec list.
+- ⚠️ `PaperworkStatus` has no value list, and it must **not** reuse the document's own status
+  vocabulary.
+- ⚠️ Work-vs-variant attachment, inherited verbatim from the `DocumentCopies` open question.
+
+<!-- AGENT NOTE · the renderer constraint that shaped rule 6, verified by reading the spec.
+uritp-docs 00-authoring/data-tables.md: "What the renderer will not do: Filters, totals, renamed
+columns, computed columns. The sheet is the source of truth: the renderer draws it, it does not
+reinterpret it." A PIVOT IS A COMPUTED COLUMN SET. The renderer will never build the matrix; the TSV
+arrives already pivoted. That pipeline is proven on audio-inventory.tsv, a FIXTURES export whose
+header FileMaker writes, so the column spec lives in the FileMaker field name.
+For the exporter: mark the paperwork column .key (the table collapses to a tappable list on a phone),
+and never name a production in a page body, because pin/sort/hide reference columns BY NAME.
+An earlier claim this session that "the matrix viewer already exists" was made from the spec file's
+EXISTENCE rather than its contents, and corrected after Michael pushed back. The drawing half exists;
+the pivoting half is explicitly refused.
+-->
+
 ## 2026-09-16 (v1.2) · Trim pass — verbosity out, reasoning kept
 
 Michael: *"this documentation is VERBOSE."* Correct. Every page rewritten so the **register and the

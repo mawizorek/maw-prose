@@ -14,23 +14,32 @@ in `tables/` still carry the dead convention in their filenames.
 
 ---
 
-## 🔴 THE ONE BLOCKER ON THE SPINE — answer before cutting anything
+## 🟢 THE SPINE BLOCKER — ANSWERED 2026-10-11 (J24)
 
-`data-standards.md` names **`DOCUMENT_INSTANCES`** as a live base table with `fkDocumentInstance` as
-its key, and `tables/DocumentCopies.md` still exists beside it. **Three readings, and they are not
-the same build:**
+**`DOCUMENT_INSTANCES` is `DocumentCopies` RENAMED. The variant and file layers are still uncut.**
+**So the spine cut is SIX TABLES, NOT TWO**, and the three-layer rule in `schema-notes.md` stands.
 
-1. `DOCUMENT_INSTANCES` is `DocumentCopies` renamed → the variant and file layers are still uncut.
-2. `DOCUMENT_INSTANCES` is `DOCUMENT_VARIANTS` + `DOCUMENT_FILES` merged → **the three-layer rule
-   collapsed to two in the built file** and J1's *"document vs variant vs file version as three
-   different layers"* needs restating or retiring.
-3. It is all three collapsed → the library spine is done and this spec's step list is wrong.
+⭐ **Full evidence and the one residual → [schema-notes.md](./schema-notes.md), the J24 block under
+the grain ladder.** The short version: `data-standards.md` records a live `fkStorageLocation` on
+`DOCUMENT_INSTANCES` with no `STORAGE_LOCATIONS` table, and that field exists on exactly one table in
+this package — `DocumentCopies`, pointing at the same unbuilt target. Same field, same broken
+pointer, two names. **A rename, not a merge.** Shelving is a copy-grain verb, which excludes a merged
+variant+file table outright.
 
-⚠️ **UNVERIFIED — nobody has read Manage against this package.** The answer decides whether the spine
-cut is six tables or two, so it is a blocker rather than a detail. Everything in *The renderer seam*
-below is independent of it and can proceed today.
+~~Three readings, and they are not the same build:~~ **struck in place — reading 1 confirmed,
+reading 2 excluded on grain, reading 3 narrowed to a single field check in Manage:**
 
-<!-- AGENT NOTE · why this is a blocker and not a footnote.
+1. ~~`DOCUMENT_INSTANCES` is `DocumentCopies` renamed → the variant and file layers are still uncut.~~
+   🟢 **THIS ONE.**
+2. ~~`DOCUMENT_INSTANCES` is `DOCUMENT_VARIANTS` + `DOCUMENT_FILES` merged → the three-layer rule
+   collapsed to two in the built file and J1's *"document vs variant vs file version as three
+   different layers"* needs restating or retiring.~~ **EXCLUDED.** That table could not carry a
+   storage location. J1 stands.
+3. ~~It is all three collapsed → the library spine is done and this spec's step list is wrong.~~
+   🚩 **NOT FULLY EXCLUDED.** A collapsed table would also carry the shelf. See step 1 below.
+
+<!-- AGENT NOTE · why this is a blocker and not a footnote. KEPT AFTER THE ANSWER - the cost it
+names is what made the answer worth the read, and the same shape will recur.
 A table page for a table that was renamed is a second claimant on one entity, and the shape reads as
 two tables to anyone who opens the folder. This package already carries evidence of what that costs:
 the app was documented under two names for three months and the own-file-vs-integrate question read
@@ -38,6 +47,11 @@ as open the whole time (J8, J13).
 The worse half is reading 2 as reading 1: cutting DOCUMENT_VARIANTS and DOCUMENT_FILES into a file
 that already merged them ships two empty tables with FKs pointing at them, and per data-standards.md
 an FK pointing at an uncut table resolves to nothing silently, forever.
+THAT RISK IS NOW RETIRED, and the live instance of the exact failure it warned about turned out to be
+the thing that ANSWERED it: fkStorageLocation. The defect was the fingerprint. Keep this note.
+ALSO KEEP: tables/DocumentCopies.md is now confirmed as a SECOND CLAIMANT on a renamed table, not a
+sibling of DOCUMENT_INSTANCES. Renaming that file pair is part of the half-applied all-caps pass in
+the defects table below, and it is no longer a judgement call.
 -->
 
 ---
@@ -242,16 +256,20 @@ produced it.
 | `BIBLIOGRAPHIC_DETAILS.fkOrgRoleJoin` | same defect, **newly created** beside `DOCUMENT_ORGS` | zero rows. Delete. |
 | `PURCHASES` | 5 fields, **all plumbing** — no `fkVendor`, `PurchaseDate`, `OrderReference`, `Subtotal`, `ShippingAmount`, `TaxAmount`, `TotalAmount`, `Currency` | the ledger cannot answer its own question |
 | `PURCHASE_LINES.Quantity` | **missing**, while `UnitPrice` and `LineTotal` both exist | the validation has no second operand |
-| `fkStorageLocation` | points at `STORAGE_LOCATIONS`, **which was never cut** | resolves to nothing, silently, forever |
+| `fkStorageLocation` | on `DOCUMENT_INSTANCES`, points at `STORAGE_LOCATIONS`, **which was never cut**. 🟢 **J24: this is a MISSING TABLE, not a broken field** — and it is the fingerprint that resolved the spine blocker | resolves to nothing, silently, forever. Cut the table at step 9. |
 | `POEPLE` | misspelled in the live graph | a name is a contract |
-| 10 of 11 `tables/` pages | still PascalCase filenames; only `DOCUMENT_TYPES.md` was renamed | the reversal is half-applied |
+| 10 of 11 `tables/` pages | still PascalCase filenames; only `DOCUMENT_TYPES.md` was renamed. 🟢 **J24 makes `DocumentCopies.*` the first one to rename** — it is a confirmed second claimant on `DOCUMENT_INSTANCES`, not a sibling | the reversal is half-applied |
 | **No `PrimaryKey` on any ClickUp row** | 74 + 39 + 9 + 41 rows across four lists, **zero UUIDs anywhere** | nothing can be matched to a page or a TSV until this exists |
 
 ---
 
 ## Build order
 
-1. **Answer the `DOCUMENT_INSTANCES` question.** Read Manage, write the answer into `schema-notes.md`.
+1. 🟢 **ANSWERED (J24) — one residual field check only.** `DOCUMENT_INSTANCES` is `DocumentCopies`
+   renamed; the answer is written into [schema-notes.md](./schema-notes.md). **The remaining glance
+   in Manage:** does `DOCUMENT_INSTANCES` carry a **variant-type** field and a **file
+   payload/container** field? Absent → proceed as written. Present → the three layers collapsed
+   after all, and step 9 drops the variant/file half.
 2. **Delete the two dead FKs** (`fkPeopleJoins`, `fkOrgRoleJoin`) while both children are empty.
 3. **Fill `PURCHASES`** with its header fields; add `PURCHASE_LINES.Quantity`.
 4. **`DOCUMENT_RELATIONS` + `RELATION_TYPES`**, seeded with the nine relation types.
@@ -264,9 +282,12 @@ produced it.
    validator is the constraint, never the field.
 8. **Catalogue.** Walk the committed tree, one row per page, `PageID` lifted from front matter.
    🔴 **IN SCOPE** (Michael, 2026-09-19: *"i don't think that's a later session"*).
-9. **Cut the spine** per step 1's answer: `CONTEXTS`, `DOCUMENT_CONTEXTS`, `SUBJECTS`,
-   `DOCUMENT_SUBJECTS`, `IMPORT_BATCHES`, `GLOBAL_USE_VARIABLES`, `STORAGE_LOCATIONS`, and the
-   variant/file layers **only if step 1 says they are not already merged.**
+9. **Cut the spine — 🟢 SIX TABLES, per J24, not two:** `CONTEXTS`, `DOCUMENT_CONTEXTS`, `SUBJECTS`,
+   `DOCUMENT_SUBJECTS`, `IMPORT_BATCHES`, `GLOBAL_USE_VARIABLES`, **`STORAGE_LOCATIONS` (clears the
+   dangling `fkStorageLocation`)**, and **`DOCUMENT_VARIANTS` + `DOCUMENT_FILES`, which J24 confirms
+   were never cut.** ⚠️ Cutting the variant and file layers re-grains `DOCUMENT_INSTANCES`: its
+   `fkDocument` points at the work today and should point at a file or variant once they exist.
+   **That is a migration, not an addition** — do it while the copy layer is near-empty.
 10. **First TSV export** — `DOCUMENT_RELATIONS` for one real policy, sorted by `PrimaryKey`.
 11. **Declare `data_slots`** on the safety types in `doc-render-engine`.
 12. **Render one page** whose founded-on table comes entirely from the TSV.
@@ -279,8 +300,8 @@ the arithmetic:**
 reconciling the three competing ClickUp document lists · the 74-row `need to import` migration ·
 reclassifying the 41 `VERSIONS / PARTS` rows · normalizing authors and publishers · the
 `h_DocLibrary` hub · intake flows · resolving the two competing safety repos (`uritp-docs/safety/`
-versus `uritp-safety`) · repairing the Decision Log page body (**J10–J19 are parked as COMMENTS
-because the body refuses writes** — ten rulings living outside the log).
+versus `uritp-safety`) · repairing the Decision Log page body (**J10–J24 are parked as COMMENTS
+because the body refuses writes** — fifteen rulings living outside the log).
 
 ⚠️ **Cataloguing crossed ABOVE this line on 2026-09-19.** The fail-closed CI validator crossed with
 it: a catalogue with no duplicate-`PageID` check is a list, not a constraint.
@@ -314,6 +335,11 @@ it: a catalogue with no duplicate-`PageID` check is a list, not a constraint.
    must **stop the build**: (a) a `CatalogOnly` document that has a page row, (b) two page rows
    carrying the same `PageID`, (c) an `@id` reference whose target `PageID` does not exist.
    ⚠️ **Today all three pass silently.** That is what this table is for.
+10. 🟢 **The three layers, added with J24** → one work with **two variants** (clean + annotated scan),
+    one of those variants carrying **two files** (v1 and a replacement), and a **third work with a
+    copy but no variant and no file at all.** Then confirm no `DOCUMENT_INSTANCES` row is orphaned by
+    the re-grain. ⚠️ **This test cannot run today and that is the point** — it is the only observable
+    proof that step 9's variant/file half actually landed rather than shipping two empty tables.
 
 <!-- AGENT NOTE · why the exit tests are shaped this way.
 Step 5's forced failure is the one nobody runs and the only one that matters: a partial purchase
@@ -328,6 +354,9 @@ would render correctly either way.
 Step 9c is not hypothetical. The safety site carried four dangling @id refs after two deletions, and
 housekeeping.md rendered nearly empty after commit 3882b7f removed 40 lines. Nothing reported either
 one. A catalogue that cannot answer "does every @id resolve" is decoration.
+Step 10's zero-variant case is the one that will get dropped as pedantic. It is not: the three-layer
+split is only safe if a work can skip the middle layers entirely, because most acquired books will.
+A split that forces a variant row per copy has re-created the flattening it was built to avoid.
 -->
 
 ---

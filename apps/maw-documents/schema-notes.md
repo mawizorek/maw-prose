@@ -23,6 +23,64 @@ FK map + TO groups → [relationships/README.md](./relationships/README.md)
 🔴 **`Documents` is an abstraction: it cannot be bought, lent, shelved or damaged.** Those verbs
 belong to `DocumentCopies`. A field describing a physical event is on the wrong table.
 
+### 🟢 `DOCUMENT_INSTANCES` — RESOLVED 2026-10-11 (J24)
+
+**`DOCUMENT_INSTANCES` in the built file is `DocumentCopies` RENAMED. It is not a merge.** The
+variant and file layers were never cut, so the three layers above stand as **design, not as
+description** — and `next-build-spec.md` step 9 still owes `DOCUMENT_VARIANTS`, `DOCUMENT_FILES`
+and `STORAGE_LOCATIONS`.
+
+⚠️ **Resolved from this package, NOT from Manage.** No agent can open Manage Database. This is a
+fingerprint match on four pieces of evidence, and it carries one named residual.
+
+1. 🔴 **The dangling FK, and it is decisive.** `data-standards.md` records a live defect:
+   `fkStorageLocation` on `DOCUMENT_INSTANCES`, with no `STORAGE_LOCATIONS` table. In this package
+   `fkStorageLocation` exists on **exactly one** table, `tables/DocumentCopies.tsv`, flagged
+   `⚠️ table not yet built` and pointing at the same unbuilt target. Same field, same broken
+   pointer, two table names.
+2. **The grain test.** A storage location is shelving, and shelving is a copy-grain verb per the
+   rule directly above. A variant is a stream and a file is a payload; neither can be shelved. This
+   is what excludes the merged-variant-plus-file reading outright — that table would never carry
+   `fkStorageLocation`.
+3. **There was nothing to merge.** `tables/` holds no `DocumentVariants` and no `DocumentFiles`
+   page, in either `.md` or `.tsv`. Both layers are named in the ladder and were never
+   field-specced. A merge needs two specced inputs.
+4. **The pointer renamed with the table.** `data-standards.md` gives the live FK example as
+   `fkDocumentInstance`, while both dependents in this package, `CopyLoans.tsv` and
+   `PurchaseLines.tsv`, carry `fkDocumentCopy → DocumentCopies`, each flagged
+   `🔴 a copy, never a work`. One pointer, one role, renamed.
+
+🚩 **ONE residual, and it is a single glance in Manage.** A fully collapsed table (all three layers
+in one) would **also** carry the shelf, so evidence 1 cannot separate *renamed* from *collapsed*.
+The discriminator: does built `DOCUMENT_INSTANCES` carry a **variant-type** field and a **file
+payload/container** field?
+
+- **Absent** → this ruling holds as written.
+- **Present** → the three-layer split is **DEAD rather than unbuilt**, and the divergence table at
+  the bottom of this page is wrong about HML too.
+
+⚠️ **A lead, not a finding:** `data-standards.md` lists live value lists for *"variant types ...
+storage backends"*, so variant-layer and file-layer **vocabulary** exists in the built file. A value
+list can sit unconsumed, which is why the residual stays open instead of being waved off.
+
+<!-- AGENT NOTE · the method, which generalizes well past this one question.
+TWO SURFACES, TWO JOBS. data-standards.md REPORTS the built file. tables/*.tsv SPECIFY the design.
+Second instance of the pair disagreeing, found in the same read: data-standards says "PURCHASE_LINES
+has UnitPrice and LineTotal and no Quantity" while PurchaseLines.tsv lists Quantity plainly.
+A disagreement between those two surfaces is a BUILD GAP, never a doc error. Editing one doc to
+match the other would erase the gap instead of closing it, and the gap is the only record that the
+build is behind the design. Whoever tidies these two files into agreement destroys the punch list.
+WHY THIS WAS RESOLVABLE AT ALL: the DEFECT is the fingerprint. A correct field proves nothing about
+provenance because every version of the design carries it. A broken one points at the exact table it
+was copied from. fkStorageLocation survived the rename with its target still missing, which is the
+signature of a rename rather than a redesign - a redesign would have either cut the target table or
+dropped the field.
+THE READING THAT WAS WRONG TO FEAR: next-build-spec warned that cutting the variant and file layers
+into a file that already merged them would ship two empty tables with FKs resolving to nothing. That
+risk is retired by evidence 2. The live instance of that exact failure is fkStorageLocation itself,
+which is a MISSING TABLE to build, not a typo to fix.
+-->
+
 ## The three rules
 
 ### 1 · A role belongs to the RELATIONSHIP, never to the party
@@ -123,6 +181,10 @@ The apps share a design lineage, so a difference is deliberate or it is drift.
 | Work → variants → files (3 layers) | Documents → DocumentVersions (2) | HML has no variant layer |
 | Amounts on `Purchases`/`PurchaseLines` | `Amount`, `PayorPayee`, `CheckNumber` on `Documents` | 🔴 HML's flattening is what the extension rule rejects |
 
+⚠️ **The three-layer row is a DESIGN divergence, not a built one.** Per J24 above, the built file
+has the work layer and the copy layer and nothing between them, so today this app and HML are both
+two-layer in practice. The divergence becomes real at step 9.
+
 <!-- AGENT NOTE · divergences, the reasoning.
 HML's Organizations.md and Contacts.md explicitly refuse to list fields ("listing plausible
 fields would imply design that doesn't exist") and Organizations carries an open scope question:
@@ -135,4 +197,7 @@ rigging guide may be a contributor on something else, and two people tables fork
 Recorded because the professional pattern points the other way and someone will cite it.
 On the three layers: HML's plan drifted from a split this app had already ruled correct.
 DO NOT clone HML's amount-flattening forward.
+Added with J24: the divergence table was comparing THIS APP'S DESIGN to HML'S DESIGN and reading as
+if it compared two built files. Anyone citing the three-layer row as evidence that this app is ahead
+of HML is citing a plan. Keep design-vs-built explicit in any row that gets added here.
 -->
