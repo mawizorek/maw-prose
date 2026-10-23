@@ -3,7 +3,7 @@ id: uritp-people
 title: URITP People
 type: index
 status: public
-summary: The FileMaker identity hub. One record per human, every way to reach them, and a generic sync layer that mirrors names and primary contacts to ClickUp.
+summary: The FileMaker identity hub. One record per human, every way to reach them, and a generic sync layer that keeps names and contacts in step with ClickUp both ways.
 revised: 2026-10
 contents: auto
 ---
@@ -16,9 +16,11 @@ contents: auto
 
 This page describes the schema baseline Michael set on 2026-10-23. It is the gold standard the file is built to; changes from here are made against it.
 
-## FileMaker is canonical
+## FileMaker is canonical, and the sync runs both ways
 
-FileMaker owns people and their contact details. ClickUp's PEOPLE list is a mirror and an intake: a person can be typed into ClickUp by name on a phone, and the next sync adopts them, creating the PEOPLE record and linking it to the task. After adoption FileMaker wins. A name or status that differs in ClickUp arrives as a row for a decision, never as an overwrite. Emails and phone numbers are FileMaker's alone: the primary of each is pushed to the task's Primary Email and Phone Number fields and nothing is ever pulled back.
+FileMaker owns people and their contact details. ClickUp's PEOPLE list is a mirror and an intake: a person can be typed into ClickUp by name on a phone, and the next sync adopts them, creating the PEOPLE record, its contact card and the link to the task from whatever ClickUp holds.
+
+After adoption every mirrored field follows one rule, in both directions. An edit made only in FileMaker is pushed. An edit made only in ClickUp arrives as a [sync_RECONCILE](@uritp-people-table-sync-reconcile) row for a decision, never as an overwrite. An edit made on both sides is a conflict row. FileMaker's value stands until a row is decided. The mirrored fields are the names, pronouns and status, the first two email addresses and the primary phone number. The [sync plan](@uritp-people-sync-plan) has the mechanics.
 
 ## The sync layer is not ClickUp-shaped
 
@@ -42,6 +44,7 @@ PRODUCTIONS is in Production MAWnster. A production's card is a CONTACTS row in 
 - Sync log: [sync_SOURCES](@uritp-people-table-sync-sources), [sync_SESSIONS](@uritp-people-table-sync-sessions), [sync_EVENTS](@uritp-people-table-sync-events), [sync_RECONCILE](@uritp-people-table-sync-reconcile).
 - File: [Target_Tables](@uritp-people-table-target-tables), [GLOBAL_USE](@uritp-people-table-global-use), [value_LISTS](@uritp-people-table-value-lists), [VALUES](@uritp-people-table-values).
 - [Relationships](@uritp-people-relationships).
+- [Sync plan](@uritp-people-sync-plan).
 - [Build sheet](@uritp-people-next-build).
 
 ## Not written yet
@@ -59,5 +62,7 @@ PRODUCTIONS is in Production MAWnster. A production's card is a CONTACTS row in 
 ## Superseded
 
 The D-042 design of 2026-10-05, ClickUp as the source of truth with a one-way import through import_PEOPLE and RECONCILE, is superseded by this baseline. Its table notes, the old PEOPLE register and the old relationships page are in `meta/` marked superseded. The `10_IMPORT` script pages and the Reconcile People window page are D-042's and are not built against.
+
+The baseline's first wording, that emails and phones were pushed and never pulled back, was replaced the same day by the two-way rule above.
 
 Everything in this folder without a page header is the July 2026 as-built pass: `INDEX.md`, `schema/`, `meta/design-decisions.md`, `layouts/README.md`, `tables/README.md` and `tables/_index.json`. Kept for its reasoning; do not build against it.
