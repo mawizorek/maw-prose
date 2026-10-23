@@ -13,9 +13,12 @@
 #   (Add file > Upload files, commit to main). This job runs
 #   .github/fmp-state/fmxml.py, writes compact state files to
 #   apps/fmp-state/<app>/, deletes the raw XML from HEAD, and commits.
+#   A change to the parser also re-runs, so a fix picks up skipped drops.
+#   Skip reasons land at the bottom of apps/fmp-state/index.md.
 #
 # BRAKES ON A LOOP
-#   1. Path filter is apps/zFMP-drops/** only; outputs land outside it.
+#   1. Path filter is apps/zFMP-drops/** and .github/fmp-state/** only;
+#      outputs land in apps/fmp-state/, outside both.
 #   2. Commits made with GITHUB_TOKEN do not trigger workflows. Never switch
 #      this to a PAT: that removes the brake.
 #
@@ -33,6 +36,7 @@ on:
     branches: [main]
     paths:
       - "apps/zFMP-drops/**"
+      - ".github/fmp-state/**"
   workflow_dispatch:
 
 concurrency:
