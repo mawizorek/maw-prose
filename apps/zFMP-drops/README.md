@@ -27,4 +27,4 @@ Drag a FileMaker export here (github.com → this folder → **Add file → Uplo
 
 Index of every app: `fmp-state/index.md`.
 
-Unknown XML formats (neither DDR nor Save-as-XML) and files that fail to parse are skipped with a warning and left in this folder for manual review.
+Unknown XML formats (neither DDR nor Save-as-XML) and files that fail to parse are skipped and left in this folder for manual review. **Why** each one was skipped is written at the bottom of `fmp-state/index.md`, so nobody needs the Actions log.
