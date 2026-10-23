@@ -1,0 +1,17 @@
+sort	Field_Name	Type	Options	Notes	group
+{.conf}	fkImportSession	Text	Indexed	→ import_SESSIONS::PrimaryKey	Integration
+{.conf}	cu_TaskID	Text	Indexed	ClickUp task id (id)	Integration
+{.conf}	import_Name	Text		Task name (name). Shown in the window, never written to PEOPLE	Staged
+{.conf}	import_cu_Status	Text		status.status	Staged
+{.conf}	import_LegalFirstName	Text		custom field b8397952-bcaf-423d-a182-62bc152cf160	Staged
+{.conf}	import_LastName	Text		custom field 4e8a61ba-3162-4e9a-89fd-9fe0e24fad8e	Staged
+{.conf}	import_AltName	Text		custom field d5cba607-c034-4eb3-a699-9f5a3f4a4144	Staged
+{.conf}	import_Pronouns	Text		custom field da51a70d-2beb-46eb-ba14-2d46ac37004b	Staged
+{.conf}	import_DateUpdated	Timestamp		date_updated, UTC	Staged
+{.conf}	import_raw_payload	Text		Whole task JSON, verbatim	Staged
+{.conf}	PrimaryKey	Text	UUID · auto-enter · unique · can't modify		Audit
+{.conf}	CreationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	CreatedBy	Text	Auto-enter		Audit
+{.conf}	ModificationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	ModifiedBy	Text	Auto-enter		Audit
+- EOF -					
