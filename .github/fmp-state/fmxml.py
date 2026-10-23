@@ -191,7 +191,9 @@ def index(skips=()):
     open(os.path.join(OUT, "index.md"), "w").write("\n".join(I) + "\n")
 
 drops = sorted(glob.glob(os.path.join(DROP, "*.xml")) + glob.glob(os.path.join(DROP, "*.XML")))
-if not drops: print("no drops"); sys.exit(0)
+if not drops:
+    if os.path.isdir(OUT): index()  # clear a stale skip list once the folder is empty
+    print("no drops"); sys.exit(0)
 os.makedirs(OUT, exist_ok=True); done = []; rejected = []; skipped = []
 for p in drops:
     src = p.replace(os.sep, "/")
