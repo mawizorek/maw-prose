@@ -10,6 +10,3 @@ Generated from FileMaker exports dropped in `zFMP-drops/`. Cold agents: open an 
 - **production-mawnster** · [STATE](production-mawnster/STATE.md) · [DELTA](production-mawnster/DELTA.md) · [STEPS](production-mawnster/STEPS.md)
 - **uritp-budget** · [STATE](uritp-budget/STATE.md) · [DELTA](uritp-budget/DELTA.md) · [STEPS](uritp-budget/STEPS.md)
 - **uritp-people** · [STATE](uritp-people/STATE.md) · [DELTA](uritp-people/DELTA.md) · [STEPS](uritp-people/STEPS.md)
-
-## Skipped in the last run (still in zFMP-drops/)
-- `apps/zFMP-drops/SummaryMAWnster.xml`: KeyError: 'BaseTableCatalog' at fmxml.py line 44 `tabs = cats["BaseTableCatalog"].findall("BaseTable"); nf = 0`
