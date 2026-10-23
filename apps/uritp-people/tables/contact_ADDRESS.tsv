@@ -1,0 +1,11 @@
+sort	Field_Name	Type	Options	Notes	group
+{.conf}	fk_Contact	Text	Indexed	→ CONTACTS::PrimaryKey	Links
+{.conf}	Address	Text			Facts
+{.conf}	value_ContactLabel	Text	Value list value_ContactLabel		Facts
+{.conf}	sort_Index	Number		Lowest prints first	Facts
+{.conf}	PrimaryKey	Text	UUID · auto-enter · unique · can't modify	Machine-only	Audit
+{.conf}	CreationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	CreatedBy	Text	Auto-enter		Audit
+{.conf}	ModificationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	ModifiedBy	Text	Auto-enter		Audit
+- EOF -					

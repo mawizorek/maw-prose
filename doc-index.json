@@ -2,7 +2,7 @@
   "site": "mawprose",
   "name": "MAW Prose",
   "base_url": "https://mawizorek.github.io/maw-prose/",
-  "built": "2026-10-23T15:59:53Z",
+  "built": "2026-10-23T16:22:43Z",
   "engine": "0.1.0",
   "engine_ref": "4e8b2ba4a3af5502f1d25a1999cc8f2c869a8d4f",
   "pages": [
@@ -979,37 +979,55 @@
       "print_gloss": null
     },
     {
-      "id": "uritp-people-table-contact-information",
+      "id": "uritp-people-table-contact-address",
       "type": "reference",
-      "title": "CONTACT_INFORMATION",
-      "url": "apps/uritp-people/tables/CONTACT_INFORMATION/",
+      "title": "contact_ADDRESS",
+      "url": "apps/uritp-people/tables/contact_ADDRESS/",
       "status": "public",
       "gloss": null,
       "print_gloss": null
     },
     {
-      "id": "uritp-people-table-import-people",
+      "id": "uritp-people-table-contact-emails",
       "type": "reference",
-      "title": "import_PEOPLE",
-      "url": "apps/uritp-people/tables/import_PEOPLE/",
+      "title": "contact_EMAILS",
+      "url": "apps/uritp-people/tables/contact_EMAILS/",
       "status": "public",
       "gloss": null,
       "print_gloss": null
     },
     {
-      "id": "uritp-people-table-import-sessions",
+      "id": "uritp-people-table-contact-phone-numbers",
       "type": "reference",
-      "title": "import_SESSIONS",
-      "url": "apps/uritp-people/tables/import_SESSIONS/",
+      "title": "contact_PHONE_NUMBERS",
+      "url": "apps/uritp-people/tables/contact_PHONE_NUMBERS/",
       "status": "public",
       "gloss": null,
       "print_gloss": null
     },
     {
-      "id": "uritp-people-table-import-sources",
+      "id": "uritp-people-table-contacts",
       "type": "reference",
-      "title": "IMPORT_SOURCES",
-      "url": "apps/uritp-people/tables/IMPORT_SOURCES/",
+      "title": "CONTACTS",
+      "url": "apps/uritp-people/tables/CONTACTS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-people-table-global-use",
+      "type": "reference",
+      "title": "GLOBAL_USE",
+      "url": "apps/uritp-people/tables/GLOBAL_USE/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-people-table-organizations",
+      "type": "reference",
+      "title": "ORGANIZATIONS",
+      "url": "apps/uritp-people/tables/ORGANIZATIONS/",
       "status": "public",
       "gloss": null,
       "print_gloss": null
@@ -1024,19 +1042,136 @@
       "print_gloss": null
     },
     {
-      "id": "uritp-people-table-reconcile",
+      "id": "uritp-people-table-people-adults",
       "type": "reference",
-      "title": "RECONCILE",
-      "url": "apps/uritp-people/tables/RECONCILE/",
+      "title": "people_ADULTS",
+      "url": "apps/uritp-people/tables/people_ADULTS/",
       "status": "public",
       "gloss": null,
       "print_gloss": null
     },
     {
-      "id": "uritp-people-table-settings",
+      "id": "uritp-people-table-people-students",
       "type": "reference",
-      "title": "SETTINGS",
-      "url": "apps/uritp-people/tables/SETTINGS/",
+      "title": "people_STUDENTS",
+      "url": "apps/uritp-people/tables/people_STUDENTS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-people-table-sync-events",
+      "type": "reference",
+      "title": "sync_EVENTS",
+      "url": "apps/uritp-people/tables/sync_EVENTS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-people-table-sync-reconcile",
+      "type": "reference",
+      "title": "sync_RECONCILE",
+      "url": "apps/uritp-people/tables/sync_RECONCILE/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-people-table-sync-sessions",
+      "type": "reference",
+      "title": "sync_SESSIONS",
+      "url": "apps/uritp-people/tables/sync_SESSIONS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-people-table-sync-sources",
+      "type": "reference",
+      "title": "sync_SOURCES",
+      "url": "apps/uritp-people/tables/sync_SOURCES/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-people-table-target-tables",
+      "type": "reference",
+      "title": "Target_Tables",
+      "url": "apps/uritp-people/tables/Target_Tables/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-people-table-value-lists",
+      "type": "reference",
+      "title": "value_LISTS",
+      "url": "apps/uritp-people/tables/value_LISTS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-people-table-values",
+      "type": "reference",
+      "title": "VALUES",
+      "url": "apps/uritp-people/tables/VALUES/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-people-table-venues",
+      "type": "reference",
+      "title": "VENUES",
+      "url": "apps/uritp-people/tables/VENUES/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-people-table-xt-containers",
+      "type": "reference",
+      "title": "xt_CONTAINERS",
+      "url": "apps/uritp-people/tables/xt_CONTAINERS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-people-table-xt-fields",
+      "type": "reference",
+      "title": "xt_FIELDS",
+      "url": "apps/uritp-people/tables/xt_FIELDS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-people-table-xt-records",
+      "type": "reference",
+      "title": "xt_RECORDS",
+      "url": "apps/uritp-people/tables/xt_RECORDS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-people-table-xt-systems",
+      "type": "reference",
+      "title": "xt_SYSTEMS",
+      "url": "apps/uritp-people/tables/xt_SYSTEMS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-people-table-xternal-joins",
+      "type": "reference",
+      "title": "XTERNAL_JOINS",
+      "url": "apps/uritp-people/tables/XTERNAL_JOINS/",
       "status": "public",
       "gloss": null,
       "print_gloss": null

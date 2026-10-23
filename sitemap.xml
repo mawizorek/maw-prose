@@ -565,11 +565,15 @@
          <lastmod>2026-10-23</lastmod>
     </url>
     <url>
-         <loc>https://mawizorek.github.io/maw-prose/apps/uritp-people/tables/CONTACT_INFORMATION/</loc>
+         <loc>https://mawizorek.github.io/maw-prose/apps/uritp-people/tables/CONTACTS/</loc>
          <lastmod>2026-10-23</lastmod>
     </url>
     <url>
-         <loc>https://mawizorek.github.io/maw-prose/apps/uritp-people/tables/IMPORT_SOURCES/</loc>
+         <loc>https://mawizorek.github.io/maw-prose/apps/uritp-people/tables/GLOBAL_USE/</loc>
+         <lastmod>2026-10-23</lastmod>
+    </url>
+    <url>
+         <loc>https://mawizorek.github.io/maw-prose/apps/uritp-people/tables/ORGANIZATIONS/</loc>
          <lastmod>2026-10-23</lastmod>
     </url>
     <url>
@@ -577,19 +581,75 @@
          <lastmod>2026-10-23</lastmod>
     </url>
     <url>
-         <loc>https://mawizorek.github.io/maw-prose/apps/uritp-people/tables/RECONCILE/</loc>
+         <loc>https://mawizorek.github.io/maw-prose/apps/uritp-people/tables/Target_Tables/</loc>
          <lastmod>2026-10-23</lastmod>
     </url>
     <url>
-         <loc>https://mawizorek.github.io/maw-prose/apps/uritp-people/tables/SETTINGS/</loc>
+         <loc>https://mawizorek.github.io/maw-prose/apps/uritp-people/tables/VALUES/</loc>
          <lastmod>2026-10-23</lastmod>
     </url>
     <url>
-         <loc>https://mawizorek.github.io/maw-prose/apps/uritp-people/tables/import_PEOPLE/</loc>
+         <loc>https://mawizorek.github.io/maw-prose/apps/uritp-people/tables/VENUES/</loc>
          <lastmod>2026-10-23</lastmod>
     </url>
     <url>
-         <loc>https://mawizorek.github.io/maw-prose/apps/uritp-people/tables/import_SESSIONS/</loc>
+         <loc>https://mawizorek.github.io/maw-prose/apps/uritp-people/tables/XTERNAL_JOINS/</loc>
+         <lastmod>2026-10-23</lastmod>
+    </url>
+    <url>
+         <loc>https://mawizorek.github.io/maw-prose/apps/uritp-people/tables/contact_ADDRESS/</loc>
+         <lastmod>2026-10-23</lastmod>
+    </url>
+    <url>
+         <loc>https://mawizorek.github.io/maw-prose/apps/uritp-people/tables/contact_EMAILS/</loc>
+         <lastmod>2026-10-23</lastmod>
+    </url>
+    <url>
+         <loc>https://mawizorek.github.io/maw-prose/apps/uritp-people/tables/contact_PHONE_NUMBERS/</loc>
+         <lastmod>2026-10-23</lastmod>
+    </url>
+    <url>
+         <loc>https://mawizorek.github.io/maw-prose/apps/uritp-people/tables/people_ADULTS/</loc>
+         <lastmod>2026-10-23</lastmod>
+    </url>
+    <url>
+         <loc>https://mawizorek.github.io/maw-prose/apps/uritp-people/tables/people_STUDENTS/</loc>
+         <lastmod>2026-10-23</lastmod>
+    </url>
+    <url>
+         <loc>https://mawizorek.github.io/maw-prose/apps/uritp-people/tables/sync_EVENTS/</loc>
+         <lastmod>2026-10-23</lastmod>
+    </url>
+    <url>
+         <loc>https://mawizorek.github.io/maw-prose/apps/uritp-people/tables/sync_RECONCILE/</loc>
+         <lastmod>2026-10-23</lastmod>
+    </url>
+    <url>
+         <loc>https://mawizorek.github.io/maw-prose/apps/uritp-people/tables/sync_SESSIONS/</loc>
+         <lastmod>2026-10-23</lastmod>
+    </url>
+    <url>
+         <loc>https://mawizorek.github.io/maw-prose/apps/uritp-people/tables/sync_SOURCES/</loc>
+         <lastmod>2026-10-23</lastmod>
+    </url>
+    <url>
+         <loc>https://mawizorek.github.io/maw-prose/apps/uritp-people/tables/value_LISTS/</loc>
+         <lastmod>2026-10-23</lastmod>
+    </url>
+    <url>
+         <loc>https://mawizorek.github.io/maw-prose/apps/uritp-people/tables/xt_CONTAINERS/</loc>
+         <lastmod>2026-10-23</lastmod>
+    </url>
+    <url>
+         <loc>https://mawizorek.github.io/maw-prose/apps/uritp-people/tables/xt_FIELDS/</loc>
+         <lastmod>2026-10-23</lastmod>
+    </url>
+    <url>
+         <loc>https://mawizorek.github.io/maw-prose/apps/uritp-people/tables/xt_RECORDS/</loc>
+         <lastmod>2026-10-23</lastmod>
+    </url>
+    <url>
+         <loc>https://mawizorek.github.io/maw-prose/apps/uritp-people/tables/xt_SYSTEMS/</loc>
          <lastmod>2026-10-23</lastmod>
     </url>
     <url>

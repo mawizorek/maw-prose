@@ -1,0 +1,12 @@
+sort	Field_Name	Type	Options	Notes	group
+{.conf}	fk_System	Text	Indexed · not empty	→ xt_SYSTEMS::PrimaryKey	Links
+{.conf}	fk_TargetTable	Text	Indexed · not empty	→ Target_Tables::PrimaryKey	Links
+{.conf}	xt_ID	Text	Indexed · not empty · unique	ClickUp list id, or GitHub owner/repo	External
+{.conf}	Name	Text	Not empty		Settings
+{.conf}	isActive	Number	Auto-enter 1 · range 0-1		Settings
+{.conf}	PrimaryKey	Text	UUID · auto-enter · unique · can't modify	Machine-only	Audit
+{.conf}	CreationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	CreatedBy	Text	Auto-enter		Audit
+{.conf}	ModificationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	ModifiedBy	Text	Auto-enter		Audit
+- EOF -					

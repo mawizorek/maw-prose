@@ -754,6 +754,36 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
     
     
     
@@ -948,10 +978,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#this-cycle-from-scratch-with-the-app-catalog-and-the-clickup-import-2026-10-05" class="md-nav__link">
+  <a href="#done-the-schema-baseline-2026-10-23" class="md-nav__link">
     <span class="md-ellipsis">
       
-        This cycle: from scratch, with the app catalog and the ClickUp import, 2026-10-05
+        Done: the schema baseline, 2026-10-23
       
     </span>
   </a>
@@ -959,10 +989,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#next-cycle" class="md-nav__link">
+  <a href="#this-cycle" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Next cycle
+        This cycle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#retired-in-the-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Retired in the file
       
     </span>
   </a>
@@ -999,27 +1040,25 @@
 
 <p class="buildstamp buildstamp--corner" hidden><span class="buildstamp__row"><span class="buildstamp__mark" aria-hidden="true" style="background-image:url(&quot;../../../maw-prose-mark.svg&quot;)"></span><span class="buildstamp__text"><span class="buildstamp__id">MAW Prose</span><span class="buildstamp__sep"> · </span><span class="buildstamp__when">Fall 2026</span></span></span></p><h1 id="uritp-people-build-sheet">URITP People build sheet<a class="headerlink" href="#uritp-people-build-sheet" title="Permanent link">&para;</a></h1>
 <p class="dr-lede">What gets built in URITP People this cycle, in order. Overwritten each build cycle.</p>
-<h2 id="this-cycle-from-scratch-with-the-app-catalog-and-the-clickup-import-2026-10-05">This cycle: from scratch, with the app catalog and the ClickUp import, 2026-10-05<a class="headerlink" href="#this-cycle-from-scratch-with-the-app-catalog-and-the-clickup-import-2026-10-05" title="Permanent link">&para;</a></h2>
+<h2 id="done-the-schema-baseline-2026-10-23">Done: the schema baseline, 2026-10-23<a class="headerlink" href="#done-the-schema-baseline-2026-10-23" title="Permanent link">&para;</a></h2>
+<p>Every table and all 28 relationships on the <span class="docrender-dead" title="!uritp-people">README</span> are in the file and were checked against three schema exports that day. The token lives on xt_SYSTEMS, App_Setup is gone, and a read-only test of one ClickUp view page returns 30 tasks using it. PEOPLE held a single record, so there is nothing to migrate.</p>
+<h2 id="this-cycle">This cycle<a class="headerlink" href="#this-cycle" title="Permanent link">&para;</a></h2>
 <ol>
-<li>A new, empty <code>URITP People.fmp12</code>, FileMaker 19.4 or later. Nothing is carried from the July file.</li>
-<li>The <a href="../../../standards/filemaker/app-catalog/">app catalog</a> first: tables APP_TABLES and APP_LAYOUTS, layouts <code>APP_TABLES</code>, <code>APP_LAYOUTS</code>, <code>APP_MENU</code>, scripts APP_CatalogRefresh, APP_GoToLayout, APP_OpenMenu in folder <code>00_APP</code>, and APP_CatalogRefresh on OnFirstWindowOpen.</li>
-<li>Tables, field for field as their registers: <a href="../tables/PEOPLE/">PEOPLE</a>, <a href="../tables/SETTINGS/">SETTINGS</a>, <a href="../tables/IMPORT_SOURCES/">IMPORT_SOURCES</a>, <a href="../tables/import_SESSIONS/">import_SESSIONS</a>, <a href="../tables/import_PEOPLE/">import_PEOPLE</a>, <a href="../tables/RECONCILE/">RECONCILE</a>. <a href="../tables/CONTACT_INFORMATION/">CONTACT_INFORMATION</a> can wait for its own pass.</li>
-<li>Run APP_CatalogRefresh. Every table's <code>AuditGap</code> should be empty; anything listed there is a field missed in step 3.</li>
-<li>Value lists ReconcileKinds (New, Changed, Gone) and ReconcileDecisions (Apply, Skip).</li>
-<li>The <span class="docrender-dead" title="!uritp-people-relationships">relationships</span>: <code>import_PEOPLE__PEOPLE</code>, <code>RECONCILE__PEOPLE</code> with creation allowed, <code>RECONCILE__import_PEOPLE</code>, <code>IMPORT_SOURCES__APP_TABLES</code>.</li>
-<li>Layouts <code>import_SESSIONS</code>, <code>import_PEOPLE</code>, <code>util_PEOPLE</code>, and the <a href="../layouts/RECONCILE/">Reconcile People window</a> with its restored sort. Pulled fields not enterable in Browse mode wherever people work.</li>
-<li>Scripts in folder <code>10_IMPORT</code>, typed from their <code>.fmscript</code> files: RECONCILE_ShowSession, RECONCILE_SetAll, PEOPLE_Compare, PEOPLE_Apply, PEOPLE_Pull. That order, so every Perform Script finds its target.</li>
-<li>Privileges: <code>SETTINGS::cu_APIToken</code> readable by Full Access only.</li>
-<li>In ClickUp, FMP VIEW on the PEOPLE list set to show closed tasks.</li>
-<li>One SETTINGS record holding the token. One IMPORT_SOURCES row: SourceName <code>PEOPLE</code>, FMP VIEW's API id, <code>fkAppTable</code> the PEOPLE catalog record.</li>
-<li>A first import into the empty file. Every person arrives as New; Apply all, Apply. Then a count of PEOPLE against the 483 in ClickUp.</li>
-<li>A second import straight after. It should say PEOPLE already matches ClickUp. If it lists anything, the compare and the apply disagree about a field.</li>
+<li>Rule on how the adapters read their source, container and system, and on Target_Tables against the D-043 app catalog. Both shape the scripts below.</li>
+<li>Value lists Action (pull, push, adopt, export) and Decision (pending, fm, xt, applied).</li>
+<li>The table refresh, then the field refresh for the PEOPLE container: one xt_FIELDS row per mapped field, <code>name</code> and <code>status</code> included.</li>
+<li><code>ADAPTER_ClickUp_Pull</code>: page the source's view 30 tasks at a time until <code>last_page</code> is true; upsert xt_RECORDS; skip a record whose <code>xt_Version</code> has not changed; one sync_EVENTS row per task.</li>
+<li>The dispatcher and <code>PERSON_Upsert_From_xtRecord</code>. The first pull is the initial load: every ClickUp person is adopted, a PEOPLE record and a join row each. Then a count of PEOPLE against the ClickUp list.</li>
+<li>A second pull straight after. Nothing should be adopted and nothing should reach sync_RECONCILE.</li>
+<li><code>ADAPTER_ClickUp_Push</code> for name, status, primary email and primary phone.</li>
+<li>Layouts, built against the real data the pull brought in.</li>
+<li>Field access on xt_SYSTEMS::Token for Full Access only, with the adapters running with full access privileges.</li>
 </ol>
-<h2 id="next-cycle">Next cycle<a class="headerlink" href="#next-cycle" title="Permanent link">&para;</a></h2>
-<p>The EMAILS and PHONE NUMBERS passes into CONTACT_INFORMATION, through the same window, each with its own IMPORT_SOURCES row and its own pull script. Then the first report.</p>
+<h2 id="retired-in-the-file">Retired in the file<a class="headerlink" href="#retired-in-the-file" title="Permanent link">&para;</a></h2>
+<p>The D-042 <code>10_IMPORT</code> scripts sit in a <code>z_RETIRED</code> folder as paging reference until <code>ADAPTER_ClickUp_Pull</code> works, then go.</p>
 <h2 id="belongs-to-other-files">Belongs to other files<a class="headerlink" href="#belongs-to-other-files" title="Permanent link">&para;</a></h2>
-<p>Production roles, assignments, contact-sheet rows and printed credits; employment; enrollments; seasons and departments.</p>
-<p class="dr-revised"><em>Revised 2026-10</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/uritp-people/next-build-spec.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">d0818ab</span></span></p>
+<p>PRODUCTIONS and its contact card hookup, production roles, assignments, contact-sheet rows and printed credits; employment; enrollments; seasons and departments.</p>
+<p class="dr-revised"><em>Revised 2026-10</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/uritp-people/next-build-spec.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">PR #75</span></span></p>
 
 
 

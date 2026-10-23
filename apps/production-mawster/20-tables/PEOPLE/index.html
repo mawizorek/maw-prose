@@ -3346,67 +3346,91 @@
 <tbody>
 <tr>
 <td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
-<td class="dr-col--tok">cu_TaskID</td>
+<td class="dr-col--tok">Name_First</td>
 <td class="dr-col--tok">Text</td>
-<td class="dr-col--prose">Indexed · unique · not empty</td>
-<td class="dr-col--prose">Native ClickUp task id. Match key for the import and for every join into PEOPLE</td>
-<td class="dr-col--tok">Integration</td>
+<td class="dr-col--prose"></td>
+<td class="dr-col--prose"></td>
+<td class="dr-col--tok">Facts</td>
 </tr>
 <tr>
 <td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
-<td class="dr-col--tok">LegalFirstName</td>
+<td class="dr-col--tok">Name_Last</td>
 <td class="dr-col--tok">Text</td>
 <td class="dr-col--prose"></td>
-<td class="dr-col--prose">← Legal First Name (b8397952-bcaf-423d-a182-62bc152cf160)</td>
-<td class="dr-col--tok">From ClickUp</td>
+<td class="dr-col--prose"></td>
+<td class="dr-col--tok">Facts</td>
 </tr>
 <tr>
 <td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
-<td class="dr-col--tok">LastName</td>
+<td class="dr-col--tok">Name_Preferred</td>
 <td class="dr-col--tok">Text</td>
 <td class="dr-col--prose"></td>
-<td class="dr-col--prose">← Last Name (4e8a61ba-3162-4e9a-89fd-9fe0e24fad8e)</td>
-<td class="dr-col--tok">From ClickUp</td>
+<td class="dr-col--prose">Optional</td>
+<td class="dr-col--tok">Facts</td>
 </tr>
 <tr>
 <td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
-<td class="dr-col--tok">AltName</td>
+<td class="dr-col--tok">Name_Alternate</td>
 <td class="dr-col--tok">Text</td>
 <td class="dr-col--prose"></td>
-<td class="dr-col--prose">← Alt. Name (d5cba607-c034-4eb3-a699-9f5a3f4a4144)</td>
-<td class="dr-col--tok">From ClickUp</td>
+<td class="dr-col--prose">Optional</td>
+<td class="dr-col--tok">Facts</td>
 </tr>
 <tr>
 <td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
 <td class="dr-col--tok">Pronouns</td>
 <td class="dr-col--tok">Text</td>
 <td class="dr-col--prose"></td>
-<td class="dr-col--prose">← Pronouns (da51a70d-2beb-46eb-ba14-2d46ac37004b)</td>
-<td class="dr-col--tok">From ClickUp</td>
+<td class="dr-col--prose">Optional</td>
+<td class="dr-col--tok">Facts</td>
 </tr>
 <tr>
 <td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
-<td class="dr-col--tok">cu_Status</td>
+<td class="dr-col--tok">status_Person</td>
 <td class="dr-col--tok">Text</td>
+<td class="dr-col--prose">Value list status_Person</td>
 <td class="dr-col--prose"></td>
-<td class="dr-col--prose">← task status (status.status): new, active, complete, circle back, connect with</td>
-<td class="dr-col--tok">From ClickUp</td>
-</tr>
-<tr>
-<td class="dr-col--tok"><span class="dr-mark dr-mark--soft dr-mark--cls-confidence" data-mark="est" style="--dr-mark-color: var(--dr-ink-muted)" title="Approximate. Close enough to plan with, not close enough to cut to.">Estimate</span></td>
-<td class="dr-col--tok">calc_MatchPrimary</td>
-<td class="dr-col--tok">(c→Text)</td>
-<td class="dr-col--prose">Unstored · result &quot;Primary&quot;</td>
-<td class="dr-col--prose">Constant side of the primary-email relationship</td>
-<td class="dr-col--tok">Calculated</td>
+<td class="dr-col--tok">Facts</td>
 </tr>
 <tr>
 <td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
-<td class="dr-col--tok">calc_ClickUpURL</td>
-<td class="dr-col--tok">(c→Text)</td>
-<td class="dr-col--prose">Unstored</td>
-<td class="dr-col--prose">&quot;https://app.clickup.com/t/&quot; &amp; cu_TaskID. Behind an Open in ClickUp button</td>
-<td class="dr-col--tok">Calculated</td>
+<td class="dr-col--tok">stored_NameDisplayInPlaybills</td>
+<td class="dr-col--tok">Text</td>
+<td class="dr-col--prose">Auto-enter calc · do not replace</td>
+<td class="dr-col--prose">Seeded from Name_First &amp; &quot; &quot; &amp; Name_Last, then hand-edited</td>
+<td class="dr-col--tok">Facts</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">auto_Name_FirstDisplay</td>
+<td class="dr-col--tok">Text</td>
+<td class="dr-col--prose">Auto-enter calc</td>
+<td class="dr-col--prose">First name, with the preferred name in quotes when there is one</td>
+<td class="dr-col--tok">Display</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">auto_Name_FirstLast</td>
+<td class="dr-col--tok">Text</td>
+<td class="dr-col--prose">Auto-enter calc</td>
+<td class="dr-col--prose">auto_Name_FirstDisplay &amp; &quot; &quot; &amp; Name_Last</td>
+<td class="dr-col--tok">Display</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">auto_Name_LastFirst</td>
+<td class="dr-col--tok">Text</td>
+<td class="dr-col--prose">Auto-enter calc</td>
+<td class="dr-col--prose">Name_Last &amp; &quot;, &quot; &amp; auto_Name_FirstDisplay</td>
+<td class="dr-col--tok">Display</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">sort_Name</td>
+<td class="dr-col--tok">Text</td>
+<td class="dr-col--prose">Auto-enter calc</td>
+<td class="dr-col--prose">Name_Last</td>
+<td class="dr-col--tok">Display</td>
 </tr>
 <tr>
 <td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
@@ -3450,7 +3474,7 @@
 </tr>
 <tr class="dr-data__section"><th colspan="6"><span class="dr-data__section-label">- EOF -</span></th></tr>
 </tbody></table>
-<p class="dr-data__source">13 rows &middot; <a href="../../../uritp-people/tables/PEOPLE.tsv" download>PEOPLE.tsv</a></p>
+<p class="dr-data__source">16 rows &middot; <a href="../../../uritp-people/tables/PEOPLE.tsv" download>PEOPLE.tsv</a></p>
 </div>
 
 <!---
@@ -3464,7 +3488,7 @@ The rule it comes from: **an ENTITY is a table, an OUTPUT is a layout over a fou
 `unlisted`: reachable by link, absent from the nav.
 --->
 
-<p class="dr-revised"><em>Revised 2026-08</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/production-mawster/20-tables/PEOPLE.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">d0818ab</span></span></p>
+<p class="dr-revised"><em>Revised 2026-08</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/production-mawster/20-tables/PEOPLE.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">PR #75</span></span></p>
 
 
 

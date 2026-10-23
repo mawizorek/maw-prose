@@ -1,0 +1,11 @@
+sort	Field_Name	Type	Options	Notes	group
+{.conf}	fk_Source	Text	Indexed	→ sync_SOURCES::PrimaryKey	Links
+{.conf}	calc_EventCount	(c→Number)	Unstored	Count ( sync_EVENTS::PrimaryKey )	Calculated
+{.conf}	calc_EndedAt	(c→Timestamp)	Unstored	Max ( sync_EVENTS::CreationTimestamp )	Calculated
+{.conf}	calc_ErrorCount	(c→Number)	Unstored	ExecuteSQL count of this session's events with HttpStatus 300 or above	Calculated
+{.conf}	PrimaryKey	Text	UUID · auto-enter · unique · can't modify	Machine-only	Audit
+{.conf}	CreationTimestamp	Timestamp	Auto-enter	When the run started	Audit
+{.conf}	CreatedBy	Text	Auto-enter	Who ran it	Audit
+{.conf}	ModificationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	ModifiedBy	Text	Auto-enter		Audit
+- EOF -					

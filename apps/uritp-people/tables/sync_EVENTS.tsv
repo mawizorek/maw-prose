@@ -1,0 +1,13 @@
+sort	Field_Name	Type	Options	Notes	group
+{.conf}	fk_Session	Text	Indexed	→ sync_SESSIONS::PrimaryKey	Links
+{.conf}	fk_xtRecord	Text	Indexed	→ xt_RECORDS::PrimaryKey. Always filled	Links
+{.conf}	Action	Text	Value list	pull, push, adopt, export	Log
+{.conf}	HttpStatus	Number		200 = ok	Log
+{.conf}	Request	Text		JSON body sent, or the GET address	Log
+{.conf}	Response	Text		What the system replied	Log
+{.conf}	PrimaryKey	Text	UUID · auto-enter · unique · can't modify	Machine-only	Audit
+{.conf}	CreationTimestamp	Timestamp	Auto-enter	When it happened	Audit
+{.conf}	CreatedBy	Text	Auto-enter		Audit
+{.conf}	ModificationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	ModifiedBy	Text	Auto-enter		Audit
+- EOF -					
