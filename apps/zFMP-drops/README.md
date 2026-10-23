@@ -14,6 +14,8 @@ Drag a FileMaker export here (github.com → this folder → **Add file → Uplo
 
 ✅ **Tools → Database Design Report → format XML.** One `.xml` per `.fmp12`. Any filename is fine. The app is read from inside the file.
 
+⚠️ **Upload the per-file XML (`<File>_fmp12.xml`), not `Summary.xml`.** The DDR also writes a summary file with no schema in it. It, and any symlink or Finder alias, is skipped with a warning and left here. One bad file no longer blocks the others in the same push.
+
 🚫 **Not "Save a Copy as XML."** It carries account and file-access authentication data. The workflow rejects it, deletes it, and fails loud, but it has already been committed by then, so that commit has to be purged from history.
 
 ## What comes out
@@ -25,4 +27,4 @@ Drag a FileMaker export here (github.com → this folder → **Add file → Uplo
 
 Index of every app: `fmp-state/index.md`.
 
-Unknown XML formats (neither DDR nor Save-as-XML) are skipped with a warning and left in this folder for manual review.
+Unknown XML formats (neither DDR nor Save-as-XML) and files that fail to parse are skipped with a warning and left in this folder for manual review.
