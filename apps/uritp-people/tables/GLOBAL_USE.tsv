@@ -1,0 +1,4 @@
+sort	Field_Name	Type	Options	Notes	group
+{.conf}	gCur_PERSON	Text	Global	Selected person, interface only	Interface
+{.conf}	UNIQUE	Number	Auto-enter 1 · unique · strict · range 1-1	There may only be one record	Guard
+- EOF -					

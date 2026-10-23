@@ -1,0 +1,12 @@
+sort	Field_Name	Type	Options	Notes	group
+{.conf}	fk_Container	Text	Indexed	→ xt_CONTAINERS::PrimaryKey	Links
+{.conf}	mapKey	Text		FileMaker's stable handle, e.g. primary_email	Settings
+{.conf}	xt_FieldID	Text		Written by the field refresh	External
+{.conf}	xt_FieldName	Text		Written by the field refresh	External
+{.conf}	xt_FieldType	Text		The system's own type name, written by the refresh	External
+{.conf}	PrimaryKey	Text	UUID · auto-enter · unique · can't modify	Machine-only	Audit
+{.conf}	CreationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	CreatedBy	Text	Auto-enter		Audit
+{.conf}	ModificationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	ModifiedBy	Text	Auto-enter		Audit
+- EOF -					
