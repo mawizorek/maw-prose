@@ -6,7 +6,7 @@ generated: fmp-state
 
 # Production_MAWnster.fmp12 · STATE
 DDR-XML export 10/13/2026 4:34:26 PM · FM 19.6.3
-Source drop: `apps/zFMP-drops/Production_MAWnster_fmp12.xml` · recover raw: `git show 4ea509c304b3:"apps/zFMP-drops/Production_MAWnster_fmp12.xml"`
+Source drop: `apps/zFMP-drops/Production_MAWnster_fmp12.xml` · recover raw: `git show 8d9cc3888e3f:"apps/zFMP-drops/Production_MAWnster_fmp12.xml"`
 Companion files: DELTA.md (vs previous drop, read first) · STEPS.md (full script steps, load on demand)
 
 ## Tables (43) · rec = record count (state, not hashed) · _std audit_ = stock PrimaryKey/Created*/Modified* fields, factored
