@@ -1,7 +1,7 @@
 # APP_CatalogRefresh
 # Rebuilds Target_Tables from the file's own schema. Matches on base-table NAME, because a base-table id cannot be read on FileMaker 19.
 # fm_BaseTableID is seeded by hand from the DDR. A row this script creates has an empty id, which IS the worklist: find isPresent = 1 and fm_BaseTableID empty.
-# AuditGap lists the standard fields each table lacks. Empty means it conforms, so a find on it is the conformance report.
+# AuditField_gaps lists the standard fields each table lacks. Empty means it conforms, so a find on it is the conformance report.
 # OnFirstWindowOpen, and a developer button after schema work. Needs FileMaker 19.4.1 or later.
 # EDIT $layoutTables AT INSTALL. What matters is the base table occurrence, not the layout's name.
 Set Error Capture [ On ]
@@ -47,7 +47,7 @@ Loop [ Flush: Always ]
 	End If
 	Set Field [ Target_Tables::isPresent ; 1 ]
 	Set Field [ Target_Tables::LastSeenAt ; $now ]
-	Set Field [ Target_Tables::AuditGap ; $gap ]
+	Set Field [ Target_Tables::AuditField_gaps ; $gap ]
 	Commit Records/Requests [ With dialog: Off ]
 End Loop
 # Tables this refresh did not see. A renamed table looks like one gone and one new, because 19 cannot match on an id.

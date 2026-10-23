@@ -26,9 +26,9 @@ The refresh reads `SELECT DISTINCT BaseTableName FROM FileMaker_BaseTableFields`
 
 `fm_BaseTableID` is the one typed field. It comes from the DDR export, because no FileMaker 19 function or system table reports a base-table id. **Empty is meaningful:** a row the refresh created that nobody has seeded yet. Find `isPresent` 1 with an empty id and that is the worklist; the refresh's closing dialog counts it for you.
 
-## AuditGap is the conformance report
+## AuditField_gaps is the conformance report
 
-Every base table is supposed to carry `PrimaryKey` and the four audit fields. Nothing in FileMaker enforces that, so the refresh compares each table's real field list against the five and writes what is missing, one per line. Empty means the table conforms, and a find on a non-empty `AuditGap` is the whole audit.
+Every base table is supposed to carry `PrimaryKey` and the four audit fields. Nothing in FileMaker enforces that, so the refresh compares each table's real field list against the five and writes what is missing, one per line. Empty means the table conforms, and a find on a non-empty `AuditField_gaps` is the whole audit. The closing dialog also names the tables that failed.
 
 It matters here more than most files: every join in this schema keys on `PrimaryKey`, so a table missing one never matches rather than erroring, and the sync layer reads the audit fields for provenance when a reconcile row asks who changed what.
 
@@ -37,5 +37,7 @@ Rewritten on every run and never typed, so it cannot go stale and claim a table 
 ## This is the app catalog
 
 Ruled 2026-10-23, D-049: this table is the app catalog's table half under its built name, and `APP_TABLES` was never created in any file. `APP_CatalogRefresh` on the standards shelf writes here, and [the app catalog](@fmp-app-catalog) carries the name. The superseded `APP_TABLES` page in this folder points back to this one.
+
+The standard calls the conformance field `AuditGap`; this file built it as `AuditField_gaps`, and the built name wins for the same reason `Target_Tables` did. No other solution has the field.
 
 Still open: the file has no layout catalog, so whether it becomes `Target_Layouts` or `APP_LAYOUTS` is unruled. And a renamed base table reads as one gone plus one new until the file moves to FileMaker 2023, where the id becomes readable and the rename becomes invisible.
