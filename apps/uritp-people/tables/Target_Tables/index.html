@@ -1550,10 +1550,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#refreshed-never-typed" class="md-nav__link">
+  <a href="#refreshed-never-typed-except-the-id" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Refreshed, never typed
+        Refreshed, never typed, except the id
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#auditfield_gaps-is-the-conformance-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AuditField_gaps is the conformance report
       
     </span>
   </a>
@@ -1856,10 +1867,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#refreshed-never-typed" class="md-nav__link">
+  <a href="#refreshed-never-typed-except-the-id" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Refreshed, never typed
+        Refreshed, never typed, except the id
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#auditfield_gaps-is-the-conformance-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AuditField_gaps is the conformance report
       
     </span>
   </a>
@@ -1895,10 +1917,10 @@
 
 
 <p class="buildstamp buildstamp--corner" hidden><span class="buildstamp__row"><span class="buildstamp__mark" aria-hidden="true" style="background-image:url(&quot;../../../../maw-prose-mark.svg&quot;)"></span><span class="buildstamp__text"><span class="buildstamp__id">MAW Prose</span><span class="buildstamp__sep"> · </span><span class="buildstamp__when">Fall 2026</span></span></span></p><h1 id="target_tables">Target_Tables<a class="headerlink" href="#target_tables" title="Permanent link">&para;</a></h1>
-<p class="dr-lede">One base table this file has ever had, found by its internal id and refreshed from the file's own schema.</p>
+<p class="dr-lede">One base table this file has ever had, refreshed from the file's own schema, with the conformance gap for each one.</p>
 <div class="admonition abstract">
 <p class="admonition-title">Grain</p>
-<p>One base table, matched on FileMaker's internal table id so a rename keeps the same row.</p>
+<p>One base table. Matched on <code>fm_BaseTableName</code>, because FileMaker 19 cannot report a base-table id (D-050).</p>
 </div>
 <h2 id="fields">Fields<a class="headerlink" href="#fields" title="Permanent link">&para;</a></h2>
 <div class="dr-data" id="data-catalog">
@@ -1917,7 +1939,7 @@
 <td class="dr-col--tok">fm_BaseTableID</td>
 <td class="dr-col--tok">Text</td>
 <td class="dr-col--prose"></td>
-<td class="dr-col--prose">FileMaker&#x27;s internal table id. The match key</td>
+<td class="dr-col--prose">FileMaker&#x27;s internal table id. Typed once from the DDR on FM19; empty means this row is waiting for one</td>
 <td class="dr-col--tok">Catalog</td>
 </tr>
 <tr>
@@ -1925,7 +1947,7 @@
 <td class="dr-col--tok">fm_BaseTableName</td>
 <td class="dr-col--tok">Text</td>
 <td class="dr-col--prose"></td>
-<td class="dr-col--prose">Written by the refresh</td>
+<td class="dr-col--prose">Written by the refresh. The match key on FM19</td>
 <td class="dr-col--tok">Catalog</td>
 </tr>
 <tr>
@@ -1942,6 +1964,14 @@
 <td class="dr-col--tok">Timestamp</td>
 <td class="dr-col--prose"></td>
 <td class="dr-col--prose">Stamped by every refresh</td>
+<td class="dr-col--tok">Catalog</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">AuditField_gaps</td>
+<td class="dr-col--tok">Text</td>
+<td class="dr-col--prose"></td>
+<td class="dr-col--prose">Standard fields this table lacks, one per line. Empty means it conforms. Rewritten by every refresh, never typed</td>
 <td class="dr-col--tok">Catalog</td>
 </tr>
 <tr>
@@ -1986,15 +2016,21 @@
 </tr>
 <tr class="dr-data__section"><th colspan="6"><span class="dr-data__section-label">- EOF -</span></th></tr>
 </tbody></table>
-<p class="dr-data__source">9 rows &middot; <a href="../Target_Tables.tsv" download>Target_Tables.tsv</a></p>
+<p class="dr-data__source">10 rows &middot; <a href="../Target_Tables.tsv" download>Target_Tables.tsv</a></p>
 </div>
 
-<h2 id="refreshed-never-typed">Refreshed, never typed<a class="headerlink" href="#refreshed-never-typed" title="Permanent link">&para;</a></h2>
-<p>The refresh reads <code>FileMaker_BaseTables</code> with ExecuteSQL, matches on <code>fm_BaseTableID</code>, and writes the name. A table that disappears keeps its row with <code>isPresent</code> at 0, because a container may still point at it.</p>
+<h2 id="refreshed-never-typed-except-the-id">Refreshed, never typed, except the id<a class="headerlink" href="#refreshed-never-typed-except-the-id" title="Permanent link">&para;</a></h2>
+<p>The refresh reads <code>SELECT DISTINCT BaseTableName FROM FileMaker_BaseTableFields</code>, finds each name, and writes presence, last-seen and the audit gap. A table that disappears keeps its row with <code>isPresent</code> at 0, because a container may still point at it.</p>
+<p><code>fm_BaseTableID</code> is the one typed field. It comes from the DDR export, because no FileMaker 19 function or system table reports a base-table id. <strong>Empty is meaningful:</strong> a row the refresh created that nobody has seeded yet. Find <code>isPresent</code> 1 with an empty id and that is the worklist; the refresh's closing dialog counts it for you.</p>
+<h2 id="auditfield_gaps-is-the-conformance-report">AuditField_gaps is the conformance report<a class="headerlink" href="#auditfield_gaps-is-the-conformance-report" title="Permanent link">&para;</a></h2>
+<p>Every base table is supposed to carry <code>PrimaryKey</code> and the four audit fields. Nothing in FileMaker enforces that, so the refresh compares each table's real field list against the five and writes what is missing, one per line. Empty means the table conforms, and a find on a non-empty <code>AuditField_gaps</code> is the whole audit. The closing dialog also names the tables that failed.</p>
+<p>It matters here more than most files: every join in this schema keys on <code>PrimaryKey</code>, so a table missing one never matches rather than erroring, and the sync layer reads the audit fields for provenance when a reconcile row asks who changed what.</p>
+<p>Rewritten on every run and never typed, so it cannot go stale and claim a table conforms when it stopped conforming.</p>
 <h2 id="this-is-the-app-catalog">This is the app catalog<a class="headerlink" href="#this-is-the-app-catalog" title="Permanent link">&para;</a></h2>
-<p>Ruled 2026-10-23, D-049: this table is the app catalog's table half under its built name, and <code>APP_TABLES</code> was never created in any file. <code>APP_CatalogRefresh</code> on the standards shelf now writes here, and <a href="../../../../standards/filemaker/app-catalog/">the app catalog</a> carries the name. The superseded <code>APP_TABLES</code> page in this folder points back to this one.</p>
-<p>Still open, both named in the standard rather than hidden here: the file has no layout catalog, so whether it becomes <code>Target_Layouts</code> or <code>APP_LAYOUTS</code> is unruled; and this table has no <code>AuditGap</code> field, so the refresh computes the conformance gap and has nowhere to write it.</p>
-<p class="dr-revised"><em>Revised 2026-10</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/uritp-people/tables/Target_Tables.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">PR #88</span></span></p>
+<p>Ruled 2026-10-23, D-049: this table is the app catalog's table half under its built name, and <code>APP_TABLES</code> was never created in any file. <code>APP_CatalogRefresh</code> on the standards shelf writes here, and <a href="../../../../standards/filemaker/app-catalog/">the app catalog</a> carries the name. The superseded <code>APP_TABLES</code> page in this folder points back to this one.</p>
+<p>The standard calls the conformance field <code>AuditGap</code>; this file built it as <code>AuditField_gaps</code>, and the built name wins for the same reason <code>Target_Tables</code> did. No other solution has the field.</p>
+<p>Still open: the file has no layout catalog, so whether it becomes <code>Target_Layouts</code> or <code>APP_LAYOUTS</code> is unruled. And a renamed base table reads as one gone plus one new until the file moves to FileMaker 2023, where the id becomes readable and the rename becomes invisible.</p>
+<p class="dr-revised"><em>Revised 2026-10</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/uritp-people/tables/Target_Tables.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">PR #89</span></span></p>
 
 
 
