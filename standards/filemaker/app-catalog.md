@@ -11,9 +11,11 @@ revised: 2026-10
 
 ## What it is
 
-Every solution carries two tables, `APP_TABLES` and `APP_LAYOUTS`. One record per base table and one per layout in the file. Anything else in the file that needs to point at a table or a layout points at a catalog record, and the app's own navigation menu is the layout catalog.
+Every solution carries a table catalog, `Target_Tables`, with one record per base table in the file. Anything else in the file that needs to point at a table points at a catalog record rather than naming the table in text.
 
-The field registers live once, here: [APP_TABLES.tsv](./tables/APP_TABLES.tsv) and [APP_LAYOUTS.tsv](./tables/APP_LAYOUTS.tsv). An app's own table notes point at them rather than copying them.
+A layout catalog is the same idea one object type over, and the app's navigation menu is that catalog. It is specified below as `APP_LAYOUTS`, but no file has built one yet, so that name is a proposal and not a fact.
+
+The field registers live once, here, in [tables/](./tables/). An app's own table notes point at them rather than copying them.
 
 ## Generated, never typed
 
@@ -21,29 +23,36 @@ FileMaker already knows its tables and layouts. A list someone maintains by hand
 
 ## The key is FileMaker's internal id
 
-`fm_TableID` and `fm_LayoutID` are the ids FileMaker assigns and never changes. Names are rewritten on every refresh. Rename a table or a layout and its catalog record follows it, with every typed field and every record pointing at it intact.
+`fm_BaseTableID`, and `fm_LayoutID` for layouts, are the ids FileMaker assigns and never changes. Names are rewritten on every refresh. Rename a table or a layout and its catalog record follows it, with every typed field and every record pointing at it intact.
 
 ## What gets typed
 
-On APP_TABLES: a display name, whether ClickUp feeds the table, and notes. On APP_LAYOUTS: a display name, a menu section, an order within the section, whether it shows in the menu, and notes. If a value can be read from the file, it is not typed.
+On the table catalog: a display name, whether ClickUp feeds the table, and notes. On the layout catalog: a display name, a menu section, an order within the section, whether it shows in the menu, and notes. If a value can be read from the file, it is not typed.
 
-## Removed, never deleted
+`Target_Tables` as it stands in URITP People carries none of those typed fields yet, only identity. They are added when something needs them, per D-035.
 
-A table or layout the refresh no longer finds gets `RemovedTimestamp` and stays. Other records may point at it, and a record that silently loses its target is worse than one that says the target is gone. Rebuild it in the file and the next refresh clears the stamp, because the id is gone for good only when the object is.
+## Gone, never deleted
+
+A table the refresh no longer finds keeps its row with `isPresent` at 0. A layout the refresh no longer finds gets `RemovedTimestamp`. Either way the record stays, because other records may point at it, and a record that silently loses its target is worse than one that says the target is gone. Rebuild it in the file and the next refresh reverses the flag, because the id is gone for good only when the object is.
+
+The two halves use different mechanisms because the live table does, and `LastSeenAt` already answers when a table was last seen, so the timestamp lost nothing.
 
 ## Self-audit
 
-The refresh checks every base table for the standard fields in [the data standards](./fmp-data-standards.md): `PrimaryKey` and the four audit fields. What is missing lands in `AuditGap`, one field per line. An empty `AuditGap` means the table conforms. A find on that field is the conformance report.
+The refresh checks every base table for the standard fields in [the data standards](./fmp-data-standards.md): `PrimaryKey` and the four audit fields.
+
+!!! warning "The conformance report does not exist yet"
+    What is missing is meant to land in `AuditGap`, one field per line, so that an empty `AuditGap` means the table conforms and a find on that field is the conformance report. `Target_Tables` has no such field, so the refresh computes the gap and discards it. Adding `AuditGap` as Text, plus one `Set Field` in the refresh, is all this needs.
 
 ## The menu
 
-`APP_OpenMenu` opens a card window on the `APP_MENU` layout, found to layouts marked for the menu and not removed, sorted by section then order. Each row's button runs `APP_GoToLayout` with the layout's id. That script looks up the layout's current name from its id at the moment of the click, so renaming a layout never breaks a menu entry.
+`APP_OpenMenu` opens a card window on the `APP_MENU` layout, found to layouts marked for the menu and not removed, sorted by section then order. Each row's button runs `APP_GoToLayout` with the layout's id. That script looks up the layout's current name from its id at the moment of the click, so renaming a layout never breaks a menu entry. None of this runs until a file has a layout catalog.
 
 ## Installing it in an app
 
-- Two tables, field for field as the registers. In the app package, `tables/APP_TABLES.md` and `tables/APP_LAYOUTS.md` state the grain and point their `data` slot at the registers here.
-- Layouts `APP_TABLES`, `APP_LAYOUTS` and `APP_MENU`. The first two are utility forms; `APP_MENU` is a list view sized for a card window, with ShowInMenu and Removed hidden.
-- Script folder `00_APP`, typed from [scripts/](./scripts/): `APP_CatalogRefresh`, `APP_GoToLayout`, `APP_OpenMenu`.
+- `Target_Tables`, field for field as the register. In the app package, `tables/Target_Tables.md` states the grain and points its `data` slot at the register.
+- A layout named `Target_Tables`, a utility form. The refresh navigates by layout name, so it stops cold without one.
+- Script folder `00_APP`, typed from [scripts/](./scripts/): `APP_CatalogRefresh`, and `APP_GoToLayout` and `APP_OpenMenu` once there is a layout catalog to drive them.
 - `APP_CatalogRefresh` on the file's OnFirstWindowOpen trigger, and on a developer button for after schema work.
 
 ## Versions
@@ -55,3 +64,7 @@ The table half reads `FileMaker_BaseTables` and `FileMaker_BaseTableFields`, whi
 It is not the spec. The catalog records what exists in the file; the app package in this repo records what the file is built toward. Exporting the catalog and laying it beside the package's `tables/` folder is a punch list, and like any punch list it is temporary.
 
 It does not make SQL rename-safe. `ExecuteSQL` names table occurrences and fields, not base tables. That job belongs to `GetFieldName`, in [the data standards](./fmp-data-standards.md).
+
+## Why the name is Target_Tables
+
+D-043 called this table `APP_TABLES`. URITP People built it as `Target_Tables` and Michael ruled on 2026-10-23 that the built name stands (D-049). The standard follows the file rather than the other way round, because no other solution had built the catalog at all, so there was nothing to keep compatible and no reason to carry the weaker name forward.

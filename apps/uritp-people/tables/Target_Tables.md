@@ -24,5 +24,8 @@ data:
 
 The refresh reads `FileMaker_BaseTables` with ExecuteSQL, matches on `fm_BaseTableID`, and writes the name. A table that disappears keeps its row with `isPresent` at 0, because a container may still point at it.
 
-!!! warning "Not reconciled with the app catalog"
-    D-043 says every FileMaker file carries the app catalog, APP_TABLES and APP_LAYOUTS, refreshed by APP_CatalogRefresh. This table does the APP_TABLES job under another name, and the file has no APP_LAYOUTS. Which one URITP People keeps has not been ruled.
+## This is the app catalog
+
+Ruled 2026-10-23, D-049: this table is the app catalog's table half under its built name, and `APP_TABLES` was never created in any file. `APP_CatalogRefresh` on the standards shelf now writes here, and [the app catalog](@fmp-app-catalog) carries the name. The superseded `APP_TABLES` page in this folder points back to this one.
+
+Still open, both named in the standard rather than hidden here: the file has no layout catalog, so whether it becomes `Target_Layouts` or `APP_LAYOUTS` is unruled; and this table has no `AuditGap` field, so the refresh computes the conformance gap and has nowhere to write it.

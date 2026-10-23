@@ -1,6 +1,6 @@
 # FileMaker standards
 
-*Cross-app FileMaker law. What is written here is true for every solution; an app that diverges documents the divergence in its own package, it does not fork the standard. Content verified 2026-10-05.*
+*Cross-app FileMaker law. What is written here is true for every solution; an app that diverges documents the divergence in its own package, it does not fork the standard. Content verified 2026-10-05, amended 2026-10-23.*
 
 This shelf answers one question: **what does every FileMaker file we build agree on?** Anything that is true of exactly one app belongs in that app's package under `apps/`, not here.
 
@@ -10,9 +10,9 @@ This shelf answers one question: **what does every FileMaker file we build agree
 
 `fmp-data-standards.md` is the naming table — keys, prefixes, audit fields, and when a value list has to become a table. It also carries the reason names lock before anyone writes `ExecuteSQL`, and the fix: build SQL text from `GetFieldName`, so a rename follows the field instead of breaking the query.
 
-`app-catalog.md` is the record every file keeps of its own tables and layouts: `APP_TABLES` and `APP_LAYOUTS`, generated from the file's schema, keyed on FileMaker's internal ids, carrying only what FileMaker cannot store. It is also how every app gets its navigation menu. Its registers are in `tables/` and its scripts in `scripts/`, mirrored the way an app package mirrors the *Manage* menu.
+`app-catalog.md` is the record every file keeps of its own tables: `Target_Tables`, generated from the file's schema, keyed on FileMaker's internal base-table id, carrying only what FileMaker cannot store. A layout catalog is specified there too, and is how an app gets its navigation menu, but no file has built one and its name is unruled. The registers are in `tables/` and the scripts in `scripts/`, mirrored the way an app package mirrors the *Manage* menu. The table was called `APP_TABLES` until D-049.
 
-`clipboard-snippets.md` is how a script written here gets into FileMaker without retyping: every `.fmscript` has an `.xml` twin, and `fmpaste` puts it on the clipboard in the format Script Workspace accepts. `fmcopy` brings steps back out.
+`clipboard-snippets.md` is how a script written here gets into FileMaker without retyping: the fmp-renderer reads the `.fmscript`, builds FileMaker's `fmxmlsnippet` XML in the browser, and hands over a one-line Terminal command that puts it on the clipboard under the private `XMSS` type, ready for ⌘V in an empty script. The XML is never committed, because a stored copy is a second version of the script. A step the renderer has not been taught pastes as a `TYPE BY HAND:` comment rather than vanishing.
 
 `custom-functions/` holds the shared function families. A family is a small set of functions that solve one job, defined once here and **installed** into each solution — never re-derived per file. Three families exist:
 
@@ -31,6 +31,8 @@ The test before you cut one: does this solve a recurring cross-app job, can no e
 ## Gaps
 
 Script steps paste; nothing else has been proven yet. Fields, tables, custom functions and layout objects each have their own clipboard type, and until one is pasted for real, installing those is still by hand.
+
+The catalog registers in `tables/` are still named and shaped for `APP_TABLES`, while URITP People carries its own `Target_Tables.tsv`. That is two registers for one table, which is the duplication this shelf exists to prevent. Unresolved as of D-049.
 
 No conformance runner is published here. Each solution writes its own and reports into whatever its utility-report surface is called. If a second app writes one, compare the two and describe the better one at the family level.
 

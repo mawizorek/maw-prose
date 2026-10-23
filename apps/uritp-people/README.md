@@ -20,13 +20,15 @@ This page describes the schema baseline Michael set on 2026-10-23. It is the gol
 
 FileMaker owns people and their contact details. ClickUp's PEOPLE list is a mirror and an intake: a person can be typed into ClickUp by name on a phone, and the next sync adopts them, creating the PEOPLE record, its contact card and the link to the task from whatever ClickUp holds.
 
-After adoption every mirrored field follows one rule, in both directions. An edit made only in FileMaker is pushed. An edit made only in ClickUp arrives as a [sync_RECONCILE](@uritp-people-table-sync-reconcile) row for a decision, never as an overwrite. An edit made on both sides is a conflict row. FileMaker's value stands until a row is decided. The mirrored fields are the names, pronouns and status, the first two email addresses and the primary phone number. The [sync plan](@uritp-people-sync-plan) has the mechanics.
+After adoption every mirrored field follows one rule, in both directions. An edit made only in FileMaker is pushed. An edit made only in ClickUp arrives as a [sync_RECONCILE](@uritp-people-table-sync-reconcile) row for a decision, never as an overwrite. An edit made on both sides is a conflict row. FileMaker's value stands until a row is decided. The mirrored fields are the names, pronouns and status, the playbill name, the first two email addresses and the primary phone number. The [sync plan](@uritp-people-sync-plan) has the mechanics.
 
 ## The sync layer is not ClickUp-shaped
 
 Everything about an outside system lives in tables prefixed `xt_`, and none of them is specific to ClickUp. [xt_SYSTEMS](@uritp-people-table-xt-systems) holds one row per system, ClickUp and GitHub; [xt_CONTAINERS](@uritp-people-table-xt-containers) is a list or a repo; [xt_RECORDS](@uritp-people-table-xt-records) is a cache of what the system holds; [xt_FIELDS](@uritp-people-table-xt-fields) maps the system's field ids to stable names. [XTERNAL_JOINS](@uritp-people-table-xternal-joins) is the only place a FileMaker record meets an external one. What differs between systems is confined to its `ADAPTER_<System>_` scripts.
 
 Every run is a [sync_SESSIONS](@uritp-people-table-sync-sessions) row, every API action a [sync_EVENTS](@uritp-people-table-sync-events) row carrying exactly what was sent and what came back, and every disagreement a [sync_RECONCILE](@uritp-people-table-sync-reconcile) row. No payload, hash, count or last-pushed time is stored anywhere else.
+
+`SYNC_Run` reads its source, container and system in one `ExecuteSQL` join, with field names built from `GetFieldName` (D-048).
 
 ## Contacts
 
@@ -49,14 +51,14 @@ PRODUCTIONS is in Production MAWnster. A production's card is a CONTACTS row in 
 
 ## Not written yet
 
-- Scripts for the baseline: the table refresh, the field refresh, `ADAPTER_ClickUp_Pull` and `_Push`, the dispatcher and the person handler. The pages in `scripts/` today are D-042's import scripts.
-- Layouts for the baseline.
+- Scripts for the baseline: `APP_CatalogRefresh` installed and retargeted to `Target_Tables`, the field refresh, `ADAPTER_ClickUp_Pull` and `_Push`, the dispatcher and the person handler. The pages in `scripts/` today are D-042's import scripts.
+- Layouts for the baseline, including a `Target_Tables` form, without which the refresh cannot navigate.
 - Value lists Action and Decision.
 
 ## Not decided yet
 
-- How the adapters read their source, container and system: one ExecuteSQL join into variables, with the graph kept for layouts, or relationships from a layout on `sync_SOURCES_fxtContainers`. D-043 already builds SQL text from `GetFieldName`, which removes the rename risk of the first.
-- [Target_Tables](@uritp-people-table-target-tables) against the D-043 app catalog, APP_TABLES and APP_LAYOUTS.
+- Whether `Target_Tables` gains an `AuditGap` field. Without one, D-043's conformance check is computed by the refresh and discarded.
+- Whether this file gets a layout catalog at all, and under which name. `APP_LAYOUTS` is D-043's; `Target_Layouts` would match the table. No live counterpart to follow (D-049).
 - Whether `stored_NameDisplayInPlaybills` drops its `stored_` prefix.
 
 ## Superseded
@@ -64,5 +66,7 @@ PRODUCTIONS is in Production MAWnster. A production's card is a CONTACTS row in 
 The D-042 design of 2026-10-05, ClickUp as the source of truth with a one-way import through import_PEOPLE and RECONCILE, is superseded by this baseline. Its table notes, the old PEOPLE register and the old relationships page are in `meta/` marked superseded. The `10_IMPORT` script pages and the Reconcile People window page are D-042's and are not built against.
 
 The baseline's first wording, that emails and phones were pushed and never pulled back, was replaced the same day by the two-way rule above.
+
+`tables/APP_TABLES.md` and `tables/APP_LAYOUTS.md` are superseded by D-049: the table half is `Target_Tables` and the layout half was never built.
 
 Everything in this folder without a page header is the July 2026 as-built pass: `INDEX.md`, `schema/`, `meta/design-decisions.md`, `layouts/README.md`, `tables/README.md` and `tables/_index.json`. Kept for its reasoning; do not build against it.
