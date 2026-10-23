@@ -65,7 +65,7 @@ Page the view from page 0, 30 tasks a page, until `last_page` is true. For each 
 2. Compare the task's `date_updated` with `xt_Version`. Equal: the task has not changed, move on.
 3. Changed or new: write one sync_EVENTS row (Action pull, the request URL, HttpStatus, the task's JSON as Response), set `xt_Label` to the task name and `xt_Version` to `date_updated`.
 
-The payload lives once, on that event. xt_RECORDS points at its latest event, so "what ClickUp last said about this person" is one hop.
+The payload lives once, on that event. What ClickUp last said about a person is the record's newest pull event, through the sync_EVENTS relationship sorted newest first. Nothing is copied onto xt_RECORDS.
 
 A development cap stops after page 0. That's the first test: 30 real people, no hand entry.
 
@@ -86,7 +86,7 @@ Ruling needed: whether adoption also copies Primary Email, Secondary Email and P
 
 ## Compare and reconcile
 
-A changed task that already has a join is compared on first, last, alt, pronouns and status with `Exact`, because FileMaker's `=` ignores case. Every difference writes a sync_RECONCILE row: the field, FM_Value, xt_Value, Decision pending. FileMaker is not touched.
+A changed task that already has a join is compared on first, last, alt, pronouns and status with `Exact`, because FileMaker's `=` ignores case. Every difference writes a sync_RECONCILE row: the field, FM_Value, xt_Value, Decision pending. FileMaker is not touched. The task name is not compared; FileMaker builds it.
 
 In the review window each row is set to fm (FileMaker is right, push it), xt (ClickUp is right, write it into FileMaker) or left pending. `RECONCILE_Apply` writes the xt rows into PEOPLE, queues the fm rows for the push, and marks both applied.
 
@@ -94,24 +94,24 @@ A task that was in the container's cache and didn't come back on a full pull is 
 
 ## The push
 
-The push needs no stored last-pushed value. It compares FileMaker's values with the cached task (the latest event's JSON) and sends only what differs.
+The push needs no stored last-pushed value. It compares FileMaker's values with the record's newest pull event and sends only what differs.
 
 - Name and status go in one Update Task call.
 - Email and phone go through Set Custom Field Value, one call per field.
 - A person with no join gets a Create Task call in the list, then a join and an xt_RECORDS row.
 
-Each call writes a push event. The response's `date_updated` becomes `xt_Version`, so the next pull doesn't see our own write as a change.
+Each call writes a push event. The Update Task response's `date_updated` becomes `xt_Version`, so the next pull doesn't see our own write as a change. A custom-field call returns no task, so after field calls the push re-reads the task once and stores that as a pull event.
 
 The phone field rejects anything without a country code. ClickUp's own example is `+1 123 456 7890`. The push formats a ten-digit US number as +1, skips anything it can't format, and logs the skip as an error event. It doesn't guess.
 
-Pushing every phone and email for the initial load is roughly two calls per person. At 100 requests a minute per token, that's about ten minutes for the whole list. The push paces itself at about one call every 0.7 seconds.
+Pushing every phone and email for the initial load is roughly three calls per person. At 100 requests a minute per token, that's about fifteen minutes for the whole list. The push paces itself at about one call every 0.7 seconds.
 
 ## Checkpoints
 
 1. Setup rows in, field refresh fills xt_FIELDS with the right names and types.
 2. Pull with the cap: 30 xt_RECORDS, 30 pull events, 30 adopted PEOPLE, 30 joins.
 3. The same pull again: 0 events, 0 adoptions, 0 reconcile rows.
-4. Change one name in ClickUp, pull: exactly 1 event and 1 reconcile row.
+4. Change one Last Name in ClickUp, pull: exactly 1 event and 1 reconcile row.
 5. Cap off, full pull: PEOPLE, joins and xt_RECORDS all equal the list's task count, closed tasks included.
 6. Push one person, check the task, pull: 0 reconcile rows.
 7. Full push, then pull: 0 reconcile rows.
@@ -125,7 +125,7 @@ sync_EVENTS holds student names and contact details. It lives in FileMaker only.
 1. **Seed contacts on adoption.** The baseline says emails and phones are never pulled. But FileMaker has none and ClickUp has hundreds, so a literal reading throws them away on the initial load. Recommendation: on adoption only, copy Primary Email and Phone Number as the first rows on the card and Secondary Email as the second. After that, push only. This narrows the baseline sentence to "never pulled after adoption".
 2. **Event granularity.** Recommendation: an event only for a new or changed task. Logging every unchanged task writes hundreds of identical payloads per pull.
 3. **Status map.** The list's open statuses today are new, active, circle back and connect with, plus its closed ones. Recommendation: status_Person's VALUES mirror them one to one, so status needs no translation table.
-4. **Task name.** Recommendation: the task name is FileMaker's `auto_Name_FirstLast`, which already prefers the preferred name.
+4. **Task name.** Recommendation: the task name is FileMaker's `auto_Name_FirstLast`, which already prefers the preferred name. The first full push renames every task whose name differs, so check a sample before running it.
 5. **Name as in Playbill.** ClickUp has the field; `stored_NameDisplayInPlaybills` is a manual fact in FileMaker. Recommendation: add it to the push as `playbill`, push only.
 6. **The one PEOPLE record.** Recommendation: delete it before the first pull, so the initial load starts from zero.
 7. **Context read** (already open). Plan works either way; one script changes.
