@@ -1,4 +1,4 @@
-ables
+Tables
 
 Table Name	
 Statistics
@@ -8,7 +8,7 @@ GLOBAL_USE
 GLOBAL_USE
 Target_Tables	
 9 fields defined, 0 record
-view_Target_Tables, Target_Tables_fxtContainers
+Target_Tables, view_Target_Tables
 PEOPLE	
 17 fields defined, 1 record
 PEOPLE
@@ -53,10 +53,10 @@ value_LISTS
 value_LISTS
 VALUES	
 9 fields defined, 0 record
-value_ClassStanding, value_ContactLabel, value_GraduationYearLabel, value_AcademicLevel, status_Person, VALUES
+VALUES, value_ContactLabel, value_GraduationYearLabel, value_ClassStanding, value_AcademicLevel, status_Person
 XTERNAL_JOINS	
 7 fields defined, 0 record
-view_XTERNAL_JOINS, XTERNAL_JOINS_People_x_Tasks
+XTERNAL_JOINS_People, view_XTERNAL_JOINS
 xt_SYSTEMS	
 8 fields defined, 2 records
 xt_SYSTEMS
@@ -68,7 +68,7 @@ xt_CONTAINERS
 xt_CONTAINERS
 xt_FIELDS	
 10 fields defined, 0 record
-xt_FIELDS_fRECONCILE, xt_FIELDS
+xt_FIELDS, xt_FIELDS_fRECONCILE
 Fields
 
 Table Name: GLOBAL_USE - 2 Fields
@@ -113,7 +113,7 @@ Indexing: Minimal
 Automatically create indexes as needed
 Index Language: Unicode Raw
 Unique identifier of each record in this table	
-Target_Tables_fxtContainers=xt_CONTAINERS
+Target_Tables=xt_CONTAINERS
 CreationTimestamp	Normal, Timestamp	Auto-Enter:
 Creation timestamp
 Validation:
@@ -224,7 +224,7 @@ CONTACTS=PEOPLE
 people_ADULTS=PEOPLE
 people_STUDENTS=PEOPLE
 GLOBAL_USE=PEOPLE
-XTERNAL_JOINS_People_x_Tasks=PEOPLE
+XTERNAL_JOINS_People=PEOPLE
 CreationTimestamp	Normal, Timestamp	Auto-Enter:
 Creation timestamp
 Validation:
@@ -898,7 +898,7 @@ Indexing: None
 Automatically create indexes as needed
 Index Language: English
 Account name of the user who last modified each record	
-fkContact	Normal, Text	Auto-Enter:
+fk_Contact	Normal, Text	Auto-Enter:
 Allow editing
 Validation:
 Only during data entry
@@ -1002,7 +1002,7 @@ Indexing: None
 Automatically create indexes as needed
 Index Language: English
 Account name of the user who last modified each record	
-fkContact	Normal, Text	Auto-Enter:
+fk_Contact	Normal, Text	Auto-Enter:
 Allow editing
 Validation:
 Only during data entry
@@ -1106,7 +1106,7 @@ Indexing: None
 Automatically create indexes as needed
 Index Language: English
 Account name of the user who last modified each record	
-fkContact	Normal, Text	Auto-Enter:
+fk_Contact	Normal, Text	Auto-Enter:
 Allow editing
 Validation:
 Only during data entry
@@ -1773,7 +1773,7 @@ Indexing: None
 Automatically create indexes as needed
 Index Language: English
 Account name of the user who last modified each record	
-fkList	Normal, Text	Auto-Enter:
+fk_List	Normal, Text	Auto-Enter:
 Allow editing
 Validation:
 Only during data entry
@@ -1891,7 +1891,7 @@ Repetitions: 1
 Indexing: None
 Automatically create indexes as needed
 Index Language: English
-XTERNAL_JOINS_People_x_Tasks=PEOPLE
+XTERNAL_JOINS_People=PEOPLE
 fk_xtRecord	Normal, Text	Auto-Enter:
 Allow editing
 Validation:
@@ -1903,7 +1903,7 @@ Repetitions: 1
 Indexing: Minimal
 Automatically create indexes as needed
 Index Language: English
-XTERNAL_JOINS_People_x_Tasks=xt_RECORDS
+XTERNAL_JOINS_People=xt_RECORDS
 
 Table Name: xt_SYSTEMS - 8 Fields
 Field Name	Type	Options	Comments	On Layouts	In Relationships	In Scripts	In Value Lists
@@ -2022,7 +2022,7 @@ Indexing: Minimal
 Automatically create indexes as needed
 Index Language: Unicode Raw
 Unique identifier of each record in this table	
-XTERNAL_JOINS_People_x_Tasks=xt_RECORDS
+XTERNAL_JOINS_People=xt_RECORDS
 sync_EVENTS=xt_RECORDS
 sync_RECONCILE=xt_RECORDS
 CreationTimestamp	Normal, Timestamp	Auto-Enter:
@@ -2233,7 +2233,7 @@ Repetitions: 1
 Indexing: None
 Automatically create indexes as needed
 Index Language: English
-Target_Tables_fxtContainers=xt_CONTAINERS
+Target_Tables=xt_CONTAINERS
 isActive	Normal, Number	Auto-Enter:
 Constant data: 1
 Allow editing
@@ -2368,61 +2368,80 @@ ID	Path
 Relationships: Table Occurrences
 
 Table Occurrence	Source Table	Source File	In Relationships	In Scripts	In Field Definitions	In Value Lists	Associated with layouts
-view_XTERNAL_JOINS	XTERNAL_JOINS	URITP People.fmp12	
-XTERNAL_JOINS_People_x_Tasks	XTERNAL_JOINS	URITP People.fmp12	
-XTERNAL_JOINS_People_x_Tasks=xt_RECORDS
-XTERNAL_JOINS_People_x_Tasks=PEOPLE
-view_Target_Tables	Target_Tables	URITP People.fmp12	
-Target_Tables_fxtContainers	Target_Tables	URITP People.fmp12	
-Target_Tables_fxtContainers=xt_CONTAINERS
+contact_EMAILS	contact_EMAILS	URITP People.fmp12	
+contact_EMAILS=CONTACTS
+contact_PHONE_NUMBERS	contact_PHONE_NUMBERS	URITP People.fmp12	
+contact_PHONE_NUMBERS=CONTACTS
+contact_ADDRESS	contact_ADDRESS	URITP People.fmp12	
+contact_ADDRESS=CONTACTS
 sync_SOURCES_fxtContainers	sync_SOURCES	URITP People.fmp12	
 sync_SOURCES_fxtContainers=xt_CONTAINERS
-sync_RECONCILE	sync_RECONCILE	URITP People.fmp12	
-sync_RECONCILE=xt_RECORDS
-sync_RECONCILE=sync_SESSIONS_fRECONCILE
-xt_FIELDS_fRECONCILE=sync_RECONCILE
-sync_SESSIONS_fRECONCILE	sync_SESSIONS	URITP People.fmp12	
-sync_RECONCILE=sync_SESSIONS_fRECONCILE
-xt_FIELDS_fRECONCILE	xt_FIELDS	URITP People.fmp12	
-xt_FIELDS_fRECONCILE=sync_RECONCILE
-sync_SOURCES	sync_SOURCES	URITP People.fmp12	
-sync_SESSIONS=sync_SOURCES
+Target_Tables	Target_Tables	URITP People.fmp12	
+Target_Tables=xt_CONTAINERS
+xt_SYSTEMS	xt_SYSTEMS	URITP People.fmp12	
+xt_SYSTEMS=xt_CONTAINERS
 xt_FIELDS	xt_FIELDS	URITP People.fmp12	
 xt_FIELDS=xt_CONTAINERS
-sync_SESSIONS	sync_SESSIONS	URITP People.fmp12	
-sync_EVENTS=sync_SESSIONS
-sync_SESSIONS=sync_SOURCES
-sync_SESSIONS::calc_ErrorCount
-xt_RECORDS	xt_RECORDS	URITP People.fmp12	
-XTERNAL_JOINS_People_x_Tasks=xt_RECORDS
-sync_EVENTS=xt_RECORDS
-xt_CONTAINERS=xt_RECORDS
-sync_RECONCILE=xt_RECORDS
 xt_CONTAINERS	xt_CONTAINERS	URITP People.fmp12	
 xt_FIELDS=xt_CONTAINERS
 xt_CONTAINERS=xt_RECORDS
-Target_Tables_fxtContainers=xt_CONTAINERS
+Target_Tables=xt_CONTAINERS
 xt_SYSTEMS=xt_CONTAINERS
 sync_SOURCES_fxtContainers=xt_CONTAINERS
-xt_SYSTEMS	xt_SYSTEMS	URITP People.fmp12	
-xt_SYSTEMS=xt_CONTAINERS
+xt_RECORDS	xt_RECORDS	URITP People.fmp12	
+XTERNAL_JOINS_People=xt_RECORDS
+sync_EVENTS=xt_RECORDS
+xt_CONTAINERS=xt_RECORDS
+sync_RECONCILE=xt_RECORDS
+XTERNAL_JOINS_People	XTERNAL_JOINS	URITP People.fmp12	
+XTERNAL_JOINS_People=xt_RECORDS
+XTERNAL_JOINS_People=PEOPLE
+sync_SESSIONS_fRECONCILE	sync_SESSIONS	URITP People.fmp12	
+sync_RECONCILE=sync_SESSIONS_fRECONCILE
 sync_EVENTS	sync_EVENTS	URITP People.fmp12	
 sync_EVENTS=sync_SESSIONS
 sync_EVENTS=xt_RECORDS
 sync_SESSIONS::calc_EventCount
 sync_SESSIONS::calc_EndedAt
+sync_RECONCILE	sync_RECONCILE	URITP People.fmp12	
+sync_RECONCILE=xt_RECORDS
+sync_RECONCILE=sync_SESSIONS_fRECONCILE
+xt_FIELDS_fRECONCILE=sync_RECONCILE
+xt_FIELDS_fRECONCILE	xt_FIELDS	URITP People.fmp12	
+xt_FIELDS_fRECONCILE=sync_RECONCILE
+sync_SOURCES	sync_SOURCES	URITP People.fmp12	
+sync_SESSIONS=sync_SOURCES
+sync_SESSIONS	sync_SESSIONS	URITP People.fmp12	
+sync_EVENTS=sync_SESSIONS
+sync_SESSIONS=sync_SOURCES
+sync_SESSIONS::calc_ErrorCount
+VALUES	VALUES	URITP People.fmp12	
+VALUES=value_LISTS
+value_LISTS	value_LISTS	URITP People.fmp12	
+status_Person=value_LISTS
+value_AcademicLevel=value_LISTS
+VALUES=value_LISTS
+value_ClassStanding=value_LISTS
+value_ContactLabel=value_LISTS
+value_GraduationYearLabel=value_LISTS
+value_ContactLabel	VALUES	URITP People.fmp12	
+value_ContactLabel=value_LISTS
+value_GraduationYearLabel	VALUES	URITP People.fmp12	
+value_GraduationYearLabel=value_LISTS
+value_ClassStanding	VALUES	URITP People.fmp12	
+value_ClassStanding=value_LISTS
+value_AcademicLevel	VALUES	URITP People.fmp12	
+value_AcademicLevel=value_LISTS
+status_Person	VALUES	URITP People.fmp12	
+status_Person=value_LISTS
+view_XTERNAL_JOINS	XTERNAL_JOINS	URITP People.fmp12	
+view_Target_Tables	Target_Tables	URITP People.fmp12	
 people_ADULTS	people_ADULTS	URITP People.fmp12	
 people_ADULTS=PEOPLE
 VENUES	VENUES	URITP People.fmp12	
 CONTACTS=VENUES
 ORGANIZATIONS	ORGANIZATIONS	URITP People.fmp12	
 ORGANIZATIONS=CONTACTS
-contact_PHONE_NUMBERS	contact_PHONE_NUMBERS	URITP People.fmp12	
-contact_PHONE_NUMBERS=CONTACTS
-contact_EMAILS	contact_EMAILS	URITP People.fmp12	
-contact_EMAILS=CONTACTS
-contact_ADDRESS	contact_ADDRESS	URITP People.fmp12	
-contact_ADDRESS=CONTACTS
 CONTACTS	CONTACTS	URITP People.fmp12	
 contact_PHONE_NUMBERS=CONTACTS
 contact_EMAILS=CONTACTS
@@ -2432,13 +2451,12 @@ CONTACTS=VENUES
 ORGANIZATIONS=CONTACTS
 people_STUDENTS	people_STUDENTS	URITP People.fmp12	
 people_STUDENTS=PEOPLE
-sync_CRM	<Missing Base Table>	URITP People.fmp12	
 PEOPLE	PEOPLE	URITP People.fmp12	
 CONTACTS=PEOPLE
 people_ADULTS=PEOPLE
 people_STUDENTS=PEOPLE
 GLOBAL_USE=PEOPLE
-XTERNAL_JOINS_People_x_Tasks=PEOPLE
+XTERNAL_JOINS_People=PEOPLE
 PEOPLE::auto_Name_LastFirst
 PEOPLE::stored_NameDisplayInPlaybills
 PEOPLE::auto_Name_FirstDisplay
@@ -2446,50 +2464,41 @@ PEOPLE::sort_Name
 PEOPLE::auto_Name_FirstLast
 GLOBAL_USE	GLOBAL_USE	URITP People.fmp12	
 GLOBAL_USE=PEOPLE
-value_ClassStanding	VALUES	URITP People.fmp12	
-value_ClassStanding=value_LISTS
-value_ContactLabel	VALUES	URITP People.fmp12	
-value_ContactLabel=value_LISTS
-value_GraduationYearLabel	VALUES	URITP People.fmp12	
-value_GraduationYearLabel=value_LISTS
-value_LISTS	value_LISTS	URITP People.fmp12	
-status_Person=value_LISTS
-value_AcademicLevel=value_LISTS
-VALUES=value_LISTS
-value_ClassStanding=value_LISTS
-value_ContactLabel=value_LISTS
-value_GraduationYearLabel=value_LISTS
-value_AcademicLevel	VALUES	URITP People.fmp12	
-value_AcademicLevel=value_LISTS
-status_Person	VALUES	URITP People.fmp12	
-status_Person=value_LISTS
-VALUES	VALUES	URITP People.fmp12	
-VALUES=value_LISTS
 Relationships: Details
 
 Relationship: contact_PHONE_NUMBERS=CONTACTS
 
 Table Occurrence	contact_PHONE_NUMBERS		CONTACTS
-Field	fkContact	=	PrimaryKey
+Field	fk_Contact	=	PrimaryKey
 Source Table	contact_PHONE_NUMBERS		CONTACTS
 Source File	URITP People.fmp12		URITP People.fmp12
 Allow creation of records via this relationship	Off		Off
 Delete related records in this table when a record is deleted in the other table	Off		Off
 Sort records	
-Off
+On
 
+Field: sort_Index
+
+Ascending order
+Reorder based on summary field: Off
+Override field's language for sort: Off
 Off
 Relationship: contact_EMAILS=CONTACTS
 
 Table Occurrence	contact_EMAILS		CONTACTS
-Field	fkContact	=	PrimaryKey
+Field	fk_Contact	=	PrimaryKey
 Source Table	contact_EMAILS		CONTACTS
 Source File	URITP People.fmp12		URITP People.fmp12
 Allow creation of records via this relationship	Off		Off
 Delete related records in this table when a record is deleted in the other table	Off		Off
 Sort records	
-Off
+On
 
+Field: sort_Index
+
+Ascending order
+Reorder based on summary field: Off
+Override field's language for sort: Off
 Off
 Relationship: CONTACTS=PEOPLE
 
@@ -2542,7 +2551,7 @@ Off
 Relationship: status_Person=value_LISTS
 
 Table Occurrence	status_Person		value_LISTS
-Field	fkList	=	gS_Person
+Field	fk_List	=	gS_Person
 Source Table	VALUES		value_LISTS
 Source File	URITP People.fmp12		URITP People.fmp12
 Allow creation of records via this relationship	Off		Off
@@ -2554,7 +2563,7 @@ Off
 Relationship: value_AcademicLevel=value_LISTS
 
 Table Occurrence	value_AcademicLevel		value_LISTS
-Field	fkList	=	gV_AcademicLevel
+Field	fk_List	=	gV_AcademicLevel
 Source Table	VALUES		value_LISTS
 Source File	URITP People.fmp12		URITP People.fmp12
 Allow creation of records via this relationship	Off		Off
@@ -2566,7 +2575,7 @@ Off
 Relationship: VALUES=value_LISTS
 
 Table Occurrence	VALUES		value_LISTS
-Field	fkList	=	PrimaryKey
+Field	fk_List	=	PrimaryKey
 Source Table	VALUES		value_LISTS
 Source File	URITP People.fmp12		URITP People.fmp12
 Allow creation of records via this relationship	Off		Off
@@ -2578,7 +2587,7 @@ Off
 Relationship: value_ClassStanding=value_LISTS
 
 Table Occurrence	value_ClassStanding		value_LISTS
-Field	fkList	=	gV_ClassStanding
+Field	fk_List	=	gV_ClassStanding
 Source Table	VALUES		value_LISTS
 Source File	URITP People.fmp12		URITP People.fmp12
 Allow creation of records via this relationship	Off		Off
@@ -2590,7 +2599,7 @@ Off
 Relationship: value_ContactLabel=value_LISTS
 
 Table Occurrence	value_ContactLabel		value_LISTS
-Field	fkList	=	gV_ContactLabels
+Field	fk_List	=	gV_ContactLabels
 Source Table	VALUES		value_LISTS
 Source File	URITP People.fmp12		URITP People.fmp12
 Allow creation of records via this relationship	Off		Off
@@ -2602,7 +2611,7 @@ Off
 Relationship: value_GraduationYearLabel=value_LISTS
 
 Table Occurrence	value_GraduationYearLabel		value_LISTS
-Field	fkList	=	gV_GraduationYearLabels
+Field	fk_List	=	gV_GraduationYearLabels
 Source Table	VALUES		value_LISTS
 Source File	URITP People.fmp12		URITP People.fmp12
 Allow creation of records via this relationship	Off		Off
@@ -2611,9 +2620,9 @@ Sort records
 Off
 
 Off
-Relationship: XTERNAL_JOINS_People_x_Tasks=xt_RECORDS
+Relationship: XTERNAL_JOINS_People=xt_RECORDS
 
-Table Occurrence	XTERNAL_JOINS_People_x_Tasks		xt_RECORDS
+Table Occurrence	XTERNAL_JOINS_People		xt_RECORDS
 Field	fk_xtRecord	=	PrimaryKey
 Source Table	XTERNAL_JOINS		xt_RECORDS
 Source File	URITP People.fmp12		URITP People.fmp12
@@ -2623,9 +2632,9 @@ Sort records
 Off
 
 Off
-Relationship: XTERNAL_JOINS_People_x_Tasks=PEOPLE
+Relationship: XTERNAL_JOINS_People=PEOPLE
 
-Table Occurrence	XTERNAL_JOINS_People_x_Tasks		PEOPLE
+Table Occurrence	XTERNAL_JOINS_People		PEOPLE
 Field	fk_SourceRecord	=	PrimaryKey
 Source Table	XTERNAL_JOINS		PEOPLE
 Source File	URITP People.fmp12		URITP People.fmp12
@@ -2638,14 +2647,19 @@ Off
 Relationship: contact_ADDRESS=CONTACTS
 
 Table Occurrence	contact_ADDRESS		CONTACTS
-Field	fkContact	=	PrimaryKey
+Field	fk_Contact	=	PrimaryKey
 Source Table	contact_ADDRESS		CONTACTS
 Source File	URITP People.fmp12		URITP People.fmp12
 Allow creation of records via this relationship	Off		Off
 Delete related records in this table when a record is deleted in the other table	Off		Off
 Sort records	
-Off
+On
 
+Field: sort_Index
+
+Ascending order
+Reorder based on summary field: Off
+Override field's language for sort: Off
 Off
 Relationship: CONTACTS=VENUES
 
@@ -2731,9 +2745,9 @@ Sort records
 Off
 
 Off
-Relationship: Target_Tables_fxtContainers=xt_CONTAINERS
+Relationship: Target_Tables=xt_CONTAINERS
 
-Table Occurrence	Target_Tables_fxtContainers		xt_CONTAINERS
+Table Occurrence	Target_Tables		xt_CONTAINERS
 Field	PrimaryKey	=	fk_TargetTable
 Source Table	Target_Tables		xt_CONTAINERS
 Source File	URITP People.fmp12		URITP People.fmp12
