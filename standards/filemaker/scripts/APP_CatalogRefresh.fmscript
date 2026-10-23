@@ -1,53 +1,55 @@
 # APP_CatalogRefresh
-# Rebuilds Target_Tables, and APP_LAYOUTS in a file that has one, from the file's own schema. Typed fields are never touched.
-# OnFirstWindowOpen, and a developer button after schema work. Needs FileMaker 19.4 or later.
-# EDIT THE TWO LAYOUT NAMES BELOW AT INSTALL. Each app names its utility layouts its own way; what matters is the base table occurrence, not the name.
+# Rebuilds Target_Tables from the file's own schema. Matches on base-table NAME, because a base-table id cannot be read on FileMaker 19.
+# fm_BaseTableID is seeded by hand from the DDR. A row this script creates has an empty id, which IS the worklist: find isPresent = 1 and fm_BaseTableID empty.
+# OnFirstWindowOpen, and a developer button after schema work. Needs FileMaker 19.4.1 or later.
+# EDIT $layoutTables AT INSTALL. What matters is the base table occurrence, not the layout's name.
 Set Error Capture [ On ]
 Allow User Abort [ Off ]
 Freeze Window
 Set Variable [ $layoutTables ; Value: "view | Target_Tables" ]
-Set Variable [ $layoutLayouts ; Value: "" ]
 Set Variable [ $origLayout ; Value: Get ( LayoutName ) ]
 Set Variable [ $now ; Value: Get ( CurrentTimestamp ) ]
 Set Variable [ $required ; Value: List ( "PrimaryKey" ; "CreationTimestamp" ; "CreatedBy" ; "ModificationTimestamp" ; "ModifiedBy" ) ]
 #
-# 1. Tables
-Set Variable [ $rows ; Value: ExecuteSQL ( "SELECT BaseTableId, BaseTableName FROM FileMaker_BaseTables" ; "|" ; ¶ ) ]
-If [ IsEmpty ( $rows ) or Left ( $rows ; 1 ) = "?" ]
-	Show Custom Dialog [ "App catalog" ; "FileMaker did not return its table list. The catalog needs FileMaker 19.4 or later." ]
+# Every base table that has at least one field defined. A table with no fields is invisible here; that is a FileMaker 19 limit, not a bug.
+Set Variable [ $live ; Value: ExecuteSQL ( "SELECT DISTINCT BaseTableName FROM FileMaker_BaseTableFields" ; "" ; ¶ ) ]
+If [ IsEmpty ( $live ) or Left ( $live ; 1 ) = "?" ]
+	Show Custom Dialog [ "App catalog" ; "FileMaker did not return its base tables. The catalog needs FileMaker 19.4.1 or later." ]
 	Exit Script [ Text Result: 0 ]
 End If
+Set Variable [ $countLive ; Value: ValueCount ( $live ) ]
 Go to Layout [ Layout Name by calculation: $layoutTables ; Animation: None ]
 If [ Get ( LastError ) ≠ 0 or Get ( LayoutName ) ≠ $layoutTables ]
 	Show Custom Dialog [ "App catalog" ; "The table catalog layout was not found. Set $layoutTables to a layout whose base table occurrence is Target_Tables." ]
 	Exit Script [ Text Result: 0 ]
 End If
+Set Variable [ $new ; Value: "" ]
 Set Variable [ $i ; Value: 0 ]
 Loop [ Flush: Always ]
 	Set Variable [ $i ; Value: $i + 1 ]
-	Exit Loop If [ $i > ValueCount ( $rows ) ]
-	Set Variable [ $row ; Value: Substitute ( GetValue ( $rows ; $i ) ; "|" ; ¶ ) ]
-	Set Variable [ $id ; Value: GetValue ( $row ; 1 ) ]
-	Set Variable [ $name ; Value: GetValue ( $row ; 2 ) ]
+	Exit Loop If [ $i > $countLive ]
+	Set Variable [ $name ; Value: GetValue ( $live ; $i ) ]
 	Set Variable [ $have ; Value: ExecuteSQL ( "SELECT FieldName FROM FileMaker_BaseTableFields WHERE BaseTableName = ?" ; "" ; ¶ ; $name ) ]
 	Set Variable [ $gap ; Value: While ( [ ~j = 0 ; ~out = "" ] ; ~j < ValueCount ( $required ) ; [ ~j = ~j + 1 ; ~f = GetValue ( $required ; ~j ) ; ~out = If ( IsEmpty ( FilterValues ( $have ; ~f ) ) ; List ( ~out ; ~f ) ; ~out ) ] ; ~out ) ]
 	Enter Find Mode [ Pause: Off ]
-	Set Field [ Target_Tables::fm_BaseTableID ; "==" & $id ]
+	Set Field [ Target_Tables::fm_BaseTableName ; "==" & $name ]
 	Perform Find [ ]
 	If [ Get ( FoundCount ) = 0 ]
 		New Record/Request
-		Set Field [ Target_Tables::fm_BaseTableID ; $id ]
+		Set Field [ Target_Tables::fm_BaseTableName ; $name ]
+		# fm_BaseTableID is left empty on purpose. It is typed from the DDR, and empty is how this row asks for it.
+		Set Variable [ $new ; Value: List ( $new ; $name ) ]
 	End If
-	Set Field [ Target_Tables::fm_BaseTableName ; $name ]
 	Set Field [ Target_Tables::isPresent ; 1 ]
 	Set Field [ Target_Tables::LastSeenAt ; $now ]
-	# $gap holds the standard fields this table is missing. Target_Tables has no AuditGap field, so the conformance check has nowhere to land and is not written. Add AuditGap (Text) and one Set Field here restores it.
+	# $gap holds the standard fields this table is missing. Target_Tables has no AuditGap field, so the conformance check is computed and discarded. Add AuditGap (Text) and one Set Field here restores it.
 	Commit Records/Requests [ With dialog: Off ]
 End Loop
-# Tables this refresh did not see
+# Tables this refresh did not see. A renamed table looks like one gone and one new, because 19 cannot match on an id.
 Enter Find Mode [ Pause: Off ]
 Set Field [ Target_Tables::LastSeenAt ; "<" & $now ]
 Perform Find [ ]
+Set Variable [ $gone ; Value: "" ]
 If [ Get ( FoundCount ) > 0 ]
 	Go to Record/Request/Page [ First ]
 	Loop [ Flush: Always ]
@@ -55,51 +57,17 @@ If [ Get ( FoundCount ) > 0 ]
 			Set Field [ Target_Tables::isPresent ; 0 ]
 			Commit Records/Requests [ With dialog: Off ]
 		End If
+		Set Variable [ $gone ; Value: List ( $gone ; Target_Tables::fm_BaseTableName ) ]
 		Go to Record/Request/Page [ Next ; Exit after last: On ]
 	End Loop
 End If
-#
-# 2. Layouts. Skipped unless $layoutLayouts names a layout catalog. URITP People has none, and the table's name is unruled.
-# LayoutIDs and LayoutNames list the same layouts in the same order.
-If [ not IsEmpty ( $layoutLayouts ) ]
-	Set Variable [ $ids ; Value: LayoutIDs ( Get ( FileName ) ) ]
-	Set Variable [ $names ; Value: LayoutNames ( Get ( FileName ) ) ]
-	Go to Layout [ Layout Name by calculation: $layoutLayouts ; Animation: None ]
-	Set Variable [ $i ; Value: 0 ]
-	Loop [ Flush: Always ]
-		Set Variable [ $i ; Value: $i + 1 ]
-		Exit Loop If [ $i > ValueCount ( $ids ) ]
-		Set Variable [ $id ; Value: GetValue ( $ids ; $i ) ]
-		Set Variable [ $name ; Value: GetValue ( $names ; $i ) ]
-		If [ not IsEmpty ( $id ) and not IsEmpty ( $name ) and $name ≠ "-" ]
-			Enter Find Mode [ Pause: Off ]
-			Set Field [ APP_LAYOUTS::fm_LayoutID ; "==" & $id ]
-			Perform Find [ ]
-			If [ Get ( FoundCount ) = 0 ]
-				New Record/Request
-				Set Field [ APP_LAYOUTS::fm_LayoutID ; $id ]
-			End If
-			Set Field [ APP_LAYOUTS::fm_LayoutName ; $name ]
-			Set Field [ APP_LAYOUTS::LastSeenTimestamp ; $now ]
-			Set Field [ APP_LAYOUTS::RemovedTimestamp ; "" ]
-			Commit Records/Requests [ With dialog: Off ]
-		End If
-	End Loop
-	# Layouts this refresh did not see
-	Enter Find Mode [ Pause: Off ]
-	Set Field [ APP_LAYOUTS::LastSeenTimestamp ; "<" & $now ]
-	Perform Find [ ]
-	If [ Get ( FoundCount ) > 0 ]
-		Go to Record/Request/Page [ First ]
-		Loop [ Flush: Always ]
-			If [ IsEmpty ( APP_LAYOUTS::RemovedTimestamp ) ]
-				Set Field [ APP_LAYOUTS::RemovedTimestamp ; $now ]
-				Commit Records/Requests [ With dialog: Off ]
-			End If
-			Go to Record/Request/Page [ Next ; Exit after last: On ]
-		End Loop
-	End If
-End If
+# Rows still waiting on an id from the DDR, however they got here
+Enter Find Mode [ Pause: Off ]
+Set Field [ Target_Tables::isPresent ; "1" ]
+Set Field [ Target_Tables::fm_BaseTableID ; "=" ]
+Perform Find [ ]
+Set Variable [ $needID ; Value: Get ( FoundCount ) ]
 #
 Go to Layout [ Layout Name by calculation: $origLayout ; Animation: None ]
+Show Custom Dialog [ "App catalog" ; $countLive & " base tables in the file.¶New rows: " & If ( IsEmpty ( $new ) ; 0 ; ValueCount ( $new ) ) & If ( IsEmpty ( $new ) ; "" ; "¶" & $new ) & "¶Gone: " & If ( IsEmpty ( $gone ) ; 0 ; ValueCount ( $gone ) ) & If ( IsEmpty ( $gone ) ; "" ; "¶" & $gone ) & "¶Waiting on a DDR id: " & $needID ]
 Exit Script [ Text Result: 1 ]
