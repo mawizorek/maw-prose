@@ -1,0 +1,79 @@
+# =============================================================================
+# FMP STATE · this repo's only workflow, moved from uritp-docs 2026-10-23
+# =============================================================================
+#
+# Michael ruled on 2026-10-23 that FileMaker documentation lives in maw-prose
+# (D-041), so the deconstructor uritp-docs had run since 2026-10-10 runs here.
+# CONVENTIONS keeps this repo content-only; this job is the one exception,
+# because a GitHub Action has to live in the repo it commits to. Not a
+# precedent for a second workflow.
+#
+# WHAT IT DOES
+#   Drop a FileMaker DDR-XML export into apps/zFMP-drops/ on github.com
+#   (Add file > Upload files, commit to main). This job runs
+#   .github/fmp-state/fmxml.py, writes compact state files to
+#   apps/fmp-state/<app>/, deletes the raw XML from HEAD, and commits.
+#
+# BRAKES ON A LOOP
+#   1. Path filter is apps/zFMP-drops/** only; outputs land outside it.
+#   2. Commits made with GITHUB_TOKEN do not trigger workflows. Never switch
+#      this to a PAT: that removes the brake.
+#
+# ACCEPTED COST
+#   The raw XML stays in git history, and this repo is PUBLIC. A DDR carries
+#   schema and script text, never records, but anything typed into a script
+#   step is in it. Save-as-XML carries account + file-access authentication
+#   data, so the parser REJECTS it, deletes it from HEAD and fails this run
+#   loudly; the commit that added it must then be purged from history.
+
+name: FMP state
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "apps/zFMP-drops/**"
+  workflow_dispatch:
+
+concurrency:
+  group: fmp-state
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  deconstruct:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deconstruct drops
+        id: run
+        env:
+          DROP_SHA: ${{ github.sha }}
+        run: |
+          set +e
+          python3 .github/fmp-state/fmxml.py apps/zFMP-drops apps/fmp-state
+          echo "rc=$?" >> "$GITHUB_OUTPUT"
+
+      - name: Commit state files
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A apps/fmp-state apps/zFMP-drops
+          if git diff --cached --quiet; then
+            echo "Nothing to commit." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git commit -m "fmp-state: deconstruct drop ${GITHUB_SHA::7}"
+          git pull --rebase
+          git push
+          echo "Updated apps/fmp-state/ from drop ${GITHUB_SHA::7}." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Fail loud on a rejected drop
+        if: steps.run.outputs.rc != '0'
+        run: |
+          echo "::error::A drop was rejected or failed to parse. See 'Deconstruct drops'. If it was Save-as-XML it carried credential data: purge commit ${GITHUB_SHA::7} from history."
+          exit 1
