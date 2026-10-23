@@ -1,8 +1,9 @@
 sort	Field_Name	Type	Options	Notes	group
-{.conf}	fm_BaseTableID	Text		FileMaker's internal table id. The match key	Catalog
-{.conf}	fm_BaseTableName	Text		Written by the refresh	Catalog
+{.conf}	fm_BaseTableID	Text		FileMaker's internal table id. Typed once from the DDR on FM19; empty means this row is waiting for one	Catalog
+{.conf}	fm_BaseTableName	Text		Written by the refresh. The match key on FM19	Catalog
 {.conf}	isPresent	Number		0 when the table is gone; row kept	Catalog
 {.conf}	LastSeenAt	Timestamp		Stamped by every refresh	Catalog
+{.conf}	AuditGap	Text	Indexed	Standard fields this table lacks, one per line. Empty means it conforms. Rewritten by every refresh, never typed	Catalog
 {.conf}	PrimaryKey	Text	UUID · auto-enter · unique · can't modify	Machine-only	Audit
 {.conf}	CreationTimestamp	Timestamp	Auto-enter		Audit
 {.conf}	CreatedBy	Text	Auto-enter		Audit
