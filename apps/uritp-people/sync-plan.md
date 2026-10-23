@@ -9,7 +9,7 @@ summary: How URITP People and ClickUp's PEOPLE list stay in step, both ways. Set
 
 # URITP People sync plan
 
-Written 2026-10-23 against the [schema baseline](@uritp-people). Rulings still owed are at the bottom with a recommendation each; nothing that depends on one gets built first.
+Written 2026-10-23 against the [schema baseline](@uritp-people). The six rulings this plan opened were settled the same day as D-048; they are at the bottom, each with the call that was made.
 
 Ruled 2026-10-23 by Michael: every mirrored field, contacts included, syncs both ways through [sync_RECONCILE](@uritp-people-table-sync-reconcile). There is no push-only field.
 
@@ -27,13 +27,14 @@ Each line is an xt_FIELDS row: mapKey, then the ClickUp field, then the FileMake
 - `last` · Last Name `4e8a61ba-3162-4e9a-89fd-9fe0e24fad8e` · `PEOPLE::Name_Last`.
 - `alt` · Alt. Name `d5cba607-c034-4eb3-a699-9f5a3f4a4144` · `PEOPLE::Name_Alternate`.
 - `pronouns` · Pronouns `da51a70d-2beb-46eb-ba14-2d46ac37004b` · `PEOPLE::Pronouns`.
+- `playbill` · Name as in Playbill `cc4886b9-ed39-4d69-bd97-69fccadcba9e` · `PEOPLE::stored_NameDisplayInPlaybills`. A manual fact on both sides, so it is compared like any other text field.
 - `email_primary` · Primary Email `9b413089-fd05-42b0-b463-f20a312752c4` · contact_EMAILS row 1 by `sort_Index`.
 - `email_secondary` · Secondary Email `4df4a28f-e31d-40e8-a420-7b6a15354528` · contact_EMAILS row 2.
 - `phone_primary` · Phone Number `8a00bd24-8ef0-4efa-a8b9-49fcf717d90f` · contact_PHONE_NUMBERS row 1. Compared digits only.
 
 The list has a second field also named Phone Number, a button (`e0beb790-03bb-4034-87d4-496627048992`). Map by id, never by name. That is what mapKey is for.
 
-Everything else on the list (availability, positions, relationships, birthday, lift training, Name as in Playbill) is not mirrored.
+Everything else on the list (availability, positions, relationships, birthday, lift training) is not mirrored.
 
 ## One-time setup rows
 
@@ -42,11 +43,13 @@ Typed once, before any script runs.
 - xt_SYSTEMS: the ClickUp row exists, with BaseURL and Token.
 - Target_Tables: one row for PEOPLE, filled by the table refresh.
 - xt_CONTAINERS: one row. `fk_System` ClickUp, `xt_ID` the list id `901305646880`, Name PEOPLE, `fk_TargetTable` the PEOPLE row, `isActive` 1. Today this table is empty.
-- xt_FIELDS: the nine rows above, under that container. The field refresh fills `xt_FieldName` and `xt_FieldType` from ClickUp; `mapKey` is typed.
+- xt_FIELDS: the ten rows above, under that container. The field refresh fills `xt_FieldName` and `xt_FieldType` from ClickUp; `mapKey` is typed.
 - sync_SOURCES: the existing PEOPLE row, `fk_Container` pointed at the new container row, `xt_ViewPath` the view `12cwjm-66873`.
 - Value lists Action (pull, push, adopt, export) and Decision (pending, fm, xt, applied).
 
 The view has to show closed tasks. If it doesn't, a person closed in ClickUp looks the same as a person deleted.
+
+The one PEOPLE record in the file today is a test record. It is deleted before the first pull, so the initial load starts from zero.
 
 ## Scripts
 
@@ -58,7 +61,7 @@ The view has to show closed tasks. If it doesn't, a person closed in ClickUp loo
 - `ADAPTER_ClickUp_Push` · one person, or every person FileMaker has moved.
 - `XT_Refresh_Fields` and `APP_Refresh_Tables` · housekeeping, run by hand.
 
-How `SYNC_Run` reads its context, one ExecuteSQL join or relationships through `sync_SOURCES_fxtContainers`, is still open. Every script below receives that context as variables either way, so the ruling changes one script.
+`SYNC_Run` reads its context in one `ExecuteSQL` join across sync_SOURCES, xt_CONTAINERS and xt_SYSTEMS, with every field name built from `GetFieldName` so a rename follows the field (D-043). One call, and no new table occurrences on a graph that was just rebuilt. The alternative, relationships through `sync_SOURCES_fxtContainers`, is not taken. Every script below receives the same context as variables either way, so the call changed this one script only.
 
 ## The pull
 
@@ -67,6 +70,8 @@ Page the view from page 0, 30 tasks a page, until `last_page` is true. For each 
 1. Find the xt_RECORDS row by `xt_ID` (the task id) in this container. None: create it.
 2. Compare the task's `date_updated` with `xt_Version`. Equal: ClickUp has not changed it, move on.
 3. Changed or new: hand it to the handler first, then write one sync_EVENTS row (Action pull, the request URL, HttpStatus, the task's JSON as Response), set `xt_Label` to the task name and `xt_Version` to `date_updated`.
+
+An event is written only for a new or changed task. An unchanged task is never logged; doing so would write hundreds of identical payloads a pull.
 
 The payload lives once, on that event. The handler runs before the new event is written, so the record's newest existing event is still the last value both sides agreed on.
 
@@ -78,7 +83,7 @@ The status code comes from `--dump-header` in the cURL options. A 429 pauses 60 
 
 A changed xt_RECORDS row with no XTERNAL_JOINS row is a person ClickUp has and FileMaker doesn't. The handler:
 
-1. Creates PEOPLE from first, last, alt, pronouns and status. If first and last are empty (a name typed on a phone), it splits the task name at the last space.
+1. Creates PEOPLE from first, last, alt, pronouns, playbill name and status. If first and last are empty (a name typed on a phone), it splits the task name at the last space.
 2. Creates the person's CONTACTS card, with Primary Email as email row 1, Secondary Email as row 2 and Phone Number as phone row 1, wherever ClickUp has them.
 3. Creates the join.
 4. Writes an adopt event.
@@ -105,14 +110,14 @@ A task that was in the container's cache and didn't come back on a full pull is 
 The push needs no stored last-pushed value. For each joined person it compares FileMaker with the base and sends what FileMaker moved, plus every row decided fm. It skips any field with a pending row, so a push never tramples a ClickUp edit waiting for a decision.
 
 - Name and status go in one Update Task call.
-- Emails and phone go through Set Custom Field Value, one call per field.
+- Emails, phone and the playbill name go through Set Custom Field Value, one call per field.
 - A person with no join gets a Create Task call in the list, then a join and an xt_RECORDS row.
 
 Each call writes a push event. Afterwards the push re-reads the task once and stores it as a pull event with its `date_updated` as `xt_Version`. That becomes the new base, and the next pull doesn't see our own write as a ClickUp edit.
 
 The phone field rejects anything without a country code. ClickUp's own example is `+1 123 456 7890`. The push sends a ten-digit US number as +1, skips anything it can't format, and logs the skip as an error event. It doesn't guess.
 
-After the initial load the first full push only sends what FileMaker computes differently from ClickUp, mostly task names. Each person costs up to four calls. At 100 requests a minute per token that's about twenty minutes in the worst case. The push paces itself at about one call every 0.7 seconds.
+After the initial load the first full push only sends what FileMaker computes differently from ClickUp, mostly task names. Because the task name is FileMaker's `auto_Name_FirstLast`, that first run renames every task whose name differs, so a sample is checked before it runs. Each person costs up to five calls. At 100 requests a minute per token that's about half an hour in the worst case. The push paces itself at about one call every 0.7 seconds.
 
 ## Checkpoints
 
@@ -129,11 +134,13 @@ After the initial load the first full push only sends what FileMaker computes di
 
 sync_EVENTS holds student names and contact details. It lives in FileMaker only. The DDR drops in this repo carry schema and record counts, never records. Any export of sync tables stays out of this public repo without UR's approval.
 
-## Rulings needed
+## Rulings, settled 2026-10-23
 
-1. **Event granularity.** Recommendation: an event only for a new or changed task. Logging every unchanged task writes hundreds of identical payloads per pull.
-2. **Status map.** The list's open statuses today are new, active, circle back and connect with, plus its closed ones. Recommendation: status_Person's VALUES mirror them one to one, so status needs no translation table.
-3. **Task name.** Recommendation: the task name is FileMaker's `auto_Name_FirstLast`, which already prefers the preferred name. The first full push renames every task whose name differs, so check a sample before running it.
-4. **Name as in Playbill.** ClickUp has the field; `stored_NameDisplayInPlaybills` is a manual fact in FileMaker. Recommendation: mirror it as `playbill` under the same rule as everything else.
-5. **The one PEOPLE record.** Recommendation: delete it before the first pull, so the initial load starts from zero.
-6. **Context read** (already open). Plan works either way; one script changes.
+All six were ruled as recommended. Recorded as D-048.
+
+1. **Event granularity.** An event only for a new or changed task.
+2. **Status map.** `status_Person`'s VALUES mirror the list's statuses (new, active, circle back, connect with, plus its closed ones) one to one, so status needs no translation table.
+3. **Task name.** The task name is FileMaker's `auto_Name_FirstLast`, which already prefers the preferred name. Check a sample before the first full push renames.
+4. **Name as in Playbill.** Mirrored as `playbill`, both ways, under the same rule as everything else.
+5. **The one PEOPLE record.** Deleted before the first pull.
+6. **Context read.** One `ExecuteSQL` join, with `GetFieldName` text.
