@@ -1,0 +1,3179 @@
+{
+"app": "Production_MAWnster.fmp12",
+"drop": "4ea509c304b3",
+"export": "10/13/2026 4:34:26 PM",
+"objects": {
+"cf:1": {
+"h": "fba847e78d",
+"n": "Param"
+},
+"cf:10": {
+"h": "898746e144",
+"n": "JSONPatch"
+},
+"cf:11": {
+"h": "eba64e359b",
+"n": "RGBToHex"
+},
+"cf:12": {
+"h": "c20e74d869",
+"n": "HexToRGB"
+},
+"cf:2": {
+"h": "7ca89d1dd6",
+"n": "PText"
+},
+"cf:3": {
+"h": "f6a4852eb9",
+"n": "PNum"
+},
+"cf:4": {
+"h": "8888b9867c",
+"n": "Pjson"
+},
+"cf:5": {
+"h": "4a76e41669",
+"n": "Pbool"
+},
+"cf:6": {
+"h": "498cbb4a4b",
+"n": "ParamHas"
+},
+"cf:7": {
+"h": "e5b1db8517",
+"n": "ParamGetText"
+},
+"cf:8": {
+"h": "f5a6b9b7f9",
+"n": "ParamGetNumber"
+},
+"cf:9": {
+"h": "c04b6b3d63",
+"n": "ParamGetBool"
+},
+"field:130:1": {
+"h": "431ab391a1",
+"n": "PRODUCTIONS::PrimaryKey"
+},
+"field:130:11": {
+"h": "90461881ba",
+"n": "PRODUCTIONS::date_Opening"
+},
+"field:130:12": {
+"h": "d3bcdceae5",
+"n": "PRODUCTIONS::TitleDisplay"
+},
+"field:130:13": {
+"h": "10ff540627",
+"n": "PRODUCTIONS::fkProducer"
+},
+"field:130:14": {
+"h": "6f7cb1c496",
+"n": "PRODUCTIONS::fkVenue"
+},
+"field:130:15": {
+"h": "abec9a325e",
+"n": "PRODUCTIONS::date_FirstRehearsal"
+},
+"field:130:16": {
+"h": "eacf804394",
+"n": "PRODUCTIONS::cuProductionToken"
+},
+"field:130:17": {
+"h": "fc607004f4",
+"n": "PRODUCTIONS::cuProductionID"
+},
+"field:130:18": {
+"h": "8fcef3bcf0",
+"n": "PRODUCTIONS::fkCourse"
+},
+"field:130:2": {
+"h": "4073d40dd0",
+"n": "PRODUCTIONS::CreationTimestamp"
+},
+"field:130:3": {
+"h": "15480a624d",
+"n": "PRODUCTIONS::CreatedBy"
+},
+"field:130:4": {
+"h": "79c21c9625",
+"n": "PRODUCTIONS::ModificationTimestamp"
+},
+"field:130:5": {
+"h": "60f5af45ad",
+"n": "PRODUCTIONS::ModifiedBy"
+},
+"field:130:6": {
+"h": "c94555599a",
+"n": "PRODUCTIONS::Title"
+},
+"field:130:7": {
+"h": "206331a01c",
+"n": "PRODUCTIONS::TitleShort"
+},
+"field:131:1": {
+"h": "8d92e0c542",
+"n": "ROLES::PrimaryKey"
+},
+"field:131:2": {
+"h": "4073d40dd0",
+"n": "ROLES::CreationTimestamp"
+},
+"field:131:3": {
+"h": "15480a624d",
+"n": "ROLES::CreatedBy"
+},
+"field:131:4": {
+"h": "79c21c9625",
+"n": "ROLES::ModificationTimestamp"
+},
+"field:131:5": {
+"h": "60f5af45ad",
+"n": "ROLES::ModifiedBy"
+},
+"field:131:6": {
+"h": "486ac13801",
+"n": "ROLES::Title"
+},
+"field:131:7": {
+"h": "b949a2d9e2",
+"n": "ROLES::TitleShort"
+},
+"field:132:1": {
+"h": "38d09e345e",
+"n": "GLOBAL_USE::PrimaryKey"
+},
+"field:132:10": {
+"h": "814f0f6b29",
+"n": "GLOBAL_USE::g_AppTitle"
+},
+"field:132:11": {
+"h": "0707a696d3",
+"n": "GLOBAL_USE::g_AppTitleShort"
+},
+"field:132:12": {
+"h": "4b3d8582c8",
+"n": "GLOBAL_USE::g_pkDefaultTheme"
+},
+"field:132:14": {
+"h": "d46d8e2638",
+"n": "GLOBAL_USE::g_pkCurrentOrg"
+},
+"field:132:15": {
+"h": "c1d55bf08c",
+"n": "GLOBAL_USE::g_pkCurrentDocument"
+},
+"field:132:2": {
+"h": "4073d40dd0",
+"n": "GLOBAL_USE::CreationTimestamp"
+},
+"field:132:22": {
+"h": "1181dbf752",
+"n": "GLOBAL_USE::g_pkCompare1"
+},
+"field:132:23": {
+"h": "2c45cd27c2",
+"n": "GLOBAL_USE::g_pkCompare2"
+},
+"field:132:24": {
+"h": "d33df68e9c",
+"n": "GLOBAL_USE::g_pkCompare3"
+},
+"field:132:25": {
+"h": "b8256b0baf",
+"n": "GLOBAL_USE::g_pkCompare4"
+},
+"field:132:26": {
+"h": "d726b3e25b",
+"n": "GLOBAL_USE::g_pkCompare5"
+},
+"field:132:27": {
+"h": "cb343d56fa",
+"n": "GLOBAL_USE::g_pkCompare6"
+},
+"field:132:3": {
+"h": "15480a624d",
+"n": "GLOBAL_USE::CreatedBy"
+},
+"field:132:4": {
+"h": "79c21c9625",
+"n": "GLOBAL_USE::ModificationTimestamp"
+},
+"field:132:5": {
+"h": "5fd9e8af30",
+"n": "GLOBAL_USE::ModifiedBy"
+},
+"field:132:6": {
+"h": "9caea21e49",
+"n": "GLOBAL_USE::g_pkCurrentTheme"
+},
+"field:132:7": {
+"h": "d4c347ab78",
+"n": "GLOBAL_USE::g_pkCurrentAppSession"
+},
+"field:132:8": {
+"h": "b1918d5101",
+"n": "GLOBAL_USE::g_pkCurrentProduction"
+},
+"field:132:9": {
+"h": "4d39a385c7",
+"n": "GLOBAL_USE::g_pkCurrentUtilitySession"
+},
+"field:133:1": {
+"h": "e56070d007",
+"n": "WEEKS::PrimaryKey"
+},
+"field:133:2": {
+"h": "4073d40dd0",
+"n": "WEEKS::CreationTimestamp"
+},
+"field:133:3": {
+"h": "15480a624d",
+"n": "WEEKS::CreatedBy"
+},
+"field:133:4": {
+"h": "79c21c9625",
+"n": "WEEKS::ModificationTimestamp"
+},
+"field:133:5": {
+"h": "60f5af45ad",
+"n": "WEEKS::ModifiedBy"
+},
+"field:133:6": {
+"h": "af75a2fe9b",
+"n": "WEEKS::Number"
+},
+"field:133:7": {
+"h": "6b173eaa2d",
+"n": "WEEKS::Weeks_Wednesday"
+},
+"field:134:1": {
+"h": "0261593661",
+"n": "EVENTS::PrimaryKey"
+},
+"field:134:10": {
+"h": "ca647b29d5",
+"n": "EVENTS::bool_AllDay"
+},
+"field:134:11": {
+"h": "5441648595",
+"n": "EVENTS::cuID"
+},
+"field:134:12": {
+"h": "06587c5754",
+"n": "EVENTS::hash_current"
+},
+"field:134:13": {
+"h": "677ad5a445",
+"n": "EVENTS::fkUtilityReport"
+},
+"field:134:14": {
+"h": "cc70e2876c",
+"n": "EVENTS::fkProduction"
+},
+"field:134:15": {
+"h": "1046f07127",
+"n": "EVENTS::fkCalendar"
+},
+"field:134:16": {
+"h": "f4e4cbacff",
+"n": "EVENTS::fkStandardEvent"
+},
+"field:134:17": {
+"h": "21774568ac",
+"n": "EVENTS::cu_StyleToken"
+},
+"field:134:18": {
+"h": "63b28b9d1f",
+"n": "EVENTS::json_Rollback"
+},
+"field:134:19": {
+"h": "beb544eb13",
+"n": "EVENTS::autoBool_unscheduled"
+},
+"field:134:2": {
+"h": "4073d40dd0",
+"n": "EVENTS::CreationTimestamp"
+},
+"field:134:20": {
+"h": "df70249458",
+"n": "EVENTS::autoKey_StyleLookup"
+},
+"field:134:3": {
+"h": "15480a624d",
+"n": "EVENTS::CreatedBy"
+},
+"field:134:4": {
+"h": "79c21c9625",
+"n": "EVENTS::ModificationTimestamp"
+},
+"field:134:5": {
+"h": "5fd9e8af30",
+"n": "EVENTS::ModifiedBy"
+},
+"field:134:6": {
+"h": "26629e418f",
+"n": "EVENTS::Name"
+},
+"field:134:8": {
+"h": "e44fe5a1c5",
+"n": "EVENTS::dateTime_Start"
+},
+"field:134:9": {
+"h": "f75a91cc60",
+"n": "EVENTS::dateTime_End"
+},
+"field:135:1": {
+"h": "a897d1a36f",
+"n": "CALENDARS::PrimaryKey"
+},
+"field:135:13": {
+"h": "1b98c393dc",
+"n": "CALENDARS::fkDefaultExportSet"
+},
+"field:135:14": {
+"h": "fea5ead556",
+"n": "CALENDARS::Title"
+},
+"field:135:2": {
+"h": "6c9dae9afc",
+"n": "CALENDARS::CreationTimestamp"
+},
+"field:135:3": {
+"h": "15480a624d",
+"n": "CALENDARS::CreatedBy"
+},
+"field:135:4": {
+"h": "79c21c9625",
+"n": "CALENDARS::ModificationTimestamp"
+},
+"field:135:5": {
+"h": "5fd9e8af30",
+"n": "CALENDARS::ModifiedBy"
+},
+"field:135:9": {
+"h": "c796479350",
+"n": "CALENDARS::fkProduction"
+},
+"field:136:1": {
+"h": "0b73b678d4",
+"n": "PRODUCERS::PrimaryKey"
+},
+"field:136:10": {
+"h": "403582144a",
+"n": "PRODUCERS::NameDisplay"
+},
+"field:136:11": {
+"h": "1336444449",
+"n": "PRODUCERS::fkTheme"
+},
+"field:136:12": {
+"h": "6fd1bb851a",
+"n": "PRODUCERS::date_SeasonStart"
+},
+"field:136:13": {
+"h": "d3245c9fb6",
+"n": "PRODUCERS::date_SeasonEnd"
+},
+"field:136:2": {
+"h": "4073d40dd0",
+"n": "PRODUCERS::CreationTimestamp"
+},
+"field:136:3": {
+"h": "15480a624d",
+"n": "PRODUCERS::CreatedBy"
+},
+"field:136:4": {
+"h": "79c21c9625",
+"n": "PRODUCERS::ModificationTimestamp"
+},
+"field:136:5": {
+"h": "5fd9e8af30",
+"n": "PRODUCERS::ModifiedBy"
+},
+"field:136:6": {
+"h": "22e2f3556b",
+"n": "PRODUCERS::Name"
+},
+"field:136:7": {
+"h": "52cec77210",
+"n": "PRODUCERS::media_LogoWide"
+},
+"field:136:8": {
+"h": "a66099df0f",
+"n": "PRODUCERS::media_LogoSquare"
+},
+"field:136:9": {
+"h": "56c93e6d0c",
+"n": "PRODUCERS::NameShort"
+},
+"field:137:1": {
+"h": "c77fa7dce1",
+"n": "LOCATIONS::PrimaryKey"
+},
+"field:137:2": {
+"h": "4073d40dd0",
+"n": "LOCATIONS::CreationTimestamp"
+},
+"field:137:3": {
+"h": "15480a624d",
+"n": "LOCATIONS::CreatedBy"
+},
+"field:137:4": {
+"h": "79c21c9625",
+"n": "LOCATIONS::ModificationTimestamp"
+},
+"field:137:5": {
+"h": "60f5af45ad",
+"n": "LOCATIONS::ModifiedBy"
+},
+"field:137:6": {
+"h": "26629e418f",
+"n": "LOCATIONS::Name"
+},
+"field:137:7": {
+"h": "39bfe08e91",
+"n": "LOCATIONS::fkLocationType"
+},
+"field:137:8": {
+"h": "dbcedc075c",
+"n": "LOCATIONS::NameDisplay"
+},
+"field:137:9": {
+"h": "56c93e6d0c",
+"n": "LOCATIONS::NameShort"
+},
+"field:138:1": {
+"h": "327baa7acf",
+"n": "LOCATION_TYPES::PrimaryKey"
+},
+"field:138:2": {
+"h": "4073d40dd0",
+"n": "LOCATION_TYPES::CreationTimestamp"
+},
+"field:138:3": {
+"h": "15480a624d",
+"n": "LOCATION_TYPES::CreatedBy"
+},
+"field:138:4": {
+"h": "79c21c9625",
+"n": "LOCATION_TYPES::ModificationTimestamp"
+},
+"field:138:5": {
+"h": "60f5af45ad",
+"n": "LOCATION_TYPES::ModifiedBy"
+},
+"field:138:6": {
+"h": "22e2f3556b",
+"n": "LOCATION_TYPES::Name"
+},
+"field:138:7": {
+"h": "66489d7186",
+"n": "LOCATION_TYPES::Sort"
+},
+"field:139:1": {
+"h": "0c3df18fa9",
+"n": "EXPORT_SESSIONS::PrimaryKey"
+},
+"field:139:13": {
+"h": "c35335e24e",
+"n": "EXPORT_SESSIONS::EventRowCount"
+},
+"field:139:15": {
+"h": "b696a033d0",
+"n": "EXPORT_SESSIONS::fkPrintSet"
+},
+"field:139:17": {
+"h": "0aa6c01de4",
+"n": "EXPORT_SESSIONS::snap_ExportPath"
+},
+"field:139:18": {
+"h": "3f537b250e",
+"n": "EXPORT_SESSIONS::Result_Pointer"
+},
+"field:139:19": {
+"h": "0554d1dd49",
+"n": "EXPORT_SESSIONS::Report_Container"
+},
+"field:139:2": {
+"h": "4073d40dd0",
+"n": "EXPORT_SESSIONS::CreationTimestamp"
+},
+"field:139:3": {
+"h": "15480a624d",
+"n": "EXPORT_SESSIONS::CreatedBy"
+},
+"field:139:4": {
+"h": "79c21c9625",
+"n": "EXPORT_SESSIONS::ModificationTimestamp"
+},
+"field:139:5": {
+"h": "5fd9e8af30",
+"n": "EXPORT_SESSIONS::ModifiedBy"
+},
+"field:139:8": {
+"h": "4aedeec287",
+"n": "EXPORT_SESSIONS::PrintedAt"
+},
+"field:140:1": {
+"h": "1f68f53d8a",
+"n": "VERSIONS::PrimaryKey"
+},
+"field:140:2": {
+"h": "4073d40dd0",
+"n": "VERSIONS::CreationTimestamp"
+},
+"field:140:3": {
+"h": "15480a624d",
+"n": "VERSIONS::CreatedBy"
+},
+"field:140:4": {
+"h": "79c21c9625",
+"n": "VERSIONS::ModificationTimestamp"
+},
+"field:140:5": {
+"h": "60f5af45ad",
+"n": "VERSIONS::ModifiedBy"
+},
+"field:140:6": {
+"h": "12e92ee3dd",
+"n": "VERSIONS::ID"
+},
+"field:140:7": {
+"h": "d78522926c",
+"n": "VERSIONS::fkEdition"
+},
+"field:141:1": {
+"h": "072150bee6",
+"n": "EDITIONS::PrimaryKey"
+},
+"field:141:2": {
+"h": "4073d40dd0",
+"n": "EDITIONS::CreationTimestamp"
+},
+"field:141:3": {
+"h": "15480a624d",
+"n": "EDITIONS::CreatedBy"
+},
+"field:141:4": {
+"h": "79c21c9625",
+"n": "EDITIONS::ModificationTimestamp"
+},
+"field:141:5": {
+"h": "60f5af45ad",
+"n": "EDITIONS::ModifiedBy"
+},
+"field:141:6": {
+"h": "26629e418f",
+"n": "EDITIONS::Name"
+},
+"field:141:7": {
+"h": "2db02cb059",
+"n": "EDITIONS::date_TakesPrecednace"
+},
+"field:141:8": {
+"h": "f935a7fc0d",
+"n": "EDITIONS::fkCalendar"
+},
+"field:141:9": {
+"h": "97dda36eb2",
+"n": "EDITIONS::fkSuperseededBy"
+},
+"field:142:1": {
+"h": "e55b5a243e",
+"n": "EXPORT_SETS::PrimaryKey"
+},
+"field:142:10": {
+"h": "563bd5248c",
+"n": "EXPORT_SETS::bool_RevertRecord"
+},
+"field:142:11": {
+"h": "535421af4a",
+"n": "EXPORT_SETS::SetExportPath"
+},
+"field:142:2": {
+"h": "4073d40dd0",
+"n": "EXPORT_SETS::CreationTimestamp"
+},
+"field:142:3": {
+"h": "15480a624d",
+"n": "EXPORT_SETS::CreatedBy"
+},
+"field:142:4": {
+"h": "79c21c9625",
+"n": "EXPORT_SETS::ModificationTimestamp"
+},
+"field:142:5": {
+"h": "60f5af45ad",
+"n": "EXPORT_SETS::ModifiedBy"
+},
+"field:142:6": {
+"h": "26629e418f",
+"n": "EXPORT_SETS::Name"
+},
+"field:142:7": {
+"h": "616525676b",
+"n": "EXPORT_SETS::bool_ScratchRecord"
+},
+"field:142:9": {
+"h": "79a86b72dd",
+"n": "EXPORT_SETS::bool_DefaultRecord"
+},
+"field:143:1": {
+"h": "fe03910610",
+"n": "GLOBAL_EXPORT::PrimaryKey"
+},
+"field:143:2": {
+"h": "4073d40dd0",
+"n": "GLOBAL_EXPORT::CreationTimestamp"
+},
+"field:143:3": {
+"h": "15480a624d",
+"n": "GLOBAL_EXPORT::CreatedBy"
+},
+"field:143:4": {
+"h": "79c21c9625",
+"n": "GLOBAL_EXPORT::ModificationTimestamp"
+},
+"field:143:5": {
+"h": "60f5af45ad",
+"n": "GLOBAL_EXPORT::ModifiedBy"
+},
+"field:144:1": {
+"h": "1531f8ac60",
+"n": "EXPORT_SET_ITEMS::PrimaryKey"
+},
+"field:144:10": {
+"h": "e752c2463d",
+"n": "EXPORT_SET_ITEMS::ovr_WeekStartDay"
+},
+"field:144:13": {
+"h": "77d3749ffa",
+"n": "EXPORT_SET_ITEMS::ovr_ShowLegend"
+},
+"field:144:14": {
+"h": "03957fdd9e",
+"n": "EXPORT_SET_ITEMS::fkDocument"
+},
+"field:144:15": {
+"h": "b696a033d0",
+"n": "EXPORT_SET_ITEMS::fkPrintSet"
+},
+"field:144:16": {
+"h": "228254a9c2",
+"n": "EXPORT_SET_ITEMS::fkPreset"
+},
+"field:144:17": {
+"h": "01bebfe9b6",
+"n": "EXPORT_SET_ITEMS::fkEdition"
+},
+"field:144:2": {
+"h": "4073d40dd0",
+"n": "EXPORT_SET_ITEMS::CreationTimestamp"
+},
+"field:144:3": {
+"h": "15480a624d",
+"n": "EXPORT_SET_ITEMS::CreatedBy"
+},
+"field:144:4": {
+"h": "79c21c9625",
+"n": "EXPORT_SET_ITEMS::ModificationTimestamp"
+},
+"field:144:5": {
+"h": "60f5af45ad",
+"n": "EXPORT_SET_ITEMS::ModifiedBy"
+},
+"field:144:6": {
+"h": "fa0930e867",
+"n": "EXPORT_SET_ITEMS::Sort"
+},
+"field:144:7": {
+"h": "f81139982d",
+"n": "EXPORT_SET_ITEMS::NameLocal"
+},
+"field:144:8": {
+"h": "b94d250a77",
+"n": "EXPORT_SET_ITEMS::FileExportPath"
+},
+"field:144:9": {
+"h": "035ea02962",
+"n": "EXPORT_SET_ITEMS::ovr_vl_OutputSize"
+},
+"field:145:1": {
+"h": "60079e2866",
+"n": "EXPORT_PRESETS::PrimaryKey"
+},
+"field:145:10": {
+"h": "a20bd8a5fc",
+"n": "EXPORT_PRESETS::bool_ShowLegend"
+},
+"field:145:11": {
+"h": "d0bffe971f",
+"n": "EXPORT_PRESETS::bool_ShowUnscheduled"
+},
+"field:145:12": {
+"h": "a3777b2782",
+"n": "EXPORT_PRESETS::ExportFolder"
+},
+"field:145:2": {
+"h": "4073d40dd0",
+"n": "EXPORT_PRESETS::CreationTimestamp"
+},
+"field:145:3": {
+"h": "15480a624d",
+"n": "EXPORT_PRESETS::CreatedBy"
+},
+"field:145:4": {
+"h": "79c21c9625",
+"n": "EXPORT_PRESETS::ModificationTimestamp"
+},
+"field:145:5": {
+"h": "60f5af45ad",
+"n": "EXPORT_PRESETS::ModifiedBy"
+},
+"field:145:6": {
+"h": "9479054b5b",
+"n": "EXPORT_PRESETS::Name"
+},
+"field:145:7": {
+"h": "51d3c92449",
+"n": "EXPORT_PRESETS::vl_OutputSize"
+},
+"field:145:8": {
+"h": "9c860e9e36",
+"n": "EXPORT_PRESETS::WeekStartDay"
+},
+"field:145:9": {
+"h": "a45c41e567",
+"n": "EXPORT_PRESETS::bool_UseShortName"
+},
+"field:146:1": {
+"h": "320b6a2066",
+"n": "STANDARD_EVENTS::PrimaryKey"
+},
+"field:146:10": {
+"h": "715a902560",
+"n": "STANDARD_EVENTS::bool_isMilestone"
+},
+"field:146:11": {
+"h": "53413f4b54",
+"n": "STANDARD_EVENTS::fkStyle"
+},
+"field:146:2": {
+"h": "4073d40dd0",
+"n": "STANDARD_EVENTS::CreationTimestamp"
+},
+"field:146:3": {
+"h": "15480a624d",
+"n": "STANDARD_EVENTS::CreatedBy"
+},
+"field:146:4": {
+"h": "79c21c9625",
+"n": "STANDARD_EVENTS::ModificationTimestamp"
+},
+"field:146:5": {
+"h": "60f5af45ad",
+"n": "STANDARD_EVENTS::ModifiedBy"
+},
+"field:146:6": {
+"h": "26629e418f",
+"n": "STANDARD_EVENTS::Name"
+},
+"field:146:7": {
+"h": "1df1e15228",
+"n": "STANDARD_EVENTS::NameShort"
+},
+"field:146:8": {
+"h": "7dc778ab03",
+"n": "STANDARD_EVENTS::NameDisplay"
+},
+"field:146:9": {
+"h": "e281d7a0fd",
+"n": "STANDARD_EVENTS::Sort"
+},
+"field:147:1": {
+"h": "ff9ff8727b",
+"n": "WORKDAYS::PrimaryKey"
+},
+"field:147:12": {
+"h": "65bfb746a1",
+"n": "WORKDAYS::dateFormat_Colloquial"
+},
+"field:147:13": {
+"h": "62ae766f8f",
+"n": "WORKDAYS::dateFormat_Display"
+},
+"field:147:14": {
+"h": "e340593859",
+"n": "WORKDAYS::StyleJoin_auto"
+},
+"field:147:15": {
+"h": "1fe7bda23e",
+"n": "WORKDAYS::calc_ThemedDate"
+},
+"field:147:16": {
+"h": "db23907fab",
+"n": "WORKDAYS::dateFormat_Short"
+},
+"field:147:17": {
+"h": "8ce5836cdd",
+"n": "WORKDAYS::calc_ThemedDate_Colloquial"
+},
+"field:147:18": {
+"h": "90ae6af933",
+"n": "WORKDAYS::calc_ThemedDate_Display"
+},
+"field:147:19": {
+"h": "ab05da9b84",
+"n": "WORKDAYS::calc_ThemedDate_Short"
+},
+"field:147:2": {
+"h": "4073d40dd0",
+"n": "WORKDAYS::CreationTimestamp"
+},
+"field:147:3": {
+"h": "15480a624d",
+"n": "WORKDAYS::CreatedBy"
+},
+"field:147:4": {
+"h": "79c21c9625",
+"n": "WORKDAYS::ModificationTimestamp"
+},
+"field:147:5": {
+"h": "5fd9e8af30",
+"n": "WORKDAYS::ModifiedBy"
+},
+"field:147:6": {
+"h": "0faf258f59",
+"n": "WORKDAYS::Date"
+},
+"field:147:9": {
+"h": "b9558bb57b",
+"n": "WORKDAYS::xTitleShort"
+},
+"field:148:1": {
+"h": "644d4a8665",
+"n": "EVENTS_X_WORKDAYS::PrimaryKey"
+},
+"field:148:10": {
+"h": "5e80ab36ed",
+"n": "EVENTS_X_WORKDAYS::fkUtilityReport"
+},
+"field:148:2": {
+"h": "4073d40dd0",
+"n": "EVENTS_X_WORKDAYS::CreationTimestamp"
+},
+"field:148:3": {
+"h": "15480a624d",
+"n": "EVENTS_X_WORKDAYS::CreatedBy"
+},
+"field:148:4": {
+"h": "79c21c9625",
+"n": "EVENTS_X_WORKDAYS::ModificationTimestamp"
+},
+"field:148:5": {
+"h": "60f5af45ad",
+"n": "EVENTS_X_WORKDAYS::ModifiedBy"
+},
+"field:148:6": {
+"h": "84e1a7c419",
+"n": "EVENTS_X_WORKDAYS::Date"
+},
+"field:148:7": {
+"h": "34800ac63f",
+"n": "EVENTS_X_WORKDAYS::fkEvent"
+},
+"field:148:8": {
+"h": "414b83ab3c",
+"n": "EVENTS_X_WORKDAYS::XfkWorkday"
+},
+"field:148:9": {
+"h": "ba21e8817c",
+"n": "EVENTS_X_WORKDAYS::fkCalendar"
+},
+"field:149:1": {
+"h": "d5163c94f7",
+"n": "CALENDAR_HIGHLIGHTS::PrimaryKey"
+},
+"field:149:10": {
+"h": "fa582e3415",
+"n": "CALENDAR_HIGHLIGHTS::dateTime_End"
+},
+"field:149:11": {
+"h": "6b9c169743",
+"n": "CALENDAR_HIGHLIGHTS::LegendText"
+},
+"field:149:12": {
+"h": "54bce7f960",
+"n": "CALENDAR_HIGHLIGHTS::fkCalendar"
+},
+"field:149:13": {
+"h": "b2b3eef77c",
+"n": "CALENDAR_HIGHLIGHTS::fkStyle"
+},
+"field:149:14": {
+"h": "3794597a76",
+"n": "CALENDAR_HIGHLIGHTS::fkStandardEvent"
+},
+"field:149:16": {
+"h": "b4d5939945",
+"n": "CALENDAR_HIGHLIGHTS::DaysBefore"
+},
+"field:149:17": {
+"h": "107ede0d74",
+"n": "CALENDAR_HIGHLIGHTS::DaysAfter"
+},
+"field:149:18": {
+"h": "4b6f353c7d",
+"n": "CALENDAR_HIGHLIGHTS::calc_ResolvedStart"
+},
+"field:149:19": {
+"h": "ade8b98f12",
+"n": "CALENDAR_HIGHLIGHTS::calc_ResolvedEnd"
+},
+"field:149:2": {
+"h": "4073d40dd0",
+"n": "CALENDAR_HIGHLIGHTS::CreationTimestamp"
+},
+"field:149:3": {
+"h": "15480a624d",
+"n": "CALENDAR_HIGHLIGHTS::CreatedBy"
+},
+"field:149:4": {
+"h": "79c21c9625",
+"n": "CALENDAR_HIGHLIGHTS::ModificationTimestamp"
+},
+"field:149:5": {
+"h": "60f5af45ad",
+"n": "CALENDAR_HIGHLIGHTS::ModifiedBy"
+},
+"field:149:6": {
+"h": "372ed26127",
+"n": "CALENDAR_HIGHLIGHTS::vl_AnchorMode"
+},
+"field:149:7": {
+"h": "9ecab82949",
+"n": "CALENDAR_HIGHLIGHTS::Name"
+},
+"field:149:8": {
+"h": "782423409c",
+"n": "CALENDAR_HIGHLIGHTS::Priority"
+},
+"field:149:9": {
+"h": "5fb26fd752",
+"n": "CALENDAR_HIGHLIGHTS::dateTime_Start"
+},
+"field:150:1": {
+"h": "56f8bf2334",
+"n": "STYLES::PrimaryKey"
+},
+"field:150:15": {
+"h": "da6e7915b3",
+"n": "STYLES::calc_Key"
+},
+"field:150:17": {
+"h": "c53f6f99c7",
+"n": "STYLES::calc_ActiveThemeKey"
+},
+"field:150:18": {
+"h": "5d0ea7cf49",
+"n": "STYLES::calc_DefaultThemeKey"
+},
+"field:150:2": {
+"h": "4073d40dd0",
+"n": "STYLES::CreationTimestamp"
+},
+"field:150:3": {
+"h": "15480a624d",
+"n": "STYLES::CreatedBy"
+},
+"field:150:4": {
+"h": "79c21c9625",
+"n": "STYLES::ModificationTimestamp"
+},
+"field:150:5": {
+"h": "5fd9e8af30",
+"n": "STYLES::ModifiedBy"
+},
+"field:150:6": {
+"h": "502e467499",
+"n": "STYLES::vl_Domain"
+},
+"field:150:7": {
+"h": "79ac85e0fb",
+"n": "STYLES::vl_Label"
+},
+"field:150:8": {
+"h": "2e6db41955",
+"n": "STYLES::LegendText"
+},
+"field:150:9": {
+"h": "5cc5f1d5a8",
+"n": "STYLES::Sort"
+},
+"field:151:1": {
+"h": "c8b5a36276",
+"n": "VALUE_LISTS::PrimaryKey"
+},
+"field:151:10": {
+"h": "52644818f8",
+"n": "VALUE_LISTS::g_valuesFor_Activity_Log_Types"
+},
+"field:151:11": {
+"h": "13c9af0c8a",
+"n": "VALUE_LISTS::g_valuesFor_Status_Categories"
+},
+"field:151:12": {
+"h": "76404bc668",
+"n": "VALUE_LISTS::g_valuesFor_DOCUMENT_STATUSES"
+},
+"field:151:13": {
+"h": "d374da0f7f",
+"n": "VALUE_LISTS::g_valuesFor_REQUIRED_State"
+},
+"field:151:2": {
+"h": "4073d40dd0",
+"n": "VALUE_LISTS::CreationTimestamp"
+},
+"field:151:3": {
+"h": "15480a624d",
+"n": "VALUE_LISTS::CreatedBy"
+},
+"field:151:4": {
+"h": "79c21c9625",
+"n": "VALUE_LISTS::ModificationTimestamp"
+},
+"field:151:5": {
+"h": "5fd9e8af30",
+"n": "VALUE_LISTS::ModifiedBy"
+},
+"field:151:6": {
+"h": "22e2f3556b",
+"n": "VALUE_LISTS::Name"
+},
+"field:151:7": {
+"h": "66489d7186",
+"n": "VALUE_LISTS::Sort"
+},
+"field:151:8": {
+"h": "69f10a0071",
+"n": "VALUE_LISTS::bool_isStatusList"
+},
+"field:151:9": {
+"h": "d8010c8e5f",
+"n": "VALUE_LISTS::bool_RequireUniqueInCategory"
+},
+"field:152:1": {
+"h": "4df6c9935a",
+"n": "VALUES::PrimaryKey"
+},
+"field:152:10": {
+"h": "537718060f",
+"n": "VALUES::fkStyle"
+},
+"field:152:12": {
+"h": "22021c3441",
+"n": "VALUES::fkList"
+},
+"field:152:13": {
+"h": "41d67854ec",
+"n": "VALUES::fkStatusCategory"
+},
+"field:152:14": {
+"h": "9d37452f3c",
+"n": "VALUES::Sort"
+},
+"field:152:2": {
+"h": "4073d40dd0",
+"n": "VALUES::CreationTimestamp"
+},
+"field:152:3": {
+"h": "15480a624d",
+"n": "VALUES::CreatedBy"
+},
+"field:152:4": {
+"h": "79c21c9625",
+"n": "VALUES::ModificationTimestamp"
+},
+"field:152:5": {
+"h": "60f5af45ad",
+"n": "VALUES::ModifiedBy"
+},
+"field:152:6": {
+"h": "22e2f3556b",
+"n": "VALUES::Name"
+},
+"field:153:1": {
+"h": "548160c219",
+"n": "UTILITY_SESSIONS::PrimaryKey"
+},
+"field:153:10": {
+"h": "3b9be4d074",
+"n": "UTILITY_SESSIONS::countRows_File"
+},
+"field:153:11": {
+"h": "a91a8383a9",
+"n": "UTILITY_SESSIONS::countRows_Imported"
+},
+"field:153:12": {
+"h": "02d48f16e6",
+"n": "UTILITY_SESSIONS::countRows_Flagged"
+},
+"field:153:13": {
+"h": "db4d8e829d",
+"n": "UTILITY_SESSIONS::Comment"
+},
+"field:153:2": {
+"h": "4073d40dd0",
+"n": "UTILITY_SESSIONS::CreationTimestamp"
+},
+"field:153:3": {
+"h": "15480a624d",
+"n": "UTILITY_SESSIONS::CreatedBy"
+},
+"field:153:4": {
+"h": "79c21c9625",
+"n": "UTILITY_SESSIONS::ModificationTimestamp"
+},
+"field:153:5": {
+"h": "60f5af45ad",
+"n": "UTILITY_SESSIONS::ModifiedBy"
+},
+"field:153:7": {
+"h": "b8023ba5b5",
+"n": "UTILITY_SESSIONS::dateTime_Complete"
+},
+"field:153:8": {
+"h": "87e0a0e2ac",
+"n": "UTILITY_SESSIONS::fkcurr_importProduction"
+},
+"field:153:9": {
+"h": "bc59beedd7",
+"n": "UTILITY_SESSIONS::fkSource"
+},
+"field:154:1": {
+"h": "cf5f87edf1",
+"n": "UTILITY_REPORTS::PrimaryKey"
+},
+"field:154:10": {
+"h": "4e45dddbff",
+"n": "UTILITY_REPORTS::dateTime_End"
+},
+"field:154:11": {
+"h": "de58ed9c52",
+"n": "UTILITY_REPORTS::media_RunReport"
+},
+"field:154:12": {
+"h": "18d683d226",
+"n": "UTILITY_REPORTS::RunSummary"
+},
+"field:154:14": {
+"h": "2fcb102b04",
+"n": "UTILITY_REPORTS::vl_Status"
+},
+"field:154:15": {
+"h": "e284ec56bd",
+"n": "UTILITY_REPORTS::bool_Pass"
+},
+"field:154:16": {
+"h": "d9b9e01140",
+"n": "UTILITY_REPORTS::fkUtilitySession"
+},
+"field:154:17": {
+"h": "8db15aa81f",
+"n": "UTILITY_REPORTS::fkAppSession"
+},
+"field:154:2": {
+"h": "4073d40dd0",
+"n": "UTILITY_REPORTS::CreationTimestamp"
+},
+"field:154:3": {
+"h": "15480a624d",
+"n": "UTILITY_REPORTS::CreatedBy"
+},
+"field:154:4": {
+"h": "79c21c9625",
+"n": "UTILITY_REPORTS::ModificationTimestamp"
+},
+"field:154:5": {
+"h": "60f5af45ad",
+"n": "UTILITY_REPORTS::ModifiedBy"
+},
+"field:154:7": {
+"h": "9822d8528c",
+"n": "UTILITY_REPORTS::Title"
+},
+"field:154:8": {
+"h": "e0b8b9e66a",
+"n": "UTILITY_REPORTS::Comment"
+},
+"field:154:9": {
+"h": "853877f9db",
+"n": "UTILITY_REPORTS::dateTime_Start"
+},
+"field:155:1": {
+"h": "bdb7372cb5",
+"n": "UTILITY_LOGS::PrimaryKey"
+},
+"field:155:10": {
+"h": "e9e35140b0",
+"n": "UTILITY_LOGS::fkRunReport"
+},
+"field:155:12": {
+"h": "47b86409ad",
+"n": "UTILITY_LOGS::json_Params"
+},
+"field:155:13": {
+"h": "92271f2406",
+"n": "UTILITY_LOGS::ErrorCode"
+},
+"field:155:14": {
+"h": "d058938573",
+"n": "UTILITY_LOGS::fkAppSessionToken"
+},
+"field:155:15": {
+"h": "55d03e3e38",
+"n": "UTILITY_LOGS::Timestamp"
+},
+"field:155:18": {
+"h": "89d57ac825",
+"n": "UTILITY_LOGS::auto_counter"
+},
+"field:155:2": {
+"h": "4073d40dd0",
+"n": "UTILITY_LOGS::CreationTimestamp"
+},
+"field:155:3": {
+"h": "15480a624d",
+"n": "UTILITY_LOGS::CreatedBy"
+},
+"field:155:4": {
+"h": "79c21c9625",
+"n": "UTILITY_LOGS::ModificationTimestamp"
+},
+"field:155:5": {
+"h": "5fd9e8af30",
+"n": "UTILITY_LOGS::ModifiedBy"
+},
+"field:155:6": {
+"h": "b9eae34832",
+"n": "UTILITY_LOGS::Action"
+},
+"field:155:7": {
+"h": "d1493d9b8c",
+"n": "UTILITY_LOGS::Comment"
+},
+"field:157:1": {
+"h": "b9e3ddedd5",
+"n": "IMPORT_SOURCES::PrimaryKey"
+},
+"field:157:2": {
+"h": "4073d40dd0",
+"n": "IMPORT_SOURCES::CreationTimestamp"
+},
+"field:157:3": {
+"h": "15480a624d",
+"n": "IMPORT_SOURCES::CreatedBy"
+},
+"field:157:4": {
+"h": "79c21c9625",
+"n": "IMPORT_SOURCES::ModificationTimestamp"
+},
+"field:157:5": {
+"h": "5fd9e8af30",
+"n": "IMPORT_SOURCES::ModifiedBy"
+},
+"field:157:6": {
+"h": "26629e418f",
+"n": "IMPORT_SOURCES::Name"
+},
+"field:157:7": {
+"h": "a7f3b9bafb",
+"n": "IMPORT_SOURCES::Path"
+},
+"field:157:8": {
+"h": "7baf355296",
+"n": "IMPORT_SOURCES::Link"
+},
+"field:157:9": {
+"h": "6e4ab20d43",
+"n": "IMPORT_SOURCES::raw_Content"
+},
+"field:158:1": {
+"h": "0d783395c0",
+"n": "IMPORT_EVENTS::PrimaryKey"
+},
+"field:158:10": {
+"h": "ced4812ab4",
+"n": "IMPORT_EVENTS::import_Style_Key"
+},
+"field:158:11": {
+"h": "320fa7f00e",
+"n": "IMPORT_EVENTS::import_RowNumber"
+},
+"field:158:12": {
+"h": "44640e04c1",
+"n": "IMPORT_EVENTS::fkUtilityReport"
+},
+"field:158:13": {
+"h": "8b8186156d",
+"n": "IMPORT_EVENTS::fkProduction"
+},
+"field:158:14": {
+"h": "865644d9ab",
+"n": "IMPORT_EVENTS::bool_AllDay"
+},
+"field:158:16": {
+"h": "1788c32a61",
+"n": "IMPORT_EVENTS::calc_Start_date"
+},
+"field:158:17": {
+"h": "cf7506ce13",
+"n": "IMPORT_EVENTS::calc_Start_dateTime"
+},
+"field:158:18": {
+"h": "f47b27e16e",
+"n": "IMPORT_EVENTS::calc_End_dateTime"
+},
+"field:158:19": {
+"h": "bd8048978f",
+"n": "IMPORT_EVENTS::calc_End_date"
+},
+"field:158:2": {
+"h": "4073d40dd0",
+"n": "IMPORT_EVENTS::CreationTimestamp"
+},
+"field:158:20": {
+"h": "3cf969ea68",
+"n": "IMPORT_EVENTS::calc_Start_time"
+},
+"field:158:21": {
+"h": "2721e208da",
+"n": "IMPORT_EVENTS::calc_End_time"
+},
+"field:158:22": {
+"h": "d85120aa74",
+"n": "IMPORT_EVENTS::calc_Start_AMPM"
+},
+"field:158:23": {
+"h": "344202e60a",
+"n": "IMPORT_EVENTS::calc_End_AMPM"
+},
+"field:158:24": {
+"h": "c1d9afe185",
+"n": "IMPORT_EVENTS::hash_history"
+},
+"field:158:25": {
+"h": "de6874f304",
+"n": "IMPORT_EVENTS::cu_TaskID"
+},
+"field:158:26": {
+"h": "8a423ac58d",
+"n": "IMPORT_EVENTS::Event Name"
+},
+"field:158:27": {
+"h": "6b2b33a046",
+"n": "IMPORT_EVENTS::json_cleanImportDetails"
+},
+"field:158:28": {
+"h": "f79bc73755",
+"n": "IMPORT_EVENTS::Xauto_StyleLookup"
+},
+"field:158:3": {
+"h": "15480a624d",
+"n": "IMPORT_EVENTS::CreatedBy"
+},
+"field:158:4": {
+"h": "79c21c9625",
+"n": "IMPORT_EVENTS::ModificationTimestamp"
+},
+"field:158:5": {
+"h": "5fd9e8af30",
+"n": "IMPORT_EVENTS::ModifiedBy"
+},
+"field:158:6": {
+"h": "e9ea305e03",
+"n": "IMPORT_EVENTS::import_raw_payload"
+},
+"field:158:7": {
+"h": "46033291ee",
+"n": "IMPORT_EVENTS::import_Name"
+},
+"field:158:8": {
+"h": "fe72b3f7c4",
+"n": "IMPORT_EVENTS::import_dateSTART"
+},
+"field:158:9": {
+"h": "f0ffeb3aaf",
+"n": "IMPORT_EVENTS::import_dateEND"
+},
+"field:159:1": {
+"h": "94cea889b0",
+"n": "ROLE_ASSIGNMENTS::PrimaryKey"
+},
+"field:159:11": {
+"h": "c90cd31bb0",
+"n": "ROLE_ASSIGNMENTS::Sort"
+},
+"field:159:12": {
+"h": "14344e2fa1",
+"n": "ROLE_ASSIGNMENTS::vl_CallsInclusions"
+},
+"field:159:13": {
+"h": "759725f862",
+"n": "ROLE_ASSIGNMENTS::vl_ReportsInclusion"
+},
+"field:159:14": {
+"h": "cdb61c4e0b",
+"n": "ROLE_ASSIGNMENTS::ovr_Role_Title"
+},
+"field:159:15": {
+"h": "02de0fc115",
+"n": "ROLE_ASSIGNMENTS::bool_nonPerson"
+},
+"field:159:16": {
+"h": "b829b6cea9",
+"n": "ROLE_ASSIGNMENTS::vl_DropboxStatus"
+},
+"field:159:2": {
+"h": "4073d40dd0",
+"n": "ROLE_ASSIGNMENTS::CreationTimestamp"
+},
+"field:159:3": {
+"h": "15480a624d",
+"n": "ROLE_ASSIGNMENTS::CreatedBy"
+},
+"field:159:4": {
+"h": "79c21c9625",
+"n": "ROLE_ASSIGNMENTS::ModificationTimestamp"
+},
+"field:159:5": {
+"h": "60f5af45ad",
+"n": "ROLE_ASSIGNMENTS::ModifiedBy"
+},
+"field:159:6": {
+"h": "a50796fe33",
+"n": "ROLE_ASSIGNMENTS::fkRole"
+},
+"field:159:7": {
+"h": "305096d400",
+"n": "ROLE_ASSIGNMENTS::fkPerson"
+},
+"field:159:8": {
+"h": "b55b62858e",
+"n": "ROLE_ASSIGNMENTS::vl_Section"
+},
+"field:159:9": {
+"h": "84507903bb",
+"n": "ROLE_ASSIGNMENTS::fkProduction"
+},
+"field:160:1": {
+"h": "e2924f486d",
+"n": "auto_LAYOUTS::PrimaryKey"
+},
+"field:160:2": {
+"h": "4073d40dd0",
+"n": "auto_LAYOUTS::CreationTimestamp"
+},
+"field:160:3": {
+"h": "15480a624d",
+"n": "auto_LAYOUTS::CreatedBy"
+},
+"field:160:4": {
+"h": "79c21c9625",
+"n": "auto_LAYOUTS::ModificationTimestamp"
+},
+"field:160:5": {
+"h": "60f5af45ad",
+"n": "auto_LAYOUTS::ModifiedBy"
+},
+"field:160:6": {
+"h": "fa0930e867",
+"n": "auto_LAYOUTS::Sort"
+},
+"field:160:7": {
+"h": "3627457a70",
+"n": "auto_LAYOUTS::Name"
+},
+"field:162:1": {
+"h": "e4f6cfa246",
+"n": "THEME_COLORS::PrimaryKey"
+},
+"field:162:10": {
+"h": "c8c81d6d2a",
+"n": "THEME_COLORS::SortLabel"
+},
+"field:162:11": {
+"h": "c5abcedfca",
+"n": "THEME_COLORS::Hex_autoCalc"
+},
+"field:162:12": {
+"h": "593d4d6e5f",
+"n": "THEME_COLORS::enter_Hex"
+},
+"field:162:2": {
+"h": "4073d40dd0",
+"n": "THEME_COLORS::CreationTimestamp"
+},
+"field:162:3": {
+"h": "15480a624d",
+"n": "THEME_COLORS::CreatedBy"
+},
+"field:162:4": {
+"h": "79c21c9625",
+"n": "THEME_COLORS::ModificationTimestamp"
+},
+"field:162:5": {
+"h": "5fd9e8af30",
+"n": "THEME_COLORS::ModifiedBy"
+},
+"field:162:6": {
+"h": "22e2f3556b",
+"n": "THEME_COLORS::Name"
+},
+"field:162:7": {
+"h": "dc6b8874b8",
+"n": "THEME_COLORS::R"
+},
+"field:162:8": {
+"h": "5fdb4ca785",
+"n": "THEME_COLORS::G"
+},
+"field:162:9": {
+"h": "f619193964",
+"n": "THEME_COLORS::B"
+},
+"field:163:1": {
+"h": "5ee381b539",
+"n": "THEME_TYPOGRAPHY::PrimaryKey"
+},
+"field:163:10": {
+"h": "79ca6f457d",
+"n": "THEME_TYPOGRAPHY::Font"
+},
+"field:163:12": {
+"h": "6a201d2f9e",
+"n": "THEME_TYPOGRAPHY::vl_Case"
+},
+"field:163:2": {
+"h": "4073d40dd0",
+"n": "THEME_TYPOGRAPHY::CreationTimestamp"
+},
+"field:163:3": {
+"h": "15480a624d",
+"n": "THEME_TYPOGRAPHY::CreatedBy"
+},
+"field:163:4": {
+"h": "79c21c9625",
+"n": "THEME_TYPOGRAPHY::ModificationTimestamp"
+},
+"field:163:5": {
+"h": "60f5af45ad",
+"n": "THEME_TYPOGRAPHY::ModifiedBy"
+},
+"field:163:6": {
+"h": "55abf64fd3",
+"n": "THEME_TYPOGRAPHY::bool_italic"
+},
+"field:163:7": {
+"h": "9ddd838c70",
+"n": "THEME_TYPOGRAPHY::bool_bold"
+},
+"field:163:8": {
+"h": "3266309445",
+"n": "THEME_TYPOGRAPHY::bool_underline"
+},
+"field:163:9": {
+"h": "1413bb10fa",
+"n": "THEME_TYPOGRAPHY::Name"
+},
+"field:164:1": {
+"h": "5db9739517",
+"n": "THEMES::PrimaryKey"
+},
+"field:164:2": {
+"h": "4073d40dd0",
+"n": "THEMES::CreationTimestamp"
+},
+"field:164:3": {
+"h": "15480a624d",
+"n": "THEMES::CreatedBy"
+},
+"field:164:4": {
+"h": "79c21c9625",
+"n": "THEMES::ModificationTimestamp"
+},
+"field:164:5": {
+"h": "60f5af45ad",
+"n": "THEMES::ModifiedBy"
+},
+"field:164:8": {
+"h": "ad07861de8",
+"n": "THEMES::Name"
+},
+"field:164:9": {
+"h": "695a333597",
+"n": "THEMES::Sort"
+},
+"field:165:1": {
+"h": "b807904184",
+"n": "THEMES_X_STYLES::PrimaryKey"
+},
+"field:165:10": {
+"h": "c55a14a7f9",
+"n": "THEMES_X_STYLES::fkColor_Text"
+},
+"field:165:11": {
+"h": "ae5ab9f3ea",
+"n": "THEMES_X_STYLES::calc_ThemeStyleKey"
+},
+"field:165:2": {
+"h": "4073d40dd0",
+"n": "THEMES_X_STYLES::CreationTimestamp"
+},
+"field:165:3": {
+"h": "15480a624d",
+"n": "THEMES_X_STYLES::CreatedBy"
+},
+"field:165:4": {
+"h": "79c21c9625",
+"n": "THEMES_X_STYLES::ModificationTimestamp"
+},
+"field:165:5": {
+"h": "5fd9e8af30",
+"n": "THEMES_X_STYLES::ModifiedBy"
+},
+"field:165:7": {
+"h": "1e069b4761",
+"n": "THEMES_X_STYLES::fkTypography"
+},
+"field:165:8": {
+"h": "ca15adab31",
+"n": "THEMES_X_STYLES::fkTheme"
+},
+"field:165:9": {
+"h": "35101fe613",
+"n": "THEMES_X_STYLES::fkStyle"
+},
+"field:167:1": {
+"h": "b7671f4040",
+"n": "ORGANIZATION::PrimaryKey"
+},
+"field:167:2": {
+"h": "4073d40dd0",
+"n": "ORGANIZATION::CreationTimestamp"
+},
+"field:167:3": {
+"h": "15480a624d",
+"n": "ORGANIZATION::CreatedBy"
+},
+"field:167:4": {
+"h": "79c21c9625",
+"n": "ORGANIZATION::ModificationTimestamp"
+},
+"field:167:5": {
+"h": "5fd9e8af30",
+"n": "ORGANIZATION::ModifiedBy"
+},
+"field:167:6": {
+"h": "22e2f3556b",
+"n": "ORGANIZATION::Name"
+},
+"field:167:7": {
+"h": "450bf9b15a",
+"n": "ORGANIZATION::fkProducer"
+},
+"field:167:8": {
+"h": "cf725e0f65",
+"n": "ORGANIZATION::fkDefaultTheme"
+},
+"field:168:1": {
+"h": "e8756f8f29",
+"n": "APP_DEVICE_SETUP::PrimaryKey"
+},
+"field:168:2": {
+"h": "4073d40dd0",
+"n": "APP_DEVICE_SETUP::CreationTimestamp"
+},
+"field:168:3": {
+"h": "15480a624d",
+"n": "APP_DEVICE_SETUP::CreatedBy"
+},
+"field:168:4": {
+"h": "79c21c9625",
+"n": "APP_DEVICE_SETUP::ModificationTimestamp"
+},
+"field:168:5": {
+"h": "60f5af45ad",
+"n": "APP_DEVICE_SETUP::ModifiedBy"
+},
+"field:169:1": {
+"h": "3cd2f8c23d",
+"n": "APP_SESSIONS::PrimaryKey"
+},
+"field:169:2": {
+"h": "4073d40dd0",
+"n": "APP_SESSIONS::CreationTimestamp"
+},
+"field:169:3": {
+"h": "15480a624d",
+"n": "APP_SESSIONS::CreatedBy"
+},
+"field:169:4": {
+"h": "79c21c9625",
+"n": "APP_SESSIONS::ModificationTimestamp"
+},
+"field:169:5": {
+"h": "5fd9e8af30",
+"n": "APP_SESSIONS::ModifiedBy"
+},
+"field:169:6": {
+"h": "eb1c97717c",
+"n": "APP_SESSIONS::ClosedTimestamp"
+},
+"field:169:7": {
+"h": "b7141a14c2",
+"n": "APP_SESSIONS::StartTimestamp"
+},
+"field:172:1": {
+"h": "69c09d5bbc",
+"n": "DOCUMENTS::PrimaryKey"
+},
+"field:172:2": {
+"h": "4073d40dd0",
+"n": "DOCUMENTS::CreationTimestamp"
+},
+"field:172:3": {
+"h": "15480a624d",
+"n": "DOCUMENTS::CreatedBy"
+},
+"field:172:4": {
+"h": "79c21c9625",
+"n": "DOCUMENTS::ModificationTimestamp"
+},
+"field:172:5": {
+"h": "5fd9e8af30",
+"n": "DOCUMENTS::ModifiedBy"
+},
+"field:172:6": {
+"h": "486ac13801",
+"n": "DOCUMENTS::Title"
+},
+"field:172:7": {
+"h": "46ef9b90ff",
+"n": "DOCUMENTS::auto_DisplayTitle"
+},
+"field:172:8": {
+"h": "3491718c48",
+"n": "DOCUMENTS::url_spec"
+},
+"field:173:1": {
+"h": "39a2fe9096",
+"n": "ClickUp_Matches::PrimaryKey"
+},
+"field:173:2": {
+"h": "4073d40dd0",
+"n": "ClickUp_Matches::CreationTimestamp"
+},
+"field:173:3": {
+"h": "15480a624d",
+"n": "ClickUp_Matches::CreatedBy"
+},
+"field:173:4": {
+"h": "79c21c9625",
+"n": "ClickUp_Matches::ModificationTimestamp"
+},
+"field:173:5": {
+"h": "5fd9e8af30",
+"n": "ClickUp_Matches::ModifiedBy"
+},
+"field:173:6": {
+"h": "1b6245da57",
+"n": "ClickUp_Matches::cu_TaskID"
+},
+"field:173:7": {
+"h": "c1b913848c",
+"n": "ClickUp_Matches::fk_Filemaker"
+},
+"field:173:8": {
+"h": "074d79f652",
+"n": "ClickUp_Matches::Source_of_Truth"
+},
+"field:174:1": {
+"h": "58e2d5da9a",
+"n": "DOCUMENT_INSTANCES::PrimaryKey"
+},
+"field:174:10": {
+"h": "a15ecc71f6",
+"n": "DOCUMENT_INSTANCES::UUID.Production.Document"
+},
+"field:174:2": {
+"h": "4073d40dd0",
+"n": "DOCUMENT_INSTANCES::CreationTimestamp"
+},
+"field:174:3": {
+"h": "15480a624d",
+"n": "DOCUMENT_INSTANCES::CreatedBy"
+},
+"field:174:4": {
+"h": "79c21c9625",
+"n": "DOCUMENT_INSTANCES::ModificationTimestamp"
+},
+"field:174:5": {
+"h": "5fd9e8af30",
+"n": "DOCUMENT_INSTANCES::ModifiedBy"
+},
+"field:174:6": {
+"h": "71e888ae6e",
+"n": "DOCUMENT_INSTANCES::fkDocument"
+},
+"field:174:7": {
+"h": "cae282a4dc",
+"n": "DOCUMENT_INSTANCES::fkProduction"
+},
+"field:174:8": {
+"h": "e51f14f43b",
+"n": "DOCUMENT_INSTANCES::v_REQUIRED_Status"
+},
+"field:174:9": {
+"h": "765d5cc720",
+"n": "DOCUMENT_INSTANCES::v_PROGRESS_Status"
+},
+"field:175:1": {
+"h": "ce5a744209",
+"n": "ClickUp_TASKS::PrimaryKey"
+},
+"field:175:11": {
+"h": "23f158f7f4",
+"n": "ClickUp_TASKS::auto_DisplayName"
+},
+"field:175:2": {
+"h": "4073d40dd0",
+"n": "ClickUp_TASKS::CreationTimestamp"
+},
+"field:175:3": {
+"h": "15480a624d",
+"n": "ClickUp_TASKS::CreatedBy"
+},
+"field:175:4": {
+"h": "79c21c9625",
+"n": "ClickUp_TASKS::ModificationTimestamp"
+},
+"field:175:5": {
+"h": "5fd9e8af30",
+"n": "ClickUp_TASKS::ModifiedBy"
+},
+"field:175:6": {
+"h": "69742f7609",
+"n": "ClickUp_TASKS::cu_TaskID"
+},
+"field:175:7": {
+"h": "f514bdc529",
+"n": "ClickUp_TASKS::Home_List"
+},
+"field:175:8": {
+"h": "97486d9352",
+"n": "ClickUp_TASKS::cu_CustomTaskID"
+},
+"field:175:9": {
+"h": "7274b77d00",
+"n": "ClickUp_TASKS::cu_TaskName"
+},
+"field:176:1": {
+"h": "831d76dcfc",
+"n": "COMPARE_Array::PrimaryKey"
+},
+"field:176:2": {
+"h": "4073d40dd0",
+"n": "COMPARE_Array::CreationTimestamp"
+},
+"field:176:3": {
+"h": "15480a624d",
+"n": "COMPARE_Array::CreatedBy"
+},
+"field:176:4": {
+"h": "79c21c9625",
+"n": "COMPARE_Array::ModificationTimestamp"
+},
+"field:176:5": {
+"h": "5fd9e8af30",
+"n": "COMPARE_Array::ModifiedBy"
+},
+"field:176:6": {
+"h": "2ad0d8b246",
+"n": "COMPARE_Array::fk_generic"
+},
+"field:176:7": {
+"h": "5f8ca7b2ec",
+"n": "COMPARE_Array::SORT"
+},
+"field:177:1": {
+"h": "d0c9117042",
+"n": "COMPARE_SavedViews::PrimaryKey"
+},
+"field:177:2": {
+"h": "4073d40dd0",
+"n": "COMPARE_SavedViews::CreationTimestamp"
+},
+"field:177:3": {
+"h": "15480a624d",
+"n": "COMPARE_SavedViews::CreatedBy"
+},
+"field:177:4": {
+"h": "79c21c9625",
+"n": "COMPARE_SavedViews::ModificationTimestamp"
+},
+"field:177:5": {
+"h": "5fd9e8af30",
+"n": "COMPARE_SavedViews::ModifiedBy"
+},
+"field:177:6": {
+"h": "422d6c8108",
+"n": "COMPARE_SavedViews::JSON_completeSave"
+},
+"field:177:7": {
+"h": "3969eabcfd",
+"n": "COMPARE_SavedViews::auto_Num_Indexes"
+},
+"field:177:8": {
+"h": "5a23e45bf3",
+"n": "COMPARE_SavedViews::SaveTitle"
+},
+"field:177:9": {
+"h": "f9576b8272",
+"n": "COMPARE_SavedViews::auto_DisplayName"
+},
+"layout:1": {
+"h": "bec604396d",
+"n": "HOME"
+},
+"layout:10": {
+"h": "2c4a125af2",
+"n": "view | PRODUCERS"
+},
+"layout:11": {
+"h": "eaa7142e20",
+"n": "script | LOCATIONS"
+},
+"layout:12": {
+"h": "22c5d093c4",
+"n": "script | LOCATION_TYPES"
+},
+"layout:13": {
+"h": "05f569abbc",
+"n": "EXPORT_SESSIONS"
+},
+"layout:14": {
+"h": "4d9ea96858",
+"n": "script | VERSIONS"
+},
+"layout:15": {
+"h": "0d1fe94f30",
+"n": "script | EDITIONS"
+},
+"layout:16": {
+"h": "592ef45ed3",
+"n": "view_EXPORT_SETS"
+},
+"layout:17": {
+"h": "c72d194294",
+"n": "view | GLOBAL_EXPORT_VARIABLES"
+},
+"layout:18": {
+"h": "7f15b45e8b",
+"n": "view_EXPORT_SET_ITEMS"
+},
+"layout:19": {
+"h": "fe3a4b9464",
+"n": "EXPORT_PRESETS"
+},
+"layout:2": {
+"h": "f9e4476ad9",
+"n": "table | PRODUCTIONS"
+},
+"layout:20": {
+"h": "df6b60f293",
+"n": "view | STANDARD_EVENTS"
+},
+"layout:21": {
+"h": "9c5221bb20",
+"n": "view | WORKDAYS"
+},
+"layout:22": {
+"h": "5c67784a4e",
+"n": "script | EVENT_WORKDAYS"
+},
+"layout:23": {
+"h": "2a68d37c87",
+"n": "script | CALENDAR_HIGHLIGHTS"
+},
+"layout:24": {
+"h": "e2327148bf",
+"n": "script | STYLES"
+},
+"layout:25": {
+"h": "4277d71b68",
+"n": "view_VALUE_LISTS"
+},
+"layout:26": {
+"h": "8d1abeb228",
+"n": "view_VALUES"
+},
+"layout:27": {
+"h": "8ced40bc4c",
+"n": "script | UTILITY_SESSIONS"
+},
+"layout:28": {
+"h": "3c8a9951ad",
+"n": "view | UTILITY_REPORTS"
+},
+"layout:29": {
+"h": "6d26d19838",
+"n": "view | UTILITY_LOGS"
+},
+"layout:3": {
+"h": "91a0c3a587",
+"n": "view | ROLES"
+},
+"layout:30": {
+"h": "2bc7d834d0",
+"n": "script | IMPORT_SOURCES"
+},
+"layout:31": {
+"h": "904e810e34",
+"n": "script | IMPORT_EVENTS"
+},
+"layout:32": {
+"h": "e5f2969599",
+"n": "script | ROLE_ASSIGNMENTS"
+},
+"layout:33": {
+"h": "ab60d76311",
+"n": "view | auto_LAYOUTS"
+},
+"layout:46": {
+"h": "ae092666e6",
+"n": "script | THEME_COLORS"
+},
+"layout:47": {
+"h": "6b3d221008",
+"n": "script | THEME_TYPOGRAPHY"
+},
+"layout:48": {
+"h": "eb9380f5fd",
+"n": "script | THEMES"
+},
+"layout:49": {
+"h": "192bf71646",
+"n": "script | THEMES_X_STYLES"
+},
+"layout:50": {
+"h": "fd0a5783a2",
+"n": "view | ORGANIZATION"
+},
+"layout:51": {
+"h": "429ba21ddf",
+"n": "view | APP_DEVICE_SETUP"
+},
+"layout:55": {
+"h": "f38fc1a632",
+"n": "view | PRODUCTIONS"
+},
+"layout:56": {
+"h": "eb32fddc12",
+"n": "table | ROLES Copy"
+},
+"layout:57": {
+"h": "4e8accda9d",
+"n": "table | WEEKS Copy"
+},
+"layout:58": {
+"h": "3fe54078fb",
+"n": "table | STYLES"
+},
+"layout:59": {
+"h": "c826b7304f",
+"n": "table | THEMES"
+},
+"layout:6": {
+"h": "2c174961f2",
+"n": "view | GLOBAL_USE"
+},
+"layout:60": {
+"h": "085333e0d3",
+"n": "table | EVENTS"
+},
+"layout:61": {
+"h": "e3a3670e6d",
+"n": "table | STANDARD_EVENTS"
+},
+"layout:62": {
+"h": "9bcecbb98c",
+"n": "table | CALENDARS"
+},
+"layout:63": {
+"h": "ed66efc360",
+"n": "table | LOCATION_TYPES Copy"
+},
+"layout:64": {
+"h": "cced173af1",
+"n": "table | IMPORT_SOURCES"
+},
+"layout:65": {
+"h": "8950a7fb5f",
+"n": "table | IMPORT_EVENTS"
+},
+"layout:66": {
+"h": "e2e2a9d065",
+"n": "table | THEMES_X_STYLES Copy"
+},
+"layout:67": {
+"h": "cf4576ca91",
+"n": "Import New Events"
+},
+"layout:68": {
+"h": "44af8613fb",
+"n": "view | APP_SESSIONS"
+},
+"layout:7": {
+"h": "440a60bd9e",
+"n": "view | WEEKS"
+},
+"layout:70": {
+"h": "61318fc7d8",
+"n": "VALUE_LISTS_fVALUES"
+},
+"layout:71": {
+"h": "c91d5f0be8",
+"n": "event portal"
+},
+"layout:74": {
+"h": "9f1de76c32",
+"n": "print | Agenda Calendar"
+},
+"layout:75": {
+"h": "d147618adc",
+"n": "print | Calendar"
+},
+"layout:77": {
+"h": "b4a48447f0",
+"n": "temp"
+},
+"layout:78": {
+"h": "a4b82183d8",
+"n": "view | DOCUMENTS"
+},
+"layout:79": {
+"h": "4a14ed20ac",
+"n": "view | ClickUp_Matches"
+},
+"layout:8": {
+"h": "3dd39e99ee",
+"n": "script | EVENTS"
+},
+"layout:80": {
+"h": "5c2a4d8de7",
+"n": "view | DOCUMENT_INSTANCES"
+},
+"layout:81": {
+"h": "f08a865001",
+"n": "view | ClickUp_TASKS"
+},
+"layout:88": {
+"h": "4fe82c760c",
+"n": "DOCUMENTS"
+},
+"layout:89": {
+"h": "e5b2019cd6",
+"n": "view | COMPARE_Array"
+},
+"layout:9": {
+"h": "db3b1c650e",
+"n": "script | CALENDARS"
+},
+"layout:90": {
+"h": "a1222de437",
+"n": "view | COMPARE_SavedViews"
+},
+"rel:1": {
+"h": "323ccfd6ab",
+"n": "CALENDARS ⇄ PRODUCTIONS_forCalendars"
+},
+"rel:11": {
+"h": "3d67fc8ed9",
+"n": "THEMES_X_STYLES ⇄ STYLES"
+},
+"rel:12": {
+"h": "a0dc6ccece",
+"n": "THEMES_X_STYLES ⇄ THEMES"
+},
+"rel:13": {
+"h": "9cae9bbb06",
+"n": "THEME_COLORS_Text_forStyleThemeJoin ⇄ THEMES_X_STYLES"
+},
+"rel:14": {
+"h": "403238d1d0",
+"n": "THEME_COLORS_Fill_forStyleThemeJoin ⇄ THEMES_X_STYLES"
+},
+"rel:15": {
+"h": "c0e2ea3493",
+"n": "THEME_TYPOGRAPHY_forStyleThemeJoin ⇄ THEMES_X_STYLES"
+},
+"rel:16": {
+"h": "efd2a7a189",
+"n": "UTILITY_REPORTS ⇄ UTILITY_SESSIONS"
+},
+"rel:17": {
+"h": "0406ee5cc2",
+"n": "IMPORT_EVENTS_forImportSessions ⇄ UTILITY_REPORTS_for_Importing_Events"
+},
+"rel:2": {
+"h": "38bae2ed2f",
+"n": "UTILTIY_LOGS_for_UTILITY_REPORTS ⇄ UTILITY_REPORTS"
+},
+"rel:20": {
+"h": "904e61b201",
+"n": "EVENTS_X_WORKDAYS ⇄ EVENTS"
+},
+"rel:22": {
+"h": "0cb948a210",
+"n": "WORKDAYS ⇄ EVENTS_X_WORKDAYS"
+},
+"rel:23": {
+"h": "a9c8108a63",
+"n": "WORKDAYS_for_assignEvents ⇄ EVENTS_X_WORKDAYS"
+},
+"rel:24": {
+"h": "2752d24938",
+"n": "EVENTS ⇄ STYLES_for_EVENTS"
+},
+"rel:26": {
+"h": "69f8ffc840",
+"n": "THEME_COLORS_for_EVENTS ⇄ THEMES_X_STYLES_for_EVENTS"
+},
+"rel:27": {
+"h": "2b28cf643c",
+"n": "THEME_TYPOGRAPHY_for_EVENTS ⇄ THEMES_X_STYLES_for_EVENTS"
+},
+"rel:28": {
+"h": "217e8b6440",
+"n": "THEMES_X_STYLES_for_EVENTS ⇄ STYLES_for_EVENTS"
+},
+"rel:30": {
+"h": "baee82dd2d",
+"n": "STYLES_for_WORKDAYS ⇄ WORKDAYS"
+},
+"rel:31": {
+"h": "88b80cffc7",
+"n": "THEME_COLORS_for_curr_WORKDAYS ⇄ TxS_for_curr_WORKDAYS"
+},
+"rel:32": {
+"h": "958a0e0448",
+"n": "THEME_TYPOGRAPHY_for_curr_WORKDAYS ⇄ TxS_for_curr_WORKDAYS"
+},
+"rel:33": {
+"h": "def41d0de3",
+"n": "TxS_for_curr_WORKDAYS ⇄ STYLES_for_WORKDAYS"
+},
+"rel:34": {
+"h": "a890e20108",
+"n": "THEME_TYPOGRAPHY_for_default_WORKDAYS ⇄ TxS_for_default_WORKDAYS"
+},
+"rel:35": {
+"h": "6f705db45b",
+"n": "THEME_COLORS_for_default_WORKDAYS ⇄ TxS_for_default_WORKDAYS"
+},
+"rel:37": {
+"h": "f3bd3c73dd",
+"n": "TxS_for_default_WORKDAYS ⇄ STYLES_for_WORKDAYS"
+},
+"rel:39": {
+"h": "778d9956f5",
+"n": "CALENDARS_for_WORKDAYSxEVENTS ⇄ EVENTS_X_WORKDAYS"
+},
+"rel:40": {
+"h": "419221f4b1",
+"n": "DOCUMENT_ClickUp_Matches ⇄ DOCUMENTS"
+},
+"rel:42": {
+"h": "efa75acda4",
+"n": "DOCUMENT_ClickUp_Matches ⇄ DOCUMENT_ClickUp_TASKS"
+},
+"rel:43": {
+"h": "969024c03f",
+"n": "DOCUMENT_INSTANCES ⇄ DOCUMENTS"
+},
+"rel:44": {
+"h": "f7b6a6b745",
+"n": "DOCUMENT_PRODUCTIONS ⇄ DOCUMENT_INSTANCES"
+},
+"rel:45": {
+"h": "552b36df80",
+"n": "VALUES_fDOC_REQUIRED_Status ⇄ DOCUMENT_INSTANCES"
+},
+"rel:46": {
+"h": "272b77bb14",
+"n": "VALUES_fDOC_PROGRESS_Status ⇄ DOCUMENT_INSTANCES"
+},
+"rel:47": {
+"h": "a5523929e5",
+"n": "DOCUMENTS_GLOBAL_USE ⇄ DOCUMENTS"
+},
+"rel:50": {
+"h": "a9accb2540",
+"n": "VALUE_LISTS_of_Activity_Log_Types ⇄ VALUES"
+},
+"rel:51": {
+"h": "1f8d753bf3",
+"n": "VALUE_LISTS_of_Status_Categories ⇄ VALUES"
+},
+"rel:52": {
+"h": "6a2d943543",
+"n": "VALUE_LISTS_of_Document_Statuses ⇄ VALUES"
+},
+"rel:53": {
+"h": "c34ce93b80",
+"n": "VALUE_LISTS_of_Required_State ⇄ VALUES"
+},
+"rel:8": {
+"h": "735607cf39",
+"n": "VALUES ⇄ VALUE_LISTS_fVALUES"
+},
+"script:1": {
+"h": "8e4958ff13",
+"n": "new | Utility Log"
+},
+"script:100": {
+"h": "b83bfe7cfa",
+"n": "field auto | enter_Hex update"
+},
+"script:101": {
+"h": "426d5ea85e",
+"n": "refresh | auto fields"
+},
+"script:102": {
+"h": "c91796f1de",
+"n": "update | EVENT_auto_StyleLookup"
+},
+"script:103": {
+"h": "597b12c7e2",
+"n": "set | Document PRODUCTION from MATRIX"
+},
+"script:12": {
+"h": "0dd9046e8f",
+"n": "goto_view_UTILITY_LOGS"
+},
+"script:13": {
+"h": "8b386d7a8e",
+"n": "trigger_App_Open"
+},
+"script:14": {
+"h": "86b7f3a7f3",
+"n": "goto_view_APP_SESSIONS"
+},
+"script:17": {
+"h": "77c3d06097",
+"n": "Show ALL or NONE"
+},
+"script:18": {
+"h": "8636c296b1",
+"n": "App_Startup"
+},
+"script:19": {
+"h": "f30511ddb6",
+"n": "goto_view_UTILITY_LOGS"
+},
+"script:20": {
+"h": "5ab0618143",
+"n": "status_index_move"
+},
+"script:21": {
+"h": "54d1e89e7c",
+"n": "goto_view_VALUES"
+},
+"script:22": {
+"h": "2cd4ab7777",
+"n": "exit w/ errors"
+},
+"script:25": {
+"h": "dadca61c09",
+"n": "import | new events"
+},
+"script:26": {
+"h": "95c5f477de",
+"n": "goto_view_Import_Sessions"
+},
+"script:29": {
+"h": "d778d544b8",
+"n": "new-import-session"
+},
+"script:32": {
+"h": "c3b038f41e",
+"n": "import EVENT | remove ProdShortName"
+},
+"script:35": {
+"h": "d069f39dce",
+"n": "import | copy Payload"
+},
+"script:36": {
+"h": "e626d4d4fc",
+"n": "import | delete empty rows"
+},
+"script:37": {
+"h": "85542549ee",
+"n": "import | remove maw notes"
+},
+"script:38": {
+"h": "86cd776488",
+"n": "import | write row numbers"
+},
+"script:45": {
+"h": "6f6be1f109",
+"n": "button | import EVENTS"
+},
+"script:46": {
+"h": "e286f3a8c1",
+"n": "new | Utility Report"
+},
+"script:49": {
+"h": "3283a52ade",
+"n": "goTo | view_UTILITY_REPORTS"
+},
+"script:50": {
+"h": "1cbf1d2b5f",
+"n": "end | Utility Report"
+},
+"script:52": {
+"h": "d2414be2a7",
+"n": "goTo | new window currentRunReport"
+},
+"script:61": {
+"h": "62713dd33c",
+"n": "set Global | pkCurrentUtilitySession"
+},
+"script:62": {
+"h": "2c0996b5ab",
+"n": "new | App Session Token"
+},
+"script:65": {
+"h": "05be8c057f",
+"n": "on App Open"
+},
+"script:68": {
+"h": "86f9c21d67",
+"n": "on App Close"
+},
+"script:69": {
+"h": "d617188a17",
+"n": "file | Create Backup"
+},
+"script:70": {
+"h": "6ca3d0ea24",
+"n": "xlink | fkUtilityReport"
+},
+"script:71": {
+"h": "6e99606377",
+"n": "import | Event records"
+},
+"script:72": {
+"h": "737448b16a",
+"n": "goTo | table Import EVENTS"
+},
+"script:73": {
+"h": "8617f3a10b",
+"n": "link | fkReport fkProd Hash"
+},
+"script:74": {
+"h": "c8bdfd374e",
+"n": "import | delete header row"
+},
+"script:75": {
+"h": "35dfc565b3",
+"n": "filter | to current run"
+},
+"script:76": {
+"h": "940872b0c4",
+"n": "lookup | production short"
+},
+"script:77": {
+"h": "ec9c9f6f85",
+"n": "goTo | productions"
+},
+"script:78": {
+"h": "3ded11f2d2",
+"n": "import | bool all day"
+},
+"script:81": {
+"h": "072b984eca",
+"n": "import | pass to workspace"
+},
+"script:83": {
+"h": "29d7ce3cc3",
+"n": "goTo | Events"
+},
+"script:84": {
+"h": "1771befc7b",
+"n": "compare | cu_ID"
+},
+"script:85": {
+"h": "12f6f32689",
+"n": "import | net new Event"
+},
+"script:86": {
+"h": "fb2d162986",
+"n": "import | merge Event"
+},
+"script:87": {
+"h": "ae0a77728f",
+"n": "lookup | calendar for production"
+},
+"script:88": {
+"h": "b843cd2f6c",
+"n": "goTo | Calendars"
+},
+"script:91": {
+"h": "71d06d3a24",
+"n": "merge | compare field"
+},
+"script:92": {
+"h": "81ead08fa6",
+"n": "XXmerge | Event Field"
+},
+"script:93": {
+"h": "6470ed53c7",
+"n": "backup | EVENT"
+},
+"script:95": {
+"h": "105f748438",
+"n": "button | generate Workdays"
+},
+"script:96": {
+"h": "a4f5b0cf98",
+"n": "button | generate events x workdays"
+},
+"script:97": {
+"h": "f852a65a34",
+"n": "goTo | Events x Workdays"
+},
+"script:98": {
+"h": "f289f3e5ab",
+"n": "new | workday x event"
+},
+"script:99": {
+"h": "c77ce572e3",
+"n": "sort | fkWorkday date"
+},
+"table:130": {
+"h": "3a34eb7041",
+"n": "PRODUCTIONS"
+},
+"table:131": {
+"h": "dd8b6546ba",
+"n": "ROLES"
+},
+"table:132": {
+"h": "5d11dcf881",
+"n": "GLOBAL_USE"
+},
+"table:133": {
+"h": "269ec4fae9",
+"n": "WEEKS"
+},
+"table:134": {
+"h": "c5f548a22c",
+"n": "EVENTS"
+},
+"table:135": {
+"h": "7ad3f3b998",
+"n": "CALENDARS"
+},
+"table:136": {
+"h": "63c76dbe25",
+"n": "PRODUCERS"
+},
+"table:137": {
+"h": "27597b4391",
+"n": "LOCATIONS"
+},
+"table:138": {
+"h": "594f2b1bb4",
+"n": "LOCATION_TYPES"
+},
+"table:139": {
+"h": "e9a24ed456",
+"n": "EXPORT_SESSIONS"
+},
+"table:140": {
+"h": "9e8e5a246e",
+"n": "VERSIONS"
+},
+"table:141": {
+"h": "56fc6ac91d",
+"n": "EDITIONS"
+},
+"table:142": {
+"h": "c853530f00",
+"n": "EXPORT_SETS"
+},
+"table:143": {
+"h": "56f1cd4ac5",
+"n": "GLOBAL_EXPORT"
+},
+"table:144": {
+"h": "34f710f069",
+"n": "EXPORT_SET_ITEMS"
+},
+"table:145": {
+"h": "c47cb99e23",
+"n": "EXPORT_PRESETS"
+},
+"table:146": {
+"h": "ceba1a012d",
+"n": "STANDARD_EVENTS"
+},
+"table:147": {
+"h": "a5c9b5812a",
+"n": "WORKDAYS"
+},
+"table:148": {
+"h": "8a63919673",
+"n": "EVENTS_X_WORKDAYS"
+},
+"table:149": {
+"h": "fbc0ee3d49",
+"n": "CALENDAR_HIGHLIGHTS"
+},
+"table:150": {
+"h": "3ba2fc98d1",
+"n": "STYLES"
+},
+"table:151": {
+"h": "ebf1308b08",
+"n": "VALUE_LISTS"
+},
+"table:152": {
+"h": "b3cba55338",
+"n": "VALUES"
+},
+"table:153": {
+"h": "376bc736d6",
+"n": "UTILITY_SESSIONS"
+},
+"table:154": {
+"h": "3a8221789d",
+"n": "UTILITY_REPORTS"
+},
+"table:155": {
+"h": "8be040e6b6",
+"n": "UTILITY_LOGS"
+},
+"table:157": {
+"h": "d280bb29d2",
+"n": "IMPORT_SOURCES"
+},
+"table:158": {
+"h": "8641a583d1",
+"n": "IMPORT_EVENTS"
+},
+"table:159": {
+"h": "c31dd6cc70",
+"n": "ROLE_ASSIGNMENTS"
+},
+"table:160": {
+"h": "910c7b0a9c",
+"n": "auto_LAYOUTS"
+},
+"table:162": {
+"h": "81f299f436",
+"n": "THEME_COLORS"
+},
+"table:163": {
+"h": "a0c739bbbd",
+"n": "THEME_TYPOGRAPHY"
+},
+"table:164": {
+"h": "35b863ab6a",
+"n": "THEMES"
+},
+"table:165": {
+"h": "40acc6b333",
+"n": "THEMES_X_STYLES"
+},
+"table:167": {
+"h": "9da72239dd",
+"n": "ORGANIZATION"
+},
+"table:168": {
+"h": "eaa31d82ef",
+"n": "APP_DEVICE_SETUP"
+},
+"table:169": {
+"h": "e8c61cdbdc",
+"n": "APP_SESSIONS"
+},
+"table:172": {
+"h": "016da0dd9c",
+"n": "DOCUMENTS"
+},
+"table:173": {
+"h": "e2687ecb18",
+"n": "ClickUp_Matches"
+},
+"table:174": {
+"h": "af686d7d46",
+"n": "DOCUMENT_INSTANCES"
+},
+"table:175": {
+"h": "b96c0b7550",
+"n": "ClickUp_TASKS"
+},
+"table:176": {
+"h": "7c91cc2675",
+"n": "COMPARE_Array"
+},
+"table:177": {
+"h": "ef9536e9bf",
+"n": "COMPARE_SavedViews"
+},
+"to:1065090": {
+"h": "a9423c0850",
+"n": "view_PRODUCTIONS"
+},
+"to:1065091": {
+"h": "51e8c812ca",
+"n": "view_ROLES"
+},
+"to:1065092": {
+"h": "3b87fa8ab0",
+"n": "view_GLOBAL_USE"
+},
+"to:1065093": {
+"h": "2f59218b90",
+"n": "view_WEEKS"
+},
+"to:1065094": {
+"h": "9c864e534c",
+"n": "view_EVENTS"
+},
+"to:1065095": {
+"h": "f51d2f3dac",
+"n": "view_CALENDARS"
+},
+"to:1065096": {
+"h": "a7a74823ea",
+"n": "PRODUCTIONS_forCalendars"
+},
+"to:1065097": {
+"h": "5f857233cb",
+"n": "CALENDARS"
+},
+"to:1065098": {
+"h": "f893252256",
+"n": "view_PRODUCER_INFO"
+},
+"to:1065099": {
+"h": "f3d0417822",
+"n": "view_LOCATIONS"
+},
+"to:1065100": {
+"h": "a1dae986ee",
+"n": "view_LOCATION_TYPES"
+},
+"to:1065104": {
+"h": "2d34f88149",
+"n": "EXPORT_SESSIONS"
+},
+"to:1065105": {
+"h": "5c0e6e7b77",
+"n": "view_VERSIONS"
+},
+"to:1065106": {
+"h": "de50cab4a0",
+"n": "view_EDITIONS"
+},
+"to:1065107": {
+"h": "928a609826",
+"n": "view_EXPORT_SETS"
+},
+"to:1065108": {
+"h": "deb3f35090",
+"n": "view_GLOBAL_EXPORT"
+},
+"to:1065109": {
+"h": "e416d40dc4",
+"n": "view_EXPORT_SET_ITEMS"
+},
+"to:1065110": {
+"h": "5b6b8e7671",
+"n": "view_PRINT_PRESETS"
+},
+"to:1065111": {
+"h": "be961e3a9d",
+"n": "view_STANDARD_EVENTS"
+},
+"to:1065112": {
+"h": "304c24c47d",
+"n": "view_WORKDAYS"
+},
+"to:1065113": {
+"h": "0f9f3108a1",
+"n": "view_EVENTS_X_WORKDAYS"
+},
+"to:1065114": {
+"h": "2fab660e71",
+"n": "view_CALENDAR_HIGHLIGHTS"
+},
+"to:1065115": {
+"h": "9f0caac545",
+"n": "view_STYLES"
+},
+"to:1065116": {
+"h": "abac7d3603",
+"n": "view_VALUE_LISTS"
+},
+"to:1065117": {
+"h": "c178c54770",
+"n": "view_VALUES"
+},
+"to:1065118": {
+"h": "582126fcbe",
+"n": "view_UTILITY_SESSIONS"
+},
+"to:1065119": {
+"h": "2956d3aef2",
+"n": "view_UTILITY_REPORTS"
+},
+"to:1065120": {
+"h": "14705adbfe",
+"n": "view_UTILITY_LOGS"
+},
+"to:1065122": {
+"h": "1f6dd26f0f",
+"n": "view_IMPORT_SOURCES"
+},
+"to:1065123": {
+"h": "54a51efbb2",
+"n": "view_IMPORT_EVENTS"
+},
+"to:1065124": {
+"h": "ae6c82630d",
+"n": "view_ROLE_ASSIGNMENTS"
+},
+"to:1065125": {
+"h": "39a339d762",
+"n": "view_auto_LAYOUTS"
+},
+"to:1065127": {
+"h": "e5b53bab64",
+"n": "view_THEME_COLORS"
+},
+"to:1065128": {
+"h": "ed1b64e423",
+"n": "view_THEME_TYPOGRAPHY"
+},
+"to:1065129": {
+"h": "d41ccf7ebe",
+"n": "view_THEMES"
+},
+"to:1065130": {
+"h": "61e8bf32b5",
+"n": "view_THEMES_X_STYLES"
+},
+"to:1065132": {
+"h": "f92639e6b6",
+"n": "view_ORGANIZATION"
+},
+"to:1065133": {
+"h": "76c1f65dc7",
+"n": "view_APP_DEVICE_SETUP"
+},
+"to:1065134": {
+"h": "366ffb191a",
+"n": "UTILITY_REPORTS"
+},
+"to:1065135": {
+"h": "52ec42c032",
+"n": "UTILTIY_LOGS_for_UTILITY_REPORTS"
+},
+"to:1065136": {
+"h": "0592229483",
+"n": "view_APP_SESSIONS"
+},
+"to:1065138": {
+"h": "b92fc33572",
+"n": "VALUES"
+},
+"to:1065139": {
+"h": "33e25c3a0d",
+"n": "VALUE_LISTS_fVALUES"
+},
+"to:1065144": {
+"h": "030baa2a0f",
+"n": "UTILITY_SESSIONS"
+},
+"to:1065145": {
+"h": "dd24c253a7",
+"n": "IMPORT_EVENTS_forImportSessions"
+},
+"to:1065147": {
+"h": "f1f16144a3",
+"n": "THEME_TYPOGRAPHY_forStyleThemeJoin"
+},
+"to:1065148": {
+"h": "5bf93a9bc2",
+"n": "STYLES"
+},
+"to:1065149": {
+"h": "44bcde3ae7",
+"n": "THEMES"
+},
+"to:1065150": {
+"h": "2ec2d125bb",
+"n": "THEME_COLORS_Text_forStyleThemeJoin"
+},
+"to:1065151": {
+"h": "ec28be1d27",
+"n": "THEMES_X_STYLES"
+},
+"to:1065152": {
+"h": "4e0c132abf",
+"n": "THEME_COLORS_Fill_forStyleThemeJoin"
+},
+"to:1065154": {
+"h": "0b5dd0f08d",
+"n": "UTILITY_REPORTS_for_Importing_Events"
+},
+"to:1065155": {
+"h": "dc2927b972",
+"n": "view_EXPORT_SESSIONS"
+},
+"to:1065156": {
+"h": "d91ad22473",
+"n": "WORKDAYS"
+},
+"to:1065157": {
+"h": "6fe326ffba",
+"n": "EVENTS"
+},
+"to:1065158": {
+"h": "9afc8b9e00",
+"n": "EVENTS_X_WORKDAYS"
+},
+"to:1065159": {
+"h": "4e68b22d94",
+"n": "WORKDAYS_for_assignEvents"
+},
+"to:1065160": {
+"h": "7bb3d18b9a",
+"n": "STYLES_for_EVENTS"
+},
+"to:1065161": {
+"h": "6b8304e94e",
+"n": "THEMES_X_STYLES_for_EVENTS"
+},
+"to:1065162": {
+"h": "bb178ae3d2",
+"n": "THEME_COLORS_for_EVENTS"
+},
+"to:1065163": {
+"h": "9f4405a1c0",
+"n": "THEME_TYPOGRAPHY_for_EVENTS"
+},
+"to:1065165": {
+"h": "c5bc891050",
+"n": "STYLES_for_WORKDAYS"
+},
+"to:1065166": {
+"h": "c8ef3dab50",
+"n": "THEME_TYPOGRAPHY_for_curr_WORKDAYS"
+},
+"to:1065167": {
+"h": "950cafabe9",
+"n": "TxS_for_curr_WORKDAYS"
+},
+"to:1065168": {
+"h": "7ea96b240d",
+"n": "THEME_COLORS_for_curr_WORKDAYS"
+},
+"to:1065169": {
+"h": "65094e1b45",
+"n": "THEME_COLORS_for_default_WORKDAYS"
+},
+"to:1065170": {
+"h": "4b44b5acfa",
+"n": "THEME_TYPOGRAPHY_for_default_WORKDAYS"
+},
+"to:1065171": {
+"h": "4bd89b6b00",
+"n": "TxS_for_default_WORKDAYS"
+},
+"to:1065173": {
+"h": "beec4149db",
+"n": "CALENDARS_for_WORKDAYSxEVENTS"
+},
+"to:1065174": {
+"h": "acb05a2560",
+"n": "view_DOCUMENTS"
+},
+"to:1065175": {
+"h": "3617f2ca3f",
+"n": "view_ClickUp_Matches"
+},
+"to:1065176": {
+"h": "f5438c99d8",
+"n": "view_DOCUMENT_INSTANCES"
+},
+"to:1065177": {
+"h": "7264b55bf8",
+"n": "DOCUMENTS"
+},
+"to:1065178": {
+"h": "7a434968d0",
+"n": "DOCUMENT_ClickUp_Matches"
+},
+"to:1065179": {
+"h": "d986baddd7",
+"n": "DOCUMENT_INSTANCES"
+},
+"to:1065180": {
+"h": "e860414253",
+"n": "DOCUMENT_ClickUp_TASKS"
+},
+"to:1065181": {
+"h": "66f9b813df",
+"n": "view_ClickUp_TASKS"
+},
+"to:1065182": {
+"h": "1cf43e2555",
+"n": "DOCUMENT_PRODUCTIONS"
+},
+"to:1065183": {
+"h": "8a87102b79",
+"n": "VALUES_fDOC_REQUIRED_Status"
+},
+"to:1065184": {
+"h": "9f6d14741a",
+"n": "VALUES_fDOC_PROGRESS_Status"
+},
+"to:1065185": {
+"h": "4025e30f57",
+"n": "DOCUMENTS_GLOBAL_USE"
+},
+"to:1065186": {
+"h": "77afe4df7f",
+"n": "COMPARE_Array"
+},
+"to:1065187": {
+"h": "5b5616b8c4",
+"n": "COMPARE_SavedViews"
+},
+"to:1065190": {
+"h": "f598df8df9",
+"n": "VALUE_LISTS_of_Activity_Log_Types"
+},
+"to:1065191": {
+"h": "5bd2b43077",
+"n": "VALUE_LISTS_of_Status_Categories"
+},
+"to:1065192": {
+"h": "dfb6a36024",
+"n": "VALUE_LISTS_of_Document_Statuses"
+},
+"to:1065193": {
+"h": "fdc12b24fd",
+"n": "VALUE_LISTS_of_Required_State"
+},
+"vl:1": {
+"h": "f37959eeb2",
+"n": "PRODUCTIONS"
+},
+"vl:10": {
+"h": "936d774c87",
+"n": "open | close"
+},
+"vl:11": {
+"h": "86af8877c1",
+"n": "values_Utility_Action_Types"
+},
+"vl:12": {
+"h": "79ad5d77ed",
+"n": "valueStatuses_Utility_Run"
+},
+"vl:13": {
+"h": "7301012271",
+"n": "VALUES"
+},
+"vl:14": {
+"h": "19031d74d8",
+"n": "UTILITY_REPORTS"
+},
+"vl:15": {
+"h": "c4852caaf6",
+"n": "CALENDARS"
+},
+"vl:16": {
+"h": "4b24a610c2",
+"n": "THEMES"
+},
+"vl:17": {
+"h": "e45be73a59",
+"n": "COLORS"
+},
+"vl:18": {
+"h": "adeda4626d",
+"n": "TYPOGRAPHY"
+},
+"vl:19": {
+"h": "655d1b2491",
+"n": "STYLES"
+},
+"vl:2": {
+"h": "d1bc9a33f3",
+"n": "LOCATION_TYPES"
+},
+"vl:21": {
+"h": "cf7e3a1a7b",
+"n": "ORGANIZATIONS"
+},
+"vl:22": {
+"h": "b8ae1d2b11",
+"n": "Source_of_Truth"
+},
+"vl:23": {
+"h": "ade99ad940",
+"n": "popup_ClickUp_TaskIDs"
+},
+"vl:24": {
+"h": "e1e14b9be3",
+"n": "popup_RequiredSTATE"
+},
+"vl:25": {
+"h": "0c2e49d6d8",
+"n": "pStatus_Documents"
+},
+"vl:3": {
+"h": "6097f6aae8",
+"n": "PRODUCERS"
+},
+"vl:4": {
+"h": "a20cb1cf98",
+"n": "LOCATIONS"
+},
+"vl:5": {
+"h": "109e003f58",
+"n": "EXPORT_SETS"
+},
+"vl:6": {
+"h": "ac5b04224c",
+"n": "One"
+},
+"vl:7": {
+"h": "48c38fb1eb",
+"n": "values_Status_Categories"
+},
+"vl:8": {
+"h": "636a05bac1",
+"n": "Value_Lists"
+}
+}
+}
