@@ -1,9 +1,12 @@
 # APP_CatalogRefresh
 # Rebuilds Target_Tables, and APP_LAYOUTS in a file that has one, from the file's own schema. Typed fields are never touched.
 # OnFirstWindowOpen, and a developer button after schema work. Needs FileMaker 19.4 or later.
+# EDIT THE TWO LAYOUT NAMES BELOW AT INSTALL. Each app names its utility layouts its own way; what matters is the base table occurrence, not the name.
 Set Error Capture [ On ]
 Allow User Abort [ Off ]
 Freeze Window
+Set Variable [ $layoutTables ; Value: "view | Target_Tables" ]
+Set Variable [ $layoutLayouts ; Value: "" ]
 Set Variable [ $origLayout ; Value: Get ( LayoutName ) ]
 Set Variable [ $now ; Value: Get ( CurrentTimestamp ) ]
 Set Variable [ $required ; Value: List ( "PrimaryKey" ; "CreationTimestamp" ; "CreatedBy" ; "ModificationTimestamp" ; "ModifiedBy" ) ]
@@ -14,7 +17,11 @@ If [ IsEmpty ( $rows ) or Left ( $rows ; 1 ) = "?" ]
 	Show Custom Dialog [ "App catalog" ; "FileMaker did not return its table list. The catalog needs FileMaker 19.4 or later." ]
 	Exit Script [ Text Result: 0 ]
 End If
-Go to Layout [ "Target_Tables" ; Animation: None ]
+Go to Layout [ Layout Name by calculation: $layoutTables ; Animation: None ]
+If [ Get ( LastError ) ≠ 0 or Get ( LayoutName ) ≠ $layoutTables ]
+	Show Custom Dialog [ "App catalog" ; "The table catalog layout was not found. Set $layoutTables to a layout whose base table occurrence is Target_Tables." ]
+	Exit Script [ Text Result: 0 ]
+End If
 Set Variable [ $i ; Value: 0 ]
 Loop [ Flush: Always ]
 	Set Variable [ $i ; Value: $i + 1 ]
@@ -52,44 +59,46 @@ If [ Get ( FoundCount ) > 0 ]
 	End Loop
 End If
 #
-# 2. Layouts. Only in a file that carries a layout catalog; URITP People does not yet, and the table's name is unruled.
+# 2. Layouts. Skipped unless $layoutLayouts names a layout catalog. URITP People has none, and the table's name is unruled.
 # LayoutIDs and LayoutNames list the same layouts in the same order.
-Set Variable [ $ids ; Value: LayoutIDs ( Get ( FileName ) ) ]
-Set Variable [ $names ; Value: LayoutNames ( Get ( FileName ) ) ]
-Go to Layout [ "APP_LAYOUTS" ; Animation: None ]
-Set Variable [ $i ; Value: 0 ]
-Loop [ Flush: Always ]
-	Set Variable [ $i ; Value: $i + 1 ]
-	Exit Loop If [ $i > ValueCount ( $ids ) ]
-	Set Variable [ $id ; Value: GetValue ( $ids ; $i ) ]
-	Set Variable [ $name ; Value: GetValue ( $names ; $i ) ]
-	If [ not IsEmpty ( $id ) and not IsEmpty ( $name ) and $name ≠ "-" ]
-		Enter Find Mode [ Pause: Off ]
-		Set Field [ APP_LAYOUTS::fm_LayoutID ; "==" & $id ]
-		Perform Find [ ]
-		If [ Get ( FoundCount ) = 0 ]
-			New Record/Request
-			Set Field [ APP_LAYOUTS::fm_LayoutID ; $id ]
-		End If
-		Set Field [ APP_LAYOUTS::fm_LayoutName ; $name ]
-		Set Field [ APP_LAYOUTS::LastSeenTimestamp ; $now ]
-		Set Field [ APP_LAYOUTS::RemovedTimestamp ; "" ]
-		Commit Records/Requests [ With dialog: Off ]
-	End If
-End Loop
-# Layouts this refresh did not see
-Enter Find Mode [ Pause: Off ]
-Set Field [ APP_LAYOUTS::LastSeenTimestamp ; "<" & $now ]
-Perform Find [ ]
-If [ Get ( FoundCount ) > 0 ]
-	Go to Record/Request/Page [ First ]
+If [ not IsEmpty ( $layoutLayouts ) ]
+	Set Variable [ $ids ; Value: LayoutIDs ( Get ( FileName ) ) ]
+	Set Variable [ $names ; Value: LayoutNames ( Get ( FileName ) ) ]
+	Go to Layout [ Layout Name by calculation: $layoutLayouts ; Animation: None ]
+	Set Variable [ $i ; Value: 0 ]
 	Loop [ Flush: Always ]
-		If [ IsEmpty ( APP_LAYOUTS::RemovedTimestamp ) ]
-			Set Field [ APP_LAYOUTS::RemovedTimestamp ; $now ]
+		Set Variable [ $i ; Value: $i + 1 ]
+		Exit Loop If [ $i > ValueCount ( $ids ) ]
+		Set Variable [ $id ; Value: GetValue ( $ids ; $i ) ]
+		Set Variable [ $name ; Value: GetValue ( $names ; $i ) ]
+		If [ not IsEmpty ( $id ) and not IsEmpty ( $name ) and $name ≠ "-" ]
+			Enter Find Mode [ Pause: Off ]
+			Set Field [ APP_LAYOUTS::fm_LayoutID ; "==" & $id ]
+			Perform Find [ ]
+			If [ Get ( FoundCount ) = 0 ]
+				New Record/Request
+				Set Field [ APP_LAYOUTS::fm_LayoutID ; $id ]
+			End If
+			Set Field [ APP_LAYOUTS::fm_LayoutName ; $name ]
+			Set Field [ APP_LAYOUTS::LastSeenTimestamp ; $now ]
+			Set Field [ APP_LAYOUTS::RemovedTimestamp ; "" ]
 			Commit Records/Requests [ With dialog: Off ]
 		End If
-		Go to Record/Request/Page [ Next ; Exit after last: On ]
 	End Loop
+	# Layouts this refresh did not see
+	Enter Find Mode [ Pause: Off ]
+	Set Field [ APP_LAYOUTS::LastSeenTimestamp ; "<" & $now ]
+	Perform Find [ ]
+	If [ Get ( FoundCount ) > 0 ]
+		Go to Record/Request/Page [ First ]
+		Loop [ Flush: Always ]
+			If [ IsEmpty ( APP_LAYOUTS::RemovedTimestamp ) ]
+				Set Field [ APP_LAYOUTS::RemovedTimestamp ; $now ]
+				Commit Records/Requests [ With dialog: Off ]
+			End If
+			Go to Record/Request/Page [ Next ; Exit after last: On ]
+		End Loop
+	End If
 End If
 #
 Go to Layout [ Layout Name by calculation: $origLayout ; Animation: None ]
