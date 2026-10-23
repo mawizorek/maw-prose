@@ -1109,6 +1109,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#compared-as-digits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Compared as digits
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1929,6 +1940,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#compared-as-digits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Compared as digits
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1947,7 +1969,7 @@
 
 
 <p class="buildstamp buildstamp--corner" hidden><span class="buildstamp__row"><span class="buildstamp__mark" aria-hidden="true" style="background-image:url(&quot;../../../../maw-prose-mark.svg&quot;)"></span><span class="buildstamp__text"><span class="buildstamp__id">MAW Prose</span><span class="buildstamp__sep"> · </span><span class="buildstamp__when">Fall 2026</span></span></span></p><h1 id="contact_phone_numbers">contact_PHONE_NUMBERS<a class="headerlink" href="#contact_phone_numbers" title="Permanent link">&para;</a></h1>
-<p class="dr-lede">One phone number on one contact card. The first by sort_Index is the primary and is what gets pushed to ClickUp.</p>
+<p class="dr-lede">One phone number on one contact card. The first by sort_Index is the primary and syncs both ways with ClickUp's Phone Number.</p>
 <div class="admonition abstract">
 <p class="admonition-title">Grain</p>
 <p>One phone number on one <a href="../CONTACTS/">CONTACTS</a> card.</p>
@@ -2042,8 +2064,10 @@
 </div>
 
 <h2 id="same-rules-as-email">Same rules as email<a class="headerlink" href="#same-rules-as-email" title="Permanent link">&para;</a></h2>
-<p>The relationship sorts by <code>sort_Index</code> and the first row is the primary. The primary number pushes to the ClickUp PEOPLE task's Phone Number field and is never pulled back.</p>
-<p class="dr-revised"><em>Revised 2026-10</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/uritp-people/tables/contact_PHONE_NUMBERS.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">b36e32b</span></span></p>
+<p>The relationship sorts by <code>sort_Index</code> and the first row is the primary. It syncs both ways with the ClickUp PEOPLE task's Phone Number field, by the same rules as email: adoption fills it, FileMaker edits push, ClickUp edits arrive as <a href="../sync_RECONCILE/">sync_RECONCILE</a> rows, and taking ClickUp's number moves the old one down.</p>
+<h2 id="compared-as-digits">Compared as digits<a class="headerlink" href="#compared-as-digits" title="Permanent link">&para;</a></h2>
+<p>Numbers are compared digits only, so <code>+1 (401) 555-0100</code> and <code>401.555.0100</code> are the same number and never raise a row. ClickUp's field requires a country code: the push sends a ten-digit number as <code>+1</code>, and anything else is logged as an error event rather than guessed at.</p>
+<p class="dr-revised"><em>Revised 2026-10</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/uritp-people/tables/contact_PHONE_NUMBERS.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">PR #83</span></span></p>
 
 
 

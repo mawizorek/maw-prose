@@ -1,12 +1,12 @@
 {
   "site": "mawprose",
   "base_url": "https://mawizorek.github.io/maw-prose/",
-  "built": "2026-10-23T19:17:20Z",
+  "built": "2026-10-23T19:28:35Z",
   "engine": "0.1.0",
   "totals": {
-    "pages": 134,
-    "edges": 461,
-    "broken": 20,
+    "pages": 135,
+    "edges": 466,
+    "broken": 21,
     "no_inbound": 22
   },
   "no_inbound": [
@@ -127,6 +127,11 @@
     {
       "from": "uritp-people-script-people-pull",
       "token": "uritp-people-table-settings",
+      "kind": "page"
+    },
+    {
+      "from": "uritp-people-sync-plan",
+      "token": "uritp-people",
       "kind": "page"
     },
     {
@@ -4356,11 +4361,18 @@
           "target": "uritp-people",
           "resolved": false,
           "count": 1
+        },
+        {
+          "token": "uritp-people-sync-plan",
+          "kind": "page",
+          "target": "uritp-people-sync-plan",
+          "resolved": true,
+          "count": 1
         }
       ],
       "referenced_by": [],
       "inbound": 0,
-      "outbound": 1
+      "outbound": 2
     },
     "uritp-people-script-people-apply": {
       "title": "PEOPLE_Apply",
@@ -4480,6 +4492,32 @@
       "inbound": 0,
       "outbound": 1
     },
+    "uritp-people-sync-plan": {
+      "title": "URITP People sync plan",
+      "url": "apps/uritp-people/sync-plan/",
+      "type": "page",
+      "references": [
+        {
+          "token": "uritp-people",
+          "kind": "page",
+          "target": "uritp-people",
+          "resolved": false,
+          "count": 1
+        },
+        {
+          "token": "uritp-people-table-sync-reconcile",
+          "kind": "page",
+          "target": "uritp-people-table-sync-reconcile",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "uritp-people-next-build"
+      ],
+      "inbound": 1,
+      "outbound": 2
+    },
     "uritp-people-table-app-layouts": {
       "title": "APP_LAYOUTS",
       "url": "apps/uritp-people/tables/APP_LAYOUTS/",
@@ -4556,13 +4594,20 @@
           "target": "uritp-people-table-contacts",
           "resolved": true,
           "count": 1
+        },
+        {
+          "token": "uritp-people-table-sync-reconcile",
+          "kind": "page",
+          "target": "uritp-people-table-sync-reconcile",
+          "resolved": true,
+          "count": 1
         }
       ],
       "referenced_by": [
         "uritp-people-table-contacts"
       ],
       "inbound": 1,
-      "outbound": 1
+      "outbound": 2
     },
     "uritp-people-table-contact-phone-numbers": {
       "title": "contact_PHONE_NUMBERS",
@@ -4575,11 +4620,18 @@
           "target": "uritp-people-table-contacts",
           "resolved": true,
           "count": 1
+        },
+        {
+          "token": "uritp-people-table-sync-reconcile",
+          "kind": "page",
+          "target": "uritp-people-table-sync-reconcile",
+          "resolved": true,
+          "count": 1
         }
       ],
       "referenced_by": [],
       "inbound": 0,
-      "outbound": 1
+      "outbound": 2
     },
     "uritp-people-table-contacts": {
       "title": "CONTACTS",
@@ -4762,9 +4814,12 @@
         }
       ],
       "referenced_by": [
+        "uritp-people-sync-plan",
+        "uritp-people-table-contact-emails",
+        "uritp-people-table-contact-phone-numbers",
         "uritp-people-table-people"
       ],
-      "inbound": 1,
+      "inbound": 4,
       "outbound": 3
     },
     "uritp-people-table-sync-sessions": {
