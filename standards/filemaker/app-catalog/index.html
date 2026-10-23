@@ -675,10 +675,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#generated-never-typed" class="md-nav__link">
+  <a href="#generated-never-typed-with-one-exception" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Generated, never typed
+        Generated, never typed, with one exception
       
     </span>
   </a>
@@ -686,10 +686,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-key-is-filemakers-internal-id" class="md-nav__link">
+  <a href="#the-key-and-why-it-is-a-name-on-filemaker-19" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The key is FileMaker's internal id
+        The key, and why it is a name on FileMaker 19
       
     </span>
   </a>
@@ -723,6 +723,17 @@
     <span class="md-ellipsis">
       
         Self-audit
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-else-the-refresh-does-on-its-own" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What else the refresh does on its own
       
     </span>
   </a>
@@ -898,10 +909,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#generated-never-typed" class="md-nav__link">
+  <a href="#generated-never-typed-with-one-exception" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Generated, never typed
+        Generated, never typed, with one exception
       
     </span>
   </a>
@@ -909,10 +920,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-key-is-filemakers-internal-id" class="md-nav__link">
+  <a href="#the-key-and-why-it-is-a-name-on-filemaker-19" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The key is FileMaker's internal id
+        The key, and why it is a name on FileMaker 19
       
     </span>
   </a>
@@ -946,6 +957,17 @@
     <span class="md-ellipsis">
       
         Self-audit
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-else-the-refresh-does-on-its-own" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What else the refresh does on its own
       
     </span>
   </a>
@@ -1025,44 +1047,56 @@
 
 
 <p class="buildstamp buildstamp--corner" hidden><span class="buildstamp__row"><span class="buildstamp__mark" aria-hidden="true" style="background-image:url(&quot;../../../maw-prose-mark.svg&quot;)"></span><span class="buildstamp__text"><span class="buildstamp__id">MAW Prose</span><span class="buildstamp__sep"> · </span><span class="buildstamp__when">Fall 2026</span></span></span></p><h1 id="the-app-catalog">The app catalog<a class="headerlink" href="#the-app-catalog" title="Permanent link">&para;</a></h1>
-<p class="dr-lede">Every FileMaker file keeps a record of its own tables and layouts, generated from the file itself, keyed on FileMaker's internal ids, carrying only what FileMaker cannot store.</p>
+<p class="dr-lede">Every FileMaker file keeps a record of its own tables, generated from the file itself, carrying only what FileMaker cannot store. On FileMaker 19 the base-table id is typed from the DDR, because the file cannot report it.</p>
 <h2 id="what-it-is">What it is<a class="headerlink" href="#what-it-is" title="Permanent link">&para;</a></h2>
 <p>Every solution carries a table catalog, <code>Target_Tables</code>, with one record per base table in the file. Anything else in the file that needs to point at a table points at a catalog record rather than naming the table in text.</p>
 <p>A layout catalog is the same idea one object type over, and the app's navigation menu is that catalog. It is specified below as <code>APP_LAYOUTS</code>, but no file has built one yet, so that name is a proposal and not a fact.</p>
 <p>The field registers live once, here, in <a href="./tables/">tables/</a>. An app's own table notes point at them rather than copying them.</p>
-<h2 id="generated-never-typed">Generated, never typed<a class="headerlink" href="#generated-never-typed" title="Permanent link">&para;</a></h2>
-<p>FileMaker already knows its tables and layouts. A list someone maintains by hand is a second copy of the schema and it drifts the first time a table is renamed. So the identity of every catalog record, its id and its current name, is written only by <code>APP_CatalogRefresh</code>, which reads the file's own schema tables and layout lists. People type only the things FileMaker has no place for.</p>
-<h2 id="the-key-is-filemakers-internal-id">The key is FileMaker's internal id<a class="headerlink" href="#the-key-is-filemakers-internal-id" title="Permanent link">&para;</a></h2>
-<p><code>fm_BaseTableID</code>, and <code>fm_LayoutID</code> for layouts, are the ids FileMaker assigns and never changes. Names are rewritten on every refresh. Rename a table or a layout and its catalog record follows it, with every typed field and every record pointing at it intact.</p>
+<h2 id="generated-never-typed-with-one-exception">Generated, never typed, with one exception<a class="headerlink" href="#generated-never-typed-with-one-exception" title="Permanent link">&para;</a></h2>
+<p>FileMaker already knows its tables. A list someone maintains by hand is a second copy of the schema and it drifts the first time a table is renamed. So presence, the current name, and last-seen are written only by <code>APP_CatalogRefresh</code>, which reads the file's own schema tables. People type only the things FileMaker has no place for.</p>
+<p>The exception is <code>fm_BaseTableID</code>, and it exists because of a platform limit rather than a choice. See the version section.</p>
+<h2 id="the-key-and-why-it-is-a-name-on-filemaker-19">The key, and why it is a name on FileMaker 19<a class="headerlink" href="#the-key-and-why-it-is-a-name-on-filemaker-19" title="Permanent link">&para;</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">A base-table id cannot be read on FileMaker 19</p>
+<p><code>FileMaker_BaseTables</code>, <code>BaseTableNames</code> and <code>BaseTableIDs</code> all arrived in <strong>FileMaker 2023 (20.1)</strong>. <code>FileMaker_BaseTableFields</code> arrived in 19.4.1 and carries base-table names and their fields, but no table id. <code>FileMaker_Tables.TableId</code> is a table <em>occurrence</em> id, the wrong grain, several per base table. This standard previously claimed the base-table system table shipped in 19.4; that was never true and was never run (corrected 2026-10-23).</p>
+</div>
+<p>On FileMaker 2023 and later the id is the key, it is read from the file, and a rename is invisible to everything pointing at a catalog record. That is the design and it still is.</p>
+<p>On FileMaker 19.4.1 the refresh matches on <code>fm_BaseTableName</code>, and <code>fm_BaseTableID</code> is typed once per table from the DDR export, which does carry real ids (D-050). Empty is meaningful: a row the refresh created and nobody has seeded. Find <code>isPresent</code> 1 with an empty id and that is the worklist, reported in the refresh's closing dialog.</p>
+<p>The cost is named rather than hidden: <strong>a renamed base table reads as one gone and one new.</strong> Nothing in a 19 file can say otherwise. Move the id across by hand or reseed from the next DDR. The id key existed to make renames safe, and on 19 a rename can only be noticed, not absorbed.</p>
 <h2 id="what-gets-typed">What gets typed<a class="headerlink" href="#what-gets-typed" title="Permanent link">&para;</a></h2>
-<p>On the table catalog: a display name, whether ClickUp feeds the table, and notes. On the layout catalog: a display name, a menu section, an order within the section, whether it shows in the menu, and notes. If a value can be read from the file, it is not typed.</p>
-<p><code>Target_Tables</code> as it stands in URITP People carries none of those typed fields yet, only identity. They are added when something needs them, per D-035.</p>
+<p>On the table catalog: <code>fm_BaseTableID</code> until the platform can report it, plus a display name, whether ClickUp feeds the table, and notes. On the layout catalog: a display name, a menu section, an order within the section, whether it shows in the menu, and notes. If a value can be read from the file, it is not typed.</p>
+<p><code>Target_Tables</code> as it stands in URITP People carries none of the display fields yet, only identity. They are added when something needs them, per D-035.</p>
 <h2 id="gone-never-deleted">Gone, never deleted<a class="headerlink" href="#gone-never-deleted" title="Permanent link">&para;</a></h2>
-<p>A table the refresh no longer finds keeps its row with <code>isPresent</code> at 0. A layout the refresh no longer finds gets <code>RemovedTimestamp</code>. Either way the record stays, because other records may point at it, and a record that silently loses its target is worse than one that says the target is gone. Rebuild it in the file and the next refresh reverses the flag, because the id is gone for good only when the object is.</p>
-<p>The two halves use different mechanisms because the live table does, and <code>LastSeenAt</code> already answers when a table was last seen, so the timestamp lost nothing.</p>
+<p>A table the refresh no longer finds keeps its row with <code>isPresent</code> at 0. The record stays, because other records may point at it, and a record that silently loses its target is worse than one that says the target is gone. Rebuild it in the file and the next refresh reverses the flag.</p>
+<p><code>LastSeenAt</code> answers when a table was last seen, which is why no removal timestamp is carried.</p>
 <h2 id="self-audit">Self-audit<a class="headerlink" href="#self-audit" title="Permanent link">&para;</a></h2>
-<p>The refresh checks every base table for the standard fields in <a href="./fmp-data-standards.md">the data standards</a>: <code>PrimaryKey</code> and the four audit fields.</p>
+<p>The refresh checks every base table for the standard fields in <a href="./fmp-data-standards.md">the data standards</a>: <code>PrimaryKey</code> and the four audit fields. This check works on 19.4.1, because <code>FileMaker_BaseTableFields</code> reports every field of every base table.</p>
 <div class="admonition warning">
 <p class="admonition-title">The conformance report does not exist yet</p>
-<p>What is missing is meant to land in <code>AuditGap</code>, one field per line, so that an empty <code>AuditGap</code> means the table conforms and a find on that field is the conformance report. <code>Target_Tables</code> has no such field, so the refresh computes the gap and discards it. Adding <code>AuditGap</code> as Text, plus one <code>Set Field</code> in the refresh, is all this needs.</p>
+<p>What is missing is meant to land in <code>AuditGap</code>, one field per line, so that an empty <code>AuditGap</code> means the table conforms and a find on that field is the conformance report. <code>Target_Tables</code> has no such field, so the refresh computes the gap and discards it. Adding <code>AuditGap</code> as Text, plus one <code>Set Field</code> in the refresh, is all this needs, and the computation is already proven.</p>
 </div>
+<h2 id="what-else-the-refresh-does-on-its-own">What else the refresh does on its own<a class="headerlink" href="#what-else-the-refresh-does-on-its-own" title="Permanent link">&para;</a></h2>
+<p>More than the id limit suggests: it finds a table it has never seen, notices one that has vanished, keeps presence and last-seen true on every row, computes the conformance gap per table, and counts the file's base tables. The only manual act is typing an id for a table just added, and base tables are a finite set that changes rarely.</p>
+<p>A base table with no fields defined does not appear in <code>FileMaker_BaseTableFields</code> and so is invisible to the refresh. It stops mattering the moment the table has a field.</p>
 <h2 id="the-menu">The menu<a class="headerlink" href="#the-menu" title="Permanent link">&para;</a></h2>
 <p><code>APP_OpenMenu</code> opens a card window on the <code>APP_MENU</code> layout, found to layouts marked for the menu and not removed, sorted by section then order. Each row's button runs <code>APP_GoToLayout</code> with the layout's id. That script looks up the layout's current name from its id at the moment of the click, so renaming a layout never breaks a menu entry. None of this runs until a file has a layout catalog.</p>
 <h2 id="installing-it-in-an-app">Installing it in an app<a class="headerlink" href="#installing-it-in-an-app" title="Permanent link">&para;</a></h2>
 <ul>
-<li><code>Target_Tables</code>, field for field as the register. In the app package, <code>tables/Target_Tables.md</code> states the grain and points its <code>data</code> slot at the register.</li>
-<li>A layout named <code>Target_Tables</code>, a utility form. The refresh navigates by layout name, so it stops cold without one.</li>
-<li>Script folder <code>00_APP</code>, typed from <a href="./scripts/">scripts/</a>: <code>APP_CatalogRefresh</code>, and <code>APP_GoToLayout</code> and <code>APP_OpenMenu</code> once there is a layout catalog to drive them.</li>
+<li><code>Target_Tables</code>, field for field as the register.</li>
+<li>A layout on an occurrence of <code>Target_Tables</code>, a utility form. The refresh navigates to it, so it stops cold without one. Its name goes in <code>$layoutTables</code> at the top of the refresh; nothing else is edited.</li>
+<li>Script folder <code>00_APP</code>, typed or pasted from <a href="./scripts/">scripts/</a>: <code>APP_CatalogRefresh</code>, and <code>APP_GoToLayout</code> and <code>APP_OpenMenu</code> once there is a layout catalog to drive them.</li>
 <li><code>APP_CatalogRefresh</code> on the file's OnFirstWindowOpen trigger, and on a developer button for after schema work.</li>
+<li>Run it, then seed <code>fm_BaseTableID</code> for every row from the DDR export, then run it again and confirm nothing new appears.</li>
 </ul>
 <h2 id="versions">Versions<a class="headerlink" href="#versions" title="Permanent link">&para;</a></h2>
-<p>The table half reads <code>FileMaker_BaseTables</code> and <code>FileMaker_BaseTableFields</code>, which arrived in FileMaker 19.4. On an older file the refresh says so and stops. The layout half uses <code>LayoutIDs</code> and <code>LayoutNames</code>, which every supported version has.</p>
+<p><strong>19.4.1 is the floor.</strong> That is when <code>FileMaker_BaseTableFields</code> arrived, and the refresh reads nothing else. Below it the refresh says so and stops.</p>
+<p><strong>FileMaker 2023 (20.1) is where this standard wants to live.</strong> <code>FileMaker_BaseTables</code> gives the base-table id directly, which makes the id the key again, makes renames safe, and makes <code>fm_BaseTableID</code> generated rather than typed. The layout half uses <code>LayoutIDs</code> and <code>LayoutNames</code>, which every supported version has.</p>
 <h2 id="what-it-is-not">What it is not<a class="headerlink" href="#what-it-is-not" title="Permanent link">&para;</a></h2>
 <p>It is not the spec. The catalog records what exists in the file; the app package in this repo records what the file is built toward. Exporting the catalog and laying it beside the package's <code>tables/</code> folder is a punch list, and like any punch list it is temporary.</p>
 <p>It does not make SQL rename-safe. <code>ExecuteSQL</code> names table occurrences and fields, not base tables. That job belongs to <code>GetFieldName</code>, in <a href="./fmp-data-standards.md">the data standards</a>.</p>
 <h2 id="why-the-name-is-target_tables">Why the name is Target_Tables<a class="headerlink" href="#why-the-name-is-target_tables" title="Permanent link">&para;</a></h2>
 <p>D-043 called this table <code>APP_TABLES</code>. URITP People built it as <code>Target_Tables</code> and Michael ruled on 2026-10-23 that the built name stands (D-049). The standard follows the file rather than the other way round, because no other solution had built the catalog at all, so there was nothing to keep compatible and no reason to carry the weaker name forward.</p>
-<p class="dr-revised"><em>Revised 2026-10</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/standards/filemaker/app-catalog.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">PR #87</span></span></p>
+<p class="dr-revised"><em>Revised 2026-10</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/standards/filemaker/app-catalog.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">PR #88</span></span></p>
 
 
 

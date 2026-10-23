@@ -677,10 +677,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-two-layout-names-are-install-variables" class="md-nav__link">
+  <a href="#what-filemaker-19-cannot-tell-it" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The two layout names are install variables
+        What FileMaker 19 cannot tell it
       
     </span>
   </a>
@@ -688,10 +688,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-two-halves-do-not-match-each-other-yet" class="md-nav__link">
+  <a href="#what-is-still-automatic" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The two halves do not match each other yet
+        What is still automatic
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-layout-name-is-an-install-variable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The layout name is an install variable
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#auditgap-has-nowhere-to-land" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AuditGap has nowhere to land
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-layout-catalog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The layout catalog
       
     </span>
   </a>
@@ -888,10 +921,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-two-layout-names-are-install-variables" class="md-nav__link">
+  <a href="#what-filemaker-19-cannot-tell-it" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The two layout names are install variables
+        What FileMaker 19 cannot tell it
       
     </span>
   </a>
@@ -899,10 +932,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-two-halves-do-not-match-each-other-yet" class="md-nav__link">
+  <a href="#what-is-still-automatic" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The two halves do not match each other yet
+        What is still automatic
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-layout-name-is-an-install-variable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The layout name is an install variable
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#auditgap-has-nowhere-to-land" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AuditGap has nowhere to land
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-layout-catalog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The layout catalog
       
     </span>
   </a>
@@ -960,21 +1026,28 @@
 
 
 <p class="buildstamp buildstamp--corner" hidden><span class="buildstamp__row"><span class="buildstamp__mark" aria-hidden="true" style="background-image:url(&quot;../../../../maw-prose-mark.svg&quot;)"></span><span class="buildstamp__text"><span class="buildstamp__id">MAW Prose</span><span class="buildstamp__sep"> · </span><span class="buildstamp__when">Fall 2026</span></span></span></p><h1 id="app-catalog-scripts">App catalog scripts<a class="headerlink" href="#app-catalog-scripts" title="Permanent link">&para;</a></h1>
-<p class="dr-lede">APP_CatalogRefresh, APP_GoToLayout and APP_OpenMenu. What each one does and the three things to check on a first install.</p>
+<p class="dr-lede">APP_CatalogRefresh, APP_GoToLayout and APP_OpenMenu. What each one does, what FileMaker 19 cannot tell it, and the checks on a first install.</p>
 <p>Copy targets in this folder, installed into each app's <code>00_APP</code> script folder. The standard they serve is <a href="../../app-catalog/">the app catalog</a>.</p>
 <h2 id="app_catalogrefresh">APP_CatalogRefresh<a class="headerlink" href="#app_catalogrefresh" title="Permanent link">&para;</a></h2>
-<p>Reads <code>FileMaker_BaseTables</code> for every base table and its id, checks each table's fields in <code>FileMaker_BaseTableFields</code> against the five standard fields, and adds or updates one <code>Target_Tables</code> record per id. Then it reads <code>LayoutIDs</code> and <code>LayoutNames</code> and does the same into APP_LAYOUTS. A table it no longer sees keeps its row with <code>isPresent</code> at 0; a layout it no longer sees gets <code>RemovedTimestamp</code>. It never writes a typed field.</p>
-<p>The upsert finds by id once per object. A file has tens of tables and layouts, not thousands, so a find per row costs nothing and keeps the script plain.</p>
-<h2 id="the-two-layout-names-are-install-variables">The two layout names are install variables<a class="headerlink" href="#the-two-layout-names-are-install-variables" title="Permanent link">&para;</a></h2>
-<p><code>$layoutTables</code> and <code>$layoutLayouts</code> are set in the first steps, and they are the only lines an installing app edits. The script needs record context, which means a layout whose base table occurrence is the catalog table; it does not care what that layout is called, and every app names its utility layouts its own way. URITP People's is <code>view | Target_Tables</code>, on the <code>view_Target_Tables</code> occurrence, which is why a hardcoded <code>Target_Tables</code> step would have failed on the first run.</p>
-<p>A missing table-catalog layout stops the script with a dialog naming the variable, rather than letting <code>Go to Layout</code> fail quietly and writing records into whatever context happened to be current. An empty <code>$layoutLayouts</code> skips the layout half entirely, which is the correct state for a file with no layout catalog.</p>
-<h2 id="the-two-halves-do-not-match-each-other-yet">The two halves do not match each other yet<a class="headerlink" href="#the-two-halves-do-not-match-each-other-yet" title="Permanent link">&para;</a></h2>
-<p>The table half was rewritten 2026-10-23 against URITP People's live <code>Target_Tables</code>, which is the only catalog table that exists in any file (D-049). It writes <code>fm_BaseTableID</code>, <code>fm_BaseTableName</code>, <code>isPresent</code> and <code>LastSeenAt</code>.</p>
-<p>Two consequences, both deliberate and neither guessed at:</p>
+<p>Reads every base table that has a field defined, adds a <code>Target_Tables</code> row for one it has not seen, stamps <code>isPresent</code> and <code>LastSeenAt</code> on every row it does see, flips <code>isPresent</code> to 0 on a row it stops seeing, and reports what changed in a dialog. It never writes a typed field, and it never writes <code>fm_BaseTableID</code>.</p>
+<p>The upsert finds by name once per table. A file has tens of tables, not thousands, so a find per row costs nothing and keeps the script plain.</p>
+<h2 id="what-filemaker-19-cannot-tell-it">What FileMaker 19 cannot tell it<a class="headerlink" href="#what-filemaker-19-cannot-tell-it" title="Permanent link">&para;</a></h2>
+<p><strong>There is no base-table id available on 19.</strong> <code>FileMaker_BaseTables</code>, <code>BaseTableNames</code> and <code>BaseTableIDs</code> all arrived in FileMaker 2023 (20.1). <code>FileMaker_Tables.TableId</code> is a table <em>occurrence</em> id, the wrong grain, several per base table. <code>FileMaker_BaseTableFields</code> arrived in 19.4.1 and carries names and fields but no table id.</p>
+<p>So the refresh matches on <code>fm_BaseTableName</code>, and <code>fm_BaseTableID</code> is typed by hand from the DDR export (D-050). Three consequences, all of them designed around rather than hidden:</p>
 <ul>
-<li><strong><code>AuditGap</code> has nowhere to land.</strong> The script still computes the missing standard fields into <code>$gap</code>, because that is the D-043 conformance check, but <code>Target_Tables</code> has no field to hold it, so nothing is written and a comment step says so. Add <code>AuditGap</code> as Text and one <code>Set Field</code> restores the check. Until then, the conformance report named in the catalog standard does not exist.</li>
-<li><strong>The layout half still says APP_LAYOUTS.</strong> No file has a layout catalog, so there is no live name to follow and inventing one would be a guess. Whether it becomes <code>Target_Layouts</code> for symmetry or stays <code>APP_LAYOUTS</code> is unruled, and the half is skipped while <code>$layoutLayouts</code> is empty.</li>
+<li><strong>Empty is the worklist.</strong> A row the script creates has no id, and the script's closing dialog counts the rows waiting for one. A find on <code>isPresent</code> 1 with <code>fm_BaseTableID</code> empty is the to-do list, and it is never a guess about which tables are new.</li>
+<li><strong>A rename looks like a deletion plus an addition.</strong> Nothing in the file can tell the refresh otherwise. Rename a base table and you get the old row flipped to <code>isPresent</code> 0 and a fresh row with no id; move the id across by hand, or reseed from the next DDR. This is the exact failure the id key existed to prevent, and on 19 it cannot be prevented, only noticed.</li>
+<li><strong>A table with no fields defined is invisible.</strong> <code>FileMaker_BaseTableFields</code> only lists tables that have at least one field. Not a bug, a 19 limit; it stops mattering the moment the table has a field.</li>
 </ul>
+<p>Upgrading to FileMaker 2023 removes all three. Until then this is the honest version.</p>
+<h2 id="what-is-still-automatic">What is still automatic<a class="headerlink" href="#what-is-still-automatic" title="Permanent link">&para;</a></h2>
+<p>More than the id situation suggests. The script detects a new table, detects a vanished one, maintains presence and last-seen on every row, computes the D-043 conformance gap per table from <code>FileMaker_BaseTableFields</code>, and counts the file's base tables for the dialog. The only manual act is typing an id for a table you just added, and tables are a finite, rarely changing set.</p>
+<h2 id="the-layout-name-is-an-install-variable">The layout name is an install variable<a class="headerlink" href="#the-layout-name-is-an-install-variable" title="Permanent link">&para;</a></h2>
+<p><code>$layoutTables</code> is set in the first steps and is the only line an installing app edits. The script needs record context, which means a layout whose base table occurrence is the catalog table; it does not care what that layout is called. URITP People's is <code>view | Target_Tables</code>, on the <code>view_Target_Tables</code> occurrence. A missing layout stops the script with a dialog naming the variable, rather than letting <code>Go to Layout</code> fail quietly and writing records into whatever context happened to be current.</p>
+<h2 id="auditgap-has-nowhere-to-land">AuditGap has nowhere to land<a class="headerlink" href="#auditgap-has-nowhere-to-land" title="Permanent link">&para;</a></h2>
+<p>The script computes the missing standard fields into <code>$gap</code>, because that is the D-043 conformance check, but <code>Target_Tables</code> has no field to hold it, so nothing is written and a comment step says so. This one is worth closing: the gap computation genuinely works on 19.4.1, so adding <code>AuditGap</code> as Text and one <code>Set Field</code> turns a find on that field into the conformance report.</p>
+<h2 id="the-layout-catalog">The layout catalog<a class="headerlink" href="#the-layout-catalog" title="Permanent link">&para;</a></h2>
+<p>No file has one, so there is no built name to follow and inventing one would be a guess. Whether it becomes <code>Target_Layouts</code> for symmetry or stays <code>APP_LAYOUTS</code> is unruled, and the layout half has been cut from this script until a file has the table. <code>APP_GoToLayout</code> and <code>APP_OpenMenu</code> below are unreachable meanwhile.</p>
 <h2 id="app_gotolayout">APP_GoToLayout<a class="headerlink" href="#app_gotolayout" title="Permanent link">&para;</a></h2>
 <p>Looks up the layout's current name from its id at the moment it runs. When it runs from the APP_MENU card it closes the card first, so the move happens in the window underneath.</p>
 <h2 id="app_openmenu">APP_OpenMenu<a class="headerlink" href="#app_openmenu" title="Permanent link">&para;</a></h2>
@@ -982,11 +1055,12 @@
 <h2 id="check-on-the-first-install">Check on the first install<a class="headerlink" href="#check-on-the-first-install" title="Permanent link">&para;</a></h2>
 <ul>
 <li>That <code>$layoutTables</code> names a layout that exists in this file, on an occurrence of the catalog table. The script tells you if it does not.</li>
-<li>That <code>FileMaker_BaseTableFields</code> names its table column <code>BaseTableName</code>. If <code>$gap</code> comes back holding all five fields for every table, the column name is wrong.</li>
-<li>That <code>LayoutNames</code> and <code>LayoutIDs</code> skip layout folders and separators on your version. The refresh already ignores a blank name and a <code>-</code>.</li>
-<li>That <code>Get ( WindowStyle )</code> reports 3 for a card window. If the menu card stays open after a click, it does not.</li>
+<li>That the base-table list comes back at all. A leading <code>?</code> or an empty result means the file is older than 19.4.1.</li>
+<li>That the dialog's base-table count matches the Tables tab of Manage Database. If it is short, a table has no fields defined.</li>
+<li>That running it twice creates nothing the second time. That is the proof the name match works.</li>
+<li>That <code>Get ( WindowStyle )</code> reports 3 for a card window, once there is a menu to open.</li>
 </ul>
-<p class="dr-revised"><em>Revised 2026-10</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/standards/filemaker/scripts/APP_CatalogRefresh.notes.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">PR #87</span></span></p>
+<p class="dr-revised"><em>Revised 2026-10</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/standards/filemaker/scripts/APP_CatalogRefresh.notes.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">PR #88</span></span></p>
 
 
 
