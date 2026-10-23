@@ -6,6 +6,8 @@
 #   FMSaveAsXML  (Tools > Save a Copy as XML)            -> ACTIVITY.md, ONLY if it carries no credential data.
 #                A normal Save-as-XML includes account + file-access authentication blobs: it is REJECTED,
 #                deleted from HEAD, and the run fails loud. Do not drop Save-as-XML into this repo.
+# One bad drop never blocks the rest: symlinks, unreadable or unparseable files (e.g. a DDR Summary.xml)
+# are skipped with a warning and left in place; every good drop is still processed, indexed and deleted.
 # Output is deterministic for a given export: no run timestamp, so identical input = identical bytes.
 # Record counts are reported as state and never hashed. Layout geometry/styling is dropped and declared.
 import sys, os, re, json, glob, hashlib, collections, xml.etree.ElementTree as ET
@@ -176,6 +178,7 @@ def index():
     I = [FM + "# FMP state \u00b7 index", "Generated from FileMaker exports dropped in `zFMP-drops/`. Cold agents: open an app's DELTA.md first (what moved since the previous drop), then STATE.md (what the app is), STEPS.md only when you need a script's actual steps. ACTIVITY.md appears only if a credential-free Save-as-XML was ever processed.\n"]
     for a in apps:
         have = [f for f in ("ACTIVITY.md", "STATE.md", "DELTA.md", "STEPS.md") if os.path.exists(os.path.join(OUT, a, f))]
+        if not have: continue
         I.append(f"- **{a}** \u00b7 " + " \u00b7 ".join(f"[{f[:-3]}]({a}/{f})" for f in have))
     open(os.path.join(OUT, "index.md"), "w").write("\n".join(I) + "\n")
 
@@ -183,18 +186,26 @@ drops = sorted(glob.glob(os.path.join(DROP, "*.xml")) + glob.glob(os.path.join(D
 if not drops: print("no drops"); sys.exit(0)
 os.makedirs(OUT, exist_ok=True); done = []; rejected = []; skipped = []
 for p in drops:
-    root = ET.parse(p).getroot(); src = p.replace(os.sep, "/")
-    if root.tag == "FMPReport": app = ddr(root, src)
-    elif root.tag == "FMSaveAsXML":
-        app = saxml(root, src)
-        if app is None:
-            os.remove(p); rejected.append(src)
-            print(f"::error::{src} is Save-as-XML carrying account/credential data. Deleted from HEAD, nothing generated. It is still in git history: purge that commit. Drop DDR XML instead."); continue
-    else:
-        print(f"::warning::{src}: unknown root <{root.tag}>. Expected FMPReport (DDR XML) or FMSaveAsXML. Skipped, not deleted.")
+    src = p.replace(os.sep, "/")
+    if os.path.islink(p) or not os.path.isfile(p):
+        print(f"::warning::{src}: symlink or not a regular file (a Finder alias or DDR Summary.xml link?). Skipped, not deleted.")
+        skipped.append(src); continue
+    try:
+        root = ET.parse(p).getroot()
+        if root.tag == "FMPReport": app = ddr(root, src)
+        elif root.tag == "FMSaveAsXML":
+            app = saxml(root, src)
+            if app is None:
+                os.remove(p); rejected.append(src)
+                print(f"::error::{src} is Save-as-XML carrying account/credential data. Deleted from HEAD, nothing generated. It is still in git history: purge that commit. Drop DDR XML instead."); continue
+        else:
+            print(f"::warning::{src}: unknown root <{root.tag}>. Expected FMPReport (DDR XML) or FMSaveAsXML. Skipped, not deleted.")
+            skipped.append(src); continue
+    except Exception as e:
+        print(f"::warning::{src}: could not deconstruct ({type(e).__name__}: {one(str(e), 160)}). A DDR Summary.xml has no catalogs: drop the per-file XML instead. Skipped, not deleted.")
         skipped.append(src); continue
     done.append((p, app)); print(f"{src} \u2192 {slug(app)} ({root.tag})")
 index()
 for p, _ in done: os.remove(p)
-if skipped: print(f"\u26a0\ufe0f Skipped {len(skipped)} unknown file(s): " + ", ".join(skipped))
+if skipped: print(f"\u26a0\ufe0f Skipped {len(skipped)} file(s): " + ", ".join(skipped))
 if rejected: sys.exit(2)
