@@ -15,6 +15,8 @@ Every table and all 28 relationships on the [README](@uritp-people) are in the f
 
 ## This cycle
 
+The design for steps 2 to 7, with field ids, checkpoints and the rulings still owed, is the [sync plan](@uritp-people-sync-plan).
+
 1. Rule on how the adapters read their source, container and system, and on Target_Tables against the D-043 app catalog. Both shape the scripts below.
 2. Value lists Action (pull, push, adopt, export) and Decision (pending, fm, xt, applied).
 3. The table refresh, then the field refresh for the PEOPLE container: one xt_FIELDS row per mapped field, `name` and `status` included.
