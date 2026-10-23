@@ -1,17 +1,20 @@
 ---
 id: uritp-people-table-import-sessions
-title: import_SESSIONS
+title: import_SESSIONS (D-042, superseded)
 type: reference
-status: public
+status: hidden
 order: 50
 revised: 2026-10
-summary: One press of an import button. When, who, which source and view, how many, and what went wrong.
+summary: Superseded. One press of an import button. When, who, which source and view, how many, and what went wrong.
 data:
   catalog:
     file: import_SESSIONS.tsv
 ---
 
-# import_SESSIONS
+# import_SESSIONS (D-042, superseded)
+
+!!! warning "Superseded"
+    D-042's design, replaced by the 2026-10-23 schema baseline. Current page: [sync_SESSIONS](@uritp-people-table-sync-sessions). Kept for its reasoning; do not build against it.
 
 !!! abstract "Grain"
     One press of an import button, whether it finished or not.

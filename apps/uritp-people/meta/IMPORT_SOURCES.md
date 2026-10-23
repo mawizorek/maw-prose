@@ -1,17 +1,20 @@
 ---
 id: uritp-people-table-import-sources
-title: IMPORT_SOURCES
+title: IMPORT_SOURCES (D-042, superseded)
 type: reference
-status: public
+status: hidden
 order: 45
 revised: 2026-10
-summary: One ClickUp view an import reads from. PEOPLE, EMAILS, PHONE NUMBERS. The pull scripts look their view up here by name.
+summary: Superseded. One ClickUp view an import reads from. PEOPLE, EMAILS, PHONE NUMBERS. The pull scripts look their view up here by name.
 data:
   catalog:
     file: IMPORT_SOURCES.tsv
 ---
 
-# IMPORT_SOURCES
+# IMPORT_SOURCES (D-042, superseded)
+
+!!! warning "Superseded"
+    D-042's design, replaced by the 2026-10-23 schema baseline. Current page: [sync_SOURCES](@uritp-people-table-sync-sources). Kept for its reasoning; do not build against it.
 
 !!! abstract "Grain"
     One ClickUp view that one import reads. Not one import run: those are [import_SESSIONS](@uritp-people-table-import-sessions).

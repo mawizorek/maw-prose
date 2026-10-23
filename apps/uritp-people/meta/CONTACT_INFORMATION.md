@@ -1,17 +1,20 @@
 ---
 id: uritp-people-table-contact-information
-title: CONTACT_INFORMATION
+title: CONTACT_INFORMATION (D-042, superseded)
 type: reference
-status: public
+status: hidden
 order: 20
 revised: 2026-10
-summary: One email address or one phone number, pulled from the ClickUp CONTACT INFO lists and tied to a person by task id.
+summary: Superseded. One email address or one phone number, pulled from the ClickUp CONTACT INFO lists and tied to a person by task id.
 data:
   catalog:
     file: CONTACT_INFORMATION.tsv
 ---
 
-# CONTACT_INFORMATION
+# CONTACT_INFORMATION (D-042, superseded)
+
+!!! warning "Superseded"
+    D-042's design, replaced by the 2026-10-23 schema baseline. Current pages: [CONTACTS](@uritp-people-table-contacts), [contact_EMAILS](@uritp-people-table-contact-emails), [contact_PHONE_NUMBERS](@uritp-people-table-contact-phone-numbers). Kept for its reasoning; do not build against it.
 
 !!! abstract "Grain"
     One email address or one phone number: one task in CRM ▸ CONTACT INFO ▸ EMAILS or ▸ PHONE NUMBERS. A person with three addresses has three records.

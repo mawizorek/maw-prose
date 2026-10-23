@@ -1,17 +1,20 @@
 ---
 id: uritp-people-table-reconcile
-title: RECONCILE
+title: RECONCILE (D-042, superseded)
 type: reference
-status: public
+status: hidden
 order: 70
 revised: 2026-10
-summary: One difference between ClickUp and FileMaker, waiting for Apply or Skip. The rows behind the review window.
+summary: Superseded. One difference between ClickUp and FileMaker, waiting for Apply or Skip. The rows behind the review window.
 data:
   catalog:
     file: RECONCILE.tsv
 ---
 
-# RECONCILE
+# RECONCILE (D-042, superseded)
+
+!!! warning "Superseded"
+    D-042's design, replaced by the 2026-10-23 schema baseline. Current page: [sync_RECONCILE](@uritp-people-table-sync-reconcile). Kept for its reasoning; do not build against it.
 
 !!! abstract "Grain"
     New and Gone: one person in one session. Changed: one field of one person in one session.
@@ -34,4 +37,4 @@ data:
 
 ## Writes go through one door
 
-Apply writes into PEOPLE only through the `RECONCILE__PEOPLE` relationship, which allows creating PEOPLE records. See [Relationships](@uritp-people-relationships).
+Apply writes into PEOPLE only through the `RECONCILE__PEOPLE` relationship, which allows creating PEOPLE records. See [Relationships](@uritp-people-relationships-d042).

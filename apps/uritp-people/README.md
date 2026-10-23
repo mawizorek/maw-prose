@@ -1,9 +1,9 @@
 ---
 id: uritp-people
 title: URITP People
-status: public
 type: index
-summary: The FileMaker identity hub. One record per human, pulled one way from ClickUp, plus every way to reach them.
+status: public
+summary: The FileMaker identity hub. One record per human, every way to reach them, and a generic sync layer that mirrors names and primary contacts to ClickUp.
 revised: 2026-10
 contents: auto
 ---
@@ -12,55 +12,52 @@ contents: auto
 
 ## What it is
 
-`URITP People.fmp12` holds one record per human the program deals with, whether student, faculty, staff, guest artist or vendor, and the ways to reach them. Every other URITP file that needs a person points at a People record. None of them restates a name, a pronoun or an email.
+`URITP People.fmp12` holds one record per human the program deals with, whether student, faculty, staff, guest artist or vendor, and every way to reach them. Venues, organizations and productions own contact cards here too, so a contact sheet can list a box office or a stage management inbox beside the people. Every other URITP file that needs a person points at a People record and restates nothing.
 
-It is not where people get edited. ClickUp is. The PEOPLE list in the URITP CRM space is the source of truth, and an import in this file brings it across one way. Nothing in People writes back to ClickUp, so a change typed into FileMaker is a change the next import offers to overwrite. Fix the person in ClickUp; every person record carries a button that opens their task.
+This page describes the schema baseline Michael set on 2026-10-23. It is the gold standard the file is built to; changes from here are made against it.
 
-## How the import works
+## FileMaker is canonical
 
-One button pulls the ClickUp view into a holding table and compares it with PEOPLE. Nothing in PEOPLE changes yet. A review window, modelled on Lightwright's Vectorworks reconcile, lists every difference: people who are new, single fields that changed, and people FileMaker has that the pull did not return. Each row is marked Apply or Skip. ClickUp always wins, so the choice is never which value is right, only whether to take it now. Apply writes the marked rows; gone people are flagged and never deleted.
+FileMaker owns people and their contact details. ClickUp's PEOPLE list is a mirror and an intake: a person can be typed into ClickUp by name on a phone, and the next sync adopts them, creating the PEOPLE record and linking it to the task. After adoption FileMaker wins. A name or status that differs in ClickUp arrives as a row for a decision, never as an overwrite. Emails and phone numbers are FileMaker's alone: the primary of each is pushed to the task's Primary Email and Phone Number fields and nothing is ever pulled back.
 
-Every record is matched on its native ClickUp task id and nothing else. The CRM custom id is never used. Which ClickUp view each import reads is a row in IMPORT_SOURCES, never a global and never a value typed into a script.
+## The sync layer is not ClickUp-shaped
 
-## The app catalog
+Everything about an outside system lives in tables prefixed `xt_`, and none of them is specific to ClickUp. [xt_SYSTEMS](@uritp-people-table-xt-systems) holds one row per system, ClickUp and GitHub; [xt_CONTAINERS](@uritp-people-table-xt-containers) is a list or a repo; [xt_RECORDS](@uritp-people-table-xt-records) is a cache of what the system holds; [xt_FIELDS](@uritp-people-table-xt-fields) maps the system's field ids to stable names. [XTERNAL_JOINS](@uritp-people-table-xternal-joins) is the only place a FileMaker record meets an external one. What differs between systems is confined to its `ADAPTER_<System>_` scripts.
 
-People carries the cross-app [app catalog](@fmp-app-catalog): a generated record of its own tables and layouts, which is also its navigation menu and its check that every table has the standard key and audit fields.
+Every run is a [sync_SESSIONS](@uritp-people-table-sync-sessions) row, every API action a [sync_EVENTS](@uritp-people-table-sync-events) row carrying exactly what was sent and what came back, and every disagreement a [sync_RECONCILE](@uritp-people-table-sync-reconcile) row. No payload, hash, count or last-pushed time is stored anywhere else.
 
-## Where the data comes from
+## Contacts
 
-- CRM ▸ PEOPLE ▸ PEOPLE, task type Person, lands in [PEOPLE](@uritp-people-table-people).
-- CRM ▸ CONTACT INFO ▸ EMAILS and ▸ PHONE NUMBERS land in [CONTACT_INFORMATION](@uritp-people-table-contact-information).
+A [CONTACTS](@uritp-people-table-contacts) card belongs to one owner through `fk_Owner`, a single key that can hold a person's, a venue's, an organization's or a production's UUID. Emails, phones and addresses hang off the card, each ordered by `sort_Index`, and the first of each is the primary. Program-wide inboxes sit on URITP's organization card; a show's stage management and production inboxes sit on that production's card.
 
-The ClickUp API hands back a related record as a bare task id, never as a nested object, so a person's emails exist in FileMaker only after the EMAILS list itself has been pulled. Once both tables are local, the graph walks from a contact sheet to a person to an email with no script and no stored copy. See [Relationships](@uritp-people-relationships).
+## Productions live in another file
 
-On 2026-10-05 the lists held 483 PEOPLE rows counting closed ones, 453 EMAILS and 150 PHONE NUMBERS. Those numbers are here for scale and go stale.
-
-## What does not live here
-
-A person's relationship to anything with its own lifecycle lives in the file that owns that thing. Production roles, contact-sheet rows and printed credits belong to the production side; employment belongs to Labour; enrollments to Courses; seasons and departments to Global Setup. The Bible and the playbill both read People for names and contact details, but neither is a People report.
+PRODUCTIONS is in Production MAWnster. A production's card is a CONTACTS row in this file whose `fk_Owner` is the production's UUID. The connection is made from the Production file, through an external data source pointing here; People needs nothing added for it. On a phone, both files have to be reachable together.
 
 ## Documents
 
-- [PEOPLE](@uritp-people-table-people): one human.
-- [CONTACT_INFORMATION](@uritp-people-table-contact-information): one email address or one phone number.
-- [SETTINGS](@uritp-people-table-settings): the ClickUp token.
-- [IMPORT_SOURCES](@uritp-people-table-import-sources): one ClickUp view an import reads.
-- [import_SESSIONS](@uritp-people-table-import-sessions): one press of an import button.
-- [import_PEOPLE](@uritp-people-table-import-people): one person as one pull saw them.
-- [RECONCILE](@uritp-people-table-reconcile): one difference waiting for a decision.
-- [APP_TABLES](@uritp-people-table-app-tables) and [APP_LAYOUTS](@uritp-people-table-app-layouts): the catalog, installed from the standard.
+- People: [PEOPLE](@uritp-people-table-people), [people_STUDENTS](@uritp-people-table-people-students), [people_ADULTS](@uritp-people-table-people-adults).
+- Contact owners and cards: [VENUES](@uritp-people-table-venues), [ORGANIZATIONS](@uritp-people-table-organizations), [CONTACTS](@uritp-people-table-contacts), [contact_EMAILS](@uritp-people-table-contact-emails), [contact_PHONE_NUMBERS](@uritp-people-table-contact-phone-numbers), [contact_ADDRESS](@uritp-people-table-contact-address).
+- External layer: [xt_SYSTEMS](@uritp-people-table-xt-systems), [xt_CONTAINERS](@uritp-people-table-xt-containers), [xt_FIELDS](@uritp-people-table-xt-fields), [xt_RECORDS](@uritp-people-table-xt-records), [XTERNAL_JOINS](@uritp-people-table-xternal-joins).
+- Sync log: [sync_SOURCES](@uritp-people-table-sync-sources), [sync_SESSIONS](@uritp-people-table-sync-sessions), [sync_EVENTS](@uritp-people-table-sync-events), [sync_RECONCILE](@uritp-people-table-sync-reconcile).
+- File: [Target_Tables](@uritp-people-table-target-tables), [GLOBAL_USE](@uritp-people-table-global-use), [value_LISTS](@uritp-people-table-value-lists), [VALUES](@uritp-people-table-values).
 - [Relationships](@uritp-people-relationships).
-- [Reconcile People window](@uritp-people-layout-reconcile).
-- Scripts, folder `10_IMPORT`: [PEOPLE_Pull](@uritp-people-script-people-pull), [PEOPLE_Compare](@uritp-people-script-people-compare), [PEOPLE_Apply](@uritp-people-script-people-apply), [RECONCILE_SetAll and RECONCILE_ShowSession](@uritp-people-script-reconcile-setall). Folder `00_APP` is the catalog's, typed from the standard.
 - [Build sheet](@uritp-people-next-build).
 
 ## Not written yet
 
-- The EMAILS and PHONE NUMBERS passes. They reuse the same window, the same RECONCILE table and their own IMPORT_SOURCES rows.
-- `value-lists/`: the email type labels and the two reconcile lists.
-- How a person's name prints in a program. ClickUp PEOPLE has legal first name, last name and an alternate name; it has no preferred name and no playbill name, so a printed-credit name has nowhere to come from yet.
-- Student and non-student classification.
+- Scripts for the baseline: the table refresh, the field refresh, `ADAPTER_ClickUp_Pull` and `_Push`, the dispatcher and the person handler. The pages in `scripts/` today are D-042's import scripts.
+- Layouts for the baseline.
+- Value lists Action and Decision.
+
+## Not decided yet
+
+- How the adapters read their source, container and system: one ExecuteSQL join into variables, with the graph kept for layouts, or relationships from a layout on `sync_SOURCES_fxtContainers`. D-043 already builds SQL text from `GetFieldName`, which removes the rename risk of the first.
+- [Target_Tables](@uritp-people-table-target-tables) against the D-043 app catalog, APP_TABLES and APP_LAYOUTS.
+- Whether `stored_NameDisplayInPlaybills` drops its `stored_` prefix.
 
 ## Superseded
 
-Everything in this folder without a page header is the July 2026 as-built pass: `INDEX.md`, `schema/`, `meta/`, `layouts/README.md`, `tables/README.md` and `tables/_index.json`. The July table notes for ADULTS_ext, STUDENTS_ext, GRADUATION_CLASSES, Emails and PhoneNumbers sit in `meta/`. Superseded by D-042. Kept for its reasoning; do not build against it.
+The D-042 design of 2026-10-05, ClickUp as the source of truth with a one-way import through import_PEOPLE and RECONCILE, is superseded by this baseline. Its table notes, the old PEOPLE register and the old relationships page are in `meta/` marked superseded. The `10_IMPORT` script pages and the Reconcile People window page are D-042's and are not built against.
+
+Everything in this folder without a page header is the July 2026 as-built pass: `INDEX.md`, `schema/`, `meta/design-decisions.md`, `layouts/README.md`, `tables/README.md` and `tables/_index.json`. Kept for its reasoning; do not build against it.

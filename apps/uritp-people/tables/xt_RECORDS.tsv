@@ -1,0 +1,11 @@
+sort	Field_Name	Type	Options	Notes	group
+{.conf}	fk_Container	Text	Indexed · not empty	→ xt_CONTAINERS::PrimaryKey. Home container	Links
+{.conf}	xt_ID	Text	Indexed · not empty · unique	ClickUp task id, or GitHub file path	External
+{.conf}	xt_Label	Text	Not empty	Task name or file name	External
+{.conf}	xt_Version	Text	Not empty	ClickUp date_updated (ms) or GitHub sha	External
+{.conf}	PrimaryKey	Text	UUID · auto-enter · unique · can't modify	Machine-only	Audit
+{.conf}	CreationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	CreatedBy	Text	Auto-enter		Audit
+{.conf}	ModificationTimestamp	Timestamp	Auto-enter		Audit
+{.conf}	ModifiedBy	Text	Auto-enter		Audit
+- EOF -					

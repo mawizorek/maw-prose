@@ -1,17 +1,20 @@
 ---
 id: uritp-people-table-settings
-title: SETTINGS
+title: SETTINGS (D-042, superseded)
 type: reference
-status: public
+status: hidden
 order: 40
 revised: 2026-10
-summary: The ClickUp API token every import uses. One record, ever.
+summary: Superseded. The ClickUp API token every import uses. One record, ever.
 data:
   catalog:
     file: SETTINGS.tsv
 ---
 
-# SETTINGS
+# SETTINGS (D-042, superseded)
+
+!!! warning "Superseded"
+    D-042's design, replaced by the 2026-10-23 schema baseline. Current page: [xt_SYSTEMS](@uritp-people-table-xt-systems). Kept for its reasoning; do not build against it.
 
 !!! abstract "Grain"
     The file. Exactly one record.

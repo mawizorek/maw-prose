@@ -1,17 +1,20 @@
 ---
 id: uritp-people-table-import-people
-title: import_PEOPLE
+title: import_PEOPLE (D-042, superseded)
 type: reference
-status: public
+status: hidden
 order: 60
 revised: 2026-10
-summary: Raw ClickUp pulls of the PEOPLE view, append-only. The holding table the review window compares against.
+summary: Superseded. Raw ClickUp pulls of the PEOPLE view, append-only. The holding table the review window compares against.
 data:
   catalog:
     file: import_PEOPLE.tsv
 ---
 
-# import_PEOPLE
+# import_PEOPLE (D-042, superseded)
+
+!!! warning "Superseded"
+    D-042's design, replaced by the 2026-10-23 schema baseline. Current pages: [xt_RECORDS](@uritp-people-table-xt-records) and [sync_EVENTS](@uritp-people-table-sync-events). Kept for its reasoning; do not build against it.
 
 !!! abstract "Grain"
     One person as one import session saw them. Not one person: pulling the same task twice writes two rows.

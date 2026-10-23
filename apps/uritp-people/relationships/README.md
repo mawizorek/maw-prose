@@ -5,43 +5,47 @@ type: reference
 status: public
 order: 30
 revised: 2026-10
-summary: Every edge in People. How a person reaches their contacts, how the import reads PEOPLE, and the one door it writes through.
+summary: Every edge in People. How a person reaches their roles and contacts, how the external layer chains, and why some tables appear twice.
 ---
 
 # Relationships
 
-Each base table has a table occurrence with the table's own name. The occurrences below are the only others.
+Each base table has an occurrence with the table's own name. Any other occurrence is named `TABLE_fCONTEXT`, the table followed by the context it is seen from.
 
-## A person to all their contacts
+## A person to their roles
 
-`PEOPLE::cu_TaskID = CONTACT_INFORMATION::fkPERSON`, one to many. Both sides carry ClickUp task ids, so the edge survives any number of imports: nothing FileMaker generates sits in the key.
+`people_STUDENTS::fk_Person = PEOPLE::PrimaryKey` and the same for `people_ADULTS`. Both keys are text, because they hold UUIDs.
 
-## A person to their primary email
+## An owner to its contact card
 
-Two criteria: `PEOPLE::cu_TaskID = CONTACT_INFORMATION::fkPERSON` and `PEOPLE::calc_MatchPrimary = CONTACT_INFORMATION::ContactType`. Because `ContactType` is return-separated, an address labelled both Primary and Work still matches. Phones carry no type, so this edge only ever finds email.
+`CONTACTS::fk_Owner` matches `PrimaryKey` on PEOPLE, on VENUES and on ORGANIZATIONS: three edges, one key. Each owner has at most one card because `fk_Owner` is unique. A production in Production MAWnster reaches its card from that file through an external data source; there is no edge for it here.
 
-If ClickUp has two addresses for one person both labelled Primary, the edge shows whichever comes first, which is an arbitrary one. Fix it in ClickUp.
+## A card to its emails, phones and addresses
 
-## Why the primary email is never stored on PEOPLE
+`contact_EMAILS::fk_Contact = CONTACTS::PrimaryKey`, and the same for phone numbers and addresses. All three sort by `sort_Index` ascending, so the first related row is the primary everywhere it is shown or pushed.
 
-A stored copy goes stale. A relookup fires when the key changes, not when the related value changes, so correcting an address on its email record would leave the copy on the person wrong with nothing to say so. Read through the edge every time; across 483 people one hop costs nothing.
+The primary is never stored. A stored copy only refreshes when its own record changes, so adding, correcting or reordering an address would leave it wrong with nothing to say so.
 
-## The import reads PEOPLE through import_PEOPLE__PEOPLE
+## The external chain
 
-`import_PEOPLE::cu_TaskID = import_PEOPLE__PEOPLE::cu_TaskID`. No creation, no deletion. The compare stands on a staged row and reads what PEOPLE has now through this edge; an empty `cu_TaskID` on the far side means the person is new.
+`xt_SYSTEMS::PrimaryKey = xt_CONTAINERS::fk_System`. `Target_Tables::PrimaryKey = xt_CONTAINERS::fk_TargetTable`. From a container, `xt_RECORDS`, `xt_FIELDS` and `sync_SOURCES_fxtContainers` each match on `fk_Container`.
 
-## The import writes PEOPLE through RECONCILE__PEOPLE
+## A person to their task
 
-`RECONCILE::cu_TaskID = RECONCILE__PEOPLE::cu_TaskID`, with **Allow creation of records in this table via this relationship** checked on the PEOPLE side. Deletion is never checked. This is the only edge anything writes PEOPLE through: setting a field across it on a New row creates the person and fills in `cu_TaskID` from the row.
+`XTERNAL_JOINS_People` sits between them: `fk_SourceRecord = PEOPLE::PrimaryKey` and `fk_xtRecord = xt_RECORDS::PrimaryKey`.
 
-## A review row back to its staged values
+## The log
 
-`RECONCILE::fkImportPeople = RECONCILE__import_PEOPLE::PrimaryKey`. Apply reads a new person's staged values through it.
+`sync_SESSIONS::fk_Source = sync_SOURCES::PrimaryKey`. `sync_EVENTS::fk_Session = sync_SESSIONS::PrimaryKey` and `sync_EVENTS::fk_xtRecord = xt_RECORDS::PrimaryKey`.
 
-## A source to its target table
+## Reconcile
 
-`IMPORT_SOURCES::fkAppTable = IMPORT_SOURCES__APP_TABLES::PrimaryKey`. For reading only: it lets a layout show which table a source feeds by its catalog name.
+`sync_RECONCILE::fk_xtRecord = xt_RECORDS::PrimaryKey`. Its session and field are reached through their own occurrences, `sync_SESSIONS_fRECONCILE` on `fk_Session` and `xt_FIELDS_fRECONCILE` on `fk_xtField`, because the base occurrences are already joined to xt_RECORDS another way and FileMaker does not allow a loop.
 
-## Other files
+## Why sync_SOURCES appears twice
 
-Contact sheets, Bible directories and program credits reach a person from their own files, through the person's task id. Those edges are documented with the file that owns them.
+Container to records to events to sessions to sources and back to the container would be a loop. So the base `sync_SOURCES` hangs off sessions, and `sync_SOURCES_fxtContainers` hangs off containers.
+
+## Value lists
+
+Six occurrences of VALUES, one per list, each matching `fk_List` against one global on value_LISTS. The base `VALUES` occurrence matches `fk_List = value_LISTS::PrimaryKey`.
