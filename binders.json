@@ -128,8 +128,6 @@
   "apps/uritp-people/scripts/10_IMPORT/PEOPLE_Compare.notes/": "uritp-people-script-people-compare",
   "apps/uritp-people/scripts/10_IMPORT/PEOPLE_Pull.notes/": "uritp-people-script-people-pull",
   "apps/uritp-people/scripts/10_IMPORT/RECONCILE_SetAll.notes/": "uritp-people-script-reconcile-setall",
-  "apps/uritp-people/tables/APP_LAYOUTS/": "uritp-people-table-app-layouts",
-  "apps/uritp-people/tables/APP_TABLES/": "uritp-people-table-app-tables",
   "apps/uritp-people/tables/CONTACTS/": "uritp-people-table-contacts",
   "apps/uritp-people/tables/GLOBAL_USE/": "uritp-people-table-global-use",
   "apps/uritp-people/tables/ORGANIZATIONS/": "uritp-people-table-organizations",

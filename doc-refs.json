@@ -1,13 +1,13 @@
 {
   "site": "mawprose",
   "base_url": "https://mawizorek.github.io/maw-prose/",
-  "built": "2026-10-23T19:57:15Z",
+  "built": "2026-10-23T20:10:58Z",
   "engine": "0.1.0",
   "totals": {
-    "pages": 135,
-    "edges": 466,
-    "broken": 21,
-    "no_inbound": 22
+    "pages": 133,
+    "edges": 463,
+    "broken": 20,
+    "no_inbound": 20
   },
   "no_inbound": [
     "delete-me-new-activity-log",
@@ -21,8 +21,6 @@
     "table-venues",
     "uritp-people-next-build",
     "uritp-people-script-reconcile-setall",
-    "uritp-people-table-app-layouts",
-    "uritp-people-table-app-tables",
     "uritp-people-table-contact-address",
     "uritp-people-table-contact-phone-numbers",
     "uritp-people-table-global-use",
@@ -132,11 +130,6 @@
     {
       "from": "uritp-people-sync-plan",
       "token": "uritp-people",
-      "kind": "page"
-    },
-    {
-      "from": "uritp-people-table-app-tables",
-      "token": "uritp-people-table-import-sources",
       "kind": "page"
     }
   ],
@@ -549,10 +542,9 @@
       "references": [],
       "referenced_by": [
         "fmp-app-catalog-scripts",
-        "uritp-people-table-app-layouts",
-        "uritp-people-table-app-tables"
+        "uritp-people-table-target-tables"
       ],
-      "inbound": 3,
+      "inbound": 2,
       "outbound": 0
     },
     "fmp-app-catalog-scripts": {
@@ -4344,10 +4336,9 @@
       ],
       "referenced_by": [
         "uritp-people-script-people-apply",
-        "uritp-people-script-people-pull",
-        "uritp-people-table-app-layouts"
+        "uritp-people-script-people-pull"
       ],
-      "inbound": 3,
+      "inbound": 2,
       "outbound": 1
     },
     "uritp-people-next-build": {
@@ -4516,54 +4507,6 @@
         "uritp-people-next-build"
       ],
       "inbound": 1,
-      "outbound": 2
-    },
-    "uritp-people-table-app-layouts": {
-      "title": "APP_LAYOUTS",
-      "url": "apps/uritp-people/tables/APP_LAYOUTS/",
-      "type": "reference",
-      "references": [
-        {
-          "token": "fmp-app-catalog",
-          "kind": "page",
-          "target": "fmp-app-catalog",
-          "resolved": true,
-          "count": 1
-        },
-        {
-          "token": "uritp-people-layout-reconcile",
-          "kind": "page",
-          "target": "uritp-people-layout-reconcile",
-          "resolved": true,
-          "count": 1
-        }
-      ],
-      "referenced_by": [],
-      "inbound": 0,
-      "outbound": 2
-    },
-    "uritp-people-table-app-tables": {
-      "title": "APP_TABLES",
-      "url": "apps/uritp-people/tables/APP_TABLES/",
-      "type": "reference",
-      "references": [
-        {
-          "token": "fmp-app-catalog",
-          "kind": "page",
-          "target": "fmp-app-catalog",
-          "resolved": true,
-          "count": 1
-        },
-        {
-          "token": "uritp-people-table-import-sources",
-          "kind": "page",
-          "target": "uritp-people-table-import-sources",
-          "resolved": false,
-          "count": 1
-        }
-      ],
-      "referenced_by": [],
-      "inbound": 0,
       "outbound": 2
     },
     "uritp-people-table-contact-address": {
@@ -4862,12 +4805,20 @@
       "title": "Target_Tables",
       "url": "apps/uritp-people/tables/Target_Tables/",
       "type": "reference",
-      "references": [],
+      "references": [
+        {
+          "token": "fmp-app-catalog",
+          "kind": "page",
+          "target": "fmp-app-catalog",
+          "resolved": true,
+          "count": 1
+        }
+      ],
       "referenced_by": [
         "uritp-people-table-xt-containers"
       ],
       "inbound": 1,
-      "outbound": 0
+      "outbound": 1
     },
     "uritp-people-table-value-lists": {
       "title": "value_LISTS",

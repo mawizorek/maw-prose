@@ -677,6 +677,28 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#the-two-layout-names-are-install-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The two layout names are install variables
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-two-halves-do-not-match-each-other-yet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The two halves do not match each other yet
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#app_gotolayout" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -866,6 +888,28 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#the-two-layout-names-are-install-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The two layout names are install variables
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-two-halves-do-not-match-each-other-yet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The two halves do not match each other yet
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#app_gotolayout" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -919,19 +963,30 @@
 <p class="dr-lede">APP_CatalogRefresh, APP_GoToLayout and APP_OpenMenu. What each one does and the three things to check on a first install.</p>
 <p>Copy targets in this folder, installed into each app's <code>00_APP</code> script folder. The standard they serve is <a href="../../app-catalog/">the app catalog</a>.</p>
 <h2 id="app_catalogrefresh">APP_CatalogRefresh<a class="headerlink" href="#app_catalogrefresh" title="Permanent link">&para;</a></h2>
-<p>Reads <code>FileMaker_BaseTables</code> for every base table and its id, checks each table's fields in <code>FileMaker_BaseTableFields</code> against the five standard fields, and adds or updates one APP_TABLES record per id. Then it reads <code>LayoutIDs</code> and <code>LayoutNames</code> and does the same into APP_LAYOUTS. Anything it no longer sees gets <code>RemovedTimestamp</code>. It never writes a typed field.</p>
+<p>Reads <code>FileMaker_BaseTables</code> for every base table and its id, checks each table's fields in <code>FileMaker_BaseTableFields</code> against the five standard fields, and adds or updates one <code>Target_Tables</code> record per id. Then it reads <code>LayoutIDs</code> and <code>LayoutNames</code> and does the same into APP_LAYOUTS. A table it no longer sees keeps its row with <code>isPresent</code> at 0; a layout it no longer sees gets <code>RemovedTimestamp</code>. It never writes a typed field.</p>
 <p>The upsert finds by id once per object. A file has tens of tables and layouts, not thousands, so a find per row costs nothing and keeps the script plain.</p>
+<h2 id="the-two-layout-names-are-install-variables">The two layout names are install variables<a class="headerlink" href="#the-two-layout-names-are-install-variables" title="Permanent link">&para;</a></h2>
+<p><code>$layoutTables</code> and <code>$layoutLayouts</code> are set in the first steps, and they are the only lines an installing app edits. The script needs record context, which means a layout whose base table occurrence is the catalog table; it does not care what that layout is called, and every app names its utility layouts its own way. URITP People's is <code>view | Target_Tables</code>, on the <code>view_Target_Tables</code> occurrence, which is why a hardcoded <code>Target_Tables</code> step would have failed on the first run.</p>
+<p>A missing table-catalog layout stops the script with a dialog naming the variable, rather than letting <code>Go to Layout</code> fail quietly and writing records into whatever context happened to be current. An empty <code>$layoutLayouts</code> skips the layout half entirely, which is the correct state for a file with no layout catalog.</p>
+<h2 id="the-two-halves-do-not-match-each-other-yet">The two halves do not match each other yet<a class="headerlink" href="#the-two-halves-do-not-match-each-other-yet" title="Permanent link">&para;</a></h2>
+<p>The table half was rewritten 2026-10-23 against URITP People's live <code>Target_Tables</code>, which is the only catalog table that exists in any file (D-049). It writes <code>fm_BaseTableID</code>, <code>fm_BaseTableName</code>, <code>isPresent</code> and <code>LastSeenAt</code>.</p>
+<p>Two consequences, both deliberate and neither guessed at:</p>
+<ul>
+<li><strong><code>AuditGap</code> has nowhere to land.</strong> The script still computes the missing standard fields into <code>$gap</code>, because that is the D-043 conformance check, but <code>Target_Tables</code> has no field to hold it, so nothing is written and a comment step says so. Add <code>AuditGap</code> as Text and one <code>Set Field</code> restores the check. Until then, the conformance report named in the catalog standard does not exist.</li>
+<li><strong>The layout half still says APP_LAYOUTS.</strong> No file has a layout catalog, so there is no live name to follow and inventing one would be a guess. Whether it becomes <code>Target_Layouts</code> for symmetry or stays <code>APP_LAYOUTS</code> is unruled, and the half is skipped while <code>$layoutLayouts</code> is empty.</li>
+</ul>
 <h2 id="app_gotolayout">APP_GoToLayout<a class="headerlink" href="#app_gotolayout" title="Permanent link">&para;</a></h2>
 <p>Looks up the layout's current name from its id at the moment it runs. When it runs from the APP_MENU card it closes the card first, so the move happens in the window underneath.</p>
 <h2 id="app_openmenu">APP_OpenMenu<a class="headerlink" href="#app_openmenu" title="Permanent link">&para;</a></h2>
 <p>Opens APP_MENU as a card, found to ShowInMenu and not removed, in the layout's restored sort: MenuSection, then MenuOrder.</p>
 <h2 id="check-on-the-first-install">Check on the first install<a class="headerlink" href="#check-on-the-first-install" title="Permanent link">&para;</a></h2>
 <ul>
-<li>That <code>FileMaker_BaseTableFields</code> names its table column <code>BaseTableName</code>. If the refresh writes all five fields into every <code>AuditGap</code>, the column name is wrong.</li>
+<li>That <code>$layoutTables</code> names a layout that exists in this file, on an occurrence of the catalog table. The script tells you if it does not.</li>
+<li>That <code>FileMaker_BaseTableFields</code> names its table column <code>BaseTableName</code>. If <code>$gap</code> comes back holding all five fields for every table, the column name is wrong.</li>
 <li>That <code>LayoutNames</code> and <code>LayoutIDs</code> skip layout folders and separators on your version. The refresh already ignores a blank name and a <code>-</code>.</li>
 <li>That <code>Get ( WindowStyle )</code> reports 3 for a card window. If the menu card stays open after a click, it does not.</li>
 </ul>
-<p class="dr-revised"><em>Revised 2026-10</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/standards/filemaker/scripts/APP_CatalogRefresh.notes.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">dae74bd</span></span></p>
+<p class="dr-revised"><em>Revised 2026-10</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/standards/filemaker/scripts/APP_CatalogRefresh.notes.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">PR #87</span></span></p>
 
 
 
