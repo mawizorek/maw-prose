@@ -1,0 +1,1247 @@
+{
+  "maw-prose-home": {
+    "prefix": "@maw-prose-home",
+    "body": "@maw-prose-home",
+    "description": "index.md"
+  },
+  "assignment-art-cue-mood-project": {
+    "prefix": "@assignment-art-cue-mood-project",
+    "body": "@assignment-art-cue-mood-project",
+    "description": "coursework/assignment-art-cue-mood-project.md"
+  },
+  "profile": {
+    "prefix": "@profile",
+    "body": "@profile",
+    "description": "profile/README.md"
+  },
+  "profile-projects": {
+    "prefix": "@profile-projects",
+    "body": "@profile-projects",
+    "description": "profile/projects/README.md"
+  },
+  "filemaker-production-systems": {
+    "prefix": "@filemaker-production-systems",
+    "body": "@filemaker-production-systems",
+    "description": "profile/projects/filemaker-production-systems.md"
+  },
+  "profile-resumes": {
+    "prefix": "@profile-resumes",
+    "body": "@profile-resumes",
+    "description": "profile/resumes/README.md"
+  },
+  "resume-data-systems": {
+    "prefix": "@resume-data-systems",
+    "body": "@resume-data-systems",
+    "description": "profile/resumes/data-systems.md"
+  },
+  "profile-summaries": {
+    "prefix": "@profile-summaries",
+    "body": "@profile-summaries",
+    "description": "profile/master/summaries.md"
+  },
+  "profile-master": {
+    "prefix": "@profile-master",
+    "body": "@profile-master",
+    "description": "profile/master/README.md"
+  },
+  "profile-bullet-bank": {
+    "prefix": "@profile-bullet-bank",
+    "body": "@profile-bullet-bank",
+    "description": "profile/master/bullet-bank.md"
+  },
+  "bio-program": {
+    "prefix": "@bio-program",
+    "body": "@bio-program",
+    "description": "profile/bios/program.md"
+  },
+  "bio-faculty": {
+    "prefix": "@bio-faculty",
+    "body": "@bio-faculty",
+    "description": "profile/bios/faculty.md"
+  },
+  "bio-short": {
+    "prefix": "@bio-short",
+    "body": "@bio-short",
+    "description": "profile/bios/short.md"
+  },
+  "profile-bios": {
+    "prefix": "@profile-bios",
+    "body": "@profile-bios",
+    "description": "profile/bios/README.md"
+  },
+  "budget-names": {
+    "prefix": "@budget-names",
+    "body": "@budget-names",
+    "description": "apps/uritp-beta-budget/NAMES.md"
+  },
+  "budget-hub-layout": {
+    "prefix": "@budget-hub-layout",
+    "body": "@budget-hub-layout",
+    "description": "apps/uritp-beta-budget/50-LAYOUTS/h-budget-hub.md"
+  },
+  "maw-documents-table-organizations": {
+    "prefix": "@maw-documents-table-organizations",
+    "body": "@maw-documents-table-organizations",
+    "description": "apps/maw-documents/tables/Organizations.md"
+  },
+  "maw-documents-table-bibliographicdetails": {
+    "prefix": "@maw-documents-table-bibliographicdetails",
+    "body": "@maw-documents-table-bibliographicdetails",
+    "description": "apps/maw-documents/tables/BibliographicDetails.md"
+  },
+  "maw-documents-table-people": {
+    "prefix": "@maw-documents-table-people",
+    "body": "@maw-documents-table-people",
+    "description": "apps/maw-documents/tables/People.md"
+  },
+  "maw-documents-table-contributorroles": {
+    "prefix": "@maw-documents-table-contributorroles",
+    "body": "@maw-documents-table-contributorroles",
+    "description": "apps/maw-documents/tables/ContributorRoles.md"
+  },
+  "maw-documents-table-document-types": {
+    "prefix": "@maw-documents-table-document-types",
+    "body": "@maw-documents-table-document-types",
+    "description": "apps/maw-documents/tables/DOCUMENT_TYPES.md"
+  },
+  "maw-documents-table-copyloans": {
+    "prefix": "@maw-documents-table-copyloans",
+    "body": "@maw-documents-table-copyloans",
+    "description": "apps/maw-documents/tables/CopyLoans.md"
+  },
+  "maw-documents-table-purchaselines": {
+    "prefix": "@maw-documents-table-purchaselines",
+    "body": "@maw-documents-table-purchaselines",
+    "description": "apps/maw-documents/tables/PurchaseLines.md"
+  },
+  "maw-documents-table-documentcopies": {
+    "prefix": "@maw-documents-table-documentcopies",
+    "body": "@maw-documents-table-documentcopies",
+    "description": "apps/maw-documents/tables/DocumentCopies.md"
+  },
+  "maw-documents-table-purchases": {
+    "prefix": "@maw-documents-table-purchases",
+    "body": "@maw-documents-table-purchases",
+    "description": "apps/maw-documents/tables/Purchases.md"
+  },
+  "maw-documents-table-documentpeople": {
+    "prefix": "@maw-documents-table-documentpeople",
+    "body": "@maw-documents-table-documentpeople",
+    "description": "apps/maw-documents/tables/DocumentPeople.md"
+  },
+  "maw-documents-table-repo-pages": {
+    "prefix": "@maw-documents-table-repo-pages",
+    "body": "@maw-documents-table-repo-pages",
+    "description": "apps/maw-documents/tables/REPO_PAGES.md"
+  },
+  "maw-documents-table-documents": {
+    "prefix": "@maw-documents-table-documents",
+    "body": "@maw-documents-table-documents",
+    "description": "apps/maw-documents/tables/Documents.md"
+  },
+  "document-matrix-table-ref-url": {
+    "prefix": "@document-matrix-table-ref-url",
+    "body": "@document-matrix-table-ref-url",
+    "description": "apps/document-matrix/tables/REF_URL.md"
+  },
+  "document-matrix-table-doc-reference-links": {
+    "prefix": "@document-matrix-table-doc-reference-links",
+    "body": "@document-matrix-table-doc-reference-links",
+    "description": "apps/document-matrix/tables/DOC_REFERENCE_LINKS.md"
+  },
+  "document-matrix-table-global-state": {
+    "prefix": "@document-matrix-table-global-state",
+    "body": "@document-matrix-table-global-state",
+    "description": "apps/document-matrix/tables/GLOBAL_STATE.md"
+  },
+  "document-matrix-table-productions": {
+    "prefix": "@document-matrix-table-productions",
+    "body": "@document-matrix-table-productions",
+    "description": "apps/document-matrix/tables/PRODUCTIONS.md"
+  },
+  "document-matrix-table-references": {
+    "prefix": "@document-matrix-table-references",
+    "body": "@document-matrix-table-references",
+    "description": "apps/document-matrix/tables/REFERENCES.md"
+  },
+  "document-matrix-table-doc-production-links": {
+    "prefix": "@document-matrix-table-doc-production-links",
+    "body": "@document-matrix-table-doc-production-links",
+    "description": "apps/document-matrix/tables/DOC_PRODUCTION_LINKS.md"
+  },
+  "document-matrix-table-docs": {
+    "prefix": "@document-matrix-table-docs",
+    "body": "@document-matrix-table-docs",
+    "description": "apps/document-matrix/tables/DOCS.md"
+  },
+  "hml-llc-table-organizations": {
+    "prefix": "@hml-llc-table-organizations",
+    "body": "@hml-llc-table-organizations",
+    "description": "apps/hml-llc/tables/Organizations.md"
+  },
+  "hml-llc-table-standard-transactions": {
+    "prefix": "@hml-llc-table-standard-transactions",
+    "body": "@hml-llc-table-standard-transactions",
+    "description": "apps/hml-llc/tables/Standard_Transactions.md"
+  },
+  "hml-llc-table-expectedtransactions": {
+    "prefix": "@hml-llc-table-expectedtransactions",
+    "body": "@hml-llc-table-expectedtransactions",
+    "description": "apps/hml-llc/tables/ExpectedTransactions.md"
+  },
+  "hml-llc-table-loans": {
+    "prefix": "@hml-llc-table-loans",
+    "body": "@hml-llc-table-loans",
+    "description": "apps/hml-llc/tables/Loans.md"
+  },
+  "hml-llc-table-receivedfunds": {
+    "prefix": "@hml-llc-table-receivedfunds",
+    "body": "@hml-llc-table-receivedfunds",
+    "description": "apps/hml-llc/tables/ReceivedFunds.md"
+  },
+  "hml-llc-table-paymentapplications": {
+    "prefix": "@hml-llc-table-paymentapplications",
+    "body": "@hml-llc-table-paymentapplications",
+    "description": "apps/hml-llc/tables/PaymentApplications.md"
+  },
+  "hml-llc-table-contacts": {
+    "prefix": "@hml-llc-table-contacts",
+    "body": "@hml-llc-table-contacts",
+    "description": "apps/hml-llc/tables/Contacts.md"
+  },
+  "hml-llc-table-global-use-variables": {
+    "prefix": "@hml-llc-table-global-use-variables",
+    "body": "@hml-llc-table-global-use-variables",
+    "description": "apps/hml-llc/tables/GLOBAL_USE_VARIABLES.md"
+  },
+  "hml-llc-table-payoffs": {
+    "prefix": "@hml-llc-table-payoffs",
+    "body": "@hml-llc-table-payoffs",
+    "description": "apps/hml-llc/tables/Payoffs.md"
+  },
+  "hml-llc-table-propertysummaries": {
+    "prefix": "@hml-llc-table-propertysummaries",
+    "body": "@hml-llc-table-propertysummaries",
+    "description": "apps/hml-llc/tables/PropertySUMMARIES.md"
+  },
+  "hml-llc-table-paymentinstructions": {
+    "prefix": "@hml-llc-table-paymentinstructions",
+    "body": "@hml-llc-table-paymentinstructions",
+    "description": "apps/hml-llc/tables/PaymentInstructions.md"
+  },
+  "hml-llc-table-accounttransactions": {
+    "prefix": "@hml-llc-table-accounttransactions",
+    "body": "@hml-llc-table-accounttransactions",
+    "description": "apps/hml-llc/tables/AccountTransactions.md"
+  },
+  "hml-llc-table-documents": {
+    "prefix": "@hml-llc-table-documents",
+    "body": "@hml-llc-table-documents",
+    "description": "apps/hml-llc/tables/Documents.md"
+  },
+  "projection-law": {
+    "prefix": "@projection-law",
+    "body": "@projection-law",
+    "description": "apps/production-mawster/projection-law.md"
+  },
+  "integration": {
+    "prefix": "@integration",
+    "body": "@integration",
+    "description": "apps/production-mawster/integration.md"
+  },
+  "data-standards": {
+    "prefix": "@data-standards",
+    "body": "@data-standards",
+    "description": "apps/production-mawster/data-standards.md"
+  },
+  "workflow": {
+    "prefix": "@workflow",
+    "body": "@workflow",
+    "description": "apps/production-mawster/workflow.md"
+  },
+  "build-sheet": {
+    "prefix": "@build-sheet",
+    "body": "@build-sheet",
+    "description": "apps/production-mawster/build-sheet.md"
+  },
+  "production-mawster": {
+    "prefix": "@production-mawster",
+    "body": "@production-mawster",
+    "description": "apps/production-mawster/index.md"
+  },
+  "production-mawster-no-use": {
+    "prefix": "@production-mawster-no-use",
+    "body": "@production-mawster-no-use",
+    "description": "apps/production-mawster-no-use/MOVED.md"
+  },
+  "user-experience": {
+    "prefix": "@user-experience",
+    "body": "@user-experience",
+    "description": "apps/production-mawster/10-ux/menu_tree.md"
+  },
+  "runtime": {
+    "prefix": "@runtime",
+    "body": "@runtime",
+    "description": "apps/production-mawster/15-runtime/index.md"
+  },
+  "table-editions": {
+    "prefix": "@table-editions",
+    "body": "@table-editions",
+    "description": "apps/production-mawster/20-tables/editions.md"
+  },
+  "table-fiscal-years": {
+    "prefix": "@table-fiscal-years",
+    "body": "@table-fiscal-years",
+    "description": "apps/production-mawster/20-tables/FISCAL_YEARS.md"
+  },
+  "table-print-sessions": {
+    "prefix": "@table-print-sessions",
+    "body": "@table-print-sessions",
+    "description": "apps/production-mawster/20-tables/EXPORT_SESSIONS.md"
+  },
+  "table-styles": {
+    "prefix": "@table-styles",
+    "body": "@table-styles",
+    "description": "apps/production-mawster/20-tables/STYLES.md"
+  },
+  "table-assignments": {
+    "prefix": "@table-assignments",
+    "body": "@table-assignments",
+    "description": "apps/production-mawster/20-tables/role_assignments.md"
+  },
+  "table-import-sessions": {
+    "prefix": "@table-import-sessions",
+    "body": "@table-import-sessions",
+    "description": "apps/production-mawster/20-tables/import_SESSIONS.md"
+  },
+  "table-people": {
+    "prefix": "@table-people",
+    "body": "@table-people",
+    "description": "apps/production-mawster/20-tables/PEOPLE.md"
+  },
+  "table-locations": {
+    "prefix": "@table-locations",
+    "body": "@table-locations",
+    "description": "apps/production-mawster/20-tables/LOCATIONS.md"
+  },
+  "table-workdays": {
+    "prefix": "@table-workdays",
+    "body": "@table-workdays",
+    "description": "apps/production-mawster/20-tables/WORKDAYS.md"
+  },
+  "table-productions": {
+    "prefix": "@table-productions",
+    "body": "@table-productions",
+    "description": "apps/production-mawster/20-tables/productions.md"
+  },
+  "table-location-types": {
+    "prefix": "@table-location-types",
+    "body": "@table-location-types",
+    "description": "apps/production-mawster/20-tables/LOCATION_TYPES.md"
+  },
+  "table-versions": {
+    "prefix": "@table-versions",
+    "body": "@table-versions",
+    "description": "apps/production-mawster/20-tables/versions.md"
+  },
+  "table-print-presets": {
+    "prefix": "@table-print-presets",
+    "body": "@table-print-presets",
+    "description": "apps/production-mawster-no-use/20-tables/PRINT_PRESETS.md"
+  },
+  "table-events-workday": {
+    "prefix": "@table-events-workday",
+    "body": "@table-events-workday",
+    "description": "apps/production-mawster/20-tables/EVENTS_workday.md"
+  },
+  "table-roles": {
+    "prefix": "@table-roles",
+    "body": "@table-roles",
+    "description": "apps/production-mawster/20-tables/roles.md"
+  },
+  "table-global-export-variables": {
+    "prefix": "@table-global-export-variables",
+    "body": "@table-global-export-variables",
+    "description": "apps/production-mawster-no-use/20-tables/global_use_variables.md"
+  },
+  "table-global-use": {
+    "prefix": "@table-global-use",
+    "body": "@table-global-use",
+    "description": "apps/production-mawster/20-tables/global_use.md"
+  },
+  "table-production-calendars": {
+    "prefix": "@table-production-calendars",
+    "body": "@table-production-calendars",
+    "description": "apps/production-mawster/20-tables/CALENDARS.md"
+  },
+  "table-producer-info": {
+    "prefix": "@table-producer-info",
+    "body": "@table-producer-info",
+    "description": "apps/production-mawster-no-use/20-tables/PRODUCER_INFO.md"
+  },
+  "tables": {
+    "prefix": "@tables",
+    "body": "@tables",
+    "description": "apps/production-mawster/20-tables/index.md"
+  },
+  "table-producers": {
+    "prefix": "@table-producers",
+    "body": "@table-producers",
+    "description": "apps/production-mawster/20-tables/PRODUCERS.md"
+  },
+  "table-standard-events": {
+    "prefix": "@table-standard-events",
+    "body": "@table-standard-events",
+    "description": "apps/production-mawster/20-tables/STANDARD_EVENTS.md"
+  },
+  "table-import-events": {
+    "prefix": "@table-import-events",
+    "body": "@table-import-events",
+    "description": "apps/production-mawster/20-tables/import_EVENTS.md"
+  },
+  "table-print-set-items": {
+    "prefix": "@table-print-set-items",
+    "body": "@table-print-set-items",
+    "description": "apps/production-mawster/20-tables/EXPORT_SET_ITEMS.md"
+  },
+  "table-weeks": {
+    "prefix": "@table-weeks",
+    "body": "@table-weeks",
+    "description": "apps/production-mawster/20-tables/WEEKS.md"
+  },
+  "table-events": {
+    "prefix": "@table-events",
+    "body": "@table-events",
+    "description": "apps/production-mawster/20-tables/EVENTS.md"
+  },
+  "table-print-sets": {
+    "prefix": "@table-print-sets",
+    "body": "@table-print-sets",
+    "description": "apps/production-mawster/20-tables/EXPORT_SETS.md"
+  },
+  "table-venues": {
+    "prefix": "@table-venues",
+    "body": "@table-venues",
+    "description": "apps/production-mawster-no-use/20-tables/VENUES.md"
+  },
+  "table-calendar-emphasis": {
+    "prefix": "@table-calendar-emphasis",
+    "body": "@table-calendar-emphasis",
+    "description": "apps/production-mawster/20-tables/calendar_highlight.md"
+  },
+  "scripts": {
+    "prefix": "@scripts",
+    "body": "@scripts",
+    "description": "apps/production-mawster/70-scripts/index.md"
+  },
+  "file-imports": {
+    "prefix": "@file-imports",
+    "body": "@file-imports",
+    "description": "apps/production-mawster/90-file-imports-temp/index.md"
+  },
+  "legacy-script-review": {
+    "prefix": "@legacy-script-review",
+    "body": "@legacy-script-review",
+    "description": "apps/production-mawster/90-file-imports-temp/prevProductionCalendarApp/script-review.md"
+  },
+  "prev-production-calendar-app": {
+    "prefix": "@prev-production-calendar-app",
+    "body": "@prev-production-calendar-app",
+    "description": "apps/production-mawster/90-file-imports-temp/prevProductionCalendarApp/index.md"
+  },
+  "legacy-scripts-paste-1": {
+    "prefix": "@legacy-scripts-paste-1",
+    "body": "@legacy-scripts-paste-1",
+    "description": "apps/production-mawster/90-file-imports-temp/prevProductionCalendarApp/scripts/index copy 1.md"
+  },
+  "theme-template-layout": {
+    "prefix": "@theme-template-layout",
+    "body": "@theme-template-layout",
+    "description": "apps/production-mawster/theme-template-layout.md"
+  },
+  "ddr-punch-list": {
+    "prefix": "@ddr-punch-list",
+    "body": "@ddr-punch-list",
+    "description": "apps/production-mawster/ddr-punch-list.md"
+  },
+  "theme-vector-grain": {
+    "prefix": "@theme-vector-grain",
+    "body": "@theme-vector-grain",
+    "description": "apps/production-mawster/theme-vector-grain.md"
+  },
+  "print-geometry": {
+    "prefix": "@print-geometry",
+    "body": "@print-geometry",
+    "description": "apps/production-mawster/print-geometry.md"
+  },
+  "theme-build-order": {
+    "prefix": "@theme-build-order",
+    "body": "@theme-build-order",
+    "description": "apps/production-mawster/theme-build-order.md"
+  },
+  "theme-state": {
+    "prefix": "@theme-state",
+    "body": "@theme-state",
+    "description": "apps/production-mawster/theme-state.md"
+  },
+  "device-handoff": {
+    "prefix": "@device-handoff",
+    "body": "@device-handoff",
+    "description": "apps/production-mawster/device-handoff.md"
+  },
+  "theme-selection": {
+    "prefix": "@theme-selection",
+    "body": "@theme-selection",
+    "description": "apps/production-mawster/theme-selection.md"
+  },
+  "theme-resolution": {
+    "prefix": "@theme-resolution",
+    "body": "@theme-resolution",
+    "description": "apps/production-mawster/theme-resolution.md"
+  },
+  "print-first-runbook": {
+    "prefix": "@print-first-runbook",
+    "body": "@print-first-runbook",
+    "description": "apps/production-mawster/print-first-runbook.md"
+  },
+  "document-templates": {
+    "prefix": "@document-templates",
+    "body": "@document-templates",
+    "description": "apps/production-mawster/document-templates.md"
+  },
+  "theme-event-styling": {
+    "prefix": "@theme-event-styling",
+    "body": "@theme-event-styling",
+    "description": "apps/production-mawster/theme-event-styling.md"
+  },
+  "printing": {
+    "prefix": "@printing",
+    "body": "@printing",
+    "description": "apps/production-mawster/16-printing/index.md"
+  },
+  "relationships": {
+    "prefix": "@relationships",
+    "body": "@relationships",
+    "description": "apps/production-mawster/30-RELATIONSHIPS/index.md"
+  },
+  "mawster-ide-relationships": {
+    "prefix": "@mawster-ide-relationships",
+    "body": "@mawster-ide-relationships",
+    "description": "apps/production-mawster/30-RELATIONSHIPS/_ide/relationship-graph.md"
+  },
+  "layout-theme-rendering": {
+    "prefix": "@layout-theme-rendering",
+    "body": "@layout-theme-rendering",
+    "description": "apps/production-mawster/50-LAYOUTS/layout-theme-rendering.md"
+  },
+  "layouts": {
+    "prefix": "@layouts",
+    "body": "@layouts",
+    "description": "apps/production-mawster/50-LAYOUTS/index.md"
+  },
+  "mawster-ide-layouts": {
+    "prefix": "@mawster-ide-layouts",
+    "body": "@mawster-ide-layouts",
+    "description": "apps/production-mawster/50-LAYOUTS/_ide/index.md"
+  },
+  "mawster-ide-value-lists": {
+    "prefix": "@mawster-ide-value-lists",
+    "body": "@mawster-ide-value-lists",
+    "description": "apps/production-mawster/25-value-lists/_ide/value-lists.md"
+  },
+  "table-organizations": {
+    "prefix": "@table-organizations",
+    "body": "@table-organizations",
+    "description": "apps/production-mawster/20-tables/organizations.md"
+  },
+  "table-utility-reports": {
+    "prefix": "@table-utility-reports",
+    "body": "@table-utility-reports",
+    "description": "apps/production-mawster/20-tables/utility_reports.md"
+  },
+  "table-value-lists": {
+    "prefix": "@table-value-lists",
+    "body": "@table-value-lists",
+    "description": "apps/production-mawster/20-tables/VALUE_LISTS.md"
+  },
+  "table-colors": {
+    "prefix": "@table-colors",
+    "body": "@table-colors",
+    "description": "apps/production-mawster/20-tables/theme_colors.md"
+  },
+  "table-utility_logs": {
+    "prefix": "@table-utility_logs",
+    "body": "@table-utility_logs",
+    "description": "apps/production-mawster/20-tables/utility_logmaw.md"
+  },
+  "table-export-presets": {
+    "prefix": "@table-export-presets",
+    "body": "@table-export-presets",
+    "description": "apps/production-mawster/20-tables/EXPORT_PRESETS.md"
+  },
+  "table-typography": {
+    "prefix": "@table-typography",
+    "body": "@table-typography",
+    "description": "apps/production-mawster/20-tables/theme_typography.md"
+  },
+  "table-values": {
+    "prefix": "@table-values",
+    "body": "@table-values",
+    "description": "apps/production-mawster/20-tables/VALUES.md"
+  },
+  "table-themes": {
+    "prefix": "@table-themes",
+    "body": "@table-themes",
+    "description": "apps/production-mawster/20-tables/themes..md"
+  },
+  "table-global-export": {
+    "prefix": "@table-global-export",
+    "body": "@table-global-export",
+    "description": "apps/production-mawster/20-tables/global_export.md"
+  },
+  "table-themes_x_styles": {
+    "prefix": "@table-themes_x_styles",
+    "body": "@table-themes_x_styles",
+    "description": "apps/production-mawster/20-tables/themes_x_styles.md"
+  },
+  "table-import-sources": {
+    "prefix": "@table-import-sources",
+    "body": "@table-import-sources",
+    "description": "apps/production-mawster/20-tables/import_sources.md"
+  },
+  "table-utility-logs": {
+    "prefix": "@table-utility-logs",
+    "body": "@table-utility-logs",
+    "description": "apps/production-mawster/20-tables/utility_logs.md"
+  },
+  "mawster-ide-tables-05": {
+    "prefix": "@mawster-ide-tables-05",
+    "body": "@mawster-ide-tables-05",
+    "description": "apps/production-mawster/20-tables/_ide/tables-05.md"
+  },
+  "mawster-ide-tables-01": {
+    "prefix": "@mawster-ide-tables-01",
+    "body": "@mawster-ide-tables-01",
+    "description": "apps/production-mawster/20-tables/_ide/tables-01.md"
+  },
+  "mawster-ide-tables-04": {
+    "prefix": "@mawster-ide-tables-04",
+    "body": "@mawster-ide-tables-04",
+    "description": "apps/production-mawster/20-tables/_ide/tables-04.md"
+  },
+  "mawster-ide-tables-03": {
+    "prefix": "@mawster-ide-tables-03",
+    "body": "@mawster-ide-tables-03",
+    "description": "apps/production-mawster/20-tables/_ide/tables-03.md"
+  },
+  "mawster-ide-tables": {
+    "prefix": "@mawster-ide-tables",
+    "body": "@mawster-ide-tables",
+    "description": "apps/production-mawster/20-tables/_ide/index.md"
+  },
+  "mawster-ide-tables-02": {
+    "prefix": "@mawster-ide-tables-02",
+    "body": "@mawster-ide-tables-02",
+    "description": "apps/production-mawster/20-tables/_ide/tables-02.md"
+  },
+  "mawster-ide-tables-observations": {
+    "prefix": "@mawster-ide-tables-observations",
+    "body": "@mawster-ide-tables-observations",
+    "description": "apps/production-mawster/20-tables/_ide/observations.md"
+  },
+  "script-importing-records": {
+    "prefix": "@script-importing-records",
+    "body": "@script-importing-records",
+    "description": "apps/production-mawster/70-scripts/40-importing-records/index.md"
+  },
+  "workflow-import-events": {
+    "prefix": "@workflow-import-events",
+    "body": "@workflow-import-events",
+    "description": "apps/production-mawster/15-runtime/importing-records/events/index.md"
+  },
+  "script-file-close": {
+    "prefix": "@script-file-close",
+    "body": "@script-file-close",
+    "description": "apps/production-mawster/70-scripts/file-close.md"
+  },
+  "script-find-all-or-none": {
+    "prefix": "@script-find-all-or-none",
+    "body": "@script-find-all-or-none",
+    "description": "apps/production-mawster/70-scripts/find-all-or-none.md"
+  },
+  "script-file-open": {
+    "prefix": "@script-file-open",
+    "body": "@script-file-open",
+    "description": "apps/production-mawster/70-scripts/file-open.md"
+  },
+  "script-util-run-end": {
+    "prefix": "@script-util-run-end",
+    "body": "@script-util-run-end",
+    "description": "apps/production-mawster/70-scripts/util-run-end.md"
+  },
+  "script-template": {
+    "prefix": "@script-template",
+    "body": "@script-template",
+    "description": "apps/production-mawster/70-scripts/_TEMPLATE-new-script.md"
+  },
+  "script-util-value-index-move": {
+    "prefix": "@script-util-value-index-move",
+    "body": "@script-util-value-index-move",
+    "description": "apps/production-mawster/70-scripts/util-value-index-move.md"
+  },
+  "script-goto": {
+    "prefix": "@script-goto",
+    "body": "@script-goto",
+    "description": "apps/production-mawster/70-scripts/goto.md"
+  },
+  "script-util-run-start": {
+    "prefix": "@script-util-run-start",
+    "body": "@script-util-run-start",
+    "description": "apps/production-mawster/70-scripts/util-run-start.md"
+  },
+  "script-file-save-backup": {
+    "prefix": "@script-file-save-backup",
+    "body": "@script-file-save-backup",
+    "description": "apps/production-mawster/70-scripts/file-save-backup.md"
+  },
+  "scripts-importing-evemts": {
+    "prefix": "@scripts-importing-evemts",
+    "body": "@scripts-importing-evemts",
+    "description": "apps/production-mawster/70-scripts/40-importing-records/events/index.md"
+  },
+  "retired-trigger-app-open": {
+    "prefix": "@retired-trigger-app-open",
+    "body": "@retired-trigger-app-open",
+    "description": "apps/production-mawster/70-scripts/_retired/trigger-app-open.md"
+  },
+  "scripts-retired": {
+    "prefix": "@scripts-retired",
+    "body": "@scripts-retired",
+    "description": "apps/production-mawster/70-scripts/_retired/index.md"
+  },
+  "retired-new-utility-log": {
+    "prefix": "@retired-new-utility-log",
+    "body": "@retired-new-utility-log",
+    "description": "apps/production-mawster/70-scripts/_retired/new-utility-log.md"
+  },
+  "retired-app-startup": {
+    "prefix": "@retired-app-startup",
+    "body": "@retired-app-startup",
+    "description": "apps/production-mawster/70-scripts/_retired/app-startup.md"
+  },
+  "retired-exit-w-errors": {
+    "prefix": "@retired-exit-w-errors",
+    "body": "@retired-exit-w-errors",
+    "description": "apps/production-mawster/70-scripts/_retired/exit-w-errors.md"
+  },
+  "ddr-asbuilt-import-write-row-numbers": {
+    "prefix": "@ddr-asbuilt-import-write-row-numbers",
+    "body": "@ddr-asbuilt-import-write-row-numbers",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/import-write-row-numbers.md"
+  },
+  "ddr-asbuilt-sort-fkworkday-date": {
+    "prefix": "@ddr-asbuilt-sort-fkworkday-date",
+    "body": "@ddr-asbuilt-sort-fkworkday-date",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/sort-fkworkday-date.md"
+  },
+  "ddr-asbuilt-goto-view-utility-logs": {
+    "prefix": "@ddr-asbuilt-goto-view-utility-logs",
+    "body": "@ddr-asbuilt-goto-view-utility-logs",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/goto-view-utility-logs.md"
+  },
+  "ddr-asbuilt-lookup-calendar-for-production": {
+    "prefix": "@ddr-asbuilt-lookup-calendar-for-production",
+    "body": "@ddr-asbuilt-lookup-calendar-for-production",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/lookup-calendar-for-production.md"
+  },
+  "ddr-asbuilt-import-event-records": {
+    "prefix": "@ddr-asbuilt-import-event-records",
+    "body": "@ddr-asbuilt-import-event-records",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/import-event-records.md"
+  },
+  "ddr-asbuilt-new-utility-report": {
+    "prefix": "@ddr-asbuilt-new-utility-report",
+    "body": "@ddr-asbuilt-new-utility-report",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/new-utility-report.md"
+  },
+  "ddr-asbuilt-filter-to-current-run": {
+    "prefix": "@ddr-asbuilt-filter-to-current-run",
+    "body": "@ddr-asbuilt-filter-to-current-run",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/filter-to-current-run.md"
+  },
+  "ddr-asbuilt-import-delete-header-row": {
+    "prefix": "@ddr-asbuilt-import-delete-header-row",
+    "body": "@ddr-asbuilt-import-delete-header-row",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/import-delete-header-row.md"
+  },
+  "ddr-asbuilt-import-delete-empty-rows": {
+    "prefix": "@ddr-asbuilt-import-delete-empty-rows",
+    "body": "@ddr-asbuilt-import-delete-empty-rows",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/import-delete-empty-rows.md"
+  },
+  "ddr-asbuilt-import-merge-event": {
+    "prefix": "@ddr-asbuilt-import-merge-event",
+    "body": "@ddr-asbuilt-import-merge-event",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/import-merge-event.md"
+  },
+  "ddr-asbuilt-lookup-production-short": {
+    "prefix": "@ddr-asbuilt-lookup-production-short",
+    "body": "@ddr-asbuilt-lookup-production-short",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/lookup-production-short.md"
+  },
+  "ddr-asbuilt-new-app-session-token": {
+    "prefix": "@ddr-asbuilt-new-app-session-token",
+    "body": "@ddr-asbuilt-new-app-session-token",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/new-app-session-token.md"
+  },
+  "ddr-asbuilt-xxmerge-event-field": {
+    "prefix": "@ddr-asbuilt-xxmerge-event-field",
+    "body": "@ddr-asbuilt-xxmerge-event-field",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/xxmerge-event-field.md"
+  },
+  "ddr-asbuilt-goto-view-app-sessions": {
+    "prefix": "@ddr-asbuilt-goto-view-app-sessions",
+    "body": "@ddr-asbuilt-goto-view-app-sessions",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/goto-view-app-sessions.md"
+  },
+  "ddr-asbuilt-show-all-or-none": {
+    "prefix": "@ddr-asbuilt-show-all-or-none",
+    "body": "@ddr-asbuilt-show-all-or-none",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/show-all-or-none.md"
+  },
+  "ddr-asbuilt-link-fkutilityreport": {
+    "prefix": "@ddr-asbuilt-link-fkutilityreport",
+    "body": "@ddr-asbuilt-link-fkutilityreport",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/link-fkutilityreport.md"
+  },
+  "ddr-asbuilt-status-index-move": {
+    "prefix": "@ddr-asbuilt-status-index-move",
+    "body": "@ddr-asbuilt-status-index-move",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/status-index-move.md"
+  },
+  "ddr-asbuilt-import-bool-all-day": {
+    "prefix": "@ddr-asbuilt-import-bool-all-day",
+    "body": "@ddr-asbuilt-import-bool-all-day",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/import-bool-all-day.md"
+  },
+  "ddr-asbuilt-compare-cu-id": {
+    "prefix": "@ddr-asbuilt-compare-cu-id",
+    "body": "@ddr-asbuilt-compare-cu-id",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/compare-cu-id.md"
+  },
+  "ddr-asbuilt-button-generate-events-x-workdays": {
+    "prefix": "@ddr-asbuilt-button-generate-events-x-workdays",
+    "body": "@ddr-asbuilt-button-generate-events-x-workdays",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/button-generate-events-x-workdays.md"
+  },
+  "ddr-asbuilt-goto-view-utility-reports": {
+    "prefix": "@ddr-asbuilt-goto-view-utility-reports",
+    "body": "@ddr-asbuilt-goto-view-utility-reports",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/goto-view-utility-reports.md"
+  },
+  "ddr-asbuilt-trigger-app-open": {
+    "prefix": "@ddr-asbuilt-trigger-app-open",
+    "body": "@ddr-asbuilt-trigger-app-open",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/trigger-app-open.md"
+  },
+  "ddr-asbuilt-link-fkreport-fkprod-hash": {
+    "prefix": "@ddr-asbuilt-link-fkreport-fkprod-hash",
+    "body": "@ddr-asbuilt-link-fkreport-fkprod-hash",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/link-fkreport-fkprod-hash.md"
+  },
+  "ddr-asbuilt-button-generate-workdays": {
+    "prefix": "@ddr-asbuilt-button-generate-workdays",
+    "body": "@ddr-asbuilt-button-generate-workdays",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/button-generate-workdays.md"
+  },
+  "ddr-asbuilt-import-remove-maw-notes": {
+    "prefix": "@ddr-asbuilt-import-remove-maw-notes",
+    "body": "@ddr-asbuilt-import-remove-maw-notes",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/import-remove-maw-notes.md"
+  },
+  "ddr-asbuilt-file-create-backup": {
+    "prefix": "@ddr-asbuilt-file-create-backup",
+    "body": "@ddr-asbuilt-file-create-backup",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/file-create-backup.md"
+  },
+  "ddr-asbuilt-goto-view-values": {
+    "prefix": "@ddr-asbuilt-goto-view-values",
+    "body": "@ddr-asbuilt-goto-view-values",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/goto-view-values.md"
+  },
+  "ddr-asbuilt-goto-events-x-workdays": {
+    "prefix": "@ddr-asbuilt-goto-events-x-workdays",
+    "body": "@ddr-asbuilt-goto-events-x-workdays",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/goto-events-x-workdays.md"
+  },
+  "ddr-asbuilt-index": {
+    "prefix": "@ddr-asbuilt-index",
+    "body": "@ddr-asbuilt-index",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/index.md"
+  },
+  "ddr-asbuilt-new-import-session": {
+    "prefix": "@ddr-asbuilt-new-import-session",
+    "body": "@ddr-asbuilt-new-import-session",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/new-import-session.md"
+  },
+  "ddr-asbuilt-button-import-events": {
+    "prefix": "@ddr-asbuilt-button-import-events",
+    "body": "@ddr-asbuilt-button-import-events",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/button-import-events.md"
+  },
+  "ddr-asbuilt-on-app-open": {
+    "prefix": "@ddr-asbuilt-on-app-open",
+    "body": "@ddr-asbuilt-on-app-open",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/on-app-open.md"
+  },
+  "ddr-asbuilt-backup-event": {
+    "prefix": "@ddr-asbuilt-backup-event",
+    "body": "@ddr-asbuilt-backup-event",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/backup-event.md"
+  },
+  "ddr-asbuilt-new-utility-log": {
+    "prefix": "@ddr-asbuilt-new-utility-log",
+    "body": "@ddr-asbuilt-new-utility-log",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/new-utility-log.md"
+  },
+  "ddr-asbuilt-goto-view-import-sessions": {
+    "prefix": "@ddr-asbuilt-goto-view-import-sessions",
+    "body": "@ddr-asbuilt-goto-view-import-sessions",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/goto-view-import-sessions.md"
+  },
+  "ddr-asbuilt-set-global-pkcurrentutilitysession": {
+    "prefix": "@ddr-asbuilt-set-global-pkcurrentutilitysession",
+    "body": "@ddr-asbuilt-set-global-pkcurrentutilitysession",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/set-global-pkcurrentutilitysession.md"
+  },
+  "ddr-asbuilt-new-workday-x-event": {
+    "prefix": "@ddr-asbuilt-new-workday-x-event",
+    "body": "@ddr-asbuilt-new-workday-x-event",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/new-workday-x-event.md"
+  },
+  "ddr-asbuilt-goto-events": {
+    "prefix": "@ddr-asbuilt-goto-events",
+    "body": "@ddr-asbuilt-goto-events",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/goto-events.md"
+  },
+  "ddr-asbuilt-goto-productions": {
+    "prefix": "@ddr-asbuilt-goto-productions",
+    "body": "@ddr-asbuilt-goto-productions",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/goto-productions.md"
+  },
+  "ddr-asbuilt-import-new-events": {
+    "prefix": "@ddr-asbuilt-import-new-events",
+    "body": "@ddr-asbuilt-import-new-events",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/import-new-events.md"
+  },
+  "ddr-asbuilt-app-startup": {
+    "prefix": "@ddr-asbuilt-app-startup",
+    "body": "@ddr-asbuilt-app-startup",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/app-startup.md"
+  },
+  "ddr-asbuilt-import-event-remove-prodshortname": {
+    "prefix": "@ddr-asbuilt-import-event-remove-prodshortname",
+    "body": "@ddr-asbuilt-import-event-remove-prodshortname",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/import-event-remove-prodshortname.md"
+  },
+  "ddr-asbuilt-goto-new-window-currentrunreport": {
+    "prefix": "@ddr-asbuilt-goto-new-window-currentrunreport",
+    "body": "@ddr-asbuilt-goto-new-window-currentrunreport",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/goto-new-window-currentrunreport.md"
+  },
+  "ddr-asbuilt-import-net-new-event": {
+    "prefix": "@ddr-asbuilt-import-net-new-event",
+    "body": "@ddr-asbuilt-import-net-new-event",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/import-net-new-event.md"
+  },
+  "ddr-asbuilt-on-app-close": {
+    "prefix": "@ddr-asbuilt-on-app-close",
+    "body": "@ddr-asbuilt-on-app-close",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/on-app-close.md"
+  },
+  "ddr-asbuilt-import-pass-to-workspace": {
+    "prefix": "@ddr-asbuilt-import-pass-to-workspace",
+    "body": "@ddr-asbuilt-import-pass-to-workspace",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/import-pass-to-workspace.md"
+  },
+  "ddr-asbuilt-end-utility-report": {
+    "prefix": "@ddr-asbuilt-end-utility-report",
+    "body": "@ddr-asbuilt-end-utility-report",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/end-utility-report.md"
+  },
+  "ddr-asbuilt-goto-calendars": {
+    "prefix": "@ddr-asbuilt-goto-calendars",
+    "body": "@ddr-asbuilt-goto-calendars",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/goto-calendars.md"
+  },
+  "ddr-asbuilt-exit-w-errors": {
+    "prefix": "@ddr-asbuilt-exit-w-errors",
+    "body": "@ddr-asbuilt-exit-w-errors",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/exit-w-errors.md"
+  },
+  "ddr-asbuilt-import-copy-payload": {
+    "prefix": "@ddr-asbuilt-import-copy-payload",
+    "body": "@ddr-asbuilt-import-copy-payload",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/import-copy-payload.md"
+  },
+  "ddr-asbuilt-merge-compare-field": {
+    "prefix": "@ddr-asbuilt-merge-compare-field",
+    "body": "@ddr-asbuilt-merge-compare-field",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/merge-compare-field.md"
+  },
+  "ddr-asbuilt-goto-table-import-events": {
+    "prefix": "@ddr-asbuilt-goto-table-import-events",
+    "body": "@ddr-asbuilt-goto-table-import-events",
+    "description": "apps/production-mawster/70-scripts/_ddr-asbuilt-2608151650/goto-table-import-events.md"
+  },
+  "delete-me-new-activity-log": {
+    "prefix": "@delete-me-new-activity-log",
+    "body": "@delete-me-new-activity-log",
+    "description": "apps/production-mawster/70-scripts/90-Utlity/DELETE-ME-new-activity-log.md"
+  },
+  "delete-me-app-open": {
+    "prefix": "@delete-me-app-open",
+    "body": "@delete-me-app-open",
+    "description": "apps/production-mawster/70-scripts/90-Utlity/DELETE-ME-app-open.md"
+  },
+  "mawster-ide-buttons": {
+    "prefix": "@mawster-ide-buttons",
+    "body": "@mawster-ide-buttons",
+    "description": "apps/production-mawster/70-scripts/_ide/BUTTONS.md"
+  },
+  "mawster-ide-new-record": {
+    "prefix": "@mawster-ide-new-record",
+    "body": "@mawster-ide-new-record",
+    "description": "apps/production-mawster/70-scripts/_ide/New-Record.md"
+  },
+  "mawster-ide-app-open": {
+    "prefix": "@mawster-ide-app-open",
+    "body": "@mawster-ide-app-open",
+    "description": "apps/production-mawster/70-scripts/_ide/APP-OPEN.md"
+  },
+  "mawster-ide-app-close": {
+    "prefix": "@mawster-ide-app-close",
+    "body": "@mawster-ide-app-close",
+    "description": "apps/production-mawster/70-scripts/_ide/APP-CLOSE.md"
+  },
+  "mawster-ide-show-and-hide": {
+    "prefix": "@mawster-ide-show-and-hide",
+    "body": "@mawster-ide-show-and-hide",
+    "description": "apps/production-mawster/70-scripts/_ide/SHOW-AND-HIDE.md"
+  },
+  "mawster-ide-root": {
+    "prefix": "@mawster-ide-root",
+    "body": "@mawster-ide-root",
+    "description": "apps/production-mawster/70-scripts/_ide/_ROOT.md"
+  },
+  "mawster-ide-mirror": {
+    "prefix": "@mawster-ide-mirror",
+    "body": "@mawster-ide-mirror",
+    "description": "apps/production-mawster/70-scripts/_ide/index.md"
+  },
+  "mawster-ide-run-reports": {
+    "prefix": "@mawster-ide-run-reports",
+    "body": "@mawster-ide-run-reports",
+    "description": "apps/production-mawster/70-scripts/_ide/90-UTILITY/RUN_REPORTS.md"
+  },
+  "mawster-ide-logs": {
+    "prefix": "@mawster-ide-logs",
+    "body": "@mawster-ide-logs",
+    "description": "apps/production-mawster/70-scripts/_ide/90-UTILITY/LOGS.md"
+  },
+  "mawster-ide-90-utility": {
+    "prefix": "@mawster-ide-90-utility",
+    "body": "@mawster-ide-90-utility",
+    "description": "apps/production-mawster/70-scripts/_ide/90-UTILITY/index.md"
+  },
+  "mawster-ide-linking": {
+    "prefix": "@mawster-ide-linking",
+    "body": "@mawster-ide-linking",
+    "description": "apps/production-mawster/70-scripts/_ide/40-Importing/linking.md"
+  },
+  "mawster-ide-process": {
+    "prefix": "@mawster-ide-process",
+    "body": "@mawster-ide-process",
+    "description": "apps/production-mawster/70-scripts/_ide/40-Importing/process.md"
+  },
+  "mawster-ide-merge-rollback": {
+    "prefix": "@mawster-ide-merge-rollback",
+    "body": "@mawster-ide-merge-rollback",
+    "description": "apps/production-mawster/70-scripts/_ide/40-Importing/Pass-to-Workspace.merge-rollback.md"
+  },
+  "mawster-ide-pass-to-workspace": {
+    "prefix": "@mawster-ide-pass-to-workspace",
+    "body": "@mawster-ide-pass-to-workspace",
+    "description": "apps/production-mawster/70-scripts/_ide/40-Importing/Pass-to-Workspace.md"
+  },
+  "mawster-ide-normalization": {
+    "prefix": "@mawster-ide-normalization",
+    "body": "@mawster-ide-normalization",
+    "description": "apps/production-mawster/70-scripts/_ide/40-Importing/normalization.md"
+  },
+  "mawster-ide-40-importing": {
+    "prefix": "@mawster-ide-40-importing",
+    "body": "@mawster-ide-40-importing",
+    "description": "apps/production-mawster/70-scripts/_ide/40-Importing/index.md"
+  },
+  "mawster-ide-85-new-windows": {
+    "prefix": "@mawster-ide-85-new-windows",
+    "body": "@mawster-ide-85-new-windows",
+    "description": "apps/production-mawster/70-scripts/_ide/80-GoTo/85-NEW_WINDOWS.md"
+  },
+  "mawster-ide-80-goto": {
+    "prefix": "@mawster-ide-80-goto",
+    "body": "@mawster-ide-80-goto",
+    "description": "apps/production-mawster/70-scripts/_ide/80-GoTo/index.md"
+  },
+  "cf-errjson": {
+    "prefix": "@cf-errjson",
+    "body": "@cf-errjson",
+    "description": "apps/production-mawster/60-custom-functions/errjson.md"
+  },
+  "custom-functions": {
+    "prefix": "@custom-functions",
+    "body": "@custom-functions",
+    "description": "apps/production-mawster/60-custom-functions/index.md"
+  },
+  "mawster-ide-cf-index": {
+    "prefix": "@mawster-ide-cf-index",
+    "body": "@mawster-ide-cf-index",
+    "description": "apps/production-mawster/60-custom-functions/_ide/cf-index.md"
+  },
+  "mawster-ddr-imports": {
+    "prefix": "@mawster-ddr-imports",
+    "body": "@mawster-ddr-imports",
+    "description": "apps/production-mawster/90-file-imports-temp/DDR_imports/README.md"
+  },
+  "menu-tables": {
+    "prefix": "@menu-tables",
+    "body": "@menu-tables",
+    "description": "apps/production-mawster/10-ux/menu_tables.md"
+  },
+  "menu-relationships": {
+    "prefix": "@menu-relationships",
+    "body": "@menu-relationships",
+    "description": "apps/production-mawster/10-ux/menu_relationships.md"
+  },
+  "menu-database": {
+    "prefix": "@menu-database",
+    "body": "@menu-database",
+    "description": "apps/production-mawster/10-ux/menu_database.md"
+  },
+  "menu-fields": {
+    "prefix": "@menu-fields",
+    "body": "@menu-fields",
+    "description": "apps/production-mawster/10-ux/menu_fields.md"
+  },
+  "ux": {
+    "prefix": "@ux",
+    "body": "@ux",
+    "description": "apps/production-mawster/10-ux/index.md"
+  },
+  "fmp-drops": {
+    "prefix": "@fmp-drops",
+    "body": "@fmp-drops",
+    "description": "apps/zFMP-drops/README.md"
+  },
+  "uritp-people-next-build": {
+    "prefix": "@uritp-people-next-build",
+    "body": "@uritp-people-next-build",
+    "description": "apps/uritp-people/next-build-spec.md"
+  },
+  "uritp-people": {
+    "prefix": "@uritp-people",
+    "body": "@uritp-people",
+    "description": "apps/uritp-people/README.md"
+  },
+  "uritp-people-table-app-layouts": {
+    "prefix": "@uritp-people-table-app-layouts",
+    "body": "@uritp-people-table-app-layouts",
+    "description": "apps/uritp-people/tables/APP_LAYOUTS.md"
+  },
+  "uritp-people-table-settings": {
+    "prefix": "@uritp-people-table-settings",
+    "body": "@uritp-people-table-settings",
+    "description": "apps/uritp-people/tables/SETTINGS.md"
+  },
+  "uritp-people-table-import-people": {
+    "prefix": "@uritp-people-table-import-people",
+    "body": "@uritp-people-table-import-people",
+    "description": "apps/uritp-people/tables/import_PEOPLE.md"
+  },
+  "uritp-people-table-import-sessions": {
+    "prefix": "@uritp-people-table-import-sessions",
+    "body": "@uritp-people-table-import-sessions",
+    "description": "apps/uritp-people/tables/import_SESSIONS.md"
+  },
+  "uritp-people-table-people": {
+    "prefix": "@uritp-people-table-people",
+    "body": "@uritp-people-table-people",
+    "description": "apps/uritp-people/tables/PEOPLE.md"
+  },
+  "uritp-people-table-reconcile": {
+    "prefix": "@uritp-people-table-reconcile",
+    "body": "@uritp-people-table-reconcile",
+    "description": "apps/uritp-people/tables/RECONCILE.md"
+  },
+  "uritp-people-table-contact-information": {
+    "prefix": "@uritp-people-table-contact-information",
+    "body": "@uritp-people-table-contact-information",
+    "description": "apps/uritp-people/tables/CONTACT_INFORMATION.md"
+  },
+  "uritp-people-table-app-tables": {
+    "prefix": "@uritp-people-table-app-tables",
+    "body": "@uritp-people-table-app-tables",
+    "description": "apps/uritp-people/tables/APP_TABLES.md"
+  },
+  "uritp-people-table-import-sources": {
+    "prefix": "@uritp-people-table-import-sources",
+    "body": "@uritp-people-table-import-sources",
+    "description": "apps/uritp-people/tables/IMPORT_SOURCES.md"
+  },
+  "uritp-people-layout-reconcile": {
+    "prefix": "@uritp-people-layout-reconcile",
+    "body": "@uritp-people-layout-reconcile",
+    "description": "apps/uritp-people/layouts/RECONCILE.md"
+  },
+  "uritp-people-script-people-pull": {
+    "prefix": "@uritp-people-script-people-pull",
+    "body": "@uritp-people-script-people-pull",
+    "description": "apps/uritp-people/scripts/10_IMPORT/PEOPLE_Pull.notes.md"
+  },
+  "uritp-people-script-people-apply": {
+    "prefix": "@uritp-people-script-people-apply",
+    "body": "@uritp-people-script-people-apply",
+    "description": "apps/uritp-people/scripts/10_IMPORT/PEOPLE_Apply.notes.md"
+  },
+  "uritp-people-script-reconcile-setall": {
+    "prefix": "@uritp-people-script-reconcile-setall",
+    "body": "@uritp-people-script-reconcile-setall",
+    "description": "apps/uritp-people/scripts/10_IMPORT/RECONCILE_SetAll.notes.md"
+  },
+  "uritp-people-script-people-compare": {
+    "prefix": "@uritp-people-script-people-compare",
+    "body": "@uritp-people-script-people-compare",
+    "description": "apps/uritp-people/scripts/10_IMPORT/PEOPLE_Compare.notes.md"
+  },
+  "uritp-people-relationships": {
+    "prefix": "@uritp-people-relationships",
+    "body": "@uritp-people-relationships",
+    "description": "apps/uritp-people/relationships/README.md"
+  },
+  "fmp-app-catalog": {
+    "prefix": "@fmp-app-catalog",
+    "body": "@fmp-app-catalog",
+    "description": "standards/filemaker/app-catalog.md"
+  },
+  "fmp-clipboard-snippets": {
+    "prefix": "@fmp-clipboard-snippets",
+    "body": "@fmp-clipboard-snippets",
+    "description": "standards/filemaker/clipboard-snippets.md"
+  },
+  "fmp-app-catalog-scripts": {
+    "prefix": "@fmp-app-catalog-scripts",
+    "body": "@fmp-app-catalog-scripts",
+    "description": "standards/filemaker/scripts/APP_CatalogRefresh.notes.md"
+  }
+}
