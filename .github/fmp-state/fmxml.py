@@ -8,7 +8,7 @@
 #                deleted from HEAD, and the run fails loud. Do not drop Save-as-XML into this repo.
 # One bad drop never blocks the rest: symlinks, unreadable or unparseable files (e.g. a DDR Summary.xml)
 # are skipped with a warning and left in place; every good drop is still processed, indexed and deleted.
-# Skip reasons are written into index.md (agents can't read Action logs).
+# Skip reasons are written into index.md (agents can't read Action logs). Missing optional DDR categories read as empty.
 # Output is deterministic for a given export: no run timestamp, so identical input = identical bytes.
 # Record counts are reported as state and never hashed. Layout geometry/styling is dropped and declared.
 import sys, os, re, json, glob, hashlib, collections, traceback, xml.etree.ElementTree as ET
@@ -31,11 +31,15 @@ def recover(src): return f"`git show {SHA}:\"{src}\"`" if SHA else "(local run, 
 def ddr(root, src):
     F = root.find("File"); app = F.get("name"); d = os.path.join(OUT, slug(app)); os.makedirs(d, exist_ok=True)
     cats = {c.tag: c for c in F}; fp = {}; L = []; W = L.append
+    OPT = ("RelationshipGraph", "ValueListCatalog", "CustomFunctionCatalog", "ScriptCatalog", "LayoutCatalog")
+    absent = [k for k in OPT if k not in cats]
+    def cat(k): return cats.get(k, ET.Element(k))  # DDR omits empty or unticked categories: read as empty
     def put(k, name, el, sem=None): fp[k] = {"n": name, "h": h(sem if sem is not None else ET.tostring(el, encoding="unicode"))}
     W(f"# {app} \u00b7 STATE")
     W(f"DDR-XML export {root.get('creationDate')} {root.get('creationTime')} \u00b7 FM {root.get('version')}")
     W(f"Source drop: `{src}` \u00b7 recover raw: {recover(src)}")
     W("Companion files: DELTA.md (vs previous drop, read first) \u00b7 STEPS.md (full script steps, load on demand)\n")
+    if absent: W(f"**Absent from this export (read as empty):** {', '.join(absent)}. Either none exist yet or the category was unticked in the DDR dialog.\n")
     STD = {"PrimaryKey", "CreationTimestamp", "CreatedBy", "ModificationTimestamp", "ModifiedBy"}
     tabs = cats["BaseTableCatalog"].findall("BaseTable"); nf = 0
     W(f"## Tables ({len(tabs)}) \u00b7 rec = record count (state, not hashed) \u00b7 _std audit_ = stock PrimaryKey/Created*/Modified* fields, factored")
@@ -61,7 +65,7 @@ def ddr(root, src):
         W(f"\n### {t.get('name')} \u00b7 {len(fl)} fields \u00b7 {t.get('records')} rec")
         if std: W(f"- _std audit {len(std)}/5" + ("" if len(std) == 5 else " (missing: " + ", ".join(sorted(STD - set(std))) + ")") + "_")
         L.extend(rows)
-    rg = cats["RelationshipGraph"]; tos = rg.findall("TableList/Table")
+    rg = cat("RelationshipGraph"); tos = rg.findall("TableList/Table")
     W(f"\n## Table occurrences ({len(tos)}) \u00b7 name[base table]")
     W(", ".join(f"{t.get('name')}[{t.get('baseTable')}]" for t in tos if t.find("FileReference") is None))
     ext = [f"{t.get('name')} \u2192 {t.find('FileReference').get('name')}" for t in tos if t.find("FileReference") is not None]
@@ -75,12 +79,12 @@ def ddr(root, src):
         nm = f"{lt.get('name')} \u21c4 {rt.get('name')}"
         W(f"- {nm} on {' & '.join(preds)}" + (f" [{', '.join(fl)}]" if fl else ""))
         put(f"rel:{r.get('id')}", nm, r)
-    vls = cats["ValueListCatalog"].findall("ValueList"); W(f"\n## Value lists ({len(vls)})")
+    vls = cat("ValueListCatalog").findall("ValueList"); W(f"\n## Value lists ({len(vls)})")
     for v in vls:
         s = v.find("Source").get("value")
         dsc = ("custom: " + one(" | ".join(txt(x) for x in v.findall("CustomValues/Text")), 100)) if s == "Custom" else (s + ": " + ", ".join(f"{x.get('table')}::{x.get('name')}" for x in v.iter("Field")))
         W(f"- {v.get('name')} \u00b7 {dsc}"); put(f"vl:{v.get('id')}", v.get("name"), v)
-    cfs = cats["CustomFunctionCatalog"].findall("CustomFunction"); W(f"\n## Custom functions ({len(cfs)})")
+    cfs = cat("CustomFunctionCatalog").findall("CustomFunction"); W(f"\n## Custom functions ({len(cfs)})")
     for c in cfs: W(f"- {c.get('name')}({c.get('parameters') or ''})"); put(f"cf:{c.get('id')}", c.get("name"), c)
     S = [f"# {app} \u00b7 SCRIPT STEPS", f"Source drop: `{src}` \u00b7 disabled steps prefixed ~~"]; ns = [0]
     def swalk(node, path):
@@ -101,7 +105,7 @@ def ddr(root, src):
                     t = txt(x.find("StepText")) or txt(x.find("Text"))
                     if x.get("name") == "# (comment)" and not t: continue
                     S.append(("  ~~" if x.get("enable") == "False" else "  ") + one(t or x.get("name"), 200))
-    W("\n## Scripts (folder tree \u00b7 step counts exclude comments \u00b7 `-` separators omitted)"); swalk(cats["ScriptCatalog"], [])
+    W("\n## Scripts (folder tree \u00b7 step counts exclude comments \u00b7 `-` separators omitted)"); swalk(cat("ScriptCatalog"), [])
     nl = [0]
     def lwalk(node, path):
         for s in node:
@@ -116,7 +120,7 @@ def ddr(root, src):
                 portals = sum(1 for o in s.iter("Object") if o.get("type") == "Portal")
                 W(f"- **{s.get('name')}** [{to.get('name') if to is not None else '\u2014'}] \u00b7 {len(fields)} fields" + (f" \u00b7 {portals} portals" if portals else "") + (" \u00b7 btn \u2192 " + ", ".join(btn) if btn else ""))
                 put(f"layout:{s.get('id')}", s.get("name"), s, sem=json.dumps([s.get("name"), to.get("name") if to is not None else None, fields, btn, portals]))
-    W("\n## Layouts (folder tree \u00b7 base TO \u00b7 fields placed \u00b7 button \u2192 script) \u00b7 geometry + styling NOT captured"); lwalk(cats["LayoutCatalog"], [])
+    W("\n## Layouts (folder tree \u00b7 base TO \u00b7 fields placed \u00b7 button \u2192 script) \u00b7 geometry + styling NOT captured"); lwalk(cat("LayoutCatalog"), [])
     W(f"\n## Counts\nTables {len(tabs)} \u00b7 Fields {nf} \u00b7 TOs {len(tos)} \u00b7 Relationships {len(rels)} \u00b7 Value lists {len(vls)} \u00b7 Custom functions {len(cfs)} \u00b7 Scripts {ns[0]} \u00b7 Layouts {nl[0]}")
     W("\n## Not captured (declared)\n- Layout object geometry, styles, local CSS, theme bodies\n- Full script step text lives in STEPS.md, not here\n- Record data, accounts, privileges")
     # delta vs previous fingerprints
