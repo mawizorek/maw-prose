@@ -47,16 +47,8 @@ Loop [ Flush: Always ]
 	End If
 	#
 	If [ Get ( LastError ) ≠ 0 or $httpStatus ≠ 200 ]
-		# Log an error event with no record key.
-		Go to Layout [ "table | sync_EVENTS" ; Animation: None ]
-		New Record/Request
-		Set Field [ sync_EVENTS::fk_Session ; $sessionPK ]
-		Set Field [ sync_EVENTS::fk_vAction ; $pullKey ]
-		Set Field [ sync_EVENTS::stored_ActionLabel ; "PULL" ]
-		Set Field [ sync_EVENTS::HttpStatus ; $httpStatus ]
-		Set Field [ sync_EVENTS::Request ; $url ]
-		Set Field [ sync_EVENTS::Response ; Left ( $response ; 2000 ) ]
-		Commit Records/Requests [ With dialog: Off ]
+		# Page-level error: not a sync event. Exit and let SYNC_Run report it.
+		# The session exists; its absence of events tells you it failed before any task was processed.
 		Exit Script [ Text Result: JSONSetElement ( JSONSetElement ( "{}" ; "ok" ; 0 ; JSONNumber ) ; "error" ; "Page " & $page & " returned " & If ( IsEmpty ( $httpStatus ) ; "no status" ; $httpStatus ) & ". FM error " & Get ( LastError ) & "." ; JSONString ) ]
 	End If
 	#
