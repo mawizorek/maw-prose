@@ -1,0 +1,59 @@
+/* sql.Table ( qualifiedFieldName )
+   Extracts the table-occurrence name from a GetFieldName result,
+   then resolves the base table name via FileMaker_Tables.
+   Returns the base table name for use in ExecuteSQL FROM clauses.
+
+   Usage:
+     "SELECT ... FROM " & sql.Table ( GetFieldName ( PEOPLE::PrimaryKey ) )
+
+   Resolution path:
+     1. GetFieldName ( TO::Field ) returns "TOName::FieldName"
+     2. This function extracts "TOName"
+     3. Looks up BaseTableName from FileMaker_Tables where TableName = TOName
+     4. Returns the base table name, which is what ExecuteSQL needs
+
+   FileMaker_Tables is a system virtual table available since FileMaker 12.
+   It maps every table occurrence to its base table name and source file.
+   This is NOT FileMaker_BaseTables, which requires FileMaker 2023 (20.1).
+
+   If the TO cannot be resolved, returns "?" so the ExecuteSQL fails
+   visibly (error 4413) rather than silently returning empty.
+
+   Safety:
+     A renamed base table: FileMaker_Tables reflects the new name immediately.
+     A deleted TO: GetFieldName at the call site shows <Field Missing>.
+     A renamed TO: FileMaker tracks the reference by id; GetFieldName
+       returns the current name; this function resolves it.
+
+   Performance:
+     One ExecuteSQL call against a system table per invocation.
+     Cache in a $ variable at script top when the same table
+     appears in multiple queries within one script.
+
+   Verify on first install:
+     Confirm FileMaker_Tables.BaseTableName resolves on your version.
+     Test: ExecuteSQL ( "SELECT BaseTableName FROM FileMaker_Tables
+       WHERE TableName = 'PEOPLE'" ; "" ; "" ) should return "PEOPLE".
+     If it returns "?" or errors, the column is not available and
+     this function needs a fallback path through FileMaker_BaseTableFields.
+
+   Requires: FileMaker 19 or later. No dependencies beyond sql.Field
+   (conceptually paired, not called). */
+
+Let (
+    [
+        _pos = Position ( qualifiedFieldName ; "::" ; 1 ; 1 ) ;
+        _toName = If ( _pos > 0 ;
+            Left ( qualifiedFieldName ; _pos - 1 ) ;
+            qualifiedFieldName
+        ) ;
+        _baseTable = ExecuteSQL (
+            "SELECT BaseTableName FROM FileMaker_Tables WHERE TableName = ?" ;
+            "" ; "" ; _toName
+        )
+    ] ;
+    If ( IsEmpty ( _baseTable ) or _baseTable = "?" ;
+        "?" ;
+        _baseTable
+    )
+)

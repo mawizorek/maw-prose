@@ -1,0 +1,31 @@
+/* sql.Field ( qualifiedFieldName )
+   Strips the table-occurrence prefix from a GetFieldName result,
+   returning the bare field name for use in ExecuteSQL.
+
+   Usage:
+     "SELECT " & sql.Field ( GetFieldName ( PEOPLE::Name ) ) & " FROM ..."
+
+   The call site wraps the field reference in GetFieldName.
+   Custom function parameters are evaluated, so this function
+   cannot call GetFieldName itself — that is a native function
+   taking an unevaluated field reference. Passing the field
+   directly (sql.Field ( PEOPLE::Name )) would hand this function
+   the field's VALUE, not its name.
+
+   Safety:
+     A renamed field: GetFieldName tracks the new name automatically.
+     A deleted field: the calculation shows <Field Missing>, a visible break.
+     A renamed TO: FileMaker tracks TOs internally by id; GetFieldName
+       returns the current TO name, and this function strips it either way.
+
+   Requires: FileMaker 19 or later. No dependencies. */
+
+Let (
+    [
+        _pos = Position ( qualifiedFieldName ; "::" ; 1 ; 1 )
+    ] ;
+    If ( _pos > 0 ;
+        Middle ( qualifiedFieldName ; _pos + 2 ; Length ( qualifiedFieldName ) ) ;
+        qualifiedFieldName
+    )
+)
