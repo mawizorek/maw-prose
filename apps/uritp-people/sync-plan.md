@@ -9,13 +9,20 @@ summary: How URITP People and ClickUp's PEOPLE list stay in step, both ways. Set
 
 # URITP People sync plan
 
-Written 2026-10-23 against the [schema baseline](@uritp-people). The six rulings this plan opened were settled the same day as D-048; they are at the bottom, each with the call that was made. Field names were swept onto the built file the same evening, after the setup build renamed eight of them; three that disagree with their own siblings are named at the bottom and left unruled.
+Written 2026-10-23 against the [schema baseline](@uritp-people). The six rulings this plan opened were settled the same day as D-048; they are at the bottom, each with the call that was made. Field names were swept onto the built file the same evening, after the setup build renamed eleven of them.
 
 Ruled 2026-10-23 by Michael: every mirrored field, contacts included, syncs both ways through [sync_RECONCILE](@uritp-people-table-sync-reconcile). There is no push-only field.
 
 ## The shape in one paragraph
 
 One source, PEOPLE, reads one ClickUp view of the PEOPLE list. A run opens a session, pages the view, caches every task in xt_RECORDS, and hands each new or changed task to the person handler. A task with no join is adopted: a PEOPLE record, a contact card with the task's emails and phone, and a join. A task with a join is compared field by field against FileMaker and against the last value the two sides agreed on. ClickUp's edits become sync_RECONCILE rows; FileMaker's edits are pushed. Nothing is overwritten without a decision.
+
+## Naming, settled
+
+Two conventions run through this layer, and both were settled by what got built rather than by argument.
+
+- **`fk_<family><Thing>`** names the family the key points at. A key into `VALUES` is `fk_v<Thing>`: `fk_vAction`, `fk_vDecision`. A key into the external layer is `fk_xt<Thing>`: `fk_xtSystem`, `fk_xtContainer`, `fk_xtRecord`, `fk_xtField`. Every table that points at a container uses the same name, `fk_xtContainer`, so the graph reads one way from any end.
+- **`stored_`** means frozen at write time. **`null_`** marks a nullable field.
 
 ## What is mirrored
 
@@ -44,7 +51,7 @@ Typed once, before any script runs. All of it is in as of 2026-10-23 evening.
 - Target_Tables: all 22 base tables, filled by `refresh | Target_Tables` and seeded with DDR ids (D-050).
 - xt_CONTAINERS: one row. `fk_xtSystem` ClickUp, `xt_ID` the list id `901305646880`, Name PEOPLE, `fk_TargetTable` the PEOPLE row, `isActive` 1. Its key is `5F8A3722-1519-43FB-852A-53369CCCBEEA`.
 - xt_FIELDS: the ten rows above, under that container, `fk_xtContainer` pointed at it. The field refresh fills `xt_FieldName` and `xt_FieldType` from ClickUp; `mapKey` is typed.
-- sync_SOURCES: the existing PEOPLE row, `fk_Container` pointed at the container row, `xt_ViewPath` the view `12cwjm-66873`.
+- sync_SOURCES: the existing PEOPLE row, `fk_xtContainer` pointed at the container row, `xt_ViewPath` the view `12cwjm-66873`.
 - value_LISTS: `SYNC_Action` (PULL, PUSH, ADOPT, EXPORT) and `SYNC_DECISION` (PENDING, FM, XT, APPLIED), each with its global seeded on value_LISTS and a filtered `value_LIST_*` occurrence on the graph.
 
 The view has to show closed tasks. If it doesn't, a person closed in ClickUp looks the same as a person deleted.
@@ -53,7 +60,7 @@ The file's one test PEOPLE record was deleted, so the initial load starts from z
 
 ## Value-list keying
 
-Every field that picks from a list carries a foreign key to `VALUES::PrimaryKey`, never the label. One mechanism everywhere, so nothing in this layer is read two ways (D-051). A pick writes the key; a script then snapshots the label it resolved into a sibling `stored_` field, so the log reads without a join and keeps reading the same way after someone renames a value. The pairs: `sync_EVENTS::fk_Action` with `stored_ActionLabel`, `sync_RECONCILE::fk_vDecision` with `stored_DecisionLabel`. Letter case on the values is display formatting only; scripts match on the key, so case never matters.
+Every field that picks from a list carries a foreign key to `VALUES::PrimaryKey`, never the label. One mechanism everywhere, so nothing in this layer is read two ways (D-051). A pick writes the key; a script then snapshots the label it resolved into a sibling `stored_` field, so the log reads without a join and keeps reading the same way after someone renames a value. The pairs: `sync_EVENTS::fk_vAction` with `stored_ActionLabel`, `sync_RECONCILE::fk_vDecision` with `stored_DecisionLabel`. Letter case on the values is display formatting only; scripts match on the key, so case never matters.
 
 ## Scripts
 
@@ -72,9 +79,9 @@ Every field that picks from a list carries a foreign key to `VALUES::PrimaryKey`
 
 Page the view from page 0, 30 tasks a page, until `last_page` is true. For each task:
 
-1. Find the xt_RECORDS row by `xt_ID` (the task id) in this container. None: create it.
+1. Find the xt_RECORDS row by `xt_ID` (the task id) in this container, matched through `fk_xtContainer`. None: create it.
 2. Compare the task's `date_updated` with `xt_Version`. Equal: ClickUp has not changed it, move on.
-3. Changed or new: hand it to the handler first, then write one sync_EVENTS row (`fk_Action` the PULL key with `stored_ActionLabel` snapped, the request URL, HttpStatus, the task's JSON as Response), set `xt_Label` to the task name and `xt_Version` to `date_updated`.
+3. Changed or new: hand it to the handler first, then write one sync_EVENTS row (`fk_vAction` the PULL key with `stored_ActionLabel` snapped, the request URL, HttpStatus, the task's JSON as Response), set `xt_Label` to the task name and `xt_Version` to `date_updated`.
 
 An event is written only for a new or changed task. An unchanged task is never logged; doing so would write hundreds of identical payloads a pull.
 
@@ -152,10 +159,4 @@ All six were ruled as recommended. Recorded as D-048.
 
 Then D-051, value-list keying by key with a label snapshot, and D-052, `XT_Refresh_Fields` stays a dispatcher.
 
-## Named, not ruled
-
-Three built field names disagree with their own siblings. Nothing is blocked on them; they are listed so the next pass does not have to rediscover them.
-
-- `sync_EVENTS::fk_Action` against `sync_RECONCILE::fk_vDecision`. Same mechanism, one carries the `v`.
-- `xt_FIELDS::fk_xtContainer` against `sync_SOURCES::fk_Container` and `xt_RECORDS::fk_Container`. Same target, two names.
-- `value_LISTS::bool_isStatusSet` replaced `VALUES::bool_isStatusList`, moving the flag from the value to the list, which is the right grain and is not written down anywhere else yet.
+Three field names briefly disagreed with their siblings and were settled the same night by renaming in the file rather than by writing a rule: `sync_EVENTS::fk_vAction` took the `v`, and `sync_SOURCES` and `xt_RECORDS` both took `fk_xtContainer`. The conventions they settle are at the top of this page. The flag that says a list is a status set also moved up a grain in that build, from `VALUES::bool_isStatusList` to `value_LISTS::bool_isStatusSet`, which is the right grain and is recorded in D-051.
