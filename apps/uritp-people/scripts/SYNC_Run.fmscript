@@ -15,9 +15,7 @@ If [ IsEmpty ( $sourceName ) ]
 End If
 #
 # ---------- context read ----------
-Set Variable [ $ctx ; Value: ExecuteSQL (
-	"SELECT src.PrimaryKey, src.fk_xtContainer, src.xt_ViewPath, c.xt_ID, c.Name, s.PrimaryKey, s.Name, s.BaseURL, s.Token FROM sync_SOURCES src JOIN xt_CONTAINERS c ON src.fk_xtContainer = c.PrimaryKey JOIN xt_SYSTEMS s ON c.fk_xtSystem = s.PrimaryKey WHERE src.Name = ?"
-	; "|" ; "±" ; $sourceName ) ]
+Set Variable [ $ctx ; Value: ExecuteSQL ( "SELECT src." & sql.Field ( GetFieldName ( sync_SOURCES::PrimaryKey ) ) & ", src." & sql.Field ( GetFieldName ( sync_SOURCES::fk_xtContainer ) ) & ", src." & sql.Field ( GetFieldName ( sync_SOURCES::xt_ViewPath ) ) & ", c." & sql.Field ( GetFieldName ( xt_CONTAINERS::xt_ID ) ) & ", c." & sql.Field ( GetFieldName ( xt_CONTAINERS::Name ) ) & ", s." & sql.Field ( GetFieldName ( xt_SYSTEMS::PrimaryKey ) ) & ", s." & sql.Field ( GetFieldName ( xt_SYSTEMS::Name ) ) & ", s." & sql.Field ( GetFieldName ( xt_SYSTEMS::BaseURL ) ) & ", s." & sql.Field ( GetFieldName ( xt_SYSTEMS::Token ) ) & " FROM " & sql.Table ( GetFieldName ( sync_SOURCES::PrimaryKey ) ) & " src JOIN " & sql.Table ( GetFieldName ( xt_CONTAINERS::PrimaryKey ) ) & " c ON src." & sql.Field ( GetFieldName ( sync_SOURCES::fk_xtContainer ) ) & " = c." & sql.Field ( GetFieldName ( xt_CONTAINERS::PrimaryKey ) ) & " JOIN " & sql.Table ( GetFieldName ( xt_SYSTEMS::PrimaryKey ) ) & " s ON c." & sql.Field ( GetFieldName ( xt_CONTAINERS::fk_xtSystem ) ) & " = s." & sql.Field ( GetFieldName ( xt_SYSTEMS::PrimaryKey ) ) & " WHERE src." & sql.Field ( GetFieldName ( sync_SOURCES::Name ) ) & " = ?" ; "|" ; "±" ; $sourceName ) ]
 If [ IsEmpty ( $ctx ) or Left ( $ctx ; 1 ) = "?" ]
 	Show Custom Dialog [ Get ( ScriptName ) ; "Source " & Quote ( $sourceName ) & " was not found, or its container or system is missing." ]
 	Exit Script [ Text Result: JSONSetElement ( "{}" ; "ok" ; 0 ; JSONNumber ) ]
@@ -34,10 +32,10 @@ Set Variable [ $baseURL ; Value: GetValue ( $vals ; 8 ) ]
 Set Variable [ $token ; Value: GetValue ( $vals ; 9 ) ]
 #
 # ---------- look up action keys once ----------
-Set Variable [ $actionListPK ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM value_LISTS WHERE Name = 'SYNC_Action'" ; "" ; "" ) ]
-Set Variable [ $pullKey ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM VALUES WHERE fk_List = ? AND Name = 'PULL'" ; "" ; "" ; $actionListPK ) ]
-Set Variable [ $adoptKey ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM VALUES WHERE fk_List = ? AND Name = 'ADOPT'" ; "" ; "" ; $actionListPK ) ]
-Set Variable [ $pushKey ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM VALUES WHERE fk_List = ? AND Name = 'PUSH'" ; "" ; "" ; $actionListPK ) ]
+Set Variable [ $actionListPK ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( value_LISTS::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( value_LISTS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( value_LISTS::Name ) ) & " = 'SYNC_Action'" ; "" ; "" ) ]
+Set Variable [ $pullKey ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( VALUES::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( VALUES::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( VALUES::fk_List ) ) & " = ? AND " & sql.Field ( GetFieldName ( VALUES::Name ) ) & " = 'PULL'" ; "" ; "" ; $actionListPK ) ]
+Set Variable [ $adoptKey ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( VALUES::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( VALUES::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( VALUES::fk_List ) ) & " = ? AND " & sql.Field ( GetFieldName ( VALUES::Name ) ) & " = 'ADOPT'" ; "" ; "" ; $actionListPK ) ]
+Set Variable [ $pushKey ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( VALUES::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( VALUES::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( VALUES::fk_List ) ) & " = ? AND " & sql.Field ( GetFieldName ( VALUES::Name ) ) & " = 'PUSH'" ; "" ; "" ; $actionListPK ) ]
 #
 # ---------- open session ----------
 Go to Layout [ $table_syncSessions ; Animation: None ]
