@@ -1,13 +1,17 @@
 # APP_CatalogRefresh
-# Rebuilds Target_Tables from the file's own schema. Matches on base-table NAME, because a base-table id cannot be read on FileMaker 19.
-# fm_BaseTableID is seeded by hand from the DDR. A row this script creates has an empty id, which IS the worklist: find isPresent = 1 and fm_BaseTableID empty.
+# Rebuilds the table catalog, Target_Tables, from the file's own schema. Matches on base-table NAME, because a base-table id cannot be read before FileMaker 2023.
+# fm_BaseTableID is seeded by hand from the DDR on FileMaker 19. A row this script creates has an empty id, which IS the worklist: find isPresent = 1 and fm_BaseTableID empty.
 # AuditField_gaps lists the standard fields each table lacks. Empty means it conforms, so a find on it is the conformance report.
 # OnFirstWindowOpen, and a developer button after schema work. Needs FileMaker 19.4.1 or later.
-# EDIT $layoutTables AT INSTALL. What matters is the base table occurrence, not the layout's name.
 Set Error Capture [ On ]
 Allow User Abort [ Off ]
 Freeze Window
-Set Variable [ $layoutTables ; Value: "view | Target_Tables" ]
+# SET THIS AT INSTALL: any layout in this file whose base table occurrence is Target_Tables. The name is per-app; the occurrence is what matters.
+Set Variable [ $layoutTables ; Value: "" ]
+If [ IsEmpty ( $layoutTables ) ]
+	Show Custom Dialog [ "App catalog" ; "Set $layoutTables to this file's table catalog layout before running the refresh." ]
+	Exit Script [ Text Result: 0 ]
+End If
 Set Variable [ $origLayout ; Value: Get ( LayoutName ) ]
 Set Variable [ $now ; Value: Get ( CurrentTimestamp ) ]
 Set Variable [ $required ; Value: List ( "PrimaryKey" ; "CreationTimestamp" ; "CreatedBy" ; "ModificationTimestamp" ; "ModifiedBy" ) ]
