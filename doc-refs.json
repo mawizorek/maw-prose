@@ -1,13 +1,13 @@
 {
   "site": "mawprose",
   "base_url": "https://mawizorek.github.io/maw-prose/",
-  "built": "2026-10-24T02:00:18Z",
+  "built": "2026-10-24T02:26:08Z",
   "engine": "0.1.0",
   "totals": {
-    "pages": 134,
+    "pages": 136,
     "edges": 465,
     "broken": 20,
-    "no_inbound": 20
+    "no_inbound": 22
   },
   "no_inbound": [
     "delete-me-new-activity-log",
@@ -19,8 +19,10 @@
     "table-producer-info",
     "table-venues",
     "uritp-people-next-build",
+    "uritp-people-script-adapter-clickup-refreshfields",
     "uritp-people-script-app-catalog-refresh",
     "uritp-people-script-reconcile-setall",
+    "uritp-people-script-xt-refresh-fields",
     "uritp-people-table-contact-address",
     "uritp-people-table-contact-phone-numbers",
     "uritp-people-table-global-use",
@@ -4367,6 +4369,15 @@
       "inbound": 0,
       "outbound": 2
     },
+    "uritp-people-script-adapter-clickup-refreshfields": {
+      "title": "ADAPTER_ClickUp_RefreshFields",
+      "url": "apps/uritp-people/scripts/ADAPTER_ClickUp_RefreshFields.notes/",
+      "type": "reference",
+      "references": [],
+      "referenced_by": [],
+      "inbound": 0,
+      "outbound": 0
+    },
     "uritp-people-script-app-catalog-refresh": {
       "title": "refresh | Target_Tables",
       "url": "apps/uritp-people/scripts/APP_CatalogRefresh/",
@@ -4508,6 +4519,15 @@
       "referenced_by": [],
       "inbound": 0,
       "outbound": 1
+    },
+    "uritp-people-script-xt-refresh-fields": {
+      "title": "XT_Refresh_Fields",
+      "url": "apps/uritp-people/scripts/XT_Refresh_Fields.notes/",
+      "type": "reference",
+      "references": [],
+      "referenced_by": [],
+      "inbound": 0,
+      "outbound": 0
     },
     "uritp-people-sync-plan": {
       "title": "URITP People sync plan",
