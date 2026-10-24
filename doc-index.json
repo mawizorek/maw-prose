@@ -2,7 +2,7 @@
   "site": "mawprose",
   "name": "MAW Prose",
   "base_url": "https://mawizorek.github.io/maw-prose/",
-  "built": "2026-10-24T04:02:42Z",
+  "built": "2026-10-24T04:22:33Z",
   "engine": "0.1.0",
   "engine_ref": "4e8b2ba4a3af5502f1d25a1999cc8f2c869a8d4f",
   "pages": [
@@ -907,15 +907,6 @@
       "print_gloss": null
     },
     {
-      "id": "uritp-people-layout-reconcile",
-      "type": "reference",
-      "title": "Reconcile People window",
-      "url": "apps/uritp-people/layouts/RECONCILE/",
-      "status": "public",
-      "gloss": null,
-      "print_gloss": null
-    },
-    {
       "id": "uritp-people-next-build",
       "type": "page",
       "title": "URITP People build sheet",
@@ -938,42 +929,6 @@
       "type": "reference",
       "title": "refresh | Target_Tables",
       "url": "apps/uritp-people/scripts/APP_CatalogRefresh/",
-      "status": "public",
-      "gloss": null,
-      "print_gloss": null
-    },
-    {
-      "id": "uritp-people-script-people-apply",
-      "type": "reference",
-      "title": "PEOPLE_Apply",
-      "url": "apps/uritp-people/scripts/10_IMPORT/PEOPLE_Apply.notes/",
-      "status": "public",
-      "gloss": null,
-      "print_gloss": null
-    },
-    {
-      "id": "uritp-people-script-people-compare",
-      "type": "reference",
-      "title": "PEOPLE_Compare",
-      "url": "apps/uritp-people/scripts/10_IMPORT/PEOPLE_Compare.notes/",
-      "status": "public",
-      "gloss": null,
-      "print_gloss": null
-    },
-    {
-      "id": "uritp-people-script-people-pull",
-      "type": "reference",
-      "title": "PEOPLE_Pull",
-      "url": "apps/uritp-people/scripts/10_IMPORT/PEOPLE_Pull.notes/",
-      "status": "public",
-      "gloss": null,
-      "print_gloss": null
-    },
-    {
-      "id": "uritp-people-script-reconcile-setall",
-      "type": "reference",
-      "title": "RECONCILE_SetAll and RECONCILE_ShowSession",
-      "url": "apps/uritp-people/scripts/10_IMPORT/RECONCILE_SetAll.notes/",
       "status": "public",
       "gloss": null,
       "print_gloss": null
