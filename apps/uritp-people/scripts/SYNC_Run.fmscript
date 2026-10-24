@@ -32,10 +32,17 @@ Set Variable [ $baseURL ; Value: GetValue ( $vals ; 8 ) ]
 Set Variable [ $token ; Value: GetValue ( $vals ; 9 ) ]
 #
 # ---------- look up action keys once ----------
-Set Variable [ $actionListPK ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( value_LISTS::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( value_LISTS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( value_LISTS::Name ) ) & " = 'SYNC_Action'" ; "" ; "" ) ]
-Set Variable [ $pullKey ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( VALUES::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( VALUES::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( VALUES::fk_List ) ) & " = ? AND " & sql.Field ( GetFieldName ( VALUES::Name ) ) & " = 'PULL'" ; "" ; "" ; $actionListPK ) ]
-Set Variable [ $adoptKey ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( VALUES::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( VALUES::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( VALUES::fk_List ) ) & " = ? AND " & sql.Field ( GetFieldName ( VALUES::Name ) ) & " = 'ADOPT'" ; "" ; "" ; $actionListPK ) ]
-Set Variable [ $pushKey ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( VALUES::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( VALUES::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( VALUES::fk_List ) ) & " = ? AND " & sql.Field ( GetFieldName ( VALUES::Name ) ) & " = 'PUSH'" ; "" ; "" ; $actionListPK ) ]
+Set Variable [ $actionListPK ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( value_LISTS::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( value_LISTS::PrimaryKey ) ) & " WHERE LOWER( " & sql.Field ( GetFieldName ( value_LISTS::Name ) ) & " ) = 'sync_action'" ; "" ; "" ) ]
+Set Variable [ $pullKey ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( VALUES::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( VALUES::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( VALUES::fk_List ) ) & " = ? AND LOWER( " & sql.Field ( GetFieldName ( VALUES::Name ) ) & " ) = 'pull'" ; "" ; "" ; $actionListPK ) ]
+Set Variable [ $adoptKey ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( VALUES::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( VALUES::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( VALUES::fk_List ) ) & " = ? AND LOWER( " & sql.Field ( GetFieldName ( VALUES::Name ) ) & " ) = 'adopt'" ; "" ; "" ; $actionListPK ) ]
+Set Variable [ $pushKey ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( VALUES::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( VALUES::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( VALUES::fk_List ) ) & " = ? AND LOWER( " & sql.Field ( GetFieldName ( VALUES::Name ) ) & " ) = 'push'" ; "" ; "" ; $actionListPK ) ]
+#
+# ---------- look up decision keys ----------
+Set Variable [ $decisionListPK ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( value_LISTS::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( value_LISTS::PrimaryKey ) ) & " WHERE LOWER( " & sql.Field ( GetFieldName ( value_LISTS::Name ) ) & " ) = 'sync_decision'" ; "" ; "" ) ]
+Set Variable [ $pendingKey ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( VALUES::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( VALUES::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( VALUES::fk_List ) ) & " = ? AND LOWER( " & sql.Field ( GetFieldName ( VALUES::Name ) ) & " ) = 'pending'" ; "" ; "" ; $decisionListPK ) ]
+Set Variable [ $fmKey ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( VALUES::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( VALUES::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( VALUES::fk_List ) ) & " = ? AND LOWER( " & sql.Field ( GetFieldName ( VALUES::Name ) ) & " ) = 'fm'" ; "" ; "" ; $decisionListPK ) ]
+Set Variable [ $xtKey ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( VALUES::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( VALUES::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( VALUES::fk_List ) ) & " = ? AND LOWER( " & sql.Field ( GetFieldName ( VALUES::Name ) ) & " ) = 'xt'" ; "" ; "" ; $decisionListPK ) ]
+Set Variable [ $appliedKey ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( VALUES::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( VALUES::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( VALUES::fk_List ) ) & " = ? AND LOWER( " & sql.Field ( GetFieldName ( VALUES::Name ) ) & " ) = 'applied'" ; "" ; "" ; $decisionListPK ) ]
 #
 # ---------- open session ----------
 Go to Layout [ $table_syncSessions ; Animation: None ]
@@ -62,7 +69,11 @@ Set Variable [ $context ; Value: JSONSetElement ( "{}" ;
 	[ "token" ; $token ; JSONString ] ;
 	[ "pullKey" ; $pullKey ; JSONString ] ;
 	[ "adoptKey" ; $adoptKey ; JSONString ] ;
-	[ "pushKey" ; $pushKey ; JSONString ] ) ]
+	[ "pushKey" ; $pushKey ; JSONString ] ;
+	[ "pendingKey" ; $pendingKey ; JSONString ] ;
+	[ "fmKey" ; $fmKey ; JSONString ] ;
+	[ "xtKey" ; $xtKey ; JSONString ] ;
+	[ "appliedKey" ; $appliedKey ; JSONString ] ) ]
 #
 # ---------- pull ----------
 Perform Script [ Specified: From list ; "adapter PULL | ClickUp" ; Parameter: $context ]

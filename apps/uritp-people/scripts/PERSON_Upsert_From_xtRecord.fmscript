@@ -25,9 +25,8 @@ If [ IsEmpty ( $sessionPK ) or IsEmpty ( $containerPK ) or IsEmpty ( $recPK ) or
 	Exit Script [ Text Result: JSONSetElement ( JSONSetElement ( "{}" ; "ok" ; 0 ; JSONNumber ) ; "error" ; "Missing context. Dispatch must pass session, container, record, mode." ; JSONString ) ]
 End If
 #
-# ---------- look up decision keys ----------
-Set Variable [ $decisionListPK ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( value_LISTS::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( value_LISTS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( value_LISTS::Name ) ) & " = 'SYNC_DECISION'" ; "" ; "" ) ]
-Set Variable [ $pendingKey ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( VALUES::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( VALUES::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( VALUES::fk_List ) ) & " = ? AND " & sql.Field ( GetFieldName ( VALUES::Name ) ) & " = 'PENDING'" ; "" ; "" ; $decisionListPK ) ]
+# ---------- read decision keys from context ----------
+Set Variable [ $pendingKey ; Value: JSONGetElement ( Get ( ScriptParameter ) ; "pendingKey" ) ]
 #
 # ---------- get current pull event for this record ----------
 Set Variable [ $currentEventPK ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( sync_EVENTS::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( sync_EVENTS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( sync_EVENTS::fk_Session ) ) & " = ? AND " & sql.Field ( GetFieldName ( sync_EVENTS::fk_xtRecord ) ) & " = ? AND " & sql.Field ( GetFieldName ( sync_EVENTS::fk_vAction ) ) & " = ?" ; "" ; "" ; $sessionPK ; $recPK ; $pullKey ) ]

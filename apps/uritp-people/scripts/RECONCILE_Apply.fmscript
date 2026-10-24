@@ -1,7 +1,7 @@
 # RECONCILE_Apply
 # Acts on decided sync_RECONCILE rows. XT rows write to FileMaker, FM rows queue for push.
 # Can be run from sync RUN or standalone after user review.
-# Param (JSON): context block (needs "session" at minimum).
+# Param (JSON): context block (needs "session" and decision keys).
 # Returns (JSON): { "ok" : 1|0, "applied_xt" : n, "applied_fm" : n, "still_pending" : n }
 #
 # --- LAYOUTS ---
@@ -18,12 +18,11 @@ If [ IsEmpty ( $sessionPK ) ]
 	Exit Script [ Text Result: JSONSetElement ( JSONSetElement ( "{}" ; "ok" ; 0 ; JSONNumber ) ; "error" ; "Missing session." ; JSONString ) ]
 End If
 #
-# ---------- look up decision keys ----------
-Set Variable [ $decisionListPK ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( value_LISTS::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( value_LISTS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( value_LISTS::Name ) ) & " = 'SYNC_DECISION'" ; "" ; "" ) ]
-Set Variable [ $pendingKey ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( VALUES::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( VALUES::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( VALUES::fk_List ) ) & " = ? AND " & sql.Field ( GetFieldName ( VALUES::Name ) ) & " = 'PENDING'" ; "" ; "" ; $decisionListPK ) ]
-Set Variable [ $fmKey ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( VALUES::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( VALUES::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( VALUES::fk_List ) ) & " = ? AND " & sql.Field ( GetFieldName ( VALUES::Name ) ) & " = 'FM'" ; "" ; "" ; $decisionListPK ) ]
-Set Variable [ $xtKey ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( VALUES::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( VALUES::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( VALUES::fk_List ) ) & " = ? AND " & sql.Field ( GetFieldName ( VALUES::Name ) ) & " = 'XT'" ; "" ; "" ; $decisionListPK ) ]
-Set Variable [ $appliedKey ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( VALUES::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( VALUES::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( VALUES::fk_List ) ) & " = ? AND " & sql.Field ( GetFieldName ( VALUES::Name ) ) & " = 'APPLIED'" ; "" ; "" ; $decisionListPK ) ]
+# ---------- read decision keys from context ----------
+Set Variable [ $pendingKey ; Value: JSONGetElement ( Get ( ScriptParameter ) ; "pendingKey" ) ]
+Set Variable [ $fmKey ; Value: JSONGetElement ( Get ( ScriptParameter ) ; "fmKey" ) ]
+Set Variable [ $xtKey ; Value: JSONGetElement ( Get ( ScriptParameter ) ; "xtKey" ) ]
+Set Variable [ $appliedKey ; Value: JSONGetElement ( Get ( ScriptParameter ) ; "appliedKey" ) ]
 #
 # ---------- count pending ----------
 Set Variable [ $pendingCount ; Value: ExecuteSQL ( "SELECT COUNT(*) FROM " & sql.Table ( GetFieldName ( sync_RECONCILE::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( sync_RECONCILE::fk_Session ) ) & " = ? AND " & sql.Field ( GetFieldName ( sync_RECONCILE::fk_vDecision ) ) & " = ?" ; "" ; "" ; $sessionPK ; $pendingKey ) ]
