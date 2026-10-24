@@ -1,0 +1,343 @@
+# PERSON_Upsert_From_xtRecord
+# Adopt or three-way compare. Creates PEOPLE + CONTACTS + join on adoption.
+# Param (JSON): context block + "record" (xt_RECORDS PK) + "mode" ("adopt"|"compare").
+# Returns (JSON): { "ok" : 1|0, "adopted" : 0|1, "conflicts" : n, "reconcileRows" : n }
+#
+# --- LAYOUTS ---
+Set Variable [ $table_people ; Value: "table | PEOPLE" ]
+Set Variable [ $table_contacts ; Value: "table | CONTACTS" ]
+Set Variable [ $table_contactEmails ; Value: "table | contact_EMAILS" ]
+Set Variable [ $table_contactPhones ; Value: "table | contact_PHONE_NUMBERS" ]
+Set Variable [ $table_xternalJoins ; Value: "table | XTERNAL_JOINS" ]
+Set Variable [ $table_syncEvents ; Value: "table | sync_EVENTS" ]
+Set Variable [ $table_syncReconcile ; Value: "table | sync_RECONCILE" ]
+#
+Set Error Capture [ On ]
+Allow User Abort [ Off ]
+Set Variable [ $sessionPK ; Value: JSONGetElement ( Get ( ScriptParameter ) ; "session" ) ]
+Set Variable [ $containerPK ; Value: JSONGetElement ( Get ( ScriptParameter ) ; "container" ) ]
+Set Variable [ $recPK ; Value: JSONGetElement ( Get ( ScriptParameter ) ; "record" ) ]
+Set Variable [ $mode ; Value: JSONGetElement ( Get ( ScriptParameter ) ; "mode" ) ]
+Set Variable [ $pullKey ; Value: JSONGetElement ( Get ( ScriptParameter ) ; "pullKey" ) ]
+Set Variable [ $adoptKey ; Value: JSONGetElement ( Get ( ScriptParameter ) ; "adoptKey" ) ]
+#
+If [ IsEmpty ( $sessionPK ) or IsEmpty ( $containerPK ) or IsEmpty ( $recPK ) or IsEmpty ( $mode ) ]
+	Exit Script [ Text Result: JSONSetElement ( JSONSetElement ( "{}" ; "ok" ; 0 ; JSONNumber ) ; "error" ; "Missing context. Dispatch must pass session, container, record, mode." ; JSONString ) ]
+End If
+#
+# ---------- look up decision keys ----------
+Set Variable [ $decisionListPK ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM value_LISTS WHERE Name = 'SYNC_DECISION'" ; "" ; "" ) ]
+Set Variable [ $pendingKey ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM VALUES WHERE fk_List = ? AND Name = 'PENDING'" ; "" ; "" ; $decisionListPK ) ]
+#
+# ---------- get current pull event for this record ----------
+Set Variable [ $currentEventPK ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM sync_EVENTS WHERE fk_Session = ? AND fk_xtRecord = ? AND fk_vAction = ?" ; "" ; "" ; $sessionPK ; $recPK ; $pullKey ) ]
+Set Variable [ $currentEventPK ; Value: GetValue ( $currentEventPK ; 1 ) ]
+If [ IsEmpty ( $currentEventPK ) ]
+	Exit Script [ Text Result: JSONSetElement ( JSONSetElement ( "{}" ; "ok" ; 0 ; JSONNumber ) ; "error" ; "No pull event found for record " & $recPK & " in session " & $sessionPK & "." ; JSONString ) ]
+End If
+#
+Go to Layout [ $table_syncEvents ; Animation: None ]
+If [ Get ( LastError ) ≠ 0 ]
+	Exit Script [ Text Result: JSONSetElement ( JSONSetElement ( "{}" ; "ok" ; 0 ; JSONNumber ) ; "error" ; "Layout " & $table_syncEvents & " not found." ; JSONString ) ]
+End If
+Enter Find Mode [ Pause: Off ]
+Set Field [ sync_EVENTS::PrimaryKey ; "==" & $currentEventPK ]
+Perform Find [ ]
+Set Variable [ $taskJSON ; Value: sync_EVENTS::Response ]
+#
+# ---------- build field maps from xt_FIELDS ----------
+Set Variable [ $fieldRows ; Value: ExecuteSQL ( "SELECT mapKey, xt_FieldID, PrimaryKey FROM xt_FIELDS WHERE fk_xtContainer = ?" ; "†" ; "¶" ; $containerPK ) ]
+Set Variable [ $fieldIDMap ; Value: "{}" ]
+Set Variable [ $fieldPKMap ; Value: "{}" ]
+Set Variable [ $fieldCount ; Value: ValueCount ( $fieldRows ) ]
+Set Variable [ $f ; Value: 0 ]
+Loop [ Flush: Always ]
+	Set Variable [ $f ; Value: $f + 1 ]
+	Exit Loop If [ $f > $fieldCount ]
+	Set Variable [ $row ; Value: GetValue ( $fieldRows ; $f ) ]
+	Set Variable [ $parts ; Value: Substitute ( $row ; "†" ; ¶ ) ]
+	Set Variable [ $mk ; Value: GetValue ( $parts ; 1 ) ]
+	Set Variable [ $fid ; Value: GetValue ( $parts ; 2 ) ]
+	Set Variable [ $fpk ; Value: GetValue ( $parts ; 3 ) ]
+	Set Variable [ $fieldIDMap ; Value: JSONSetElement ( $fieldIDMap ; $mk ; $fid ; JSONString ) ]
+	Set Variable [ $fieldPKMap ; Value: JSONSetElement ( $fieldPKMap ; $mk ; $fpk ; JSONString ) ]
+End Loop
+#
+# ---------- build custom field lookup from task JSON ----------
+Set Variable [ $cfKeys ; Value: JSONListKeys ( $taskJSON ; "custom_fields" ) ]
+Set Variable [ $cfCount ; Value: ValueCount ( $cfKeys ) ]
+Set Variable [ $cfLookup ; Value: "{}" ]
+Set Variable [ $c ; Value: 0 ]
+Loop [ Flush: Always ]
+	Exit Loop If [ $c ≥ $cfCount ]
+	Set Variable [ $cfID ; Value: JSONGetElement ( $taskJSON ; "custom_fields[" & $c & "].id" ) ]
+	Set Variable [ $cfVal ; Value: JSONGetElement ( $taskJSON ; "custom_fields[" & $c & "].value" ) ]
+	If [ not IsEmpty ( $cfVal ) and $cfVal ≠ "null" ]
+		Set Variable [ $cfLookup ; Value: JSONSetElement ( $cfLookup ; $cfID ; $cfVal ; JSONString ) ]
+	End If
+	Set Variable [ $c ; Value: $c + 1 ]
+End Loop
+#
+# ---------- extract ClickUp values ----------
+Set Variable [ $xt_name ; Value: JSONGetElement ( $taskJSON ; "name" ) ]
+Set Variable [ $xt_status ; Value: JSONGetElement ( $taskJSON ; "status.status" ) ]
+Set Variable [ $xt_first ; Value: JSONGetElement ( $cfLookup ; JSONGetElement ( $fieldIDMap ; "first" ) ) ]
+Set Variable [ $xt_last ; Value: JSONGetElement ( $cfLookup ; JSONGetElement ( $fieldIDMap ; "last" ) ) ]
+Set Variable [ $xt_alt ; Value: JSONGetElement ( $cfLookup ; JSONGetElement ( $fieldIDMap ; "alt" ) ) ]
+Set Variable [ $xt_pronouns ; Value: JSONGetElement ( $cfLookup ; JSONGetElement ( $fieldIDMap ; "pronouns" ) ) ]
+Set Variable [ $xt_playbill ; Value: JSONGetElement ( $cfLookup ; JSONGetElement ( $fieldIDMap ; "playbill" ) ) ]
+Set Variable [ $xt_emailPrimary ; Value: JSONGetElement ( $cfLookup ; JSONGetElement ( $fieldIDMap ; "email_primary" ) ) ]
+Set Variable [ $xt_emailSecondary ; Value: JSONGetElement ( $cfLookup ; JSONGetElement ( $fieldIDMap ; "email_secondary" ) ) ]
+Set Variable [ $xt_phonePrimary ; Value: JSONGetElement ( $cfLookup ; JSONGetElement ( $fieldIDMap ; "phone_primary" ) ) ]
+#
+# ================================================================
+# ADOPT
+# ================================================================
+If [ $mode = "adopt" ]
+	#
+	# --- name split fallback ---
+	If [ IsEmpty ( $xt_first ) and IsEmpty ( $xt_last ) ]
+		Set Variable [ $spacePos ; Value: Position ( $xt_name ; " " ; Length ( $xt_name ) ; -1 ) ]
+		If [ $spacePos > 0 ]
+			Set Variable [ $xt_first ; Value: Left ( $xt_name ; $spacePos - 1 ) ]
+			Set Variable [ $xt_last ; Value: Middle ( $xt_name ; $spacePos + 1 ; Length ( $xt_name ) ) ]
+		Else
+			Set Variable [ $xt_first ; Value: $xt_name ]
+		End If
+	End If
+	#
+	# --- create PEOPLE ---
+	Go to Layout [ $table_people ; Animation: None ]
+	If [ Get ( LastError ) ≠ 0 ]
+		Exit Script [ Text Result: JSONSetElement ( JSONSetElement ( "{}" ; "ok" ; 0 ; JSONNumber ) ; "error" ; "Layout " & $table_people & " not found." ; JSONString ) ]
+	End If
+	New Record/Request
+	Set Field [ PEOPLE::Name_First ; $xt_first ]
+	Set Field [ PEOPLE::Name_Last ; $xt_last ]
+	If [ not IsEmpty ( $xt_alt ) ]
+		Set Field [ PEOPLE::Name_Alternate ; $xt_alt ]
+	End If
+	If [ not IsEmpty ( $xt_pronouns ) ]
+		Set Field [ PEOPLE::Pronouns ; $xt_pronouns ]
+	End If
+	If [ not IsEmpty ( $xt_playbill ) ]
+		Set Field [ PEOPLE::NameDisplay_InPlaybills ; $xt_playbill ]
+	End If
+	If [ not IsEmpty ( $xt_status ) ]
+		Set Field [ PEOPLE::status_Person ; $xt_status ]
+	End If
+	Commit Records/Requests [ With dialog: Off ]
+	Set Variable [ $peoplePK ; Value: PEOPLE::PrimaryKey ]
+	#
+	# --- create CONTACTS card ---
+	Go to Layout [ $table_contacts ; Animation: None ]
+	If [ Get ( LastError ) ≠ 0 ]
+		Exit Script [ Text Result: JSONSetElement ( JSONSetElement ( "{}" ; "ok" ; 0 ; JSONNumber ) ; "error" ; "Layout " & $table_contacts & " not found." ; JSONString ) ]
+	End If
+	New Record/Request
+	Set Field [ CONTACTS::fk_Owner ; $peoplePK ]
+	Commit Records/Requests [ With dialog: Off ]
+	Set Variable [ $contactPK ; Value: CONTACTS::PrimaryKey ]
+	#
+	# --- email rows ---
+	If [ not IsEmpty ( $xt_emailPrimary ) ]
+		Go to Layout [ $table_contactEmails ; Animation: None ]
+		New Record/Request
+		Set Field [ contact_EMAILS::fk_Contact ; $contactPK ]
+		Set Field [ contact_EMAILS::EmailAddress ; $xt_emailPrimary ]
+		Set Field [ contact_EMAILS::sort_Index ; 1 ]
+		Commit Records/Requests [ With dialog: Off ]
+	End If
+	If [ not IsEmpty ( $xt_emailSecondary ) ]
+		Go to Layout [ $table_contactEmails ; Animation: None ]
+		New Record/Request
+		Set Field [ contact_EMAILS::fk_Contact ; $contactPK ]
+		Set Field [ contact_EMAILS::EmailAddress ; $xt_emailSecondary ]
+		Set Field [ contact_EMAILS::sort_Index ; 2 ]
+		Commit Records/Requests [ With dialog: Off ]
+	End If
+	#
+	# --- phone row ---
+	If [ not IsEmpty ( $xt_phonePrimary ) ]
+		Go to Layout [ $table_contactPhones ; Animation: None ]
+		New Record/Request
+		Set Field [ contact_PHONE_NUMBERS::fk_Contact ; $contactPK ]
+		Set Field [ contact_PHONE_NUMBERS::PhoneNumber ; $xt_phonePrimary ]
+		Set Field [ contact_PHONE_NUMBERS::sort_Index ; 1 ]
+		Commit Records/Requests [ With dialog: Off ]
+	End If
+	#
+	# --- create join ---
+	Go to Layout [ $table_xternalJoins ; Animation: None ]
+	If [ Get ( LastError ) ≠ 0 ]
+		Exit Script [ Text Result: JSONSetElement ( JSONSetElement ( "{}" ; "ok" ; 0 ; JSONNumber ) ; "error" ; "Layout " & $table_xternalJoins & " not found." ; JSONString ) ]
+	End If
+	New Record/Request
+	Set Field [ XTERNAL_JOINS::fk_SourceRecord ; $peoplePK ]
+	Set Field [ XTERNAL_JOINS::fk_xtRecord ; $recPK ]
+	Commit Records/Requests [ With dialog: Off ]
+	#
+	# --- write ADOPT event ---
+	Go to Layout [ $table_syncEvents ; Animation: None ]
+	New Record/Request
+	Set Field [ sync_EVENTS::fk_Session ; $sessionPK ]
+	Set Field [ sync_EVENTS::fk_xtRecord ; $recPK ]
+	Set Field [ sync_EVENTS::fk_vAction ; $adoptKey ]
+	Set Field [ sync_EVENTS::Response ; $taskJSON ]
+	Commit Records/Requests [ With dialog: Off ]
+	#
+	Exit Script [ Text Result: JSONSetElement ( "{}" ;
+		[ "ok" ; 1 ; JSONNumber ] ;
+		[ "adopted" ; 1 ; JSONNumber ] ;
+		[ "conflicts" ; 0 ; JSONNumber ] ;
+		[ "reconcileRows" ; 0 ; JSONNumber ] ) ]
+#
+# ================================================================
+# COMPARE
+# ================================================================
+Else If [ $mode = "compare" ]
+	#
+	# --- get base event (most recent event BEFORE this session) ---
+	Set Variable [ $baseEventPK ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM sync_EVENTS WHERE fk_xtRecord = ? AND fk_Session <> ? ORDER BY CreationTimestamp DESC" ; "" ; "" ; $recPK ; $sessionPK ) ]
+	Set Variable [ $baseEventPK ; Value: GetValue ( $baseEventPK ; 1 ) ]
+	If [ IsEmpty ( $baseEventPK ) ]
+		Exit Script [ Text Result: JSONSetElement ( JSONSetElement ( "{}" ; "ok" ; 0 ; JSONNumber ) ; "error" ; "No base event found for three-way compare on record " & $recPK & "." ; JSONString ) ]
+	End If
+	#
+	Go to Layout [ $table_syncEvents ; Animation: None ]
+	Enter Find Mode [ Pause: Off ]
+	Set Field [ sync_EVENTS::PrimaryKey ; "==" & $baseEventPK ]
+	Perform Find [ ]
+	Set Variable [ $baseJSON ; Value: sync_EVENTS::Response ]
+	#
+	# --- build base cfLookup ---
+	Set Variable [ $baseCfKeys ; Value: JSONListKeys ( $baseJSON ; "custom_fields" ) ]
+	Set Variable [ $baseCfCount ; Value: ValueCount ( $baseCfKeys ) ]
+	Set Variable [ $baseCfLookup ; Value: "{}" ]
+	Set Variable [ $bc ; Value: 0 ]
+	Loop [ Flush: Always ]
+		Exit Loop If [ $bc ≥ $baseCfCount ]
+		Set Variable [ $bcID ; Value: JSONGetElement ( $baseJSON ; "custom_fields[" & $bc & "].id" ) ]
+		Set Variable [ $bcVal ; Value: JSONGetElement ( $baseJSON ; "custom_fields[" & $bc & "].value" ) ]
+		If [ not IsEmpty ( $bcVal ) and $bcVal ≠ "null" ]
+			Set Variable [ $baseCfLookup ; Value: JSONSetElement ( $baseCfLookup ; $bcID ; $bcVal ; JSONString ) ]
+		End If
+		Set Variable [ $bc ; Value: $bc + 1 ]
+	End Loop
+	#
+	# --- get FileMaker values ---
+	Set Variable [ $peoplePK ; Value: ExecuteSQL ( "SELECT fk_SourceRecord FROM XTERNAL_JOINS WHERE fk_xtRecord = ?" ; "" ; "" ; $recPK ) ]
+	Set Variable [ $peoplePK ; Value: GetValue ( $peoplePK ; 1 ) ]
+	If [ IsEmpty ( $peoplePK ) ]
+		Exit Script [ Text Result: JSONSetElement ( JSONSetElement ( "{}" ; "ok" ; 0 ; JSONNumber ) ; "error" ; "No join found for record " & $recPK & " but mode is compare." ; JSONString ) ]
+	End If
+	#
+	# D-043: literal field names in SQL.
+	Set Variable [ $peopleRow ; Value: ExecuteSQL ( "SELECT Name_First, Name_Last, Name_Alternate, Pronouns, NameDisplay_InPlaybills, status_Person FROM PEOPLE WHERE PrimaryKey = ?" ; "†" ; "" ; $peoplePK ) ]
+	Set Variable [ $pParts ; Value: Substitute ( $peopleRow ; "†" ; ¶ ) ]
+	Set Variable [ $fm_first ; Value: GetValue ( $pParts ; 1 ) ]
+	Set Variable [ $fm_last ; Value: GetValue ( $pParts ; 2 ) ]
+	Set Variable [ $fm_alt ; Value: GetValue ( $pParts ; 3 ) ]
+	Set Variable [ $fm_pronouns ; Value: GetValue ( $pParts ; 4 ) ]
+	Set Variable [ $fm_playbill ; Value: GetValue ( $pParts ; 5 ) ]
+	Set Variable [ $fm_status ; Value: GetValue ( $pParts ; 6 ) ]
+	#
+	Set Variable [ $contactPK ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM CONTACTS WHERE fk_Owner = ?" ; "" ; "" ; $peoplePK ) ]
+	Set Variable [ $fm_emailPrimary ; Value: ExecuteSQL ( "SELECT EmailAddress FROM contact_EMAILS WHERE fk_Contact = ? AND sort_Index = 1" ; "" ; "" ; $contactPK ) ]
+	Set Variable [ $fm_emailSecondary ; Value: ExecuteSQL ( "SELECT EmailAddress FROM contact_EMAILS WHERE fk_Contact = ? AND sort_Index = 2" ; "" ; "" ; $contactPK ) ]
+	Set Variable [ $fm_phonePrimary ; Value: ExecuteSQL ( "SELECT PhoneNumber FROM contact_PHONE_NUMBERS WHERE fk_Contact = ? AND sort_Index = 1" ; "" ; "" ; $contactPK ) ]
+	#
+	# --- three-way compare ---
+	# Skip name: it is pushed and never compared.
+	Set Variable [ $compareKeys ; Value: "status¶first¶last¶alt¶pronouns¶playbill¶email_primary¶email_secondary¶phone_primary" ]
+	Set Variable [ $keyCount ; Value: ValueCount ( $compareKeys ) ]
+	Set Variable [ $conflicts ; Value: 0 ]
+	Set Variable [ $reconcileRows ; Value: 0 ]
+	Set Variable [ $k ; Value: 0 ]
+	#
+	Loop [ Flush: Always ]
+		Set Variable [ $k ; Value: $k + 1 ]
+		Exit Loop If [ $k > $keyCount ]
+		Set Variable [ $mapKey ; Value: GetValue ( $compareKeys ; $k ) ]
+		#
+		# --- resolve XT now, FM now, base ---
+		Set Variable [ $fieldID ; Value: JSONGetElement ( $fieldIDMap ; $mapKey ) ]
+		Set Variable [ $fieldPK ; Value: JSONGetElement ( $fieldPKMap ; $mapKey ) ]
+		#
+		If [ $mapKey = "status" ]
+			Set Variable [ $xtVal ; Value: $xt_status ]
+			Set Variable [ $fmVal ; Value: $fm_status ]
+			Set Variable [ $baseVal ; Value: JSONGetElement ( $baseJSON ; "status.status" ) ]
+		Else
+			Set Variable [ $xtVal ; Value: JSONGetElement ( $cfLookup ; $fieldID ) ]
+			Set Variable [ $baseVal ; Value: JSONGetElement ( $baseCfLookup ; $fieldID ) ]
+			#
+			If [ $mapKey = "first" ]
+				Set Variable [ $fmVal ; Value: $fm_first ]
+			Else If [ $mapKey = "last" ]
+				Set Variable [ $fmVal ; Value: $fm_last ]
+			Else If [ $mapKey = "alt" ]
+				Set Variable [ $fmVal ; Value: $fm_alt ]
+			Else If [ $mapKey = "pronouns" ]
+				Set Variable [ $fmVal ; Value: $fm_pronouns ]
+			Else If [ $mapKey = "playbill" ]
+				Set Variable [ $fmVal ; Value: $fm_playbill ]
+			Else If [ $mapKey = "email_primary" ]
+				Set Variable [ $fmVal ; Value: $fm_emailPrimary ]
+			Else If [ $mapKey = "email_secondary" ]
+				Set Variable [ $fmVal ; Value: $fm_emailSecondary ]
+			Else If [ $mapKey = "phone_primary" ]
+				Set Variable [ $fmVal ; Value: $fm_phonePrimary ]
+			End If
+		End If
+		#
+		# --- phone: digits only ---
+		If [ $mapKey = "phone_primary" ]
+			Set Variable [ $xtVal ; Value: Filter ( $xtVal ; "0123456789" ) ]
+			Set Variable [ $fmVal ; Value: Filter ( $fmVal ; "0123456789" ) ]
+			Set Variable [ $baseVal ; Value: Filter ( $baseVal ; "0123456789" ) ]
+		End If
+		#
+		# --- compare ---
+		Set Variable [ $xtMoved ; Value: not Exact ( $xtVal ; $baseVal ) ]
+		Set Variable [ $fmMoved ; Value: not Exact ( $fmVal ; $baseVal ) ]
+		#
+		If [ $xtMoved and not $fmMoved ]
+			# Only ClickUp moved. PENDING reconcile row.
+			Go to Layout [ $table_syncReconcile ; Animation: None ]
+			New Record/Request
+			Set Field [ sync_RECONCILE::fk_Session ; $sessionPK ]
+			Set Field [ sync_RECONCILE::fk_xtRecord ; $recPK ]
+			Set Field [ sync_RECONCILE::fk_xtField ; $fieldPK ]
+			Set Field [ sync_RECONCILE::FM_Value ; $fmVal ]
+			Set Field [ sync_RECONCILE::xt_Value ; $xtVal ]
+			Set Field [ sync_RECONCILE::fk_vDecision ; $pendingKey ]
+			# stored_DecisionLabel auto-enter calc fills from fk_vDecision.
+			Commit Records/Requests [ With dialog: Off ]
+			Set Variable [ $reconcileRows ; Value: $reconcileRows + 1 ]
+		Else If [ $xtMoved and $fmMoved and not Exact ( $xtVal ; $fmVal ) ]
+			# Both moved to different values. Conflict.
+			Go to Layout [ $table_syncReconcile ; Animation: None ]
+			New Record/Request
+			Set Field [ sync_RECONCILE::fk_Session ; $sessionPK ]
+			Set Field [ sync_RECONCILE::fk_xtRecord ; $recPK ]
+			Set Field [ sync_RECONCILE::fk_xtField ; $fieldPK ]
+			Set Field [ sync_RECONCILE::FM_Value ; $fmVal ]
+			Set Field [ sync_RECONCILE::xt_Value ; $xtVal ]
+			Set Field [ sync_RECONCILE::fk_vDecision ; $pendingKey ]
+			Commit Records/Requests [ With dialog: Off ]
+			Set Variable [ $conflicts ; Value: $conflicts + 1 ]
+			Set Variable [ $reconcileRows ; Value: $reconcileRows + 1 ]
+		End If
+		# Only FM moved, or both moved to same value: nothing.
+	End Loop
+	#
+	Exit Script [ Text Result: JSONSetElement ( "{}" ;
+		[ "ok" ; 1 ; JSONNumber ] ;
+		[ "adopted" ; 0 ; JSONNumber ] ;
+		[ "conflicts" ; $conflicts ; JSONNumber ] ;
+		[ "reconcileRows" ; $reconcileRows ; JSONNumber ] ) ]
+#
+Else
+	Exit Script [ Text Result: JSONSetElement ( JSONSetElement ( "{}" ; "ok" ; 0 ; JSONNumber ) ; "error" ; "Unknown mode: " & Quote ( $mode ) & ". Expected adopt or compare." ; JSONString ) ]
+End If
