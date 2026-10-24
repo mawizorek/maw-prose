@@ -12,9 +12,7 @@ If [ IsEmpty ( $container ) ]
 	Exit Script [ Text Result: JSONSetElement ( "{}" ; "ok" ; 0 ; JSONNumber ) ]
 End If
 #
-# Read the container and the system that owns it. One query, field names from GetFieldName so a rename follows the field (D-043).
-Set Variable [ $sql ; Value: "SELECT c." & GetFieldName ( xt_CONTAINERS::fk_xtSystem ) & ", s." & GetFieldName ( xt_SYSTEMS::Name ) & " FROM " & GetFieldName ( xt_CONTAINERS::PrimaryKey ) & "" ]
-# The join is written out rather than built, because ExecuteSQL names table occurrences and the two TOs are already on the graph.
+# The container and the system that owns it, in one query. D-048 settled that this layer reads its context by ExecuteSQL.
 Set Variable [ $row ; Value: ExecuteSQL ( "SELECT s.PrimaryKey, s.Name FROM xt_CONTAINERS c JOIN xt_SYSTEMS s ON c.fk_xtSystem = s.PrimaryKey WHERE c.PrimaryKey = ?" ; "|" ; "" ; $container ) ]
 If [ IsEmpty ( $row ) or Left ( $row ; 1 ) = "?" ]
 	Show Custom Dialog [ "Field refresh" ; "That container has no system, or the id was not found." ]
@@ -29,6 +27,6 @@ If [ $systemName = "ClickUp" ]
 	Perform Script [ Specified: From list ; "ADAPTER_ClickUp_RefreshFields" ; Parameter: $param ]
 	Exit Script [ Text Result: Get ( ScriptResult ) ]
 End If
-# No adapter for this system yet. Say which one, rather than failing quietly.
+# No adapter for this system yet. Name it, rather than failing quietly.
 Show Custom Dialog [ "Field refresh" ; "No field-refresh adapter exists for the system " & Quote ( $systemName ) & ". Write ADAPTER_" & $systemName & "_RefreshFields first." ]
 Exit Script [ Text Result: JSONSetElement ( JSONSetElement ( "{}" ; "ok" ; 0 ; JSONNumber ) ; "system" ; $systemName ; JSONString ) ]
