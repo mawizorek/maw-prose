@@ -14,7 +14,7 @@ contents: auto
 
 `URITP People.fmp12` holds one record per human the program deals with, whether student, faculty, staff, guest artist or vendor, and every way to reach them. Venues, organizations and productions own contact cards here too, so a contact sheet can list a box office or a stage management inbox beside the people. Every other URITP file that needs a person points at a People record and restates nothing.
 
-This page describes the schema baseline Michael set on 2026-10-23. It is the gold standard the file is built to; changes from here are made against it.
+This page describes the schema baseline Michael set on 2026-10-23. It is the gold standard the file is built to; changes from here are made against it. Everything in this folder describes that baseline. The July 2026 as-built pass and the D-042 one-way import design were deleted on 2026-10-24 (D-054); git history holds them.
 
 ## FileMaker is canonical, and the sync runs both ways
 
@@ -38,6 +38,10 @@ A [CONTACTS](@uritp-people-table-contacts) card belongs to one owner through `fk
 
 PRODUCTIONS is in Production MAWnster. A production's card is a CONTACTS row in this file whose `fk_Owner` is the production's UUID. The connection is made from the Production file, through an external data source pointing here; People needs nothing added for it. On a phone, both files have to be reachable together.
 
+## Naming
+
+`fk_<family><Thing>` names the family a key points at: `fk_v<Thing>` into VALUES, `fk_xt<Thing>` into the external layer, and every table pointing at the same thing uses the same name (D-053). `stored_` means frozen at write time. `null_` marks a nullable field.
+
 ## Documents
 
 - People: [PEOPLE](@uritp-people-table-people), [people_STUDENTS](@uritp-people-table-people-students), [people_ADULTS](@uritp-people-table-people-adults).
@@ -49,24 +53,23 @@ PRODUCTIONS is in Production MAWnster. A production's card is a CONTACTS row in 
 - [Sync plan](@uritp-people-sync-plan).
 - [Build sheet](@uritp-people-next-build).
 
-## Not written yet
+## Where the live file's own truth is
 
-- Scripts for the baseline: `APP_CatalogRefresh` installed and retargeted to `Target_Tables`, the field refresh, `ADAPTER_ClickUp_Pull` and `_Push`, the dispatcher and the person handler. The pages in `scripts/` today are D-042's import scripts.
-- Layouts for the baseline, including a `Target_Tables` form, without which the refresh cannot navigate.
-- Value lists Action and Decision.
+This folder is the standard the file is built to. What the file actually contains is machine-written from a DDR drop and lives in `apps/fmp-state/uritp-people/`: `DELTA.md` for what changed since the last drop, `STATE.md` for the whole file in one read. When this folder and that folder disagree, that folder is right about what exists and this folder is right about what was intended.
 
-## Not decided yet
+## Built, as of 2026-10-24
 
-- Whether `Target_Tables` gains an `AuditGap` field. Without one, D-043's conformance check is computed by the refresh and discarded.
-- Whether this file gets a layout catalog at all, and under which name. `APP_LAYOUTS` is D-043's; `Target_Layouts` would match the table. No live counterpart to follow (D-049).
-- Whether `stored_NameDisplayInPlaybills` drops its `stored_` prefix.
+- `refresh | Target_Tables` installed, run clean twice: 22 base tables, 22 rows, 0 gone, 0 failing `AuditField_gaps`. All 22 `fm_BaseTableID` values seeded from the DDR (D-050).
+- The external layer stands up: the ClickUp xt_SYSTEMS row, the PEOPLE container, the repointed sync_SOURCES row, and xt_FIELDS at ten rows with mapKeys typed.
+- `SYNC_Action` and `SYNC_DECISION` value lists built, globals seeded, filtered `value_LIST_*` occurrences on the graph, and the `fk_v*` / `stored_*Label` pairs wired (D-051).
+- `refresh | xt_fields` and `adapter | clickup_Refresh_Fields` pasted into the file, under a `sync` script folder.
+- The single test PEOPLE record deleted, so the first pull starts from zero.
 
-## Superseded
+## Still to write
 
-The D-042 design of 2026-10-05, ClickUp as the source of truth with a one-way import through import_PEOPLE and RECONCILE, is superseded by this baseline. Its table notes, the old PEOPLE register and the old relationships page are in `meta/` marked superseded. The `10_IMPORT` script pages and the Reconcile People window page are D-042's and are not built against.
+`SYNC_Run`, `ADAPTER_ClickUp_Pull` (page-0 cap first), `SYNC_Dispatch`, `PERSON_Upsert_From_xtRecord`, `RECONCILE_Apply`, `ADAPTER_ClickUp_Push`. Layouts for the sync tables beyond the table forms that exist.
 
-The baseline's first wording, that emails and phones were pushed and never pulled back, was replaced the same day by the two-way rule above.
+## Still open
 
-`tables/APP_TABLES.md` and `tables/APP_LAYOUTS.md` are superseded by D-049: the table half is `Target_Tables` and the layout half was never built.
-
-Everything in this folder without a page header is the July 2026 as-built pass: `INDEX.md`, `schema/`, `meta/design-decisions.md`, `layouts/README.md`, `tables/README.md` and `tables/_index.json`. Kept for its reasoning; do not build against it.
+- A `sql/` custom-function family, to satisfy D-043's requirement that SQL text is built from `GetFieldName`.
+- Whether this file gets a layout catalog at all, and under which name: `APP_LAYOUTS` is D-043's, `Target_Layouts` would match the table. No live counterpart to follow (D-049).
