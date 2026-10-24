@@ -1,7 +1,8 @@
 sort	Field_Name	Type	Options	Notes	group
 {.conf}	fk_Session	Text	Indexed	→ sync_SESSIONS::PrimaryKey	Links
-{.conf}	fk_xtRecord	Text	Indexed	→ xt_RECORDS::PrimaryKey. Always filled	Links
-{.conf}	Action	Text	Value list	pull, push, adopt, export	Log
+{.conf}	fk_xtRecord	Text	Indexed	→ xt_RECORDS::PrimaryKey	Links
+{.conf}	fk_vAction	Text	Indexed	→ VALUES::PrimaryKey (SYNC_Action list)	Links
+{.conf}	stored_ActionLabel	Text		Snapped from VALUES::Name at write time	Log
 {.conf}	HttpStatus	Number		200 = ok	Log
 {.conf}	Request	Text		JSON body sent, or the GET address	Log
 {.conf}	Response	Text		What the system replied	Log
