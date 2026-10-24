@@ -14,13 +14,13 @@ If [ IsEmpty ( $sessionPK ) or IsEmpty ( $containerPK ) or IsEmpty ( $pullKey ) 
 End If
 #
 # ---------- resolve the handler ----------
-Set Variable [ $targetTable ; Value: ExecuteSQL ( "SELECT tt.fm_BaseTableName FROM xt_CONTAINERS c JOIN Target_Tables tt ON c.fk_TargetTable = tt.PrimaryKey WHERE c.PrimaryKey = ?" ; "" ; "" ; $containerPK ) ]
+Set Variable [ $targetTable ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( Target_Tables::fm_BaseTableName ) ) & " FROM " & sql.Table ( GetFieldName ( xt_CONTAINERS::PrimaryKey ) ) & " c JOIN " & sql.Table ( GetFieldName ( Target_Tables::PrimaryKey ) ) & " tt ON c." & sql.Field ( GetFieldName ( xt_CONTAINERS::fk_TargetTable ) ) & " = tt." & sql.Field ( GetFieldName ( Target_Tables::PrimaryKey ) ) & " WHERE c." & sql.Field ( GetFieldName ( xt_CONTAINERS::PrimaryKey ) ) & " = ?" ; "" ; "" ; $containerPK ) ]
 If [ IsEmpty ( $targetTable ) or Left ( $targetTable ; 1 ) = "?" ]
 	Exit Script [ Text Result: JSONSetElement ( JSONSetElement ( "{}" ; "ok" ; 0 ; JSONNumber ) ; "error" ; "Container has no target table, or the join failed." ; JSONString ) ]
 End If
 #
 # ---------- get every record pulled this session ----------
-Set Variable [ $pulledRecords ; Value: ExecuteSQL ( "SELECT DISTINCT fk_xtRecord FROM sync_EVENTS WHERE fk_Session = ? AND fk_vAction = ?" ; "" ; "" ; $sessionPK ; $pullKey ) ]
+Set Variable [ $pulledRecords ; Value: ExecuteSQL ( "SELECT DISTINCT " & sql.Field ( GetFieldName ( sync_EVENTS::fk_xtRecord ) ) & " FROM " & sql.Table ( GetFieldName ( sync_EVENTS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( sync_EVENTS::fk_Session ) ) & " = ? AND " & sql.Field ( GetFieldName ( sync_EVENTS::fk_vAction ) ) & " = ?" ; "" ; "" ; $sessionPK ; $pullKey ) ]
 If [ IsEmpty ( $pulledRecords ) ]
 	Exit Script [ Text Result: JSONSetElement ( JSONSetElement ( "{}" ; "ok" ; 1 ; JSONNumber ) ; "count" ; 0 ; JSONNumber ) ]
 End If
@@ -36,7 +36,7 @@ Loop [ Flush: Always ]
 	Exit Loop If [ $i > $total ]
 	Set Variable [ $recPK ; Value: GetValue ( $pulledRecords ; $i ) ]
 	#
-	Set Variable [ $joinPK ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM XTERNAL_JOINS WHERE fk_xtRecord = ?" ; "" ; "" ; $recPK ) ]
+	Set Variable [ $joinPK ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( XTERNAL_JOINS::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( XTERNAL_JOINS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( XTERNAL_JOINS::fk_xtRecord ) ) & " = ?" ; "" ; "" ; $recPK ) ]
 	#
 	If [ IsEmpty ( $joinPK ) ]
 		Set Variable [ $mode ; Value: "adopt" ]
