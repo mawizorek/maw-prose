@@ -3,6 +3,15 @@
 # GET {baseURL}/view/{viewPath}/task?page={n}
 # Param (JSON): the context block from sync RUN.
 # Returns (JSON): { "ok" : 1|0, "count" : n, "new" : n, "changed" : n, "unchanged" : n, "pages" : n }
+#
+# --- LAYOUTS ---
+Set Variable [ $table_xtRecords ; Value: "table | xt_RECORDS" ]
+Set Variable [ $table_syncEvents ; Value: "table | sync_EVENTS" ]
+#
+# --- DEV ---
+Set Variable [ $devCap ; Value: 1 ]
+# Development cap: 1 = stop after page 0 (up to 30 tasks). Set to 0 for a full pull.
+#
 Set Error Capture [ On ]
 Allow User Abort [ Off ]
 Set Variable [ $sessionPK ; Value: JSONGetElement ( Get ( ScriptParameter ) ; "session" ) ]
@@ -20,8 +29,6 @@ Set Variable [ $page ; Value: 0 ]
 Set Variable [ $countNew ; Value: 0 ]
 Set Variable [ $countChanged ; Value: 0 ]
 Set Variable [ $countUnchanged ; Value: 0 ]
-Set Variable [ $devCap ; Value: 1 ]
-# Development cap: 1 = stop after page 0 (up to 30 tasks). Set to 0 for a full pull.
 #
 Loop [ Flush: Always ]
 	# ---------- fetch one page ----------
@@ -58,9 +65,9 @@ Loop [ Flush: Always ]
 		#
 		If [ IsEmpty ( $recPK ) ]
 			# New record.
-			Go to Layout [ "table | xt_RECORDS" ; Animation: None ]
+			Go to Layout [ $table_xtRecords ; Animation: None ]
 			If [ Get ( LastError ) ≠ 0 ]
-				Exit Script [ Text Result: JSONSetElement ( JSONSetElement ( "{}" ; "ok" ; 0 ; JSONNumber ) ; "error" ; "Layout table | xt_RECORDS not found." ; JSONString ) ]
+				Exit Script [ Text Result: JSONSetElement ( JSONSetElement ( "{}" ; "ok" ; 0 ; JSONNumber ) ; "error" ; "Layout " & $table_xtRecords & " not found." ; JSONString ) ]
 			End If
 			New Record/Request
 			Set Field [ xt_RECORDS::fk_xtContainer ; $containerPK ]
@@ -70,15 +77,14 @@ Loop [ Flush: Always ]
 			Commit Records/Requests [ With dialog: Off ]
 			Set Variable [ $recPK ; Value: xt_RECORDS::PrimaryKey ]
 			#
-			Go to Layout [ "table | sync_EVENTS" ; Animation: None ]
+			Go to Layout [ $table_syncEvents ; Animation: None ]
 			If [ Get ( LastError ) ≠ 0 ]
-				Exit Script [ Text Result: JSONSetElement ( JSONSetElement ( "{}" ; "ok" ; 0 ; JSONNumber ) ; "error" ; "Layout table | sync_EVENTS not found." ; JSONString ) ]
+				Exit Script [ Text Result: JSONSetElement ( JSONSetElement ( "{}" ; "ok" ; 0 ; JSONNumber ) ; "error" ; "Layout " & $table_syncEvents & " not found." ; JSONString ) ]
 			End If
 			New Record/Request
 			Set Field [ sync_EVENTS::fk_Session ; $sessionPK ]
 			Set Field [ sync_EVENTS::fk_xtRecord ; $recPK ]
 			Set Field [ sync_EVENTS::fk_vAction ; $pullKey ]
-			Set Field [ sync_EVENTS::stored_ActionLabel ; "PULL" ]
 			Set Field [ sync_EVENTS::HttpStatus ; $httpStatus ]
 			Set Field [ sync_EVENTS::Request ; $url ]
 			Set Field [ sync_EVENTS::Response ; $taskJSON ]
@@ -90,7 +96,7 @@ Loop [ Flush: Always ]
 				Set Variable [ $countUnchanged ; Value: $countUnchanged + 1 ]
 			Else
 				# Changed.
-				Go to Layout [ "table | xt_RECORDS" ; Animation: None ]
+				Go to Layout [ $table_xtRecords ; Animation: None ]
 				Enter Find Mode [ Pause: Off ]
 				Set Field [ xt_RECORDS::PrimaryKey ; "==" & $recPK ]
 				Perform Find [ ]
@@ -98,12 +104,11 @@ Loop [ Flush: Always ]
 				Set Field [ xt_RECORDS::xt_Version ; $dateUpdated ]
 				Commit Records/Requests [ With dialog: Off ]
 				#
-				Go to Layout [ "table | sync_EVENTS" ; Animation: None ]
+				Go to Layout [ $table_syncEvents ; Animation: None ]
 				New Record/Request
 				Set Field [ sync_EVENTS::fk_Session ; $sessionPK ]
 				Set Field [ sync_EVENTS::fk_xtRecord ; $recPK ]
 				Set Field [ sync_EVENTS::fk_vAction ; $pullKey ]
-				Set Field [ sync_EVENTS::stored_ActionLabel ; "PULL" ]
 				Set Field [ sync_EVENTS::HttpStatus ; $httpStatus ]
 				Set Field [ sync_EVENTS::Request ; $url ]
 				Set Field [ sync_EVENTS::Response ; $taskJSON ]
@@ -121,7 +126,7 @@ Loop [ Flush: Always ]
 End Loop
 #
 Set Variable [ $total ; Value: $countNew + $countChanged + $countUnchanged ]
-Show Custom Dialog [ "Pull" ; "Page(s): " & ( $page + 1 ) & "¶Tasks seen: " & $total & "¶New: " & $countNew & "¶Changed: " & $countChanged & "¶Unchanged: " & $countUnchanged & If ( $devCap = 1 ; "¶¶⚠️ Development cap: stopped after page 0." ; "" ) ]
+Show Custom Dialog [ Get ( ScriptName ) ; "Page(s): " & ( $page + 1 ) & "¶Tasks seen: " & $total & "¶New: " & $countNew & "¶Changed: " & $countChanged & "¶Unchanged: " & $countUnchanged & If ( $devCap = 1 ; "¶¶⚠️ Development cap: stopped after page 0." ; "" ) ]
 Exit Script [ Text Result: JSONSetElement ( "{}" ;
 	[ "ok" ; 1 ; JSONNumber ] ;
 	[ "count" ; $total ; JSONNumber ] ;
