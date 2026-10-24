@@ -124,6 +124,7 @@
   "apps/production-mawster-no-use/90-file-imports-temp/prevProductionCalendarApp/": "prev-production-calendar-app",
   "apps/production-mawster-no-use/90-file-imports-temp/prevProductionCalendarApp/script-review/": "legacy-script-review",
   "apps/uritp-people/layouts/RECONCILE/": "uritp-people-layout-reconcile",
+  "apps/uritp-people/scripts/APP_CatalogRefresh/": "uritp-people-script-app-catalog-refresh",
   "apps/uritp-people/scripts/10_IMPORT/PEOPLE_Apply.notes/": "uritp-people-script-people-apply",
   "apps/uritp-people/scripts/10_IMPORT/PEOPLE_Compare.notes/": "uritp-people-script-people-compare",
   "apps/uritp-people/scripts/10_IMPORT/PEOPLE_Pull.notes/": "uritp-people-script-people-pull",

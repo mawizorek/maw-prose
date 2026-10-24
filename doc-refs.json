@@ -1,17 +1,16 @@
 {
   "site": "mawprose",
   "base_url": "https://mawizorek.github.io/maw-prose/",
-  "built": "2026-10-23T23:59:25Z",
+  "built": "2026-10-24T00:47:58Z",
   "engine": "0.1.0",
   "totals": {
-    "pages": 133,
-    "edges": 463,
+    "pages": 134,
+    "edges": 465,
     "broken": 20,
     "no_inbound": 20
   },
   "no_inbound": [
     "delete-me-new-activity-log",
-    "fmp-app-catalog-scripts",
     "fmp-clipboard-snippets",
     "maw-prose-home",
     "prev-production-calendar-app",
@@ -20,6 +19,7 @@
     "table-producer-info",
     "table-venues",
     "uritp-people-next-build",
+    "uritp-people-script-app-catalog-refresh",
     "uritp-people-script-reconcile-setall",
     "uritp-people-table-contact-address",
     "uritp-people-table-contact-phone-numbers",
@@ -560,8 +560,10 @@
           "count": 1
         }
       ],
-      "referenced_by": [],
-      "inbound": 0,
+      "referenced_by": [
+        "uritp-people-script-app-catalog-refresh"
+      ],
+      "inbound": 1,
       "outbound": 1
     },
     "fmp-clipboard-snippets": {
@@ -4365,6 +4367,30 @@
       "inbound": 0,
       "outbound": 2
     },
+    "uritp-people-script-app-catalog-refresh": {
+      "title": "refresh | Target_Tables",
+      "url": "apps/uritp-people/scripts/APP_CatalogRefresh/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "fmp-app-catalog-scripts",
+          "kind": "page",
+          "target": "fmp-app-catalog-scripts",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "uritp-people-table-target-tables",
+          "kind": "page",
+          "target": "uritp-people-table-target-tables",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [],
+      "inbound": 0,
+      "outbound": 2
+    },
     "uritp-people-script-people-apply": {
       "title": "PEOPLE_Apply",
       "url": "apps/uritp-people/scripts/10_IMPORT/PEOPLE_Apply.notes/",
@@ -4815,9 +4841,10 @@
         }
       ],
       "referenced_by": [
+        "uritp-people-script-app-catalog-refresh",
         "uritp-people-table-xt-containers"
       ],
-      "inbound": 1,
+      "inbound": 2,
       "outbound": 1
     },
     "uritp-people-table-value-lists": {
