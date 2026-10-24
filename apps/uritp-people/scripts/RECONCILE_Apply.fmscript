@@ -19,17 +19,17 @@ If [ IsEmpty ( $sessionPK ) ]
 End If
 #
 # ---------- look up decision keys ----------
-Set Variable [ $decisionListPK ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM value_LISTS WHERE Name = 'SYNC_DECISION'" ; "" ; "" ) ]
-Set Variable [ $pendingKey ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM VALUES WHERE fk_List = ? AND Name = 'PENDING'" ; "" ; "" ; $decisionListPK ) ]
-Set Variable [ $fmKey ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM VALUES WHERE fk_List = ? AND Name = 'FM'" ; "" ; "" ; $decisionListPK ) ]
-Set Variable [ $xtKey ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM VALUES WHERE fk_List = ? AND Name = 'XT'" ; "" ; "" ; $decisionListPK ) ]
-Set Variable [ $appliedKey ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM VALUES WHERE fk_List = ? AND Name = 'APPLIED'" ; "" ; "" ; $decisionListPK ) ]
+Set Variable [ $decisionListPK ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( value_LISTS::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( value_LISTS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( value_LISTS::Name ) ) & " = 'SYNC_DECISION'" ; "" ; "" ) ]
+Set Variable [ $pendingKey ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( VALUES::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( VALUES::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( VALUES::fk_List ) ) & " = ? AND " & sql.Field ( GetFieldName ( VALUES::Name ) ) & " = 'PENDING'" ; "" ; "" ; $decisionListPK ) ]
+Set Variable [ $fmKey ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( VALUES::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( VALUES::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( VALUES::fk_List ) ) & " = ? AND " & sql.Field ( GetFieldName ( VALUES::Name ) ) & " = 'FM'" ; "" ; "" ; $decisionListPK ) ]
+Set Variable [ $xtKey ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( VALUES::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( VALUES::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( VALUES::fk_List ) ) & " = ? AND " & sql.Field ( GetFieldName ( VALUES::Name ) ) & " = 'XT'" ; "" ; "" ; $decisionListPK ) ]
+Set Variable [ $appliedKey ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( VALUES::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( VALUES::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( VALUES::fk_List ) ) & " = ? AND " & sql.Field ( GetFieldName ( VALUES::Name ) ) & " = 'APPLIED'" ; "" ; "" ; $decisionListPK ) ]
 #
 # ---------- count pending ----------
-Set Variable [ $pendingCount ; Value: ExecuteSQL ( "SELECT COUNT(*) FROM sync_RECONCILE WHERE fk_Session = ? AND fk_vDecision = ?" ; "" ; "" ; $sessionPK ; $pendingKey ) ]
+Set Variable [ $pendingCount ; Value: ExecuteSQL ( "SELECT COUNT(*) FROM " & sql.Table ( GetFieldName ( sync_RECONCILE::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( sync_RECONCILE::fk_Session ) ) & " = ? AND " & sql.Field ( GetFieldName ( sync_RECONCILE::fk_vDecision ) ) & " = ?" ; "" ; "" ; $sessionPK ; $pendingKey ) ]
 #
 # ---------- get decided rows (FM or XT, not PENDING, not already APPLIED) ----------
-Set Variable [ $decidedRows ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM sync_RECONCILE WHERE fk_Session = ? AND fk_vDecision <> ? AND fk_vDecision <> ?" ; "¶" ; "" ; $sessionPK ; $pendingKey ; $appliedKey ) ]
+Set Variable [ $decidedRows ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( sync_RECONCILE::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( sync_RECONCILE::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( sync_RECONCILE::fk_Session ) ) & " = ? AND " & sql.Field ( GetFieldName ( sync_RECONCILE::fk_vDecision ) ) & " <> ? AND " & sql.Field ( GetFieldName ( sync_RECONCILE::fk_vDecision ) ) & " <> ?" ; "¶" ; "" ; $sessionPK ; $pendingKey ; $appliedKey ) ]
 If [ IsEmpty ( $decidedRows ) ]
 	Exit Script [ Text Result: JSONSetElement ( "{}" ;
 		[ "ok" ; 1 ; JSONNumber ] ;
@@ -63,11 +63,11 @@ Loop [ Flush: Always ]
 	Set Variable [ $recPK ; Value: sync_RECONCILE::fk_xtRecord ]
 	#
 	# --- resolve mapKey ---
-	Set Variable [ $mapKey ; Value: ExecuteSQL ( "SELECT mapKey FROM xt_FIELDS WHERE PrimaryKey = ?" ; "" ; "" ; $fieldPK ) ]
+	Set Variable [ $mapKey ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_FIELDS::mapKey ) ) & " FROM " & sql.Table ( GetFieldName ( xt_FIELDS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_FIELDS::PrimaryKey ) ) & " = ?" ; "" ; "" ; $fieldPK ) ]
 	#
 	If [ $decision = $xtKey ]
 		# ---------- take ClickUp's value: write to FileMaker ----------
-		Set Variable [ $peoplePK ; Value: ExecuteSQL ( "SELECT fk_SourceRecord FROM XTERNAL_JOINS WHERE fk_xtRecord = ?" ; "" ; "" ; $recPK ) ]
+		Set Variable [ $peoplePK ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( XTERNAL_JOINS::fk_SourceRecord ) ) & " FROM " & sql.Table ( GetFieldName ( XTERNAL_JOINS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( XTERNAL_JOINS::fk_xtRecord ) ) & " = ?" ; "" ; "" ; $recPK ) ]
 		Set Variable [ $peoplePK ; Value: GetValue ( $peoplePK ; 1 ) ]
 		#
 		If [ $mapKey = "status" or $mapKey = "first" or $mapKey = "last" or $mapKey = "alt" or $mapKey = "pronouns" or $mapKey = "playbill" ]
@@ -76,7 +76,6 @@ Loop [ Flush: Always ]
 			Enter Find Mode [ Pause: Off ]
 			Set Field [ PEOPLE::PrimaryKey ; "==" & $peoplePK ]
 			Perform Find [ ]
-			# D-043: literal field names.
 			If [ $mapKey = "status" ]
 				Set Field [ PEOPLE::status_Person ; $xtVal ]
 			Else If [ $mapKey = "first" ]
@@ -94,7 +93,7 @@ Loop [ Flush: Always ]
 		Else If [ $mapKey = "email_primary" or $mapKey = "email_secondary" ]
 			# --- contact email ---
 			# "Inserts as a new row and moves the old one down, so nothing is lost."
-			Set Variable [ $contactPK ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM CONTACTS WHERE fk_Owner = ?" ; "" ; "" ; $peoplePK ) ]
+			Set Variable [ $contactPK ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( CONTACTS::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( CONTACTS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( CONTACTS::fk_Owner ) ) & " = ?" ; "" ; "" ; $peoplePK ) ]
 			If [ $mapKey = "email_primary" ]
 				Set Variable [ $targetIndex ; Value: 1 ]
 			Else
@@ -102,7 +101,7 @@ Loop [ Flush: Always ]
 			End If
 			#
 			# Bump existing rows at or beyond target down by 1.
-			Set Variable [ $bumpRows ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM contact_EMAILS WHERE fk_Contact = ? AND sort_Index >= ? ORDER BY sort_Index DESC" ; "¶" ; "" ; $contactPK ; $targetIndex ) ]
+			Set Variable [ $bumpRows ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( contact_EMAILS::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( contact_EMAILS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( contact_EMAILS::fk_Contact ) ) & " = ? AND " & sql.Field ( GetFieldName ( contact_EMAILS::sort_Index ) ) & " >= ? ORDER BY " & sql.Field ( GetFieldName ( contact_EMAILS::sort_Index ) ) & " DESC" ; "¶" ; "" ; $contactPK ; $targetIndex ) ]
 			If [ not IsEmpty ( $bumpRows ) ]
 				Set Variable [ $bumpCount ; Value: ValueCount ( $bumpRows ) ]
 				Set Variable [ $b ; Value: 0 ]
@@ -127,8 +126,8 @@ Loop [ Flush: Always ]
 			Commit Records/Requests [ With dialog: Off ]
 		Else If [ $mapKey = "phone_primary" ]
 			# --- contact phone ---
-			Set Variable [ $contactPK ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM CONTACTS WHERE fk_Owner = ?" ; "" ; "" ; $peoplePK ) ]
-			Set Variable [ $bumpRows ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM contact_PHONE_NUMBERS WHERE fk_Contact = ? AND sort_Index >= 1 ORDER BY sort_Index DESC" ; "¶" ; "" ; $contactPK ) ]
+			Set Variable [ $contactPK ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( CONTACTS::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( CONTACTS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( CONTACTS::fk_Owner ) ) & " = ?" ; "" ; "" ; $peoplePK ) ]
+			Set Variable [ $bumpRows ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( contact_PHONE_NUMBERS::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( contact_PHONE_NUMBERS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( contact_PHONE_NUMBERS::fk_Contact ) ) & " = ? AND " & sql.Field ( GetFieldName ( contact_PHONE_NUMBERS::sort_Index ) ) & " >= 1 ORDER BY " & sql.Field ( GetFieldName ( contact_PHONE_NUMBERS::sort_Index ) ) & " DESC" ; "¶" ; "" ; $contactPK ) ]
 			If [ not IsEmpty ( $bumpRows ) ]
 				Set Variable [ $bumpCount ; Value: ValueCount ( $bumpRows ) ]
 				Set Variable [ $b ; Value: 0 ]

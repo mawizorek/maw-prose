@@ -26,11 +26,11 @@ If [ IsEmpty ( $sessionPK ) or IsEmpty ( $containerPK ) or IsEmpty ( $recPK ) or
 End If
 #
 # ---------- look up decision keys ----------
-Set Variable [ $decisionListPK ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM value_LISTS WHERE Name = 'SYNC_DECISION'" ; "" ; "" ) ]
-Set Variable [ $pendingKey ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM VALUES WHERE fk_List = ? AND Name = 'PENDING'" ; "" ; "" ; $decisionListPK ) ]
+Set Variable [ $decisionListPK ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( value_LISTS::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( value_LISTS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( value_LISTS::Name ) ) & " = 'SYNC_DECISION'" ; "" ; "" ) ]
+Set Variable [ $pendingKey ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( VALUES::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( VALUES::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( VALUES::fk_List ) ) & " = ? AND " & sql.Field ( GetFieldName ( VALUES::Name ) ) & " = 'PENDING'" ; "" ; "" ; $decisionListPK ) ]
 #
 # ---------- get current pull event for this record ----------
-Set Variable [ $currentEventPK ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM sync_EVENTS WHERE fk_Session = ? AND fk_xtRecord = ? AND fk_vAction = ?" ; "" ; "" ; $sessionPK ; $recPK ; $pullKey ) ]
+Set Variable [ $currentEventPK ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( sync_EVENTS::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( sync_EVENTS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( sync_EVENTS::fk_Session ) ) & " = ? AND " & sql.Field ( GetFieldName ( sync_EVENTS::fk_xtRecord ) ) & " = ? AND " & sql.Field ( GetFieldName ( sync_EVENTS::fk_vAction ) ) & " = ?" ; "" ; "" ; $sessionPK ; $recPK ; $pullKey ) ]
 Set Variable [ $currentEventPK ; Value: GetValue ( $currentEventPK ; 1 ) ]
 If [ IsEmpty ( $currentEventPK ) ]
 	Exit Script [ Text Result: JSONSetElement ( JSONSetElement ( "{}" ; "ok" ; 0 ; JSONNumber ) ; "error" ; "No pull event found for record " & $recPK & " in session " & $sessionPK & "." ; JSONString ) ]
@@ -46,7 +46,7 @@ Perform Find [ ]
 Set Variable [ $taskJSON ; Value: sync_EVENTS::Response ]
 #
 # ---------- build field maps from xt_FIELDS ----------
-Set Variable [ $fieldRows ; Value: ExecuteSQL ( "SELECT mapKey, xt_FieldID, PrimaryKey FROM xt_FIELDS WHERE fk_xtContainer = ?" ; "†" ; "¶" ; $containerPK ) ]
+Set Variable [ $fieldRows ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_FIELDS::mapKey ) ) & ", " & sql.Field ( GetFieldName ( xt_FIELDS::xt_FieldID ) ) & ", " & sql.Field ( GetFieldName ( xt_FIELDS::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( xt_FIELDS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_FIELDS::fk_xtContainer ) ) & " = ?" ; "†" ; "¶" ; $containerPK ) ]
 Set Variable [ $fieldIDMap ; Value: "{}" ]
 Set Variable [ $fieldPKMap ; Value: "{}" ]
 Set Variable [ $fieldCount ; Value: ValueCount ( $fieldRows ) ]
@@ -198,7 +198,7 @@ If [ $mode = "adopt" ]
 Else If [ $mode = "compare" ]
 	#
 	# --- get base event (most recent event BEFORE this session) ---
-	Set Variable [ $baseEventPK ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM sync_EVENTS WHERE fk_xtRecord = ? AND fk_Session <> ? ORDER BY CreationTimestamp DESC" ; "" ; "" ; $recPK ; $sessionPK ) ]
+	Set Variable [ $baseEventPK ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( sync_EVENTS::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( sync_EVENTS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( sync_EVENTS::fk_xtRecord ) ) & " = ? AND " & sql.Field ( GetFieldName ( sync_EVENTS::fk_Session ) ) & " <> ? ORDER BY " & sql.Field ( GetFieldName ( sync_EVENTS::CreationTimestamp ) ) & " DESC" ; "" ; "" ; $recPK ; $sessionPK ) ]
 	Set Variable [ $baseEventPK ; Value: GetValue ( $baseEventPK ; 1 ) ]
 	If [ IsEmpty ( $baseEventPK ) ]
 		Exit Script [ Text Result: JSONSetElement ( JSONSetElement ( "{}" ; "ok" ; 0 ; JSONNumber ) ; "error" ; "No base event found for three-way compare on record " & $recPK & "." ; JSONString ) ]
@@ -226,14 +226,13 @@ Else If [ $mode = "compare" ]
 	End Loop
 	#
 	# --- get FileMaker values ---
-	Set Variable [ $peoplePK ; Value: ExecuteSQL ( "SELECT fk_SourceRecord FROM XTERNAL_JOINS WHERE fk_xtRecord = ?" ; "" ; "" ; $recPK ) ]
+	Set Variable [ $peoplePK ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( XTERNAL_JOINS::fk_SourceRecord ) ) & " FROM " & sql.Table ( GetFieldName ( XTERNAL_JOINS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( XTERNAL_JOINS::fk_xtRecord ) ) & " = ?" ; "" ; "" ; $recPK ) ]
 	Set Variable [ $peoplePK ; Value: GetValue ( $peoplePK ; 1 ) ]
 	If [ IsEmpty ( $peoplePK ) ]
 		Exit Script [ Text Result: JSONSetElement ( JSONSetElement ( "{}" ; "ok" ; 0 ; JSONNumber ) ; "error" ; "No join found for record " & $recPK & " but mode is compare." ; JSONString ) ]
 	End If
 	#
-	# D-043: literal field names in SQL.
-	Set Variable [ $peopleRow ; Value: ExecuteSQL ( "SELECT Name_First, Name_Last, Name_Alternate, Pronouns, NameDisplay_InPlaybills, status_Person FROM PEOPLE WHERE PrimaryKey = ?" ; "†" ; "" ; $peoplePK ) ]
+	Set Variable [ $peopleRow ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( PEOPLE::Name_First ) ) & ", " & sql.Field ( GetFieldName ( PEOPLE::Name_Last ) ) & ", " & sql.Field ( GetFieldName ( PEOPLE::Name_Alternate ) ) & ", " & sql.Field ( GetFieldName ( PEOPLE::Pronouns ) ) & ", " & sql.Field ( GetFieldName ( PEOPLE::NameDisplay_InPlaybills ) ) & ", " & sql.Field ( GetFieldName ( PEOPLE::status_Person ) ) & " FROM " & sql.Table ( GetFieldName ( PEOPLE::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( PEOPLE::PrimaryKey ) ) & " = ?" ; "†" ; "" ; $peoplePK ) ]
 	Set Variable [ $pParts ; Value: Substitute ( $peopleRow ; "†" ; ¶ ) ]
 	Set Variable [ $fm_first ; Value: GetValue ( $pParts ; 1 ) ]
 	Set Variable [ $fm_last ; Value: GetValue ( $pParts ; 2 ) ]
@@ -242,10 +241,10 @@ Else If [ $mode = "compare" ]
 	Set Variable [ $fm_playbill ; Value: GetValue ( $pParts ; 5 ) ]
 	Set Variable [ $fm_status ; Value: GetValue ( $pParts ; 6 ) ]
 	#
-	Set Variable [ $contactPK ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM CONTACTS WHERE fk_Owner = ?" ; "" ; "" ; $peoplePK ) ]
-	Set Variable [ $fm_emailPrimary ; Value: ExecuteSQL ( "SELECT EmailAddress FROM contact_EMAILS WHERE fk_Contact = ? AND sort_Index = 1" ; "" ; "" ; $contactPK ) ]
-	Set Variable [ $fm_emailSecondary ; Value: ExecuteSQL ( "SELECT EmailAddress FROM contact_EMAILS WHERE fk_Contact = ? AND sort_Index = 2" ; "" ; "" ; $contactPK ) ]
-	Set Variable [ $fm_phonePrimary ; Value: ExecuteSQL ( "SELECT PhoneNumber FROM contact_PHONE_NUMBERS WHERE fk_Contact = ? AND sort_Index = 1" ; "" ; "" ; $contactPK ) ]
+	Set Variable [ $contactPK ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( CONTACTS::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( CONTACTS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( CONTACTS::fk_Owner ) ) & " = ?" ; "" ; "" ; $peoplePK ) ]
+	Set Variable [ $fm_emailPrimary ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( contact_EMAILS::EmailAddress ) ) & " FROM " & sql.Table ( GetFieldName ( contact_EMAILS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( contact_EMAILS::fk_Contact ) ) & " = ? AND " & sql.Field ( GetFieldName ( contact_EMAILS::sort_Index ) ) & " = 1" ; "" ; "" ; $contactPK ) ]
+	Set Variable [ $fm_emailSecondary ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( contact_EMAILS::EmailAddress ) ) & " FROM " & sql.Table ( GetFieldName ( contact_EMAILS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( contact_EMAILS::fk_Contact ) ) & " = ? AND " & sql.Field ( GetFieldName ( contact_EMAILS::sort_Index ) ) & " = 2" ; "" ; "" ; $contactPK ) ]
+	Set Variable [ $fm_phonePrimary ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( contact_PHONE_NUMBERS::PhoneNumber ) ) & " FROM " & sql.Table ( GetFieldName ( contact_PHONE_NUMBERS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( contact_PHONE_NUMBERS::fk_Contact ) ) & " = ? AND " & sql.Field ( GetFieldName ( contact_PHONE_NUMBERS::sort_Index ) ) & " = 1" ; "" ; "" ; $contactPK ) ]
 	#
 	# --- three-way compare ---
 	# Skip name: it is pushed and never compared.

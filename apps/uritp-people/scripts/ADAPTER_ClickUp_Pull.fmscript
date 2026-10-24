@@ -61,7 +61,7 @@ Loop [ Flush: Always ]
 		Set Variable [ $dateUpdated ; Value: JSONGetElement ( $response ; "tasks[" & $idx & "].date_updated" ) ]
 		Set Variable [ $taskJSON ; Value: JSONGetElement ( $response ; "tasks[" & $idx & "]" ) ]
 		#
-		Set Variable [ $recPK ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM xt_RECORDS WHERE xt_ID = ? AND fk_xtContainer = ?" ; "" ; "" ; $taskID ; $containerPK ) ]
+		Set Variable [ $recPK ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_RECORDS::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( xt_RECORDS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_RECORDS::xt_ID ) ) & " = ? AND " & sql.Field ( GetFieldName ( xt_RECORDS::fk_xtContainer ) ) & " = ?" ; "" ; "" ; $taskID ; $containerPK ) ]
 		#
 		If [ IsEmpty ( $recPK ) ]
 			# New record.
@@ -91,7 +91,7 @@ Loop [ Flush: Always ]
 			Commit Records/Requests [ With dialog: Off ]
 			Set Variable [ $countNew ; Value: $countNew + 1 ]
 		Else
-			Set Variable [ $storedVersion ; Value: ExecuteSQL ( "SELECT xt_Version FROM xt_RECORDS WHERE PrimaryKey = ?" ; "" ; "" ; $recPK ) ]
+			Set Variable [ $storedVersion ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_RECORDS::xt_Version ) ) & " FROM " & sql.Table ( GetFieldName ( xt_RECORDS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_RECORDS::PrimaryKey ) ) & " = ?" ; "" ; "" ; $recPK ) ]
 			If [ Exact ( $storedVersion ; $dateUpdated ) ]
 				Set Variable [ $countUnchanged ; Value: $countUnchanged + 1 ]
 			Else
