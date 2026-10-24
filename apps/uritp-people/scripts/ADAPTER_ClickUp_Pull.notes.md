@@ -37,9 +37,13 @@ An event is only written for a new or changed task. Unchanged tasks are never lo
 
 A variable `$devCap` at the top of the script controls whether the pull stops after page 0. Set to 1 (the default), it caps the pull at 30 tasks, which is checkpoint 2 of the sync plan. Set to 0 for a full pull once the adoption and compare paths are proven.
 
+## Page-level errors
+
+A page-level error (transport failure, non-200, double-429) is not a sync event. The script exits with an error JSON, and `SYNC_Run` reports it. The session row exists: its absence of events tells you it failed before any task was processed. This ruling follows from the principle that every `sync_EVENTS` row has a record key.
+
 ## 429 handling
 
-A 429 pauses 60 seconds and retries the page once. A second failure writes an error event (no record key, the HTTP status and truncated response) and exits. The sync plan places retry logic here, in the pull, where it is worth the complexity, and not in the housekeeping refresh scripts.
+A 429 pauses 60 seconds and retries the page once. A second failure exits with the error. The sync plan places retry logic here, in the pull, where it is worth the complexity, and not in the housekeeping refresh scripts.
 
 ## Event field names
 
