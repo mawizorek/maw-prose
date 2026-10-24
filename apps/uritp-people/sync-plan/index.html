@@ -1007,6 +1007,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#value-list-keying" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Value-list keying
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#scripts" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1094,6 +1105,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#named-not-ruled" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Named, not ruled
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1113,7 +1135,7 @@
 
 <p class="buildstamp buildstamp--corner" hidden><span class="buildstamp__row"><span class="buildstamp__mark" aria-hidden="true" style="background-image:url(&quot;../../../maw-prose-mark.svg&quot;)"></span><span class="buildstamp__text"><span class="buildstamp__id">MAW Prose</span><span class="buildstamp__sep"> · </span><span class="buildstamp__when">Fall 2026</span></span></span></p><h1 id="uritp-people-sync-plan">URITP People sync plan<a class="headerlink" href="#uritp-people-sync-plan" title="Permanent link">&para;</a></h1>
 <p class="dr-lede">How URITP People and ClickUp's PEOPLE list stay in step, both ways. Setup rows, the pull, adoption, the three-way compare, reconcile, the push, and the edge cases.</p>
-<p>Written 2026-10-23 against the <span class="docrender-dead" title="!uritp-people">schema baseline</span>. The six rulings this plan opened were settled the same day as D-048; they are at the bottom, each with the call that was made.</p>
+<p>Written 2026-10-23 against the <span class="docrender-dead" title="!uritp-people">schema baseline</span>. The six rulings this plan opened were settled the same day as D-048; they are at the bottom, each with the call that was made. Field names were swept onto the built file the same evening, after the setup build renamed eight of them; three that disagree with their own siblings are named at the bottom and left unruled.</p>
 <p>Ruled 2026-10-23 by Michael: every mirrored field, contacts included, syncs both ways through <a href="../tables/sync_RECONCILE/">sync_RECONCILE</a>. There is no push-only field.</p>
 <h2 id="the-shape-in-one-paragraph">The shape in one paragraph<a class="headerlink" href="#the-shape-in-one-paragraph" title="Permanent link">&para;</a></h2>
 <p>One source, PEOPLE, reads one ClickUp view of the PEOPLE list. A run opens a session, pages the view, caches every task in xt_RECORDS, and hands each new or changed task to the person handler. A task with no join is adopted: a PEOPLE record, a contact card with the task's emails and phone, and a join. A task with a join is compared field by field against FileMaker and against the last value the two sides agreed on. ClickUp's edits become sync_RECONCILE rows; FileMaker's edits are pushed. Nothing is overwritten without a decision.</p>
@@ -1126,7 +1148,7 @@
 <li><code>last</code> · Last Name <code>4e8a61ba-3162-4e9a-89fd-9fe0e24fad8e</code> · <code>PEOPLE::Name_Last</code>.</li>
 <li><code>alt</code> · Alt. Name <code>d5cba607-c034-4eb3-a699-9f5a3f4a4144</code> · <code>PEOPLE::Name_Alternate</code>.</li>
 <li><code>pronouns</code> · Pronouns <code>da51a70d-2beb-46eb-ba14-2d46ac37004b</code> · <code>PEOPLE::Pronouns</code>.</li>
-<li><code>playbill</code> · Name as in Playbill <code>cc4886b9-ed39-4d69-bd97-69fccadcba9e</code> · <code>PEOPLE::stored_NameDisplayInPlaybills</code>. A manual fact on both sides, so it is compared like any other text field.</li>
+<li><code>playbill</code> · Name as in Playbill <code>cc4886b9-ed39-4d69-bd97-69fccadcba9e</code> · <code>PEOPLE::NameDisplay_InPlaybills</code>. A manual fact on both sides, so it is compared like any other text field.</li>
 <li><code>email_primary</code> · Primary Email <code>9b413089-fd05-42b0-b463-f20a312752c4</code> · contact_EMAILS row 1 by <code>sort_Index</code>.</li>
 <li><code>email_secondary</code> · Secondary Email <code>4df4a28f-e31d-40e8-a420-7b6a15354528</code> · contact_EMAILS row 2.</li>
 <li><code>phone_primary</code> · Phone Number <code>8a00bd24-8ef0-4efa-a8b9-49fcf717d90f</code> · contact_PHONE_NUMBERS row 1. Compared digits only.</li>
@@ -1134,17 +1156,19 @@
 <p>The list has a second field also named Phone Number, a button (<code>e0beb790-03bb-4034-87d4-496627048992</code>). Map by id, never by name. That is what mapKey is for.</p>
 <p>Everything else on the list (availability, positions, relationships, birthday, lift training) is not mirrored.</p>
 <h2 id="one-time-setup-rows">One-time setup rows<a class="headerlink" href="#one-time-setup-rows" title="Permanent link">&para;</a></h2>
-<p>Typed once, before any script runs.</p>
+<p>Typed once, before any script runs. All of it is in as of 2026-10-23 evening.</p>
 <ul>
-<li>xt_SYSTEMS: the ClickUp row exists, with BaseURL and Token.</li>
-<li>Target_Tables: one row for PEOPLE, filled by the table refresh.</li>
-<li>xt_CONTAINERS: one row. <code>fk_System</code> ClickUp, <code>xt_ID</code> the list id <code>901305646880</code>, Name PEOPLE, <code>fk_TargetTable</code> the PEOPLE row, <code>isActive</code> 1. Today this table is empty.</li>
-<li>xt_FIELDS: the ten rows above, under that container. The field refresh fills <code>xt_FieldName</code> and <code>xt_FieldType</code> from ClickUp; <code>mapKey</code> is typed.</li>
-<li>sync_SOURCES: the existing PEOPLE row, <code>fk_Container</code> pointed at the new container row, <code>xt_ViewPath</code> the view <code>12cwjm-66873</code>.</li>
-<li>Value lists Action (pull, push, adopt, export) and Decision (pending, fm, xt, applied).</li>
+<li>xt_SYSTEMS: the ClickUp row, with BaseURL and Token.</li>
+<li>Target_Tables: all 22 base tables, filled by <code>refresh | Target_Tables</code> and seeded with DDR ids (D-050).</li>
+<li>xt_CONTAINERS: one row. <code>fk_xtSystem</code> ClickUp, <code>xt_ID</code> the list id <code>901305646880</code>, Name PEOPLE, <code>fk_TargetTable</code> the PEOPLE row, <code>isActive</code> 1. Its key is <code>5F8A3722-1519-43FB-852A-53369CCCBEEA</code>.</li>
+<li>xt_FIELDS: the ten rows above, under that container, <code>fk_xtContainer</code> pointed at it. The field refresh fills <code>xt_FieldName</code> and <code>xt_FieldType</code> from ClickUp; <code>mapKey</code> is typed.</li>
+<li>sync_SOURCES: the existing PEOPLE row, <code>fk_Container</code> pointed at the container row, <code>xt_ViewPath</code> the view <code>12cwjm-66873</code>.</li>
+<li>value_LISTS: <code>SYNC_Action</code> (PULL, PUSH, ADOPT, EXPORT) and <code>SYNC_DECISION</code> (PENDING, FM, XT, APPLIED), each with its global seeded on value_LISTS and a filtered <code>value_LIST_*</code> occurrence on the graph.</li>
 </ul>
 <p>The view has to show closed tasks. If it doesn't, a person closed in ClickUp looks the same as a person deleted.</p>
-<p>The one PEOPLE record in the file today is a test record. It is deleted before the first pull, so the initial load starts from zero.</p>
+<p>The file's one test PEOPLE record was deleted, so the initial load starts from zero.</p>
+<h2 id="value-list-keying">Value-list keying<a class="headerlink" href="#value-list-keying" title="Permanent link">&para;</a></h2>
+<p>Every field that picks from a list carries a foreign key to <code>VALUES::PrimaryKey</code>, never the label. One mechanism everywhere, so nothing in this layer is read two ways (D-051). A pick writes the key; a script then snapshots the label it resolved into a sibling <code>stored_</code> field, so the log reads without a join and keeps reading the same way after someone renames a value. The pairs: <code>sync_EVENTS::fk_Action</code> with <code>stored_ActionLabel</code>, <code>sync_RECONCILE::fk_vDecision</code> with <code>stored_DecisionLabel</code>. Letter case on the values is display formatting only; scripts match on the key, so case never matters.</p>
 <h2 id="scripts">Scripts<a class="headerlink" href="#scripts" title="Permanent link">&para;</a></h2>
 <ul>
 <li><code>SYNC_Run</code> · the button. Parameter: a sync_SOURCES Name. Reads the source, its container and its system once into variables, opens a sync_SESSIONS row, runs the pull, the dispatcher, then the push, then shows the session.</li>
@@ -1153,7 +1177,8 @@
 <li><code>PERSON_Upsert_From_xtRecord</code> · adopt or compare.</li>
 <li><code>RECONCILE_Apply</code> · acts on decided rows.</li>
 <li><code>ADAPTER_ClickUp_Push</code> · one person, or every person FileMaker has moved.</li>
-<li><code>XT_Refresh_Fields</code> and <code>APP_Refresh_Tables</code> · housekeeping, run by hand.</li>
+<li><code>XT_Refresh_Fields</code> · housekeeping, run by hand. It stays a dispatcher: it resolves the container's system and calls that system's <code>ADAPTER_&lt;System&gt;_RefreshFields</code>, which is the only script that knows the endpoint and the response shape (D-052). Written, not yet installed.</li>
+<li><code>refresh | Target_Tables</code> · housekeeping, run by hand. Installed and run clean twice.</li>
 </ul>
 <p><code>SYNC_Run</code> reads its context in one <code>ExecuteSQL</code> join across sync_SOURCES, xt_CONTAINERS and xt_SYSTEMS, with every field name built from <code>GetFieldName</code> so a rename follows the field (D-043). One call, and no new table occurrences on a graph that was just rebuilt. The alternative, relationships through <code>sync_SOURCES_fxtContainers</code>, is not taken. Every script below receives the same context as variables either way, so the call changed this one script only.</p>
 <h2 id="the-pull">The pull<a class="headerlink" href="#the-pull" title="Permanent link">&para;</a></h2>
@@ -1161,7 +1186,7 @@
 <ol>
 <li>Find the xt_RECORDS row by <code>xt_ID</code> (the task id) in this container. None: create it.</li>
 <li>Compare the task's <code>date_updated</code> with <code>xt_Version</code>. Equal: ClickUp has not changed it, move on.</li>
-<li>Changed or new: hand it to the handler first, then write one sync_EVENTS row (Action pull, the request URL, HttpStatus, the task's JSON as Response), set <code>xt_Label</code> to the task name and <code>xt_Version</code> to <code>date_updated</code>.</li>
+<li>Changed or new: hand it to the handler first, then write one sync_EVENTS row (<code>fk_Action</code> the PULL key with <code>stored_ActionLabel</code> snapped, the request URL, HttpStatus, the task's JSON as Response), set <code>xt_Label</code> to the task name and <code>xt_Version</code> to <code>date_updated</code>.</li>
 </ol>
 <p>An event is written only for a new or changed task. An unchanged task is never logged; doing so would write hundreds of identical payloads a pull.</p>
 <p>The payload lives once, on that event. The handler runs before the new event is written, so the record's newest existing event is still the last value both sides agreed on.</p>
@@ -1173,33 +1198,33 @@
 <li>Creates PEOPLE from first, last, alt, pronouns, playbill name and status. If first and last are empty (a name typed on a phone), it splits the task name at the last space.</li>
 <li>Creates the person's CONTACTS card, with Primary Email as email row 1, Secondary Email as row 2 and Phone Number as phone row 1, wherever ClickUp has them.</li>
 <li>Creates the join.</li>
-<li>Writes an adopt event.</li>
+<li>Writes an event keyed to ADOPT.</li>
 </ol>
 <p>Adoption never matches against existing people. A person who already exists unjoined becomes a duplicate to merge by hand. Merging means moving the join to the survivor and deleting the other record. That is rare once the initial load is done, and an automatic name match would be wrong more often than it saves.</p>
 <h2 id="the-three-way-compare">The three-way compare<a class="headerlink" href="#the-three-way-compare" title="Permanent link">&para;</a></h2>
 <p>For a joined task that changed, each mirrored field is read three ways: FileMaker now, ClickUp now, and the base, which is that field in the record's newest event (the last pull, or the re-read after the last push). Text compares with <code>Exact</code>, because FileMaker's <code>=</code> ignores case. Phones compare digits only.</p>
 <ul>
-<li>Only ClickUp moved (FileMaker equals the base): a sync_RECONCILE row, Decision pending.</li>
+<li>Only ClickUp moved (FileMaker equals the base): a sync_RECONCILE row, <code>fk_vDecision</code> keyed to PENDING.</li>
 <li>Only FileMaker moved (ClickUp equals the base): no row. The push sends it.</li>
 <li>Both moved to the same value: nothing to do.</li>
-<li>Both moved to different values: a conflict row, Decision pending.</li>
+<li>Both moved to different values: a conflict row, keyed to PENDING.</li>
 </ul>
 <p>FileMaker is never written during the compare.</p>
-<p>In the review window each row is set to fm (keep FileMaker, push it), xt (take ClickUp's) or left pending. <code>RECONCILE_Apply</code> writes xt rows into FileMaker, queues fm rows for the push, and marks both applied. Taking ClickUp's email or phone inserts it as a new row in that position and moves the old one down, so nothing is lost.</p>
-<p>A task that was in the container's cache and didn't come back on a full pull is gone. It gets a pending row with no field. The person is never deleted. Gone is only checked when the pull ran to the last page, never under the development cap.</p>
+<p>In the review window each row is set to FM (keep FileMaker, push it), XT (take ClickUp's) or left PENDING. <code>RECONCILE_Apply</code> writes XT rows into FileMaker, queues FM rows for the push, and marks both APPLIED. Taking ClickUp's email or phone inserts it as a new row in that position and moves the old one down, so nothing is lost.</p>
+<p>A task that was in the container's cache and didn't come back on a full pull is gone. It gets a PENDING row with no field. The person is never deleted. Gone is only checked when the pull ran to the last page, never under the development cap.</p>
 <h2 id="the-push">The push<a class="headerlink" href="#the-push" title="Permanent link">&para;</a></h2>
-<p>The push needs no stored last-pushed value. For each joined person it compares FileMaker with the base and sends what FileMaker moved, plus every row decided fm. It skips any field with a pending row, so a push never tramples a ClickUp edit waiting for a decision.</p>
+<p>The push needs no stored last-pushed value. For each joined person it compares FileMaker with the base and sends what FileMaker moved, plus every row decided FM. It skips any field with a PENDING row, so a push never tramples a ClickUp edit waiting for a decision.</p>
 <ul>
 <li>Name and status go in one Update Task call.</li>
 <li>Emails, phone and the playbill name go through Set Custom Field Value, one call per field.</li>
 <li>A person with no join gets a Create Task call in the list, then a join and an xt_RECORDS row.</li>
 </ul>
-<p>Each call writes a push event. Afterwards the push re-reads the task once and stores it as a pull event with its <code>date_updated</code> as <code>xt_Version</code>. That becomes the new base, and the next pull doesn't see our own write as a ClickUp edit.</p>
+<p>Each call writes an event keyed to PUSH. Afterwards the push re-reads the task once and stores it as a PULL event with its <code>date_updated</code> as <code>xt_Version</code>. That becomes the new base, and the next pull doesn't see our own write as a ClickUp edit.</p>
 <p>The phone field rejects anything without a country code. ClickUp's own example is <code>+1 123 456 7890</code>. The push sends a ten-digit US number as +1, skips anything it can't format, and logs the skip as an error event. It doesn't guess.</p>
 <p>After the initial load the first full push only sends what FileMaker computes differently from ClickUp, mostly task names. Because the task name is FileMaker's <code>auto_Name_FirstLast</code>, that first run renames every task whose name differs, so a sample is checked before it runs. Each person costs up to five calls. At 100 requests a minute per token that's about half an hour in the worst case. The push paces itself at about one call every 0.7 seconds.</p>
 <h2 id="checkpoints">Checkpoints<a class="headerlink" href="#checkpoints" title="Permanent link">&para;</a></h2>
 <ol>
-<li>Setup rows in, field refresh fills xt_FIELDS with the right names and types.</li>
+<li>Setup rows in, field refresh fills xt_FIELDS with the right names and types. <em>Setup rows in. The refresh scripts are written and not yet installed, so the names and types are still typed.</em></li>
 <li>Pull with the cap: 30 xt_RECORDS, 30 pull events, 30 adopted PEOPLE with their emails and phones, 30 joins.</li>
 <li>The same pull again: 0 events, 0 adoptions, 0 reconcile rows.</li>
 <li>Change one Last Name and one Primary Email in ClickUp, pull: 1 event, 2 reconcile rows.</li>
@@ -1214,13 +1239,21 @@
 <p>All six were ruled as recommended. Recorded as D-048.</p>
 <ol>
 <li><strong>Event granularity.</strong> An event only for a new or changed task.</li>
-<li><strong>Status map.</strong> <code>status_Person</code>'s VALUES mirror the list's statuses (new, active, circle back, connect with, plus its closed ones) one to one, so status needs no translation table.</li>
+<li><strong>Status map.</strong> <code>status_Person</code>'s VALUES mirror the list's statuses (new, active, circle back, connect with, plus its closed ones) one to one, so status needs no translation table. This is the one place a label is the contract, because the label is ClickUp's.</li>
 <li><strong>Task name.</strong> The task name is FileMaker's <code>auto_Name_FirstLast</code>, which already prefers the preferred name. Check a sample before the first full push renames.</li>
-<li><strong>Name as in Playbill.</strong> Mirrored as <code>playbill</code>, both ways, under the same rule as everything else.</li>
-<li><strong>The one PEOPLE record.</strong> Deleted before the first pull.</li>
+<li><strong>Name as in Playbill.</strong> Mirrored as <code>playbill</code>, both ways, under the same rule as everything else. The FileMaker side is <code>NameDisplay_InPlaybills</code>, renamed from <code>stored_NameDisplayInPlaybills</code> during the setup build.</li>
+<li><strong>The one PEOPLE record.</strong> Deleted before the first pull. Done.</li>
 <li><strong>Context read.</strong> One <code>ExecuteSQL</code> join, with <code>GetFieldName</code> text.</li>
 </ol>
-<p class="dr-revised"><em>Revised 2026-10</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/uritp-people/sync-plan.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">PR #91</span></span></p>
+<p>Then D-051, value-list keying by key with a label snapshot, and D-052, <code>XT_Refresh_Fields</code> stays a dispatcher.</p>
+<h2 id="named-not-ruled">Named, not ruled<a class="headerlink" href="#named-not-ruled" title="Permanent link">&para;</a></h2>
+<p>Three built field names disagree with their own siblings. Nothing is blocked on them; they are listed so the next pass does not have to rediscover them.</p>
+<ul>
+<li><code>sync_EVENTS::fk_Action</code> against <code>sync_RECONCILE::fk_vDecision</code>. Same mechanism, one carries the <code>v</code>.</li>
+<li><code>xt_FIELDS::fk_xtContainer</code> against <code>sync_SOURCES::fk_Container</code> and <code>xt_RECORDS::fk_Container</code>. Same target, two names.</li>
+<li><code>value_LISTS::bool_isStatusSet</code> replaced <code>VALUES::bool_isStatusList</code>, moving the flag from the value to the list, which is the right grain and is not written down anywhere else yet.</li>
+</ul>
+<p class="dr-revised"><em>Revised 2026-10</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/uritp-people/sync-plan.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">PR #92</span></span></p>
 
 
 
