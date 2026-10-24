@@ -1,6 +1,6 @@
 ---
 id: uritp-people-script-xt-refresh-fields
-title: XT_Refresh_Fields
+title: "refresh | xt_fields"
 type: reference
 status: public
 order: 20
@@ -8,7 +8,7 @@ revised: 2026-10
 summary: The generic field-refresh dispatcher. Resolves a container's system and performs that system's adapter. Knows no API.
 ---
 
-# XT_Refresh_Fields
+# refresh | xt_fields
 
 !!! abstract "Grain"
     One container per run. Refreshes the `xt_FIELDS` rows under it.

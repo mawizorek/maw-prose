@@ -21,7 +21,7 @@ End If
 Set Variable [ $url ; Value: $base & "/list/" & $listID & "/field" ]
 Set Variable [ $curl ; Value: "-X GET --header " & Quote ( "Authorization: " & $token ) & " --header " & Quote ( "Content-Type: application/json" ) & " --dump-header $hdr" ]
 Insert from URL [ Select: Off ; With dialog: Off ; Target: $response ; $url ; Verify SSL Certificates: On ; cURL options: $curl ]
-Set Variable [ $status ; Value: MiddleWords ( GetValue ( $hdr ; 1 ) ; 2 ; 1 ) ]
+Set Variable [ $status ; Value: MiddleWords ( GetValue ( $hdr ; 1 ) ; 3 ; 1 ) ]
 If [ Get ( LastError ) ≠ 0 or $status ≠ 200 ]
 	Show Custom Dialog [ "Field refresh" ; "ClickUp returned " & If ( IsEmpty ( $status ) ; "no status" ; $status ) & ". FileMaker error " & Get ( LastError ) & ".¶¶" & Left ( $response ; 300 ) ]
 	Exit Script [ Text Result: JSONSetElement ( "{}" ; "ok" ; 0 ; JSONNumber ) ]
