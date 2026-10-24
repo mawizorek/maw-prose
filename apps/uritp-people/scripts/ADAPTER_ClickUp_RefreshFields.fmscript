@@ -4,6 +4,10 @@
 # Personal token goes in Authorization BARE, with no Bearer prefix.
 # Param (JSON): { "container" : "<xt_CONTAINERS PrimaryKey>", "system" : "<xt_SYSTEMS PrimaryKey>" }
 # Returns (JSON): { "ok" : 1|0, "updated" : n, "missing" : n, "native" : n, "unmapped" : n, "error" : "<msg>" }
+#
+# --- LAYOUTS ---
+Set Variable [ $table_xtFields ; Value: "table | xt_FIELDS" ]
+#
 Set Error Capture [ On ]
 Allow User Abort [ Off ]
 Set Variable [ $containerPK ; Value: JSONGetElement ( Get ( ScriptParameter ) ; "container" ) ]
@@ -38,10 +42,10 @@ Loop [ Flush: Always ]
 End Loop
 Set Variable [ $unmapped ; Value: ValueCount ( $keys ) ]
 #
-Go to Layout [ "table | xt_FIELDS" ; Animation: None ]
+Go to Layout [ $table_xtFields ; Animation: None ]
 If [ Get ( LastError ) ≠ 0 ]
-	Show Custom Dialog [ "Field refresh" ; "The xt_FIELDS layout was not found." ]
-	Exit Script [ Text Result: JSONSetElement ( JSONSetElement ( "{}" ; "ok" ; 0 ; JSONNumber ) ; "error" ; "Layout table | xt_FIELDS not found." ; JSONString ) ]
+	Show Custom Dialog [ "Field refresh" ; "Layout " & $table_xtFields & " was not found." ]
+	Exit Script [ Text Result: JSONSetElement ( JSONSetElement ( "{}" ; "ok" ; 0 ; JSONNumber ) ; "error" ; "Layout " & $table_xtFields & " not found." ; JSONString ) ]
 End If
 Enter Find Mode [ Pause: Off ]
 Set Field [ xt_FIELDS::fk_xtContainer ; "==" & $containerPK ]
