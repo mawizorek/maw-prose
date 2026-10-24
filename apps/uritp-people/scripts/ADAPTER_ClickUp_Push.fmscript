@@ -1,1 +1,423 @@
-placeholder-push
+# adapter PUSH | ClickUp
+# Pushes FileMaker edits back to ClickUp. Rate-paced, one call per ~0.7s.
+# For each joined person: compare FM with the base, send what FM moved, skip PENDING fields.
+# Also creates ClickUp tasks for unjoined PEOPLE records.
+# After each person's push, re-reads the task as a new PULL event (the new base).
+# Param (JSON): the context block from sync RUN.
+# Returns (JSON): { "ok" : 1|0, "count" : n, "updated" : n, "created" : n, "skipped" : n, "errors" : n }
+#
+# --- LAYOUTS ---
+Set Variable [ $table_xtRecords ; Value: "table | xt_RECORDS" ]
+Set Variable [ $table_syncEvents ; Value: "table | sync_EVENTS" ]
+Set Variable [ $table_xternalJoins ; Value: "table | XTERNAL_JOINS" ]
+#
+Set Error Capture [ On ]
+Allow User Abort [ Off ]
+Set Variable [ $sessionPK ; Value: JSONGetElement ( Get ( ScriptParameter ) ; "session" ) ]
+Set Variable [ $containerPK ; Value: JSONGetElement ( Get ( ScriptParameter ) ; "container" ) ]
+Set Variable [ $baseURL ; Value: JSONGetElement ( Get ( ScriptParameter ) ; "baseURL" ) ]
+Set Variable [ $token ; Value: JSONGetElement ( Get ( ScriptParameter ) ; "token" ) ]
+Set Variable [ $listID ; Value: JSONGetElement ( Get ( ScriptParameter ) ; "listID" ) ]
+Set Variable [ $pushKey ; Value: JSONGetElement ( Get ( ScriptParameter ) ; "pushKey" ) ]
+Set Variable [ $pullKey ; Value: JSONGetElement ( Get ( ScriptParameter ) ; "pullKey" ) ]
+#
+If [ IsEmpty ( $sessionPK ) or IsEmpty ( $containerPK ) or IsEmpty ( $baseURL ) or IsEmpty ( $token ) or IsEmpty ( $listID ) or IsEmpty ( $pushKey ) or IsEmpty ( $pullKey ) ]
+	Exit Script [ Text Result: JSONSetElement ( JSONSetElement ( "{}" ; "ok" ; 0 ; JSONNumber ) ; "error" ; "Missing context. sync RUN must pass session, container, baseURL, token, listID, pushKey, pullKey." ; JSONString ) ]
+End If
+#
+# ---------- read decision keys from context ----------
+Set Variable [ $pendingKey ; Value: JSONGetElement ( Get ( ScriptParameter ) ; "pendingKey" ) ]
+#
+# ---------- build field maps ----------
+Set Variable [ $fieldRows ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_FIELDS::mapKey ) ) & ", " & sql.Field ( GetFieldName ( xt_FIELDS::xt_FieldID ) ) & ", " & sql.Field ( GetFieldName ( xt_FIELDS::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( xt_FIELDS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_FIELDS::fk_xtContainer ) ) & " = ?" ; "†" ; "¶" ; $containerPK ) ]
+Set Variable [ $fieldIDMap ; Value: "{}" ]
+Set Variable [ $fieldPKMap ; Value: "{}" ]
+Set Variable [ $fieldCount ; Value: ValueCount ( $fieldRows ) ]
+Set Variable [ $f ; Value: 0 ]
+Loop [ Flush: Always ]
+	Set Variable [ $f ; Value: $f + 1 ]
+	Exit Loop If [ $f > $fieldCount ]
+	Set Variable [ $row ; Value: GetValue ( $fieldRows ; $f ) ]
+	Set Variable [ $parts ; Value: Substitute ( $row ; "†" ; ¶ ) ]
+	Set Variable [ $mk ; Value: GetValue ( $parts ; 1 ) ]
+	Set Variable [ $fid ; Value: GetValue ( $parts ; 2 ) ]
+	Set Variable [ $fpk ; Value: GetValue ( $parts ; 3 ) ]
+	Set Variable [ $fieldIDMap ; Value: JSONSetElement ( $fieldIDMap ; $mk ; $fid ; JSONString ) ]
+	Set Variable [ $fieldPKMap ; Value: JSONSetElement ( $fieldPKMap ; $mk ; $fpk ; JSONString ) ]
+End Loop
+#
+# ---------- get all joined records for this container ----------
+Set Variable [ $joinedRows ; Value: ExecuteSQL ( "SELECT xj." & sql.Field ( GetFieldName ( XTERNAL_JOINS::fk_SourceRecord ) ) & ", xj." & sql.Field ( GetFieldName ( XTERNAL_JOINS::fk_xtRecord ) ) & " FROM " & sql.Table ( GetFieldName ( XTERNAL_JOINS::PrimaryKey ) ) & " xj JOIN " & sql.Table ( GetFieldName ( xt_RECORDS::PrimaryKey ) ) & " xr ON xj." & sql.Field ( GetFieldName ( XTERNAL_JOINS::fk_xtRecord ) ) & " = xr." & sql.Field ( GetFieldName ( xt_RECORDS::PrimaryKey ) ) & " WHERE xr." & sql.Field ( GetFieldName ( xt_RECORDS::fk_xtContainer ) ) & " = ?" ; "†" ; "¶" ; $containerPK ) ]
+#
+Set Variable [ $countUpdated ; Value: 0 ]
+Set Variable [ $countCreated ; Value: 0 ]
+Set Variable [ $countSkipped ; Value: 0 ]
+Set Variable [ $countErrors ; Value: 0 ]
+Set Variable [ $totalJoined ; Value: ValueCount ( $joinedRows ) ]
+Set Variable [ $j ; Value: 0 ]
+#
+Loop [ Flush: Always ]
+	Set Variable [ $j ; Value: $j + 1 ]
+	Exit Loop If [ $j > $totalJoined or IsEmpty ( $joinedRows ) ]
+	Set Variable [ $jRow ; Value: GetValue ( $joinedRows ; $j ) ]
+	Set Variable [ $jParts ; Value: Substitute ( $jRow ; "†" ; ¶ ) ]
+	Set Variable [ $peoplePK ; Value: GetValue ( $jParts ; 1 ) ]
+	Set Variable [ $recPK ; Value: GetValue ( $jParts ; 2 ) ]
+	Set Variable [ $taskID ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_RECORDS::xt_ID ) ) & " FROM " & sql.Table ( GetFieldName ( xt_RECORDS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_RECORDS::PrimaryKey ) ) & " = ?" ; "" ; "" ; $recPK ) ]
+	#
+	# --- get base event (most recent event for this record) ---
+	Set Variable [ $baseEventPK ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( sync_EVENTS::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( sync_EVENTS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( sync_EVENTS::fk_xtRecord ) ) & " = ? ORDER BY " & sql.Field ( GetFieldName ( sync_EVENTS::CreationTimestamp ) ) & " DESC" ; "" ; "" ; $recPK ) ]
+	Set Variable [ $baseEventPK ; Value: GetValue ( $baseEventPK ; 1 ) ]
+	If [ IsEmpty ( $baseEventPK ) ]
+		Set Variable [ $countSkipped ; Value: $countSkipped + 1 ]
+	Else
+		Go to Layout [ $table_syncEvents ; Animation: None ]
+		Enter Find Mode [ Pause: Off ]
+		Set Field [ sync_EVENTS::PrimaryKey ; "==" & $baseEventPK ]
+		Perform Find [ ]
+		Set Variable [ $baseJSON ; Value: sync_EVENTS::Response ]
+		Set Variable [ $baseCfLookup ; Value: "{}" ]
+		Set Variable [ $baseCfCount ; Value: ValueCount ( JSONListKeys ( $baseJSON ; "custom_fields" ) ) ]
+		Set Variable [ $bc ; Value: 0 ]
+		Loop [ Flush: Always ]
+			Exit Loop If [ $bc ≥ $baseCfCount ]
+			Set Variable [ $bcID ; Value: JSONGetElement ( $baseJSON ; "custom_fields[" & $bc & "].id" ) ]
+			Set Variable [ $bcVal ; Value: JSONGetElement ( $baseJSON ; "custom_fields[" & $bc & "].value" ) ]
+			If [ not IsEmpty ( $bcVal ) and $bcVal ≠ "null" ]
+				Set Variable [ $baseCfLookup ; Value: JSONSetElement ( $baseCfLookup ; $bcID ; $bcVal ; JSONString ) ]
+			End If
+			Set Variable [ $bc ; Value: $bc + 1 ]
+		End Loop
+		Set Variable [ $peopleRow ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( PEOPLE::Name_First ) ) & ", " & sql.Field ( GetFieldName ( PEOPLE::Name_Last ) ) & ", " & sql.Field ( GetFieldName ( PEOPLE::Name_Alternate ) ) & ", " & sql.Field ( GetFieldName ( PEOPLE::Pronouns ) ) & ", " & sql.Field ( GetFieldName ( PEOPLE::NameDisplay_InPlaybills ) ) & ", " & sql.Field ( GetFieldName ( PEOPLE::status_Person ) ) & ", " & sql.Field ( GetFieldName ( PEOPLE::auto_Name_FirstLast ) ) & " FROM " & sql.Table ( GetFieldName ( PEOPLE::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( PEOPLE::PrimaryKey ) ) & " = ?" ; "†" ; "" ; $peoplePK ) ]
+		Set Variable [ $pParts ; Value: Substitute ( $peopleRow ; "†" ; ¶ ) ]
+		Set Variable [ $fm_first ; Value: GetValue ( $pParts ; 1 ) ]
+		Set Variable [ $fm_last ; Value: GetValue ( $pParts ; 2 ) ]
+		Set Variable [ $fm_alt ; Value: GetValue ( $pParts ; 3 ) ]
+		Set Variable [ $fm_pronouns ; Value: GetValue ( $pParts ; 4 ) ]
+		Set Variable [ $fm_playbill ; Value: GetValue ( $pParts ; 5 ) ]
+		Set Variable [ $fm_status ; Value: GetValue ( $pParts ; 6 ) ]
+		Set Variable [ $fm_name ; Value: GetValue ( $pParts ; 7 ) ]
+		Set Variable [ $contactPK ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( CONTACTS::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( CONTACTS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( CONTACTS::fk_Owner ) ) & " = ?" ; "" ; "" ; $peoplePK ) ]
+		Set Variable [ $fm_emailPrimary ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( contact_EMAILS::EmailAddress ) ) & " FROM " & sql.Table ( GetFieldName ( contact_EMAILS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( contact_EMAILS::fk_Contact ) ) & " = ? AND " & sql.Field ( GetFieldName ( contact_EMAILS::sort_Index ) ) & " = 1" ; "" ; "" ; $contactPK ) ]
+		Set Variable [ $fm_emailSecondary ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( contact_EMAILS::EmailAddress ) ) & " FROM " & sql.Table ( GetFieldName ( contact_EMAILS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( contact_EMAILS::fk_Contact ) ) & " = ? AND " & sql.Field ( GetFieldName ( contact_EMAILS::sort_Index ) ) & " = 2" ; "" ; "" ; $contactPK ) ]
+		Set Variable [ $fm_phonePrimary ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( contact_PHONE_NUMBERS::PhoneNumber ) ) & " FROM " & sql.Table ( GetFieldName ( contact_PHONE_NUMBERS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( contact_PHONE_NUMBERS::fk_Contact ) ) & " = ? AND " & sql.Field ( GetFieldName ( contact_PHONE_NUMBERS::sort_Index ) ) & " = 1" ; "" ; "" ; $contactPK ) ]
+		Set Variable [ $pendingFieldPKs ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( sync_RECONCILE::fk_xtField ) ) & " FROM " & sql.Table ( GetFieldName ( sync_RECONCILE::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( sync_RECONCILE::fk_xtRecord ) ) & " = ? AND " & sql.Field ( GetFieldName ( sync_RECONCILE::fk_vDecision ) ) & " = ?" ; "¶" ; "" ; $recPK ; $pendingKey ) ]
+		Set Variable [ $taskBody ; Value: "{}" ]
+		Set Variable [ $cfChanges ; Value: "" ]
+		Set Variable [ $hasTaskChange ; Value: 0 ]
+		Set Variable [ $hasCfChange ; Value: 0 ]
+		Set Variable [ $pushFields ; Value: "name¶status¶first¶last¶alt¶pronouns¶playbill¶email_primary¶email_secondary¶phone_primary" ]
+		Set Variable [ $pfCount ; Value: ValueCount ( $pushFields ) ]
+		Set Variable [ $pf ; Value: 0 ]
+		Loop [ Flush: Always ]
+			Set Variable [ $pf ; Value: $pf + 1 ]
+			Exit Loop If [ $pf > $pfCount ]
+			Set Variable [ $mapKey ; Value: GetValue ( $pushFields ; $pf ) ]
+			Set Variable [ $fieldPK ; Value: JSONGetElement ( $fieldPKMap ; $mapKey ) ]
+			Set Variable [ $isPending ; Value: 0 ]
+			If [ not IsEmpty ( $pendingFieldPKs ) and not IsEmpty ( FilterValues ( $pendingFieldPKs ; $fieldPK ) ) ]
+				Set Variable [ $isPending ; Value: 1 ]
+			End If
+			If [ $isPending = 0 ]
+				If [ $mapKey = "name" ]
+					Set Variable [ $fmVal ; Value: $fm_name ]
+					Set Variable [ $baseVal ; Value: JSONGetElement ( $baseJSON ; "name" ) ]
+				Else If [ $mapKey = "status" ]
+					Set Variable [ $fmVal ; Value: $fm_status ]
+					Set Variable [ $baseVal ; Value: JSONGetElement ( $baseJSON ; "status.status" ) ]
+				Else If [ $mapKey = "first" ]
+					Set Variable [ $fmVal ; Value: $fm_first ]
+					Set Variable [ $baseVal ; Value: JSONGetElement ( $baseCfLookup ; JSONGetElement ( $fieldIDMap ; "first" ) ) ]
+				Else If [ $mapKey = "last" ]
+					Set Variable [ $fmVal ; Value: $fm_last ]
+					Set Variable [ $baseVal ; Value: JSONGetElement ( $baseCfLookup ; JSONGetElement ( $fieldIDMap ; "last" ) ) ]
+				Else If [ $mapKey = "alt" ]
+					Set Variable [ $fmVal ; Value: $fm_alt ]
+					Set Variable [ $baseVal ; Value: JSONGetElement ( $baseCfLookup ; JSONGetElement ( $fieldIDMap ; "alt" ) ) ]
+				Else If [ $mapKey = "pronouns" ]
+					Set Variable [ $fmVal ; Value: $fm_pronouns ]
+					Set Variable [ $baseVal ; Value: JSONGetElement ( $baseCfLookup ; JSONGetElement ( $fieldIDMap ; "pronouns" ) ) ]
+				Else If [ $mapKey = "playbill" ]
+					Set Variable [ $fmVal ; Value: $fm_playbill ]
+					Set Variable [ $baseVal ; Value: JSONGetElement ( $baseCfLookup ; JSONGetElement ( $fieldIDMap ; "playbill" ) ) ]
+				Else If [ $mapKey = "email_primary" ]
+					Set Variable [ $fmVal ; Value: $fm_emailPrimary ]
+					Set Variable [ $baseVal ; Value: JSONGetElement ( $baseCfLookup ; JSONGetElement ( $fieldIDMap ; "email_primary" ) ) ]
+				Else If [ $mapKey = "email_secondary" ]
+					Set Variable [ $fmVal ; Value: $fm_emailSecondary ]
+					Set Variable [ $baseVal ; Value: JSONGetElement ( $baseCfLookup ; JSONGetElement ( $fieldIDMap ; "email_secondary" ) ) ]
+				Else If [ $mapKey = "phone_primary" ]
+					Set Variable [ $fmVal ; Value: $fm_phonePrimary ]
+					Set Variable [ $baseVal ; Value: JSONGetElement ( $baseCfLookup ; JSONGetElement ( $fieldIDMap ; "phone_primary" ) ) ]
+				End If
+				If [ $mapKey = "phone_primary" ]
+					Set Variable [ $cmpFM ; Value: Filter ( $fmVal ; "0123456789" ) ]
+					Set Variable [ $cmpBase ; Value: Filter ( $baseVal ; "0123456789" ) ]
+				Else
+					Set Variable [ $cmpFM ; Value: $fmVal ]
+					Set Variable [ $cmpBase ; Value: $baseVal ]
+				End If
+				If [ not Exact ( $cmpFM ; $cmpBase ) ]
+					If [ $mapKey = "name" ]
+						Set Variable [ $taskBody ; Value: JSONSetElement ( $taskBody ; "name" ; $fmVal ; JSONString ) ]
+						Set Variable [ $hasTaskChange ; Value: 1 ]
+					Else If [ $mapKey = "status" ]
+						Set Variable [ $taskBody ; Value: JSONSetElement ( $taskBody ; "status" ; $fmVal ; JSONString ) ]
+						Set Variable [ $hasTaskChange ; Value: 1 ]
+					Else If [ $mapKey = "phone_primary" ]
+						Set Variable [ $digits ; Value: Filter ( $fmVal ; "0123456789" ) ]
+						If [ Length ( $digits ) = 10 ]
+							Set Variable [ $pushPhone ; Value: "+1" & $digits ]
+						Else If [ Left ( $fmVal ; 1 ) = "+" ]
+							Set Variable [ $pushPhone ; Value: $fmVal ]
+						Else
+							Go to Layout [ $table_syncEvents ; Animation: None ]
+							New Record/Request
+							Set Field [ sync_EVENTS::fk_Session ; $sessionPK ]
+							Set Field [ sync_EVENTS::fk_xtRecord ; $recPK ]
+							Set Field [ sync_EVENTS::fk_vAction ; $pushKey ]
+							Set Field [ sync_EVENTS::HttpStatus ; 0 ]
+							Set Field [ sync_EVENTS::Request ; "phone_primary: " & Quote ( $fmVal ) & " has no country code and is not 10 digits. Skipped." ]
+							Commit Records/Requests [ With dialog: Off ]
+							Set Variable [ $countErrors ; Value: $countErrors + 1 ]
+							Set Variable [ $pushPhone ; Value: "" ]
+						End If
+						If [ not IsEmpty ( $pushPhone ) ]
+							Set Variable [ $cfChanges ; Value: $cfChanges & If ( not IsEmpty ( $cfChanges ) ; "¶" ; "" ) & $mapKey & "†" & $pushPhone ]
+							Set Variable [ $hasCfChange ; Value: 1 ]
+						End If
+					Else
+						Set Variable [ $cfChanges ; Value: $cfChanges & If ( not IsEmpty ( $cfChanges ) ; "¶" ; "" ) & $mapKey & "†" & $fmVal ]
+						Set Variable [ $hasCfChange ; Value: 1 ]
+					End If
+				End If
+			End If
+		End Loop
+		Set Variable [ $didPush ; Value: 0 ]
+		If [ $hasTaskChange = 1 ]
+			Set Variable [ $url ; Value: $baseURL & "/task/" & $taskID ]
+			Set Variable [ $curl ; Value: "-X PUT -H " & Quote ( "Authorization: " & $token ) & " -H " & Quote ( "Content-Type: application/json" ) & " -d " & Quote ( $taskBody ) & " --dump-header $hdr" ]
+			Insert from URL [ Select: Off ; With dialog: Off ; Target: $pushResponse ; $url ; Verify SSL Certificates: On ; cURL options: $curl ]
+			Set Variable [ $httpStatus ; Value: MiddleWords ( GetValue ( $hdr ; 1 ) ; 3 ; 1 ) ]
+			If [ $httpStatus = 429 ]
+				Pause/Resume Script [ Duration (seconds): 60 ]
+				Insert from URL [ Select: Off ; With dialog: Off ; Target: $pushResponse ; $url ; Verify SSL Certificates: On ; cURL options: $curl ]
+				Set Variable [ $httpStatus ; Value: MiddleWords ( GetValue ( $hdr ; 1 ) ; 3 ; 1 ) ]
+			End If
+			Go to Layout [ $table_syncEvents ; Animation: None ]
+			New Record/Request
+			Set Field [ sync_EVENTS::fk_Session ; $sessionPK ]
+			Set Field [ sync_EVENTS::fk_xtRecord ; $recPK ]
+			Set Field [ sync_EVENTS::fk_vAction ; $pushKey ]
+			Set Field [ sync_EVENTS::HttpStatus ; $httpStatus ]
+			Set Field [ sync_EVENTS::Request ; $taskBody ]
+			Set Field [ sync_EVENTS::Response ; $pushResponse ]
+			Commit Records/Requests [ With dialog: Off ]
+			Set Variable [ $didPush ; Value: 1 ]
+			Pause/Resume Script [ Duration (seconds): .7 ]
+		End If
+		If [ $hasCfChange = 1 ]
+			Set Variable [ $cfTotal ; Value: ValueCount ( $cfChanges ) ]
+			Set Variable [ $ci ; Value: 0 ]
+			Loop [ Flush: Always ]
+				Set Variable [ $ci ; Value: $ci + 1 ]
+				Exit Loop If [ $ci > $cfTotal ]
+				Set Variable [ $cfRow ; Value: GetValue ( $cfChanges ; $ci ) ]
+				Set Variable [ $cfParts ; Value: Substitute ( $cfRow ; "†" ; ¶ ) ]
+				Set Variable [ $cfMapKey ; Value: GetValue ( $cfParts ; 1 ) ]
+				Set Variable [ $cfValue ; Value: GetValue ( $cfParts ; 2 ) ]
+				Set Variable [ $cfFieldID ; Value: JSONGetElement ( $fieldIDMap ; $cfMapKey ) ]
+				Set Variable [ $url ; Value: $baseURL & "/task/" & $taskID & "/field/" & $cfFieldID ]
+				Set Variable [ $body ; Value: JSONSetElement ( "{}" ; "value" ; $cfValue ; JSONString ) ]
+				Set Variable [ $curl ; Value: "-X POST -H " & Quote ( "Authorization: " & $token ) & " -H " & Quote ( "Content-Type: application/json" ) & " -d " & Quote ( $body ) & " --dump-header $hdr" ]
+				Insert from URL [ Select: Off ; With dialog: Off ; Target: $cfResponse ; $url ; Verify SSL Certificates: On ; cURL options: $curl ]
+				Set Variable [ $httpStatus ; Value: MiddleWords ( GetValue ( $hdr ; 1 ) ; 3 ; 1 ) ]
+				If [ $httpStatus = 429 ]
+					Pause/Resume Script [ Duration (seconds): 60 ]
+					Insert from URL [ Select: Off ; With dialog: Off ; Target: $cfResponse ; $url ; Verify SSL Certificates: On ; cURL options: $curl ]
+					Set Variable [ $httpStatus ; Value: MiddleWords ( GetValue ( $hdr ; 1 ) ; 3 ; 1 ) ]
+				End If
+				Go to Layout [ $table_syncEvents ; Animation: None ]
+				New Record/Request
+				Set Field [ sync_EVENTS::fk_Session ; $sessionPK ]
+				Set Field [ sync_EVENTS::fk_xtRecord ; $recPK ]
+				Set Field [ sync_EVENTS::fk_vAction ; $pushKey ]
+				Set Field [ sync_EVENTS::HttpStatus ; $httpStatus ]
+				Set Field [ sync_EVENTS::Request ; $body ]
+				Set Field [ sync_EVENTS::Response ; $cfResponse ]
+				Commit Records/Requests [ With dialog: Off ]
+				Set Variable [ $didPush ; Value: 1 ]
+				Pause/Resume Script [ Duration (seconds): .7 ]
+			End Loop
+		End If
+		If [ $didPush = 1 ]
+			Set Variable [ $url ; Value: $baseURL & "/task/" & $taskID ]
+			Set Variable [ $curl ; Value: "-X GET -H " & Quote ( "Authorization: " & $token ) & " -H " & Quote ( "Content-Type: application/json" ) & " --dump-header $hdr" ]
+			Insert from URL [ Select: Off ; With dialog: Off ; Target: $rereadResponse ; $url ; Verify SSL Certificates: On ; cURL options: $curl ]
+			Set Variable [ $httpStatus ; Value: MiddleWords ( GetValue ( $hdr ; 1 ) ; 3 ; 1 ) ]
+			Set Variable [ $newDateUpdated ; Value: JSONGetElement ( $rereadResponse ; "date_updated" ) ]
+			Go to Layout [ $table_xtRecords ; Animation: None ]
+			Enter Find Mode [ Pause: Off ]
+			Set Field [ xt_RECORDS::PrimaryKey ; "==" & $recPK ]
+			Perform Find [ ]
+			Set Field [ xt_RECORDS::xt_Version ; $newDateUpdated ]
+			Set Field [ xt_RECORDS::xt_Label ; JSONGetElement ( $rereadResponse ; "name" ) ]
+			Commit Records/Requests [ With dialog: Off ]
+			Go to Layout [ $table_syncEvents ; Animation: None ]
+			New Record/Request
+			Set Field [ sync_EVENTS::fk_Session ; $sessionPK ]
+			Set Field [ sync_EVENTS::fk_xtRecord ; $recPK ]
+			Set Field [ sync_EVENTS::fk_vAction ; $pullKey ]
+			Set Field [ sync_EVENTS::HttpStatus ; $httpStatus ]
+			Set Field [ sync_EVENTS::Request ; $url ]
+			Set Field [ sync_EVENTS::Response ; $rereadResponse ]
+			Commit Records/Requests [ With dialog: Off ]
+			Set Variable [ $countUpdated ; Value: $countUpdated + 1 ]
+			Pause/Resume Script [ Duration (seconds): .7 ]
+		Else
+			Set Variable [ $countSkipped ; Value: $countSkipped + 1 ]
+		End If
+	End If
+End Loop
+#
+# ================================================================
+# UNJOINED PEOPLE: create tasks in ClickUp
+# ================================================================
+Set Variable [ $allPeople ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( PEOPLE::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( PEOPLE::PrimaryKey ) ) ; "¶" ; "" ) ]
+Set Variable [ $totalPeople ; Value: ValueCount ( $allPeople ) ]
+Set Variable [ $p ; Value: 0 ]
+Loop [ Flush: Always ]
+	Set Variable [ $p ; Value: $p + 1 ]
+	Exit Loop If [ $p > $totalPeople or IsEmpty ( $allPeople ) ]
+	Set Variable [ $pPK ; Value: GetValue ( $allPeople ; $p ) ]
+	Set Variable [ $hasJoin ; Value: ExecuteSQL ( "SELECT COUNT(*) FROM " & sql.Table ( GetFieldName ( XTERNAL_JOINS::PrimaryKey ) ) & " xj JOIN " & sql.Table ( GetFieldName ( xt_RECORDS::PrimaryKey ) ) & " xr ON xj." & sql.Field ( GetFieldName ( XTERNAL_JOINS::fk_xtRecord ) ) & " = xr." & sql.Field ( GetFieldName ( xt_RECORDS::PrimaryKey ) ) & " WHERE xj." & sql.Field ( GetFieldName ( XTERNAL_JOINS::fk_SourceRecord ) ) & " = ? AND xr." & sql.Field ( GetFieldName ( xt_RECORDS::fk_xtContainer ) ) & " = ?" ; "" ; "" ; $pPK ; $containerPK ) ]
+	If [ $hasJoin = 0 ]
+		Set Variable [ $newRow ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( PEOPLE::Name_First ) ) & ", " & sql.Field ( GetFieldName ( PEOPLE::Name_Last ) ) & ", " & sql.Field ( GetFieldName ( PEOPLE::Name_Alternate ) ) & ", " & sql.Field ( GetFieldName ( PEOPLE::Pronouns ) ) & ", " & sql.Field ( GetFieldName ( PEOPLE::NameDisplay_InPlaybills ) ) & ", " & sql.Field ( GetFieldName ( PEOPLE::status_Person ) ) & ", " & sql.Field ( GetFieldName ( PEOPLE::auto_Name_FirstLast ) ) & " FROM " & sql.Table ( GetFieldName ( PEOPLE::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( PEOPLE::PrimaryKey ) ) & " = ?" ; "†" ; "" ; $pPK ) ]
+		Set Variable [ $nParts ; Value: Substitute ( $newRow ; "†" ; ¶ ) ]
+		Set Variable [ $n_first ; Value: GetValue ( $nParts ; 1 ) ]
+		Set Variable [ $n_last ; Value: GetValue ( $nParts ; 2 ) ]
+		Set Variable [ $n_alt ; Value: GetValue ( $nParts ; 3 ) ]
+		Set Variable [ $n_pronouns ; Value: GetValue ( $nParts ; 4 ) ]
+		Set Variable [ $n_playbill ; Value: GetValue ( $nParts ; 5 ) ]
+		Set Variable [ $n_status ; Value: GetValue ( $nParts ; 6 ) ]
+		Set Variable [ $n_name ; Value: GetValue ( $nParts ; 7 ) ]
+		Set Variable [ $contactPK ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( CONTACTS::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( CONTACTS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( CONTACTS::fk_Owner ) ) & " = ?" ; "" ; "" ; $pPK ) ]
+		Set Variable [ $n_email1 ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( contact_EMAILS::EmailAddress ) ) & " FROM " & sql.Table ( GetFieldName ( contact_EMAILS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( contact_EMAILS::fk_Contact ) ) & " = ? AND " & sql.Field ( GetFieldName ( contact_EMAILS::sort_Index ) ) & " = 1" ; "" ; "" ; $contactPK ) ]
+		Set Variable [ $n_email2 ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( contact_EMAILS::EmailAddress ) ) & " FROM " & sql.Table ( GetFieldName ( contact_EMAILS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( contact_EMAILS::fk_Contact ) ) & " = ? AND " & sql.Field ( GetFieldName ( contact_EMAILS::sort_Index ) ) & " = 2" ; "" ; "" ; $contactPK ) ]
+		Set Variable [ $n_phone1 ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( contact_PHONE_NUMBERS::PhoneNumber ) ) & " FROM " & sql.Table ( GetFieldName ( contact_PHONE_NUMBERS::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( contact_PHONE_NUMBERS::fk_Contact ) ) & " = ? AND " & sql.Field ( GetFieldName ( contact_PHONE_NUMBERS::sort_Index ) ) & " = 1" ; "" ; "" ; $contactPK ) ]
+		Set Variable [ $createBody ; Value: JSONSetElement ( "{}" ;
+			[ "name" ; $n_name ; JSONString ] ;
+			[ "status" ; If ( not IsEmpty ( $n_status ) ; $n_status ; "new" ) ; JSONString ] ) ]
+		Set Variable [ $customFields ; Value: "[]" ]
+		Set Variable [ $cfIdx ; Value: 0 ]
+		If [ not IsEmpty ( $n_first ) ]
+			Set Variable [ $customFields ; Value: JSONSetElement ( $customFields ; "[" & $cfIdx & "].id" ; JSONGetElement ( $fieldIDMap ; "first" ) ; JSONString ) ]
+			Set Variable [ $customFields ; Value: JSONSetElement ( $customFields ; "[" & $cfIdx & "].value" ; $n_first ; JSONString ) ]
+			Set Variable [ $cfIdx ; Value: $cfIdx + 1 ]
+		End If
+		If [ not IsEmpty ( $n_last ) ]
+			Set Variable [ $customFields ; Value: JSONSetElement ( $customFields ; "[" & $cfIdx & "].id" ; JSONGetElement ( $fieldIDMap ; "last" ) ; JSONString ) ]
+			Set Variable [ $customFields ; Value: JSONSetElement ( $customFields ; "[" & $cfIdx & "].value" ; $n_last ; JSONString ) ]
+			Set Variable [ $cfIdx ; Value: $cfIdx + 1 ]
+		End If
+		If [ not IsEmpty ( $n_alt ) ]
+			Set Variable [ $customFields ; Value: JSONSetElement ( $customFields ; "[" & $cfIdx & "].id" ; JSONGetElement ( $fieldIDMap ; "alt" ) ; JSONString ) ]
+			Set Variable [ $customFields ; Value: JSONSetElement ( $customFields ; "[" & $cfIdx & "].value" ; $n_alt ; JSONString ) ]
+			Set Variable [ $cfIdx ; Value: $cfIdx + 1 ]
+		End If
+		If [ not IsEmpty ( $n_pronouns ) ]
+			Set Variable [ $customFields ; Value: JSONSetElement ( $customFields ; "[" & $cfIdx & "].id" ; JSONGetElement ( $fieldIDMap ; "pronouns" ) ; JSONString ) ]
+			Set Variable [ $customFields ; Value: JSONSetElement ( $customFields ; "[" & $cfIdx & "].value" ; $n_pronouns ; JSONString ) ]
+			Set Variable [ $cfIdx ; Value: $cfIdx + 1 ]
+		End If
+		If [ not IsEmpty ( $n_playbill ) ]
+			Set Variable [ $customFields ; Value: JSONSetElement ( $customFields ; "[" & $cfIdx & "].id" ; JSONGetElement ( $fieldIDMap ; "playbill" ) ; JSONString ) ]
+			Set Variable [ $customFields ; Value: JSONSetElement ( $customFields ; "[" & $cfIdx & "].value" ; $n_playbill ; JSONString ) ]
+			Set Variable [ $cfIdx ; Value: $cfIdx + 1 ]
+		End If
+		If [ not IsEmpty ( $n_email1 ) ]
+			Set Variable [ $customFields ; Value: JSONSetElement ( $customFields ; "[" & $cfIdx & "].id" ; JSONGetElement ( $fieldIDMap ; "email_primary" ) ; JSONString ) ]
+			Set Variable [ $customFields ; Value: JSONSetElement ( $customFields ; "[" & $cfIdx & "].value" ; $n_email1 ; JSONString ) ]
+			Set Variable [ $cfIdx ; Value: $cfIdx + 1 ]
+		End If
+		If [ not IsEmpty ( $n_email2 ) ]
+			Set Variable [ $customFields ; Value: JSONSetElement ( $customFields ; "[" & $cfIdx & "].id" ; JSONGetElement ( $fieldIDMap ; "email_secondary" ) ; JSONString ) ]
+			Set Variable [ $customFields ; Value: JSONSetElement ( $customFields ; "[" & $cfIdx & "].value" ; $n_email2 ; JSONString ) ]
+			Set Variable [ $cfIdx ; Value: $cfIdx + 1 ]
+		End If
+		If [ not IsEmpty ( $n_phone1 ) ]
+			Set Variable [ $digits ; Value: Filter ( $n_phone1 ; "0123456789" ) ]
+			If [ Length ( $digits ) = 10 ]
+				Set Variable [ $pushPhone ; Value: "+1" & $digits ]
+			Else If [ Left ( $n_phone1 ; 1 ) = "+" ]
+				Set Variable [ $pushPhone ; Value: $n_phone1 ]
+			Else
+				Set Variable [ $pushPhone ; Value: "" ]
+			End If
+			If [ not IsEmpty ( $pushPhone ) ]
+				Set Variable [ $customFields ; Value: JSONSetElement ( $customFields ; "[" & $cfIdx & "].id" ; JSONGetElement ( $fieldIDMap ; "phone_primary" ) ; JSONString ) ]
+				Set Variable [ $customFields ; Value: JSONSetElement ( $customFields ; "[" & $cfIdx & "].value" ; $pushPhone ; JSONString ) ]
+				Set Variable [ $cfIdx ; Value: $cfIdx + 1 ]
+			End If
+		End If
+		If [ $cfIdx > 0 ]
+			Set Variable [ $createBody ; Value: JSONSetElement ( $createBody ; "custom_fields" ; JSONGetElement ( $customFields ; "" ) ; JSONArray ) ]
+		End If
+		Set Variable [ $url ; Value: $baseURL & "/list/" & $listID & "/task" ]
+		Set Variable [ $curl ; Value: "-X POST -H " & Quote ( "Authorization: " & $token ) & " -H " & Quote ( "Content-Type: application/json" ) & " -d " & Quote ( $createBody ) & " --dump-header $hdr" ]
+		Insert from URL [ Select: Off ; With dialog: Off ; Target: $createResponse ; $url ; Verify SSL Certificates: On ; cURL options: $curl ]
+		Set Variable [ $httpStatus ; Value: MiddleWords ( GetValue ( $hdr ; 1 ) ; 3 ; 1 ) ]
+		If [ $httpStatus = 429 ]
+			Pause/Resume Script [ Duration (seconds): 60 ]
+			Insert from URL [ Select: Off ; With dialog: Off ; Target: $createResponse ; $url ; Verify SSL Certificates: On ; cURL options: $curl ]
+			Set Variable [ $httpStatus ; Value: MiddleWords ( GetValue ( $hdr ; 1 ) ; 3 ; 1 ) ]
+		End If
+		Set Variable [ $newTaskID ; Value: JSONGetElement ( $createResponse ; "id" ) ]
+		Set Variable [ $newDateUpdated ; Value: JSONGetElement ( $createResponse ; "date_updated" ) ]
+		If [ not IsEmpty ( $newTaskID ) and $httpStatus = 200 ]
+			Go to Layout [ $table_xtRecords ; Animation: None ]
+			New Record/Request
+			Set Field [ xt_RECORDS::fk_xtContainer ; $containerPK ]
+			Set Field [ xt_RECORDS::xt_ID ; $newTaskID ]
+			Set Field [ xt_RECORDS::xt_Label ; $n_name ]
+			Set Field [ xt_RECORDS::xt_Version ; $newDateUpdated ]
+			Commit Records/Requests [ With dialog: Off ]
+			Set Variable [ $newRecPK ; Value: xt_RECORDS::PrimaryKey ]
+			Go to Layout [ $table_xternalJoins ; Animation: None ]
+			New Record/Request
+			Set Field [ XTERNAL_JOINS::fk_SourceRecord ; $pPK ]
+			Set Field [ XTERNAL_JOINS::fk_xtRecord ; $newRecPK ]
+			Commit Records/Requests [ With dialog: Off ]
+			Go to Layout [ $table_syncEvents ; Animation: None ]
+			New Record/Request
+			Set Field [ sync_EVENTS::fk_Session ; $sessionPK ]
+			Set Field [ sync_EVENTS::fk_xtRecord ; $newRecPK ]
+			Set Field [ sync_EVENTS::fk_vAction ; $pushKey ]
+			Set Field [ sync_EVENTS::HttpStatus ; $httpStatus ]
+			Set Field [ sync_EVENTS::Request ; $createBody ]
+			Set Field [ sync_EVENTS::Response ; $createResponse ]
+			Commit Records/Requests [ With dialog: Off ]
+			New Record/Request
+			Set Field [ sync_EVENTS::fk_Session ; $sessionPK ]
+			Set Field [ sync_EVENTS::fk_xtRecord ; $newRecPK ]
+			Set Field [ sync_EVENTS::fk_vAction ; $pullKey ]
+			Set Field [ sync_EVENTS::HttpStatus ; $httpStatus ]
+			Set Field [ sync_EVENTS::Response ; $createResponse ]
+			Commit Records/Requests [ With dialog: Off ]
+			Set Variable [ $countCreated ; Value: $countCreated + 1 ]
+		Else
+			Set Variable [ $countErrors ; Value: $countErrors + 1 ]
+		End If
+		Pause/Resume Script [ Duration (seconds): .7 ]
+	End If
+End Loop
+#
+Set Variable [ $totalCount ; Value: $countUpdated + $countCreated ]
+Show Custom Dialog [ Get ( ScriptName ) ; "Updated: " & $countUpdated & "¶Created: " & $countCreated & "¶Skipped: " & $countSkipped & "¶Errors: " & $countErrors ]
+Exit Script [ Text Result: JSONSetElement ( "{}" ;
+	[ "ok" ; 1 ; JSONNumber ] ;
+	[ "count" ; $totalCount ; JSONNumber ] ;
+	[ "updated" ; $countUpdated ; JSONNumber ] ;
+	[ "created" ; $countCreated ; JSONNumber ] ;
+	[ "skipped" ; $countSkipped ; JSONNumber ] ;
+	[ "errors" ; $countErrors ; JSONNumber ] ) ]
