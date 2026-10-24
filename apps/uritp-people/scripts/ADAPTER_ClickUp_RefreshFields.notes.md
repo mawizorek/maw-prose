@@ -1,6 +1,6 @@
 ---
 id: uritp-people-script-adapter-clickup-refreshfields
-title: ADAPTER_ClickUp_RefreshFields
+title: "adapter | clickup_Refresh_Fields"
 type: reference
 status: public
 order: 21
@@ -8,7 +8,7 @@ revised: 2026-10
 summary: The first script in the file that calls ClickUp. Fills xt_FIELDS names and types from the list's custom-field endpoint, and reports a mapped field ClickUp no longer has.
 ---
 
-# ADAPTER_ClickUp_RefreshFields
+# adapter | clickup_Refresh_Fields
 
 !!! abstract "Grain"
     One container per run. Writes `xt_FieldName` and `xt_FieldType` on its `xt_FIELDS` rows and nothing else.
@@ -42,4 +42,4 @@ Reads `BaseURL` and `Token` off the `xt_SYSTEMS` row itself, from the key the di
 
 The inner loop rescans the JSON array per row, so the cost is rows × fields. At ten rows against a list of this size that is nothing, and the flat shape is worth more than the speed. If a container ever maps dozens of fields, build a lookup once instead.
 
-The HTTP status is read from the first line of the dumped header with `MiddleWords`, paired with `Get ( LastError )` so a transport failure and a non-200 are both caught. A 429 is not retried here: that belongs in the pull, where it is worth the complexity, not in a housekeeping script run by hand.
+The HTTP status is read from the first line of the dumped header with `MiddleWords` (word 3, since FileMaker treats `/` in `HTTP/1.1` as a word break), paired with `Get ( LastError )` so a transport failure and a non-200 are both caught. A 429 is not retried here: that belongs in the pull, where it is worth the complexity, not in a housekeeping script run by hand.
