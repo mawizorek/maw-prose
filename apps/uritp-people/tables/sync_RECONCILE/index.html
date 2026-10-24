@@ -632,6 +632,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -1873,7 +1877,7 @@
 <th class="dr-col--tok">Field_Name</th>
 <th class="dr-col--tok">Type</th>
 <th class="dr-col--prose">Options</th>
-<th class="dr-col--tok">Notes</th>
+<th class="dr-col--prose">Notes</th>
 <th class="dr-col--tok">group</th>
 </tr></thead>
 <tbody>
@@ -1882,7 +1886,7 @@
 <td class="dr-col--tok">fk_Session</td>
 <td class="dr-col--tok">Text</td>
 <td class="dr-col--prose">Indexed</td>
-<td class="dr-col--tok">→ sync_SESSIONS::PrimaryKey</td>
+<td class="dr-col--prose">→ sync_SESSIONS::PrimaryKey</td>
 <td class="dr-col--tok">Links</td>
 </tr>
 <tr>
@@ -1890,7 +1894,7 @@
 <td class="dr-col--tok">fk_xtRecord</td>
 <td class="dr-col--tok">Text</td>
 <td class="dr-col--prose">Indexed</td>
-<td class="dr-col--tok">→ xt_RECORDS::PrimaryKey</td>
+<td class="dr-col--prose">→ xt_RECORDS::PrimaryKey</td>
 <td class="dr-col--tok">Links</td>
 </tr>
 <tr>
@@ -1898,7 +1902,7 @@
 <td class="dr-col--tok">fk_xtField</td>
 <td class="dr-col--tok">Text</td>
 <td class="dr-col--prose">Indexed</td>
-<td class="dr-col--tok">→ xt_FIELDS::PrimaryKey</td>
+<td class="dr-col--prose">→ xt_FIELDS::PrimaryKey</td>
 <td class="dr-col--tok">Links</td>
 </tr>
 <tr>
@@ -1906,7 +1910,7 @@
 <td class="dr-col--tok">FM_Value</td>
 <td class="dr-col--tok">Text</td>
 <td class="dr-col--prose"></td>
-<td class="dr-col--tok">What FileMaker has</td>
+<td class="dr-col--prose">What FileMaker has</td>
 <td class="dr-col--tok">Compare</td>
 </tr>
 <tr>
@@ -1914,15 +1918,23 @@
 <td class="dr-col--tok">xt_Value</td>
 <td class="dr-col--tok">Text</td>
 <td class="dr-col--prose"></td>
-<td class="dr-col--tok">What the system has</td>
+<td class="dr-col--prose">What the system has</td>
 <td class="dr-col--tok">Compare</td>
 </tr>
 <tr>
 <td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
-<td class="dr-col--tok">Decision</td>
+<td class="dr-col--tok">fk_vDecision</td>
 <td class="dr-col--tok">Text</td>
-<td class="dr-col--prose">Value list</td>
-<td class="dr-col--tok">pending, fm, xt, applied</td>
+<td class="dr-col--prose">Indexed</td>
+<td class="dr-col--prose">→ VALUES::PrimaryKey (SYNC_DECISION list)</td>
+<td class="dr-col--tok">Links</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">stored_DecisionLabel</td>
+<td class="dr-col--tok">Text</td>
+<td class="dr-col--prose"></td>
+<td class="dr-col--prose">Snapped from VALUES::Name at write time</td>
 <td class="dr-col--tok">Compare</td>
 </tr>
 <tr>
@@ -1930,7 +1942,7 @@
 <td class="dr-col--tok">PrimaryKey</td>
 <td class="dr-col--tok">Text</td>
 <td class="dr-col--prose">UUID · auto-enter · unique · can&#x27;t modify</td>
-<td class="dr-col--tok">Machine-only</td>
+<td class="dr-col--prose">Machine-only</td>
 <td class="dr-col--tok">Audit</td>
 </tr>
 <tr>
@@ -1938,7 +1950,7 @@
 <td class="dr-col--tok">CreationTimestamp</td>
 <td class="dr-col--tok">Timestamp</td>
 <td class="dr-col--prose">Auto-enter</td>
-<td class="dr-col--tok"></td>
+<td class="dr-col--prose"></td>
 <td class="dr-col--tok">Audit</td>
 </tr>
 <tr>
@@ -1946,7 +1958,7 @@
 <td class="dr-col--tok">CreatedBy</td>
 <td class="dr-col--tok">Text</td>
 <td class="dr-col--prose">Auto-enter</td>
-<td class="dr-col--tok"></td>
+<td class="dr-col--prose"></td>
 <td class="dr-col--tok">Audit</td>
 </tr>
 <tr>
@@ -1954,7 +1966,7 @@
 <td class="dr-col--tok">ModificationTimestamp</td>
 <td class="dr-col--tok">Timestamp</td>
 <td class="dr-col--prose">Auto-enter</td>
-<td class="dr-col--tok">When the decision was made</td>
+<td class="dr-col--prose">When the decision was made</td>
 <td class="dr-col--tok">Audit</td>
 </tr>
 <tr>
@@ -1962,12 +1974,12 @@
 <td class="dr-col--tok">ModifiedBy</td>
 <td class="dr-col--tok">Text</td>
 <td class="dr-col--prose">Auto-enter</td>
-<td class="dr-col--tok"></td>
+<td class="dr-col--prose"></td>
 <td class="dr-col--tok">Audit</td>
 </tr>
 <tr class="dr-data__section"><th colspan="6"><span class="dr-data__section-label">- EOF -</span></th></tr>
 </tbody></table>
-<p class="dr-data__source">11 rows &middot; <a href="../sync_RECONCILE.tsv" download>sync_RECONCILE.tsv</a></p>
+<p class="dr-data__source">12 rows &middot; <a href="../sync_RECONCILE.tsv" download>sync_RECONCILE.tsv</a></p>
 </div>
 
 <h2 id="a-decision-not-an-overwrite">A decision, not an overwrite<a class="headerlink" href="#a-decision-not-an-overwrite" title="Permanent link">&para;</a></h2>
@@ -1976,7 +1988,7 @@
 <p>There is no name or task id on the row. The person is found through <a href="../xt_RECORDS/">xt_RECORDS</a>, <a href="../XTERNAL_JOINS/">XTERNAL_JOINS</a> and <a href="../PEOPLE/">PEOPLE</a>.</p>
 <h2 id="contact-values-never-land-here">Contact values never land here<a class="headerlink" href="#contact-values-never-land-here" title="Permanent link">&para;</a></h2>
 <p>Emails and phones are FileMaker's and only ever pushed, so a difference in them is fixed by the next push, not reconciled.</p>
-<p class="dr-revised"><em>Revised 2026-10</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/uritp-people/tables/sync_RECONCILE.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">PR #94</span></span></p>
+<p class="dr-revised"><em>Revised 2026-10</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/uritp-people/tables/sync_RECONCILE.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">6fd8c01</span></span></p>
 
 
 

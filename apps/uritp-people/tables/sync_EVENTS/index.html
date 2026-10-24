@@ -632,6 +632,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -1890,15 +1894,23 @@
 <td class="dr-col--tok">fk_xtRecord</td>
 <td class="dr-col--tok">Text</td>
 <td class="dr-col--prose">Indexed</td>
-<td class="dr-col--prose">→ xt_RECORDS::PrimaryKey. Always filled</td>
+<td class="dr-col--prose">→ xt_RECORDS::PrimaryKey</td>
 <td class="dr-col--tok">Links</td>
 </tr>
 <tr>
 <td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
-<td class="dr-col--tok">Action</td>
+<td class="dr-col--tok">fk_vAction</td>
 <td class="dr-col--tok">Text</td>
-<td class="dr-col--prose">Value list</td>
-<td class="dr-col--prose">pull, push, adopt, export</td>
+<td class="dr-col--prose">Indexed</td>
+<td class="dr-col--prose">→ VALUES::PrimaryKey (SYNC_Action list)</td>
+<td class="dr-col--tok">Links</td>
+</tr>
+<tr>
+<td class="dr-col--tok"><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="conf" style="--dr-mark-color: var(--dr-good)" title="Double-checked against the real thing. Trust it.">Confirmed</span></td>
+<td class="dr-col--tok">stored_ActionLabel</td>
+<td class="dr-col--tok">Text</td>
+<td class="dr-col--prose"></td>
+<td class="dr-col--prose">Snapped from VALUES::Name at write time</td>
 <td class="dr-col--tok">Log</td>
 </tr>
 <tr>
@@ -1967,7 +1979,7 @@
 </tr>
 <tr class="dr-data__section"><th colspan="6"><span class="dr-data__section-label">- EOF -</span></th></tr>
 </tbody></table>
-<p class="dr-data__source">11 rows &middot; <a href="../sync_EVENTS.tsv" download>sync_EVENTS.tsv</a></p>
+<p class="dr-data__source">12 rows &middot; <a href="../sync_EVENTS.tsv" download>sync_EVENTS.tsv</a></p>
 </div>
 
 <h2 id="written-once-never-edited">Written once, never edited<a class="headerlink" href="#written-once-never-edited" title="Permanent link">&para;</a></h2>
@@ -1976,7 +1988,7 @@
 <p><code>Request</code> is the JSON body sent on a push, or the address asked on a pull. <code>Response</code> is what the system replied. "Last pushed" for a record is its newest push row; there is no last-pushed field, error field or stored payload anywhere else in the file.</p>
 <h2 id="errors-are-statuses">Errors are statuses<a class="headerlink" href="#errors-are-statuses" title="Permanent link">&para;</a></h2>
 <p>A failed call is a row with an <code>HttpStatus</code> of 300 or above and the reason in <code>Response</code>.</p>
-<p class="dr-revised"><em>Revised 2026-10</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/uritp-people/tables/sync_EVENTS.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">PR #94</span></span></p>
+<p class="dr-revised"><em>Revised 2026-10</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/uritp-people/tables/sync_EVENTS.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">6fd8c01</span></span></p>
 
 
 

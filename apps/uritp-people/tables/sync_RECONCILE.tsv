@@ -4,7 +4,8 @@ sort	Field_Name	Type	Options	Notes	group
 {.conf}	fk_xtField	Text	Indexed	→ xt_FIELDS::PrimaryKey	Links
 {.conf}	FM_Value	Text		What FileMaker has	Compare
 {.conf}	xt_Value	Text		What the system has	Compare
-{.conf}	Decision	Text	Value list	pending, fm, xt, applied	Compare
+{.conf}	fk_vDecision	Text	Indexed	→ VALUES::PrimaryKey (SYNC_DECISION list)	Links
+{.conf}	stored_DecisionLabel	Text		Snapped from VALUES::Name at write time	Compare
 {.conf}	PrimaryKey	Text	UUID · auto-enter · unique · can't modify	Machine-only	Audit
 {.conf}	CreationTimestamp	Timestamp	Auto-enter		Audit
 {.conf}	CreatedBy	Text	Auto-enter		Audit
