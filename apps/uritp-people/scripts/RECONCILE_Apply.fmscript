@@ -1,0 +1,176 @@
+# RECONCILE_Apply
+# Acts on decided sync_RECONCILE rows. XT rows write to FileMaker, FM rows queue for push.
+# Can be run from sync RUN or standalone after user review.
+# Param (JSON): context block (needs "session" at minimum).
+# Returns (JSON): { "ok" : 1|0, "applied_xt" : n, "applied_fm" : n, "still_pending" : n }
+#
+# --- LAYOUTS ---
+Set Variable [ $table_syncReconcile ; Value: "table | sync_RECONCILE" ]
+Set Variable [ $table_people ; Value: "table | PEOPLE" ]
+Set Variable [ $table_contactEmails ; Value: "table | contact_EMAILS" ]
+Set Variable [ $table_contactPhones ; Value: "table | contact_PHONE_NUMBERS" ]
+#
+Set Error Capture [ On ]
+Allow User Abort [ Off ]
+Set Variable [ $sessionPK ; Value: JSONGetElement ( Get ( ScriptParameter ) ; "session" ) ]
+#
+If [ IsEmpty ( $sessionPK ) ]
+	Exit Script [ Text Result: JSONSetElement ( JSONSetElement ( "{}" ; "ok" ; 0 ; JSONNumber ) ; "error" ; "Missing session." ; JSONString ) ]
+End If
+#
+# ---------- look up decision keys ----------
+Set Variable [ $decisionListPK ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM value_LISTS WHERE Name = 'SYNC_DECISION'" ; "" ; "" ) ]
+Set Variable [ $pendingKey ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM VALUES WHERE fk_List = ? AND Name = 'PENDING'" ; "" ; "" ; $decisionListPK ) ]
+Set Variable [ $fmKey ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM VALUES WHERE fk_List = ? AND Name = 'FM'" ; "" ; "" ; $decisionListPK ) ]
+Set Variable [ $xtKey ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM VALUES WHERE fk_List = ? AND Name = 'XT'" ; "" ; "" ; $decisionListPK ) ]
+Set Variable [ $appliedKey ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM VALUES WHERE fk_List = ? AND Name = 'APPLIED'" ; "" ; "" ; $decisionListPK ) ]
+#
+# ---------- count pending ----------
+Set Variable [ $pendingCount ; Value: ExecuteSQL ( "SELECT COUNT(*) FROM sync_RECONCILE WHERE fk_Session = ? AND fk_vDecision = ?" ; "" ; "" ; $sessionPK ; $pendingKey ) ]
+#
+# ---------- get decided rows (FM or XT, not PENDING, not already APPLIED) ----------
+Set Variable [ $decidedRows ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM sync_RECONCILE WHERE fk_Session = ? AND fk_vDecision <> ? AND fk_vDecision <> ?" ; "¶" ; "" ; $sessionPK ; $pendingKey ; $appliedKey ) ]
+If [ IsEmpty ( $decidedRows ) ]
+	Exit Script [ Text Result: JSONSetElement ( "{}" ;
+		[ "ok" ; 1 ; JSONNumber ] ;
+		[ "applied_xt" ; 0 ; JSONNumber ] ;
+		[ "applied_fm" ; 0 ; JSONNumber ] ;
+		[ "still_pending" ; $pendingCount ; JSONNumber ] ) ]
+End If
+#
+Set Variable [ $total ; Value: ValueCount ( $decidedRows ) ]
+Set Variable [ $countXT ; Value: 0 ]
+Set Variable [ $countFM ; Value: 0 ]
+Set Variable [ $r ; Value: 0 ]
+#
+Loop [ Flush: Always ]
+	Set Variable [ $r ; Value: $r + 1 ]
+	Exit Loop If [ $r > $total ]
+	Set Variable [ $rowPK ; Value: GetValue ( $decidedRows ; $r ) ]
+	#
+	# --- read the reconcile row ---
+	Go to Layout [ $table_syncReconcile ; Animation: None ]
+	If [ Get ( LastError ) ≠ 0 ]
+		Exit Script [ Text Result: JSONSetElement ( JSONSetElement ( "{}" ; "ok" ; 0 ; JSONNumber ) ; "error" ; "Layout " & $table_syncReconcile & " not found." ; JSONString ) ]
+	End If
+	Enter Find Mode [ Pause: Off ]
+	Set Field [ sync_RECONCILE::PrimaryKey ; "==" & $rowPK ]
+	Perform Find [ ]
+	#
+	Set Variable [ $decision ; Value: sync_RECONCILE::fk_vDecision ]
+	Set Variable [ $fieldPK ; Value: sync_RECONCILE::fk_xtField ]
+	Set Variable [ $xtVal ; Value: sync_RECONCILE::xt_Value ]
+	Set Variable [ $recPK ; Value: sync_RECONCILE::fk_xtRecord ]
+	#
+	# --- resolve mapKey ---
+	Set Variable [ $mapKey ; Value: ExecuteSQL ( "SELECT mapKey FROM xt_FIELDS WHERE PrimaryKey = ?" ; "" ; "" ; $fieldPK ) ]
+	#
+	If [ $decision = $xtKey ]
+		# ---------- take ClickUp's value: write to FileMaker ----------
+		Set Variable [ $peoplePK ; Value: ExecuteSQL ( "SELECT fk_SourceRecord FROM XTERNAL_JOINS WHERE fk_xtRecord = ?" ; "" ; "" ; $recPK ) ]
+		Set Variable [ $peoplePK ; Value: GetValue ( $peoplePK ; 1 ) ]
+		#
+		If [ $mapKey = "status" or $mapKey = "first" or $mapKey = "last" or $mapKey = "alt" or $mapKey = "pronouns" or $mapKey = "playbill" ]
+			# --- PEOPLE field ---
+			Go to Layout [ $table_people ; Animation: None ]
+			Enter Find Mode [ Pause: Off ]
+			Set Field [ PEOPLE::PrimaryKey ; "==" & $peoplePK ]
+			Perform Find [ ]
+			# D-043: literal field names.
+			If [ $mapKey = "status" ]
+				Set Field [ PEOPLE::status_Person ; $xtVal ]
+			Else If [ $mapKey = "first" ]
+				Set Field [ PEOPLE::Name_First ; $xtVal ]
+			Else If [ $mapKey = "last" ]
+				Set Field [ PEOPLE::Name_Last ; $xtVal ]
+			Else If [ $mapKey = "alt" ]
+				Set Field [ PEOPLE::Name_Alternate ; $xtVal ]
+			Else If [ $mapKey = "pronouns" ]
+				Set Field [ PEOPLE::Pronouns ; $xtVal ]
+			Else If [ $mapKey = "playbill" ]
+				Set Field [ PEOPLE::NameDisplay_InPlaybills ; $xtVal ]
+			End If
+			Commit Records/Requests [ With dialog: Off ]
+		Else If [ $mapKey = "email_primary" or $mapKey = "email_secondary" ]
+			# --- contact email ---
+			# "Inserts as a new row and moves the old one down, so nothing is lost."
+			Set Variable [ $contactPK ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM CONTACTS WHERE fk_Owner = ?" ; "" ; "" ; $peoplePK ) ]
+			If [ $mapKey = "email_primary" ]
+				Set Variable [ $targetIndex ; Value: 1 ]
+			Else
+				Set Variable [ $targetIndex ; Value: 2 ]
+			End If
+			#
+			# Bump existing rows at or beyond target down by 1.
+			Set Variable [ $bumpRows ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM contact_EMAILS WHERE fk_Contact = ? AND sort_Index >= ? ORDER BY sort_Index DESC" ; "¶" ; "" ; $contactPK ; $targetIndex ) ]
+			If [ not IsEmpty ( $bumpRows ) ]
+				Set Variable [ $bumpCount ; Value: ValueCount ( $bumpRows ) ]
+				Set Variable [ $b ; Value: 0 ]
+				Loop [ Flush: Always ]
+					Set Variable [ $b ; Value: $b + 1 ]
+					Exit Loop If [ $b > $bumpCount ]
+					Set Variable [ $bumpPK ; Value: GetValue ( $bumpRows ; $b ) ]
+					Go to Layout [ $table_contactEmails ; Animation: None ]
+					Enter Find Mode [ Pause: Off ]
+					Set Field [ contact_EMAILS::PrimaryKey ; "==" & $bumpPK ]
+					Perform Find [ ]
+					Set Field [ contact_EMAILS::sort_Index ; contact_EMAILS::sort_Index + 1 ]
+					Commit Records/Requests [ With dialog: Off ]
+				End Loop
+			End If
+			# Insert new row.
+			Go to Layout [ $table_contactEmails ; Animation: None ]
+			New Record/Request
+			Set Field [ contact_EMAILS::fk_Contact ; $contactPK ]
+			Set Field [ contact_EMAILS::EmailAddress ; $xtVal ]
+			Set Field [ contact_EMAILS::sort_Index ; $targetIndex ]
+			Commit Records/Requests [ With dialog: Off ]
+		Else If [ $mapKey = "phone_primary" ]
+			# --- contact phone ---
+			Set Variable [ $contactPK ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM CONTACTS WHERE fk_Owner = ?" ; "" ; "" ; $peoplePK ) ]
+			Set Variable [ $bumpRows ; Value: ExecuteSQL ( "SELECT PrimaryKey FROM contact_PHONE_NUMBERS WHERE fk_Contact = ? AND sort_Index >= 1 ORDER BY sort_Index DESC" ; "¶" ; "" ; $contactPK ) ]
+			If [ not IsEmpty ( $bumpRows ) ]
+				Set Variable [ $bumpCount ; Value: ValueCount ( $bumpRows ) ]
+				Set Variable [ $b ; Value: 0 ]
+				Loop [ Flush: Always ]
+					Set Variable [ $b ; Value: $b + 1 ]
+					Exit Loop If [ $b > $bumpCount ]
+					Set Variable [ $bumpPK ; Value: GetValue ( $bumpRows ; $b ) ]
+					Go to Layout [ $table_contactPhones ; Animation: None ]
+					Enter Find Mode [ Pause: Off ]
+					Set Field [ contact_PHONE_NUMBERS::PrimaryKey ; "==" & $bumpPK ]
+					Perform Find [ ]
+					Set Field [ contact_PHONE_NUMBERS::sort_Index ; contact_PHONE_NUMBERS::sort_Index + 1 ]
+					Commit Records/Requests [ With dialog: Off ]
+				End Loop
+			End If
+			Go to Layout [ $table_contactPhones ; Animation: None ]
+			New Record/Request
+			Set Field [ contact_PHONE_NUMBERS::fk_Contact ; $contactPK ]
+			Set Field [ contact_PHONE_NUMBERS::PhoneNumber ; $xtVal ]
+			Set Field [ contact_PHONE_NUMBERS::sort_Index ; 1 ]
+			Commit Records/Requests [ With dialog: Off ]
+		End If
+		#
+		Set Variable [ $countXT ; Value: $countXT + 1 ]
+	Else If [ $decision = $fmKey ]
+		# Keep FM. The push will send it.
+		Set Variable [ $countFM ; Value: $countFM + 1 ]
+	End If
+	#
+	# --- mark APPLIED ---
+	Go to Layout [ $table_syncReconcile ; Animation: None ]
+	Enter Find Mode [ Pause: Off ]
+	Set Field [ sync_RECONCILE::PrimaryKey ; "==" & $rowPK ]
+	Perform Find [ ]
+	Set Field [ sync_RECONCILE::fk_vDecision ; $appliedKey ]
+	# stored_DecisionLabel auto-enter calc fills from fk_vDecision.
+	Commit Records/Requests [ With dialog: Off ]
+End Loop
+#
+Show Custom Dialog [ "Reconcile" ; "Applied XT (wrote to FM): " & $countXT & "¶Applied FM (queued for push): " & $countFM & "¶Still pending: " & $pendingCount ]
+Exit Script [ Text Result: JSONSetElement ( "{}" ;
+	[ "ok" ; 1 ; JSONNumber ] ;
+	[ "applied_xt" ; $countXT ; JSONNumber ] ;
+	[ "applied_fm" ; $countFM ; JSONNumber ] ;
+	[ "still_pending" ; $pendingCount ; JSONNumber ] ) ]
