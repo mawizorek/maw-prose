@@ -20,6 +20,21 @@ chain changes. Concatenates names up the hierarchy:
 `"Big Love F26 > Light Plot > Final > Sheet 1 > v3.pdf"`. This is the field the hub searches
 against. Not a calculation: a scripted denormalization.
 
+## OCRText
+
+`OCRText` holds extracted text content from the file: OCR output for scanned documents,
+parsed text from PDFs, transcript content for audio/video. Populated on import or by a
+background script. This is what makes SearchPath useful for finding content INSIDE documents,
+not just their names. Without it, you can find "Sheet 1 of the Final Light Plot" but you
+cannot find "instrument 47 on pipe 3."
+
+## Thumbnail
+
+`Thumbnail` is a container field holding a preview image of the file. Auto-generated on
+import for PDFs and images, placeholder icon for other file types. Lives here (not on
+FileLocations) because the thumbnail represents the file's content regardless of where
+the bytes are stored. This is what makes the hub feel like a library instead of a spreadsheet.
+
 ## Fields
 
 | Field | Type | Notes |
@@ -31,6 +46,8 @@ against. Not a calculation: a scripted denormalization.
 | MIMEType | Text | |
 | FileSizeBytes | Number | |
 | SearchPath | Text (indexed) | denormalized, scripted. Not a calc |
+| OCRText | Text | extracted text content. Searchable |
+| Thumbnail | Container | preview image. Auto-generated on import |
 | CreatedTimestamp | Timestamp | |
 | CreatedBy | Text | |
 | Notes | Text | |
@@ -42,3 +59,4 @@ Earlier iterations carried version-chain fields (`fkParentVersion`, `is_current`
 `VersionMessage`) making the file track its own version history. Simplified in the
 2026-10-24 workshop: the file is a dumb atom, the part owns the intelligence.
 FileLocations split out as a child table for multi-location storage.
+OCRText and Thumbnail restored from the original design doc after Shade feature scrub.
