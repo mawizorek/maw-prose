@@ -42,6 +42,143 @@ an FK pointing at an uncut table resolves to nothing silently, forever.
 
 ---
 
+## Storage architecture + intake workstream (locked Oct 2026)
+
+⭐ **PIVOTAL DECISION.** The app is a content registry. FileMaker is the index, the folder is the
+warehouse, the hash is the barcode. This workstream is independent of the renderer seam and the
+DOCUMENT_INSTANCES blocker. It can proceed today.
+
+### The architecture
+
+All files live in **one flat folder** on disk. No subfolders, no FM-managed external storage.
+`g_FILE_REPO` on `GLOBAL_USE_VARIABLES` holds the single base path. Full path =
+`g_FILE_REPO & auto_fileName`. The container field on `ATTACHMENTS` is **reference-only**:
+FM stores a path string, not the bytes.
+
+**Portability:** copy the folder + the `.fmp12` to any machine. Update `g_FILE_REPO`.
+Every file resolves. Hashes verify byte-for-byte identity.
+
+**NAS migration:** move folder to NAS, change `g_FILE_REPO` from local to network path.
+Nothing else changes. `STORAGE_LOCATIONS` table deferred until multiple backends are real.
+
+### Hash identity
+
+`FileHash` = MD5 via `GetContainerAttribute ( container ; "MD5" )`. Content-addressable
+identifier. Same file = same hash, any machine, forever. `HashAlgorithm` self-describes
+which algorithm (future-proofing for SHA-256). One hash per file.
+
+Hash sees file CONTENT bytes only. Not filename, not creation date, not folder path.
+Two copies of the same file with different names = same hash. File edited and re-saved
+= different hash. A file copy (Finder copy, `cp`, download from same source) is always
+byte-for-byte identical = same hash.
+
+### Auto-enter calcs (not scripts)
+
+All five metadata fields on `ATTACHMENTS` use auto-enter calculations, "Do not replace
+existing value" **unchecked**:
+
+| Field | Calc |
+|---|---|
+| `auto_fileName` | `GetContainerAttribute ( Attachment ; "filename" )` |
+| `auto_fileSize` | `GetContainerAttribute ( Attachment ; "fileSize" )` |
+| `auto_fileType` | `GetContainerAttribute ( Attachment ; "fileType" )` |
+| `FileHash` | `GetContainerAttribute ( Attachment ; "MD5" )` |
+| `HashAlgorithm` | `"MD5"` |
+
+Zero scripts for metadata population. Drop a file, everything fills.
+
+### `UTIL_ScaffoldChain` — bottom-up chain builder
+
+When a file is dropped with no parent context (triage/inbox), the script builds the full
+chain upward:
+
+1. File lands in `ATTACHMENTS` → auto-enter calcs fire
+2. Hash check: duplicate? → flag, show existing record
+3. `fkPart` empty? → create `DOCUMENT_PARTS`, set FK
+4. Part has no `fkDocumentInstance`? → create `DOCUMENT_INSTANCES`, set FK
+5. Instance has no `fkDocument`? → create `DOCUMENTS`, pre-fill title from filename, set FK
+
+One drop, four records. Context-aware: if dropped into an existing portal with `fkPart`
+already set, skips steps 3-5.
+
+### `UTIL_VerifyFolder` — folder reconciliation
+
+Periodic script walks `g_FILE_REPO`, hashes each file, compares against `ATTACHMENTS`:
+
+- **Orphan**: FM record pointing at file that no longer exists
+- **Stray**: file in folder with no matching FM record → creates stub `ATTACHMENTS`
+  record with `IsStray = 1`, no FK chain
+- **Renamed duplicate**: file whose hash matches existing record under different filename
+
+Stray triage layout shows unlinked records with:
+- "Create Document + Instance + Part" (scaffolds full chain)
+- "Link to existing Part" (sets fkPart)
+
+### Duplicate detection
+
+Conditional format on `FileHash`:
+`ExecuteSQL("SELECT COUNT(*) FROM ATTACHMENTS WHERE FileHash = ?"; ""; ""; FileHash) > 1`
+Highlights duplicates in red.
+
+### Two reconciliation use cases
+
+**Reconcile two libraries:** hash every file in Folder A and Folder B, diff the hash lists.
+Hashes in A but not B = files missing from B. This is `git status` for your filing cabinet.
+
+**ClickUp → FMP migration:** 314 indexed attachments in MAW Documents ClickUp space.
+7 contexts, 17 subjects, 19 document types ready to seed as FMP value lists.
+259 documents, 295 instances, 38 parts = initial import population.
+
+### Build phases (this workstream)
+
+**Phase 1: Hash + intake + duplicate detection**
+
+1. Add 3 fields to `ATTACHMENTS`: `FileHash` (text, indexed), `HashAlgorithm` (text),
+   `auto_fileType` (text)
+2. Set auto-enter calcs on all 5 metadata fields (uncheck "do not replace")
+3. Build `DOCUMENT_PARTS` detail layout with `ATTACHMENTS` portal (Allow Creation)
+4. Conditional format on `FileHash` for duplicate highlighting
+5. **Test:** drop a PDF. Hash, filename, size, type populate. Drop same PDF again: red highlight.
+
+**Phase 2: Folder verification + stray handling**
+
+6. Write `UTIL_VerifyFolder` script
+7. Build stray triage layout for unlinked `ATTACHMENTS` records
+8. Write `UTIL_ScaffoldChain` script
+9. **Test:** put 3 files in `g_FILE_REPO` folder with no FM records. Run verify. Three stub
+   records appear with `IsStray = 1`. Scaffold one into a full chain. Confirm Document created.
+
+**Phase 3: Classification tables**
+
+10. Create `CONTEXTS`, `SUBJECTS`, `DOCUMENT_TYPES` (PK, Name, SortIndex, IsActive)
+11. Create join tables: `DOCUMENT_CONTEXTS`, `DOCUMENT_SUBJECTS`, `DOCUMENT_DOCUMENT_TYPES`
+12. Seed from ClickUp dropdowns (7 + 17 + 19 rows)
+13. Add classification portals/checkboxes to Document layout
+14. **Test:** tag a document with 2 contexts and 3 subjects. Filter hub by context. Correct
+    documents appear.
+
+**Phase 4: Matrix layout**
+
+15. Add slot globals to `GLOBAL_USE_VARIABLES` (`gSlot1` through `gSlot5`)
+16. Build matrix layout on `DOCUMENTS` (list left, filtered portals right)
+17. **Test:** assign 3 contexts to slots. Matrix shows documents × contexts. Gaps visible.
+
+### Exit tests (this workstream)
+
+10. **Hash identity** → drop one PDF, note the hash. Copy it, rename the copy, drop the copy.
+    Same hash. **Edit** the copy (open in Preview, add annotation, save). Different hash.
+11. **Portability** → copy folder + `.fmp12` to Desktop. Open. Change `g_FILE_REPO`. Every
+    file still opens from the hub. Hashes unchanged.
+12. **ScaffoldChain** → drop a file with no parent context. Four records created:
+    Document + Instance + Part + Attachment. Title = filename minus extension.
+13. **ScaffoldChain (existing context)** → drop a file into a Part portal. Only Attachment
+    record created. No orphan Document.
+14. **Verification** → delete one file from the folder. Run `UTIL_VerifyFolder`. Orphan flagged.
+    Add one file to the folder with no FM record. Run verify. Stray created with `IsStray = 1`.
+15. **Duplicate** → two Attachment records with the same hash. Both rows highlight red.
+
+---
+
 ## The renderer seam — FMP → TSV → git → rendered page
 
 ⭐ **THE SEAM IS ALREADY BUILT AND IT IS NOT A MANIFEST FORMAT.** `doc-render-engine` stage 01b
@@ -249,7 +386,7 @@ produced it.
 
 ---
 
-## Build order
+## Build order (renderer + schema cleanup)
 
 1. **Answer the `DOCUMENT_INSTANCES` question.** Read Manage, write the answer into `schema-notes.md`.
 2. **Delete the two dead FKs** (`fkPeopleJoins`, `fkOrgRoleJoin`) while both children are empty.
@@ -314,6 +451,17 @@ it: a catalogue with no duplicate-`PageID` check is a list, not a constraint.
    must **stop the build**: (a) a `CatalogOnly` document that has a page row, (b) two page rows
    carrying the same `PageID`, (c) an `@id` reference whose target `PageID` does not exist.
    ⚠️ **Today all three pass silently.** That is what this table is for.
+10. **Hash identity** → drop one PDF, note the hash. Copy it, rename the copy, drop the copy.
+    Same hash. **Edit** the copy (open in Preview, add annotation, save). Different hash.
+11. **Portability** → copy folder + `.fmp12` to Desktop. Open. Change `g_FILE_REPO`. Every
+    file still opens from the hub. Hashes unchanged.
+12. **ScaffoldChain** → drop a file with no parent context. Four records created:
+    Document + Instance + Part + Attachment. Title = filename minus extension.
+13. **ScaffoldChain (existing context)** → drop a file into a Part portal. Only Attachment
+    record created. No orphan Document.
+14. **Verification** → delete one file from the folder. Run `UTIL_VerifyFolder`. Orphan flagged.
+    Add one file to the folder with no FM record. Run verify. Stray created with `IsStray = 1`.
+15. **Duplicate** → two Attachment records with the same hash. Both rows highlight red.
 
 <!-- AGENT NOTE · why the exit tests are shaped this way.
 Step 5's forced failure is the one nobody runs and the only one that matters: a partial purchase
@@ -328,6 +476,7 @@ would render correctly either way.
 Step 9c is not hypothetical. The safety site carried four dangling @id refs after two deletions, and
 housekeeping.md rendered nearly empty after commit 3882b7f removed 40 lines. Nothing reported either
 one. A catalogue that cannot answer "does every @id resolve" is decoration.
+Tests 10-15 added Oct 2026 for the storage/intake workstream.
 -->
 
 ---
