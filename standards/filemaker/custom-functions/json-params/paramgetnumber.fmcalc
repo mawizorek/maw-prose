@@ -4,5 +4,5 @@
 Case (
     ParamHas ( json ; key ) ;
     GetAsNumber ( JSONGetElement ( json ; key ) ) ;
-    default
+    fallback
 )
