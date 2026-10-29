@@ -1,8 +1,6 @@
-# The job
 
-*What the Head Electrician is on the hook for. Source: `URITP Head Electrician`, version 2026; checked 2026-07-30.*
 
-You are the contact person for every lighting and electrical question on your production, and the custodian of the lighting instruments and equipment for the length of your assignment. Both halves matter. The first is what people ask you for; the second is what you get blamed for in November when nobody can find the cable.
+You are the contact person for every lighting and electrical question on your production, and the custodian of the lighting instruments and equipment for the length of your assignment.
 
 ## Who you answer to, and who answers to you
 
