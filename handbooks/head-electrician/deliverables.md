@@ -1,14 +1,3 @@
-# Deliverables
-
-*What you owe, and roughly when. Source: `URITP Head Electrician`, version 2026; checked 2026-07-30.*
-
-## Going in
-
-You provide the Lighting Designer the paperwork they need to design against: plots, budget, inventory, and tech specs. Then you go the other direction and track and review everything that comes back from the LD with the Production Manager, the Technical Director, and the other department heads. You are the filter between a designer's drawing and what the building can actually do.
-
-On every plot version you provide a **feasibility update**. This is the most valuable thing you produce and the easiest to skip. It is also where you generate the parts the designer does not: the install plan and the cabling plan, which are yours to author rather than theirs to submit.
-
-Before the process starts, the lighting and cable inventories are accurate and up to date. Not mostly. A budget conversation built on a wrong inventory count is a conversation you will have twice.
 
 ## Coming out
 
