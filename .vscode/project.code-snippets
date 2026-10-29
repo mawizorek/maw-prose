@@ -1154,75 +1154,145 @@
     "body": "@uritp-people",
     "description": "apps/uritp-people/README.md"
   },
-  "uritp-people-table-app-layouts": {
-    "prefix": "@uritp-people-table-app-layouts",
-    "body": "@uritp-people-table-app-layouts",
-    "description": "apps/uritp-people/tables/APP_LAYOUTS.md"
+  "uritp-people-sync-plan": {
+    "prefix": "@uritp-people-sync-plan",
+    "body": "@uritp-people-sync-plan",
+    "description": "apps/uritp-people/sync-plan.md"
   },
-  "uritp-people-table-settings": {
-    "prefix": "@uritp-people-table-settings",
-    "body": "@uritp-people-table-settings",
-    "description": "apps/uritp-people/tables/SETTINGS.md"
+  "uritp-people-table-xt-containers": {
+    "prefix": "@uritp-people-table-xt-containers",
+    "body": "@uritp-people-table-xt-containers",
+    "description": "apps/uritp-people/tables/xt_CONTAINERS.md"
   },
-  "uritp-people-table-import-people": {
-    "prefix": "@uritp-people-table-import-people",
-    "body": "@uritp-people-table-import-people",
-    "description": "apps/uritp-people/tables/import_PEOPLE.md"
+  "uritp-people-table-organizations": {
+    "prefix": "@uritp-people-table-organizations",
+    "body": "@uritp-people-table-organizations",
+    "description": "apps/uritp-people/tables/ORGANIZATIONS.md"
   },
-  "uritp-people-table-import-sessions": {
-    "prefix": "@uritp-people-table-import-sessions",
-    "body": "@uritp-people-table-import-sessions",
-    "description": "apps/uritp-people/tables/import_SESSIONS.md"
+  "uritp-people-table-sync-reconcile": {
+    "prefix": "@uritp-people-table-sync-reconcile",
+    "body": "@uritp-people-table-sync-reconcile",
+    "description": "apps/uritp-people/tables/sync_RECONCILE.md"
+  },
+  "uritp-people-table-contact-address": {
+    "prefix": "@uritp-people-table-contact-address",
+    "body": "@uritp-people-table-contact-address",
+    "description": "apps/uritp-people/tables/contact_ADDRESS.md"
+  },
+  "uritp-people-table-xt-systems": {
+    "prefix": "@uritp-people-table-xt-systems",
+    "body": "@uritp-people-table-xt-systems",
+    "description": "apps/uritp-people/tables/xt_SYSTEMS.md"
   },
   "uritp-people-table-people": {
     "prefix": "@uritp-people-table-people",
     "body": "@uritp-people-table-people",
     "description": "apps/uritp-people/tables/PEOPLE.md"
   },
-  "uritp-people-table-reconcile": {
-    "prefix": "@uritp-people-table-reconcile",
-    "body": "@uritp-people-table-reconcile",
-    "description": "apps/uritp-people/tables/RECONCILE.md"
+  "uritp-people-table-xt-records": {
+    "prefix": "@uritp-people-table-xt-records",
+    "body": "@uritp-people-table-xt-records",
+    "description": "apps/uritp-people/tables/xt_RECORDS.md"
   },
-  "uritp-people-table-contact-information": {
-    "prefix": "@uritp-people-table-contact-information",
-    "body": "@uritp-people-table-contact-information",
-    "description": "apps/uritp-people/tables/CONTACT_INFORMATION.md"
+  "uritp-people-table-value-lists": {
+    "prefix": "@uritp-people-table-value-lists",
+    "body": "@uritp-people-table-value-lists",
+    "description": "apps/uritp-people/tables/value_LISTS.md"
   },
-  "uritp-people-table-app-tables": {
-    "prefix": "@uritp-people-table-app-tables",
-    "body": "@uritp-people-table-app-tables",
-    "description": "apps/uritp-people/tables/APP_TABLES.md"
+  "uritp-people-table-xternal-joins": {
+    "prefix": "@uritp-people-table-xternal-joins",
+    "body": "@uritp-people-table-xternal-joins",
+    "description": "apps/uritp-people/tables/XTERNAL_JOINS.md"
   },
-  "uritp-people-table-import-sources": {
-    "prefix": "@uritp-people-table-import-sources",
-    "body": "@uritp-people-table-import-sources",
-    "description": "apps/uritp-people/tables/IMPORT_SOURCES.md"
+  "uritp-people-table-people-students": {
+    "prefix": "@uritp-people-table-people-students",
+    "body": "@uritp-people-table-people-students",
+    "description": "apps/uritp-people/tables/people_STUDENTS.md"
   },
-  "uritp-people-layout-reconcile": {
-    "prefix": "@uritp-people-layout-reconcile",
-    "body": "@uritp-people-layout-reconcile",
-    "description": "apps/uritp-people/layouts/RECONCILE.md"
+  "uritp-people-table-sync-events": {
+    "prefix": "@uritp-people-table-sync-events",
+    "body": "@uritp-people-table-sync-events",
+    "description": "apps/uritp-people/tables/sync_EVENTS.md"
   },
-  "uritp-people-script-people-pull": {
-    "prefix": "@uritp-people-script-people-pull",
-    "body": "@uritp-people-script-people-pull",
-    "description": "apps/uritp-people/scripts/10_IMPORT/PEOPLE_Pull.notes.md"
+  "uritp-people-table-contact-emails": {
+    "prefix": "@uritp-people-table-contact-emails",
+    "body": "@uritp-people-table-contact-emails",
+    "description": "apps/uritp-people/tables/contact_EMAILS.md"
   },
-  "uritp-people-script-people-apply": {
-    "prefix": "@uritp-people-script-people-apply",
-    "body": "@uritp-people-script-people-apply",
-    "description": "apps/uritp-people/scripts/10_IMPORT/PEOPLE_Apply.notes.md"
+  "uritp-people-table-xt-fields": {
+    "prefix": "@uritp-people-table-xt-fields",
+    "body": "@uritp-people-table-xt-fields",
+    "description": "apps/uritp-people/tables/xt_FIELDS.md"
   },
-  "uritp-people-script-reconcile-setall": {
-    "prefix": "@uritp-people-script-reconcile-setall",
-    "body": "@uritp-people-script-reconcile-setall",
-    "description": "apps/uritp-people/scripts/10_IMPORT/RECONCILE_SetAll.notes.md"
+  "uritp-people-table-values": {
+    "prefix": "@uritp-people-table-values",
+    "body": "@uritp-people-table-values",
+    "description": "apps/uritp-people/tables/VALUES.md"
   },
-  "uritp-people-script-people-compare": {
-    "prefix": "@uritp-people-script-people-compare",
-    "body": "@uritp-people-script-people-compare",
-    "description": "apps/uritp-people/scripts/10_IMPORT/PEOPLE_Compare.notes.md"
+  "uritp-people-table-contacts": {
+    "prefix": "@uritp-people-table-contacts",
+    "body": "@uritp-people-table-contacts",
+    "description": "apps/uritp-people/tables/CONTACTS.md"
+  },
+  "uritp-people-table-global-use": {
+    "prefix": "@uritp-people-table-global-use",
+    "body": "@uritp-people-table-global-use",
+    "description": "apps/uritp-people/tables/GLOBAL_USE.md"
+  },
+  "uritp-people-table-target-tables": {
+    "prefix": "@uritp-people-table-target-tables",
+    "body": "@uritp-people-table-target-tables",
+    "description": "apps/uritp-people/tables/Target_Tables.md"
+  },
+  "uritp-people-table-people-adults": {
+    "prefix": "@uritp-people-table-people-adults",
+    "body": "@uritp-people-table-people-adults",
+    "description": "apps/uritp-people/tables/people_ADULTS.md"
+  },
+  "uritp-people-table-contact-phone-numbers": {
+    "prefix": "@uritp-people-table-contact-phone-numbers",
+    "body": "@uritp-people-table-contact-phone-numbers",
+    "description": "apps/uritp-people/tables/contact_PHONE_NUMBERS.md"
+  },
+  "uritp-people-table-sync-sources": {
+    "prefix": "@uritp-people-table-sync-sources",
+    "body": "@uritp-people-table-sync-sources",
+    "description": "apps/uritp-people/tables/sync_SOURCES.md"
+  },
+  "uritp-people-table-sync-sessions": {
+    "prefix": "@uritp-people-table-sync-sessions",
+    "body": "@uritp-people-table-sync-sessions",
+    "description": "apps/uritp-people/tables/sync_SESSIONS.md"
+  },
+  "uritp-people-table-venues": {
+    "prefix": "@uritp-people-table-venues",
+    "body": "@uritp-people-table-venues",
+    "description": "apps/uritp-people/tables/VENUES.md"
+  },
+  "uritp-people-script-app-catalog-refresh": {
+    "prefix": "@uritp-people-script-app-catalog-refresh",
+    "body": "@uritp-people-script-app-catalog-refresh",
+    "description": "apps/uritp-people/scripts/APP_CatalogRefresh.md"
+  },
+  "uritp-people-script-adapter-clickup-refreshfields": {
+    "prefix": "@uritp-people-script-adapter-clickup-refreshfields",
+    "body": "@uritp-people-script-adapter-clickup-refreshfields",
+    "description": "apps/uritp-people/scripts/ADAPTER_ClickUp_RefreshFields.notes.md"
+  },
+  "uritp-people-script-xt-refresh-fields": {
+    "prefix": "@uritp-people-script-xt-refresh-fields",
+    "body": "@uritp-people-script-xt-refresh-fields",
+    "description": "apps/uritp-people/scripts/XT_Refresh_Fields.notes.md"
+  },
+  "uritp-people-script-sync-run": {
+    "prefix": "@uritp-people-script-sync-run",
+    "body": "@uritp-people-script-sync-run",
+    "description": "apps/uritp-people/scripts/SYNC_Run.notes.md"
+  },
+  "uritp-people-script-adapter-clickup-pull": {
+    "prefix": "@uritp-people-script-adapter-clickup-pull",
+    "body": "@uritp-people-script-adapter-clickup-pull",
+    "description": "apps/uritp-people/scripts/ADAPTER_ClickUp_Pull.notes.md"
   },
   "uritp-people-relationships": {
     "prefix": "@uritp-people-relationships",
