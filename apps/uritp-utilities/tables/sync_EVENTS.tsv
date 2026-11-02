@@ -1,0 +1,14 @@
+Field_Name	Type	Options	Notes	status
+fk_Session	Text	Indexed	sync_SESSIONS::PrimaryKey	Links
+xt_Key	Text	Indexed	External identity, not xt_RECORDS::PrimaryKey	External
+ActionCode	Text	Not empty; strict; calculation validation	Must exist in VALUES under sync_action; parameterized sql.* lookup	Log
+stored_ActionLabel	Text	Snapshot at write time	Label from VALUES::Name; never a matching key	Log
+SourceFile	Text		App-reported provenance, never a local app primary key	Log
+HttpStatus	Number		External HTTP status; 200 is OK	Log
+Request	Text		JSON request body or GET address; never contains token	Log
+Response	Text		External response; credentials must not be logged	Log
+PrimaryKey	Text	Auto-enter Get ( UUID ); unique; cannot modify	Machine identity	Audit
+CreationTimestamp	Timestamp	Auto-enter	When event occurred	Audit
+CreatedBy	Text	Auto-enter		Audit
+ModificationTimestamp	Timestamp	Auto-enter		Audit
+ModifiedBy	Text	Auto-enter		Audit

@@ -1,0 +1,10 @@
+Field_Name	Type	Options	Notes	status
+fk_System	Text	Indexed; not empty	xt_SYSTEMS::PrimaryKey	Links
+xt_ID	Text	Indexed; not empty	ClickUp List ID or GitHub owner/repo	External
+Name	Text		Display label only	Settings
+isActive	Number	Auto-enter 1; range 0-1	Container enabled	Settings
+PrimaryKey	Text	Auto-enter Get ( UUID ); unique; cannot modify	Machine identity	Audit
+CreationTimestamp	Timestamp	Auto-enter		Audit
+CreatedBy	Text	Auto-enter		Audit
+ModificationTimestamp	Timestamp	Auto-enter		Audit
+ModifiedBy	Text	Auto-enter		Audit

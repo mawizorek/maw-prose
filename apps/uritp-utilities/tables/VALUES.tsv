@@ -1,0 +1,11 @@
+Field_Name	Type	Options	Notes	status
+fk_List	Text	Indexed	value_LISTS::PrimaryKey	Links
+Code	Text	Not empty; strict; validate [a-z0-9_]+	Immutable value code scoped to its list; written by seed	Settings
+uniq_ListCode	Text	Auto-enter calculation; stored; unique	fk_List & "|" & Code	Settings
+Name	Text		Display label only	Facts
+sort_Index	Number		Menu order	Facts
+PrimaryKey	Text	Auto-enter Get ( UUID ); unique; cannot modify	Machine identity	Audit
+CreationTimestamp	Timestamp	Auto-enter		Audit
+CreatedBy	Text	Auto-enter		Audit
+ModificationTimestamp	Timestamp	Auto-enter		Audit
+ModifiedBy	Text	Auto-enter		Audit
