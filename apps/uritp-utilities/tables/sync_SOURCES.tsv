@@ -1,0 +1,10 @@
+Field_Name	Type	Options	Notes	status
+fk_Container	Text	Indexed; not empty	xt_CONTAINERS::PrimaryKey	Links
+xt_ViewPath	Text		ClickUp view ID or GitHub file path; ClickUp view includes closed tasks	External
+isActive	Number	Auto-enter 1; range 0-1	Source enabled	Settings
+Name	Text		Display label only; never a source-name script parameter	Settings
+PrimaryKey	Text	Auto-enter Get ( UUID ); unique; cannot modify	Machine identity	Audit
+CreationTimestamp	Timestamp	Auto-enter		Audit
+CreatedBy	Text	Auto-enter		Audit
+ModificationTimestamp	Timestamp	Auto-enter		Audit
+ModifiedBy	Text	Auto-enter		Audit
