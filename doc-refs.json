@@ -1,13 +1,13 @@
 {
   "site": "mawprose",
   "base_url": "https://mawizorek.github.io/maw-prose/",
-  "built": "2026-11-02T12:50:24Z",
+  "built": "2026-11-02T12:56:31Z",
   "engine": "0.1.0",
   "totals": {
-    "pages": 133,
-    "edges": 454,
+    "pages": 144,
+    "edges": 464,
     "broken": 16,
-    "no_inbound": 23
+    "no_inbound": 26
   },
   "no_inbound": [
     "delete-me-new-activity-log",
@@ -32,7 +32,10 @@
     "uritp-people-table-sync-sources",
     "uritp-people-table-xt-containers",
     "uritp-people-table-xt-fields",
-    "uritp-people-table-xt-systems"
+    "uritp-people-table-xt-systems",
+    "uritp-utilities-build-sheet",
+    "uritp-utilities-next-build-spec",
+    "uritp-utilities-table-xt-fields"
   ],
   "broken": [
     {
@@ -4867,6 +4870,201 @@
         "uritp-people-table-xt-records"
       ],
       "inbound": 4,
+      "outbound": 1
+    },
+    "uritp-utilities-build-sheet": {
+      "title": "URITP Utilities build sheet",
+      "url": "apps/uritp-utilities/build-sheet/",
+      "type": "reference",
+      "references": [],
+      "referenced_by": [],
+      "inbound": 0,
+      "outbound": 0
+    },
+    "uritp-utilities-next-build-spec": {
+      "title": "URITP Utilities next build spec",
+      "url": "apps/uritp-utilities/next-build-spec/",
+      "type": "reference",
+      "references": [],
+      "referenced_by": [],
+      "inbound": 0,
+      "outbound": 0
+    },
+    "uritp-utilities-table-sync-events": {
+      "title": "sync_EVENTS",
+      "url": "apps/uritp-utilities/tables/sync_EVENTS/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "uritp-utilities-table-sync-sessions",
+          "kind": "page",
+          "target": "uritp-utilities-table-sync-sessions",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "uritp-utilities-table-values",
+          "kind": "page",
+          "target": "uritp-utilities-table-values",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "uritp-utilities-table-xt-records",
+          "kind": "page",
+          "target": "uritp-utilities-table-xt-records",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "uritp-utilities-table-xt-records"
+      ],
+      "inbound": 1,
+      "outbound": 3
+    },
+    "uritp-utilities-table-sync-sessions": {
+      "title": "sync_SESSIONS",
+      "url": "apps/uritp-utilities/tables/sync_SESSIONS/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "uritp-utilities-table-sync-sources",
+          "kind": "page",
+          "target": "uritp-utilities-table-sync-sources",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "uritp-utilities-table-sync-events"
+      ],
+      "inbound": 1,
+      "outbound": 1
+    },
+    "uritp-utilities-table-sync-sources": {
+      "title": "sync_SOURCES",
+      "url": "apps/uritp-utilities/tables/sync_SOURCES/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "uritp-utilities-table-xt-containers",
+          "kind": "page",
+          "target": "uritp-utilities-table-xt-containers",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "uritp-utilities-table-sync-sessions"
+      ],
+      "inbound": 1,
+      "outbound": 1
+    },
+    "uritp-utilities-table-value-lists": {
+      "title": "value_LISTS",
+      "url": "apps/uritp-utilities/tables/value_LISTS/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "uritp-utilities-table-values",
+          "kind": "page",
+          "target": "uritp-utilities-table-values",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "uritp-utilities-table-values"
+      ],
+      "inbound": 1,
+      "outbound": 1
+    },
+    "uritp-utilities-table-values": {
+      "title": "VALUES",
+      "url": "apps/uritp-utilities/tables/VALUES/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "uritp-utilities-table-value-lists",
+          "kind": "page",
+          "target": "uritp-utilities-table-value-lists",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "uritp-utilities-table-sync-events",
+        "uritp-utilities-table-value-lists"
+      ],
+      "inbound": 2,
+      "outbound": 1
+    },
+    "uritp-utilities-table-xt-containers": {
+      "title": "xt_CONTAINERS",
+      "url": "apps/uritp-utilities/tables/xt_CONTAINERS/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "uritp-utilities-table-xt-systems",
+          "kind": "page",
+          "target": "uritp-utilities-table-xt-systems",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "uritp-utilities-table-sync-sources",
+        "uritp-utilities-table-xt-systems"
+      ],
+      "inbound": 2,
+      "outbound": 1
+    },
+    "uritp-utilities-table-xt-fields": {
+      "title": "xt_FIELDS",
+      "url": "apps/uritp-utilities/tables/xt_FIELDS/",
+      "type": "reference",
+      "references": [],
+      "referenced_by": [],
+      "inbound": 0,
+      "outbound": 0
+    },
+    "uritp-utilities-table-xt-records": {
+      "title": "xt_RECORDS",
+      "url": "apps/uritp-utilities/tables/xt_RECORDS/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "uritp-utilities-table-sync-events",
+          "kind": "page",
+          "target": "uritp-utilities-table-sync-events",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "uritp-utilities-table-sync-events"
+      ],
+      "inbound": 1,
+      "outbound": 1
+    },
+    "uritp-utilities-table-xt-systems": {
+      "title": "xt_SYSTEMS",
+      "url": "apps/uritp-utilities/tables/xt_SYSTEMS/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "uritp-utilities-table-xt-containers",
+          "kind": "page",
+          "target": "uritp-utilities-table-xt-containers",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "uritp-utilities-table-xt-containers"
+      ],
+      "inbound": 1,
       "outbound": 1
     },
     "user-experience": {

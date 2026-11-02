@@ -1,0 +1,8 @@
+Field_Name	Type	Options	Notes	status
+Code	Text	Unique; strict; validate [a-z0-9_]+	Immutable engine list code; sync_action or sync_decision	Settings
+Name	Text		Display label only	Settings
+PrimaryKey	Text	Auto-enter Get ( UUID ); unique; cannot modify	Machine identity	Audit
+CreationTimestamp	Timestamp	Auto-enter		Audit
+CreatedBy	Text	Auto-enter		Audit
+ModificationTimestamp	Timestamp	Auto-enter		Audit
+ModifiedBy	Text	Auto-enter		Audit

@@ -1,0 +1,10 @@
+Field_Name	Type	Options	Notes	status
+Code	Text	Not empty; unique; strict; validate [a-z0-9_]+	Immutable system code; adapters branch on this, never Name	Settings
+Name	Text		Display label only	Settings
+BaseURL	Text	Not empty	External API root	Settings
+Token	Text	Not empty	Device-local credential; never exported or logged	Settings
+PrimaryKey	Text	Auto-enter Get ( UUID ); unique; cannot modify	Machine identity	Audit
+CreationTimestamp	Timestamp	Auto-enter		Audit
+CreatedBy	Text	Auto-enter		Audit
+ModificationTimestamp	Timestamp	Auto-enter		Audit
+ModifiedBy	Text	Auto-enter		Audit

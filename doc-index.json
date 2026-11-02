@@ -2,7 +2,7 @@
   "site": "mawprose",
   "name": "MAW Prose",
   "base_url": "https://mawizorek.github.io/maw-prose/",
-  "built": "2026-11-02T12:50:24Z",
+  "built": "2026-11-02T12:56:31Z",
   "engine": "0.1.0",
   "engine_ref": "4e8b2ba4a3af5502f1d25a1999cc8f2c869a8d4f",
   "pages": [
@@ -1163,6 +1163,105 @@
       "type": "reference",
       "title": "XTERNAL_JOINS",
       "url": "apps/uritp-people/tables/XTERNAL_JOINS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-utilities-build-sheet",
+      "type": "reference",
+      "title": "URITP Utilities build sheet",
+      "url": "apps/uritp-utilities/build-sheet/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-utilities-next-build-spec",
+      "type": "reference",
+      "title": "URITP Utilities next build spec",
+      "url": "apps/uritp-utilities/next-build-spec/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-utilities-table-sync-events",
+      "type": "reference",
+      "title": "sync_EVENTS",
+      "url": "apps/uritp-utilities/tables/sync_EVENTS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-utilities-table-sync-sessions",
+      "type": "reference",
+      "title": "sync_SESSIONS",
+      "url": "apps/uritp-utilities/tables/sync_SESSIONS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-utilities-table-sync-sources",
+      "type": "reference",
+      "title": "sync_SOURCES",
+      "url": "apps/uritp-utilities/tables/sync_SOURCES/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-utilities-table-value-lists",
+      "type": "reference",
+      "title": "value_LISTS",
+      "url": "apps/uritp-utilities/tables/value_LISTS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-utilities-table-values",
+      "type": "reference",
+      "title": "VALUES",
+      "url": "apps/uritp-utilities/tables/VALUES/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-utilities-table-xt-containers",
+      "type": "reference",
+      "title": "xt_CONTAINERS",
+      "url": "apps/uritp-utilities/tables/xt_CONTAINERS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-utilities-table-xt-fields",
+      "type": "reference",
+      "title": "xt_FIELDS",
+      "url": "apps/uritp-utilities/tables/xt_FIELDS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-utilities-table-xt-records",
+      "type": "reference",
+      "title": "xt_RECORDS",
+      "url": "apps/uritp-utilities/tables/xt_RECORDS/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "uritp-utilities-table-xt-systems",
+      "type": "reference",
+      "title": "xt_SYSTEMS",
+      "url": "apps/uritp-utilities/tables/xt_SYSTEMS/",
       "status": "public",
       "gloss": null,
       "print_gloss": null

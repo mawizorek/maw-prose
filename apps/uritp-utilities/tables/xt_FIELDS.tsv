@@ -1,0 +1,12 @@
+Field_Name	Type	Options	Notes	status
+fk_Container	Text	Indexed	xt_CONTAINERS::PrimaryKey	Links
+mapKey	Text	Validate lowercase letters, digits, underscores and periods	Stable meaning, e.g. person.email; not a local field name	Settings
+uniq_ContainerMapKey	Text	Auto-enter calculation; stored; unique	fk_Container & "|" & mapKey	Settings
+xt_FieldID	Text	Written by field refresh	Remote field identity	External
+xt_FieldName	Text	Written by field refresh	Remote display label	External
+xt_FieldType	Text	Written by field refresh	External system type name	External
+PrimaryKey	Text	Auto-enter Get ( UUID ); unique; cannot modify	Machine identity	Audit
+CreationTimestamp	Timestamp	Auto-enter		Audit
+CreatedBy	Text	Auto-enter		Audit
+ModificationTimestamp	Timestamp	Auto-enter		Audit
+ModifiedBy	Text	Auto-enter		Audit

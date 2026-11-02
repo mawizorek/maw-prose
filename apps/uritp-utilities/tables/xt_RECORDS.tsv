@@ -1,0 +1,12 @@
+Field_Name	Type	Options	Notes	status
+fk_Container	Text	Indexed; not empty	xt_CONTAINERS::PrimaryKey; home container	Links
+xt_ID	Text	Indexed; not empty	ClickUp task ID or GitHub repository-relative file path	External
+xt_Key	Text	Auto-enter calculation; stored; indexed; unique; strict	System Code & ":" & xt_ID per v1; GitHub cross-repository collision limitation in note	External
+xt_Label	Text	Not empty	External display label	External
+xt_Version	Text	Not empty	ClickUp date_updated in milliseconds or GitHub SHA	External
+xt_Payload	Text		Latest raw JSON; overwritten when version changes	External
+PrimaryKey	Text	Auto-enter Get ( UUID ); unique; cannot modify	Machine identity; never used for cross-file app joins	Audit
+CreationTimestamp	Timestamp	Auto-enter		Audit
+CreatedBy	Text	Auto-enter		Audit
+ModificationTimestamp	Timestamp	Auto-enter		Audit
+ModifiedBy	Text	Auto-enter		Audit
