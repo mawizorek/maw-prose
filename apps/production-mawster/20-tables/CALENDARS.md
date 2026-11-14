@@ -52,7 +52,7 @@ Hide is **existence**, not styling: it changes which records are in the found se
 
 ## The three-layer table is NOT here
 
-It lives on [the app index](@production-mawster). **This page carried its own copy until 2026-08-10 and the copy had gone stale** — it listed `PRINT_SESSIONS` under Archive with no export preset beside it, and omitted `STYLES` from Canonical entirely.
+It lives on [the app index](@production-mawnster). **This page carried its own copy until 2026-08-10 and the copy had gone stale** — it listed `PRINT_SESSIONS` under Archive with no export preset beside it, and omitted `STYLES` from Canonical entirely.
 
 ⭐ **Two surfaces stating one model is the dueling-canonical defect, and the duplicate is always the one that rots** — this repo has retired three manifests over exactly that shape. A table page is the wrong home for a whole-app classification: it is read when someone wants THIS table, so nobody re-checks the part that is about the other fifteen.
 
