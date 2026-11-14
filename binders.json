@@ -2,7 +2,7 @@
  "binders": [],
  "ids": {
   "./": "maw-prose-home",
-  "apps/production-mawster/": "production-mawster",
+  "apps/production-mawster/": "production-mawnster",
   "apps/production-mawster/build-sheet/": "build-sheet",
   "apps/production-mawster/data-standards/": "data-standards",
   "apps/production-mawster/ddr-punch-list/": "ddr-punch-list",
