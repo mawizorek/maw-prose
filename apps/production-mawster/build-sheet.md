@@ -38,6 +38,26 @@ probably not doable cos the renderer is acrtulyl snapshoting the site. not ever 
 
 Layout geometry and the screen↔print seam: [[Print & iPad Geometry](@print-geometry)].
 
+## ⬜ Also queued — the trim command, calculated
+
+**One calc field and one button on the media record.** Archival captures are running long past the show: the 14 Nov Becoming Curious performance recording is 6:31:07 of tape for a 1:38:00 performance, and the trim is being typed by hand in Terminal. The record already holds every value the command needs, so the command belongs in a field rather than in Michael's retyping.
+
+The calculation, from the fields as they stand on the video layout:
+
+```
+"ffmpeg -ss " & ts_TrimStart & " -to " & ts_TrimEnd & " -i \"" & auto_sourcePath & "\" -c copy -movflags +faststart \"" & auto_outputPath & "\""
+```
+
+`-c copy` is the whole point. No re-encode, so a six-hour source trims in seconds, at source quality, and the original file is never written to.
+
+**Two fields are owed before it resolves.** `auto_sourcePath` and the source file type already sit on the layout and are empty. `auto_outputPath` does not exist yet, and it should calculate from the event rather than be typed, on the pattern `2026-11-14_BC_Performance-2.mov`.
+
+**The button has two grades.** Copy to Clipboard (`Set Variable`, then `Insert Calculated Result`) ends the retyping and nothing more. Perform AppleScript with `do shell script` runs the trim from inside the solution and is the grade worth building; it is macOS-only by nature, so the iPad copy falls back to the clipboard grade rather than offering a dead button.
+
+**Known guardrail: iCloud eviction.** The recordings live under iCloud Drive, so a perfectly correct path can point at an evicted placeholder that Finder still draws as a file. Any grade that actually runs the command verifies the source is materialized first, and reports that specific failure rather than ffmpeg's.
+
+Source: Michael, chat, 2026-11-15 ~11:18a ET.
+
 <!--
 FLAG 2026-08-08 — the commented block below is NOT Production MAWster content.
 ReceivedFunds, txn_Rollback, Loan hub, Payoff print, "corrupt money" = HML_LLC.
