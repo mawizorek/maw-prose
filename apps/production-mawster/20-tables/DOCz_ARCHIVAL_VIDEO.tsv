@@ -1,0 +1,17 @@
+id	Field_Name	Type	Options	Notes
+[Normalized]{.tbc}	ts_CutIn	Timestamp	Auto-enter EVENT_INSTANCES::ts_Start_CALL_nl, do not replace existing	On the derivative's row only
+[Normalized]{.tbc}	ts_CutOut	Timestamp	Auto-enter EVENT_INSTANCES::ts_End_CALL_req, do not replace existing	On the derivative's row only
+[Normalized]{.tbc}	calc_OffsetIn	Calculation (Number)	Unstored	ts_CutIn - DOCz_ARCHIVAL_MEDIA_self_Source::ts_CaptureStart
+[Normalized]{.tbc}	calc_OffsetOut	Calculation (Number)	Unstored	ts_CutOut - DOCz_ARCHIVAL_MEDIA_self_Source::ts_CaptureStart
+[Normalized]{.tbc}	calc_TrimCommand	Calculation (Text)	Unstored	Replaces auto_Calc_TerminalTrimCommand
+[Normalized]{.conf}	ts_ContentTrimStart	Text		RETIRING. Text offset; superseded by ts_CutIn
+[Normalized]{.conf}	ts_ContentTrimEnd	Text		RETIRING. Text offset; superseded by ts_CutOut
+[Normalized]{.conf}	auto_ContentOutputPath	Text		RETIRING. Output is the derivative's own auto_sourcePath
+[Normalized]{.conf}	auto_Calc_TerminalTrimCommand	Text	Auto-enter Calculation replaces existing value	RETIRING. Auto-enter cannot watch related fields
+[Relationship]{.conf}	fkMedia	Text	Indexed	Add Unique, validate always. Makes the 1:1 enforced
+[Audit Fields]{.conf}	PrimaryKey	Text	Indexed, Auto-enter Calculation replaces existing value, Can't Modify Auto, Required Value, Unique	
+[Audit Fields]{.conf}	CreationTimestamp	Timestamp	Creation Timestamp, Can't Modify Auto, Required Value	
+[Audit Fields]{.conf}	CreatedBy	Text	Creation Account Name, Can't Modify Auto, Required Value	
+[Audit Fields]{.conf}	ModificationTimestamp	Timestamp	Modification Timestamp, Can't Modify Auto, Required Value	
+[Audit Fields]{.conf}	ModifiedBy	Text	Modification Account Name, Can't Modify Auto, Required Value	
+- EOF -				
