@@ -1,11 +1,11 @@
 {
   "site": "mawprose",
   "base_url": "https://mawizorek.github.io/maw-prose/",
-  "built": "2026-11-15T16:49:11Z",
+  "built": "2026-11-15T16:55:02Z",
   "engine": "0.1.0",
   "totals": {
-    "pages": 145,
-    "edges": 490,
+    "pages": 147,
+    "edges": 497,
     "broken": 16,
     "no_inbound": 27
   },
@@ -273,6 +273,20 @@
           "target": "projection-law",
           "resolved": true,
           "count": 1
+        },
+        {
+          "token": "table-docz-archival-media",
+          "kind": "page",
+          "target": "table-docz-archival-media",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-docz-archival-video",
+          "kind": "page",
+          "target": "table-docz-archival-video",
+          "resolved": true,
+          "count": 1
         }
       ],
       "referenced_by": [
@@ -280,7 +294,7 @@
         "production-mawster"
       ],
       "inbound": 2,
-      "outbound": 4
+      "outbound": 6
     },
     "cf-errjson": {
       "title": "ErrJSON",
@@ -365,9 +379,10 @@
       "references": [],
       "referenced_by": [
         "production-mawnster",
-        "production-mawster"
+        "production-mawster",
+        "table-docz-archival-media"
       ],
-      "inbound": 2,
+      "inbound": 3,
       "outbound": 0
     },
     "ddr-punch-list": {
@@ -3069,6 +3084,55 @@
       "inbound": 3,
       "outbound": 0
     },
+    "table-docz-archival-media": {
+      "title": "Archival Media",
+      "url": "apps/production-mawster/20-tables/DOCz_ARCHIVAL_MEDIA/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "data-standards",
+          "kind": "page",
+          "target": "data-standards",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-docz-archival-video",
+          "kind": "page",
+          "target": "table-docz-archival-video",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "build-sheet",
+        "table-docz-archival-video",
+        "tables"
+      ],
+      "inbound": 3,
+      "outbound": 2
+    },
+    "table-docz-archival-video": {
+      "title": "Archival Video",
+      "url": "apps/production-mawster/20-tables/DOCz_ARCHIVAL_VIDEO/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "table-docz-archival-media",
+          "kind": "page",
+          "target": "table-docz-archival-media",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "build-sheet",
+        "table-docz-archival-media",
+        "tables"
+      ],
+      "inbound": 3,
+      "outbound": 1
+    },
     "table-editions": {
       "title": "EDITIONS",
       "url": "apps/production-mawster-no-use/20-tables/editions/",
@@ -3967,6 +4031,20 @@
           "count": 2
         },
         {
+          "token": "table-docz-archival-media",
+          "kind": "page",
+          "target": "table-docz-archival-media",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "table-docz-archival-video",
+          "kind": "page",
+          "target": "table-docz-archival-video",
+          "resolved": true,
+          "count": 1
+        },
+        {
           "token": "table-editions",
           "kind": "page",
           "target": "table-editions",
@@ -4211,7 +4289,7 @@
         "production-mawster"
       ],
       "inbound": 3,
-      "outbound": 42
+      "outbound": 44
     },
     "theme-build-order": {
       "title": "Theme Build Order",

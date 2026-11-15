@@ -2,7 +2,7 @@
   "site": "mawprose",
   "name": "MAW Prose",
   "base_url": "https://mawizorek.github.io/maw-prose/",
-  "built": "2026-11-15T16:49:11Z",
+  "built": "2026-11-15T16:55:02Z",
   "engine": "0.1.0",
   "engine_ref": "1e9b1084e974f78b780d86f90059683fe3d6f067",
   "pages": [
@@ -497,6 +497,24 @@
       "type": "reference",
       "title": "Colors",
       "url": "apps/production-mawster/20-tables/theme_colors/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-docz-archival-media",
+      "type": "reference",
+      "title": "Archival Media",
+      "url": "apps/production-mawster/20-tables/DOCz_ARCHIVAL_MEDIA/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "table-docz-archival-video",
+      "type": "reference",
+      "title": "Archival Video",
+      "url": "apps/production-mawster/20-tables/DOCz_ARCHIVAL_VIDEO/",
       "status": "public",
       "gloss": null,
       "print_gloss": null

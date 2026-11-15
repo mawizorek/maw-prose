@@ -863,10 +863,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#also-queued-the-trim-command-calculated" class="md-nav__link">
+  <a href="#also-queued-timestamp-anchored-trims" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ⬜ Also queued — the trim command, calculated
+        ⬜ Also queued — timestamp-anchored trims
       
     </span>
   </a>
@@ -1138,6 +1138,10 @@
       
         
           
+        
+      
+        
+      
         
       
         
@@ -2185,10 +2189,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#also-queued-the-trim-command-calculated" class="md-nav__link">
+  <a href="#also-queued-timestamp-anchored-trims" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ⬜ Also queued — the trim command, calculated
+        ⬜ Also queued — timestamp-anchored trims
       
     </span>
   </a>
@@ -2293,16 +2297,21 @@ probably not doable cos the renderer is acrtulyl snapshoting the site. not ever 
 <h2 id="also-queued-device-handoff">⬜ Also queued — device handoff<a class="headerlink" href="#also-queued-device-handoff" title="Permanent link">&para;</a></h2>
 <p><strong>Three fields and one script trigger, no relationships, no dependencies.</strong> The open-log stamp (<code>LastOpenedAt</code> / <code>LastOpenedDevice</code> / <code>LastOpenedPlatform</code>) plus <code>ModifiedOnDevice</code> on the canonical tables answers <em>"is this the newest copy"</em> on sight, and turns the manual post-iPad audit into a query. Full spec: [<a href="../device-handoff/">Device Handoff</a>].</p>
 <p>Layout geometry and the screen↔print seam: [<a href="../print-geometry/">Print &amp; iPad Geometry</a>].</p>
-<h2 id="also-queued-the-trim-command-calculated">⬜ Also queued — the trim command, calculated<a class="headerlink" href="#also-queued-the-trim-command-calculated" title="Permanent link">&para;</a></h2>
-<p><strong>One calc field and one button on the media record.</strong> Archival captures are running long past the show: the 14 Nov Becoming Curious performance recording is 6:31:07 of tape for a 1:38:00 performance, and the trim is being typed by hand in Terminal. The record already holds every value the command needs, so the command belongs in a field rather than in Michael's retyping.</p>
-<p>The calculation, from the fields as they stand on the video layout:</p>
-<div class="highlight"><pre><span></span><code>"ffmpeg -ss " &amp; ts_TrimStart &amp; " -to " &amp; ts_TrimEnd &amp; " -i \"" &amp; auto_sourcePath &amp; "\" -c copy -movflags +faststart \"" &amp; auto_outputPath &amp; "\""
-</code></pre></div>
-<p><code>-c copy</code> is the whole point. No re-encode, so a six-hour source trims in seconds, at source quality, and the original file is never written to.</p>
-<p><strong>Two fields are owed before it resolves.</strong> <code>auto_sourcePath</code> and the source file type already sit on the layout and are empty. <code>auto_outputPath</code> does not exist yet, and it should calculate from the event rather than be typed, on the pattern <code>2026-11-14_BC_Performance-2.mov</code>.</p>
-<p><strong>The button has two grades.</strong> Copy to Clipboard (<code>Set Variable</code>, then <code>Insert Calculated Result</code>) ends the retyping and nothing more. Perform AppleScript with <code>do shell script</code> runs the trim from inside the solution and is the grade worth building; it is macOS-only by nature, so the iPad copy falls back to the clipboard grade rather than offering a dead button.</p>
-<p><strong>Known guardrail: iCloud eviction.</strong> The recordings live under iCloud Drive, so a perfectly correct path can point at an evicted placeholder that Finder still draws as a file. Any grade that actually runs the command verifies the source is materialized first, and reports that specific failure rather than ffmpeg's.</p>
-<p>Source: Michael, chat, 2026-11-15 ~11:18a ET.</p>
+<h2 id="also-queued-timestamp-anchored-trims">⬜ Also queued — timestamp-anchored trims<a class="headerlink" href="#also-queued-timestamp-anchored-trims" title="Permanent link">&para;</a></h2>
+<p><strong>Archival captures run long past the show,</strong> and the trim was being typed by hand in Terminal. Performance 2's tape is 6:31:07 for a 1:38:00 performance. Michael's ruling (2026-11-15): cut points are wall-clock timestamps, and the offsets and the ffmpeg command calculate from them.</p>
+<p>Full spec on the two tables: [<a href="../20-tables/DOCz_ARCHIVAL_MEDIA/">Archival Media</a>] and [<a href="../20-tables/DOCz_ARCHIVAL_VIDEO/">Archival Video</a>].</p>
+<p>Build order, each step usable on its own:</p>
+<ol>
+<li><strong><code>fkMedia</code> Unique</strong> on video. One option, makes the 1:1 real.</li>
+<li><strong><code>fkSourceMedia</code></strong> on media, plus the <code>DOCz_ARCHIVAL_MEDIA_self_Source</code> occurrence. Point Performance 2's <code>TRIMMED</code> row at its <code>ORIGINAL</code>.</li>
+<li><strong><code>ts_CaptureStart</code></strong> on media. Performance 2 = 11/14/2026 1:33:14 PM.</li>
+<li><strong><code>ts_CutIn</code> / <code>ts_CutOut</code></strong> on video, prefilled from the event's call window.</li>
+<li><strong><code>calc_OffsetIn</code> / <code>calc_OffsetOut</code> / <code>calc_TrimCommand</code></strong>, unstored. Check Performance 2 reads 1546 and 7426.</li>
+<li>Retire the four text and auto-enter fields the spec marks RETIRING.</li>
+<li><strong>The button.</strong> Clipboard grade first (<code>Set Variable</code>, <code>Insert Calculated Result</code>, copy). Perform AppleScript grade second; it is macOS only, so the iPad keeps the clipboard grade.</li>
+</ol>
+<p><strong>Known guardrail: iCloud eviction.</strong> The recordings live under iCloud Drive, so a correct path can point at an evicted placeholder that Finder still draws as a file. Any grade that runs the command checks the source is downloaded first, and reports that failure in its own words rather than ffmpeg's.</p>
+<p>Source: Michael, chat, 2026-11-15 ~11:18a and ~11:47a ET.</p>
 <!--
 FLAG 2026-08-08 — the commented block below is NOT Production MAWster content.
 ReceivedFunds, txn_Rollback, Loan hub, Payoff print, "corrupt money" = HML_LLC.
@@ -2356,7 +2365,7 @@ Half-applied = corrupt money. Partial freeze = quote that silently changes post-
 
 --->
 
-<p class="dr-revised"><em>Revised MAW | 8 Aug 2026</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/production-mawster/build-sheet.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">PR #104</span></span></p>
+<p class="dr-revised"><em>Revised MAW | 8 Aug 2026</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/production-mawster/build-sheet.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">PR #105</span></span></p>
 
 
 

@@ -29,6 +29,8 @@
   "apps/production-mawster/20-tables/": "tables",
   "apps/production-mawster/20-tables/CALENDARS/": "table-production-calendars",
   "apps/production-mawster/20-tables/COLORS/": "table-colors",
+  "apps/production-mawster/20-tables/DOCz_ARCHIVAL_MEDIA/": "table-docz-archival-media",
+  "apps/production-mawster/20-tables/DOCz_ARCHIVAL_VIDEO/": "table-docz-archival-video",
   "apps/production-mawster/20-tables/EVENTS/": "table-events",
   "apps/production-mawster/20-tables/EVENTS_workday/": "table-events-workday",
   "apps/production-mawster/20-tables/EXPORT_PRESETS/": "table-export-presets",
