@@ -38,25 +38,25 @@ probably not doable cos the renderer is acrtulyl snapshoting the site. not ever 
 
 Layout geometry and the screen↔print seam: [[Print & iPad Geometry](@print-geometry)].
 
-## ⬜ Also queued — the trim command, calculated
+## ⬜ Also queued — timestamp-anchored trims
 
-**One calc field and one button on the media record.** Archival captures are running long past the show: the 14 Nov Becoming Curious performance recording is 6:31:07 of tape for a 1:38:00 performance, and the trim is being typed by hand in Terminal. The record already holds every value the command needs, so the command belongs in a field rather than in Michael's retyping.
+**Archival captures run long past the show,** and the trim was being typed by hand in Terminal. Performance 2's tape is 6:31:07 for a 1:38:00 performance. Michael's ruling (2026-11-15): cut points are wall-clock timestamps, and the offsets and the ffmpeg command calculate from them.
 
-The calculation, from the fields as they stand on the video layout:
+Full spec on the two tables: [[Archival Media](@table-docz-archival-media)] and [[Archival Video](@table-docz-archival-video)].
 
-```
-"ffmpeg -ss " & ts_TrimStart & " -to " & ts_TrimEnd & " -i \"" & auto_sourcePath & "\" -c copy -movflags +faststart \"" & auto_outputPath & "\""
-```
+Build order, each step usable on its own:
 
-`-c copy` is the whole point. No re-encode, so a six-hour source trims in seconds, at source quality, and the original file is never written to.
+1. **`fkMedia` Unique** on video. One option, makes the 1:1 real.
+2. **`fkSourceMedia`** on media, plus the `DOCz_ARCHIVAL_MEDIA_self_Source` occurrence. Point Performance 2's `TRIMMED` row at its `ORIGINAL`.
+3. **`ts_CaptureStart`** on media. Performance 2 = 11/14/2026 1:33:14 PM.
+4. **`ts_CutIn` / `ts_CutOut`** on video, prefilled from the event's call window.
+5. **`calc_OffsetIn` / `calc_OffsetOut` / `calc_TrimCommand`**, unstored. Check Performance 2 reads 1546 and 7426.
+6. Retire the four text and auto-enter fields the spec marks RETIRING.
+7. **The button.** Clipboard grade first (`Set Variable`, `Insert Calculated Result`, copy). Perform AppleScript grade second; it is macOS only, so the iPad keeps the clipboard grade.
 
-**Two fields are owed before it resolves.** `auto_sourcePath` and the source file type already sit on the layout and are empty. `auto_outputPath` does not exist yet, and it should calculate from the event rather than be typed, on the pattern `2026-11-14_BC_Performance-2.mov`.
+**Known guardrail: iCloud eviction.** The recordings live under iCloud Drive, so a correct path can point at an evicted placeholder that Finder still draws as a file. Any grade that runs the command checks the source is downloaded first, and reports that failure in its own words rather than ffmpeg's.
 
-**The button has two grades.** Copy to Clipboard (`Set Variable`, then `Insert Calculated Result`) ends the retyping and nothing more. Perform AppleScript with `do shell script` runs the trim from inside the solution and is the grade worth building; it is macOS-only by nature, so the iPad copy falls back to the clipboard grade rather than offering a dead button.
-
-**Known guardrail: iCloud eviction.** The recordings live under iCloud Drive, so a perfectly correct path can point at an evicted placeholder that Finder still draws as a file. Any grade that actually runs the command verifies the source is materialized first, and reports that specific failure rather than ffmpeg's.
-
-Source: Michael, chat, 2026-11-15 ~11:18a ET.
+Source: Michael, chat, 2026-11-15 ~11:18a and ~11:47a ET.
 
 <!--
 FLAG 2026-08-08 — the commented block below is NOT Production MAWster content.

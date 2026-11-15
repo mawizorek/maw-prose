@@ -1,0 +1,18 @@
+id	Field_Name	Type	Options	Notes
+[Normalized]{.conf}	auto_sourceFileName	Text	Auto-enter Calculation replaces existing value	
+[Normalized]{.conf}	auto_sourceFileType	Text		Named auto_, no auto-enter
+[Normalized]{.conf}	auto_sourceFileSize	Number		Named auto_, no auto-enter
+[Normalized]{.conf}	auto_sourceSlug	Text		Named auto_, no auto-enter. Date part typed; should derive
+[Normalized]{.conf}	auto_sourcePath	Text		Named auto_, no auto-enter. Should become folder & auto_CalcFileName
+[Normalized]{.conf}	auto_CalcFileName	Text	Auto-enter Calculation replaces existing value	
+[Normalized]{.tbc}	ts_CaptureStart	Timestamp		Wall clock the recording began. Empty on a derivative
+[Relationship]{.conf}	fkEvent	Text	Indexed	EVENT_INSTANCES
+[Relationship]{.conf}	fkContentModifier	Text		DOCUMENT_MODIFIERS (ORIGINAL, TRIMMED)
+[Relationship]{.tbc}	fkSourceMedia	Text	Indexed	Self-join via DOCz_ARCHIVAL_MEDIA_self_Source. Empty = original
+[Children]{.conf}	DOCz_ARCHIVAL_VIDEO			1:1 extension on fkMedia
+[Audit Fields]{.conf}	PrimaryKey	Text	Indexed, Auto-enter Calculation replaces existing value, Can't Modify Auto, Required Value, Unique	
+[Audit Fields]{.conf}	CreationTimestamp	Timestamp	Creation Timestamp, Can't Modify Auto, Required Value	
+[Audit Fields]{.conf}	CreatedBy	Text	Creation Account Name, Can't Modify Auto, Required Value	
+[Audit Fields]{.conf}	ModificationTimestamp	Timestamp	Modification Timestamp, Can't Modify Auto, Required Value	
+[Audit Fields]{.conf}	ModifiedBy	Text	Modification Account Name, Can't Modify Auto, Required Value	
+- EOF -				
