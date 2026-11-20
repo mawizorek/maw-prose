@@ -15,13 +15,15 @@ related: [maw-previs, previs-blocking-method, previs-showkit]
 
 !!! warning "Edit everything in exactly one file"
 
-    Every piece of the show is edited in exactly one file, and every other file sees it through a read-only link.
+    Every other file sees it through a read-only link.
 
     - Blocking files never hold a light.
     - Previs files never hold a blocking keyframe.
     - A model's geometry lives in its library file and nowhere else.
 
-Breaking this rule is how a reblock quietly moves a light, or a lighting session nudges a performer off a mark, and nobody finds out until the render.
+- Break it and a reblock quietly moves a light, or a lighting session nudges a performer off a mark.
+- Nobody finds out until the render.
+- How linking works: [Link & Append](https://docs.blender.org/manual/en/5.2/files/linked_libraries/link_append.html)
 
 ## The tree
 
@@ -43,52 +45,63 @@ MAW_PREVIS/
             renders/
 ```
 
-`_LIBRARY` holds what every show uses. A show folder holds only what is that show's own, and is named year then show code so the folders sort by season.
+- `_LIBRARY`: what every show uses
+- A show folder: only that show's own
+- Show folders are named year then show code, so they sort by season
+- The [[Showkit](@previs-showkit)] builds this tree
 
 ## What each file owns
 
 ### Venue file
 
-Owns the room as a VENUE collection: walls, house, stage floor, pipes, anything that does not change between shows. It is built once.
+- VENUE: walls, house, stage floor, pipes
+- Anything that doesn't change between shows
+- Built once
 
 ### Figures file
 
-Owns the stand-ins as FIG_STANDING and FIG_SEATED. They are deliberately crude.
-
-Every performer in every show is an instance of one of these two collections. When a better figure replaces what is inside them, every blocking file and every render updates without a keyframe changing.
-
-Each figure's origin is at its feet, and its nose faces −Y.
+- FIG_STANDING and FIG_SEATED, deliberately crude
+- Every performer in every show is an instance of one of them
+- Replace what's inside: every blocking file and render updates, no keyframe changes
+- Origin at the feet; nose faces −Y
 
 ### Scenery file
 
-Owns the set as SCENERY. This is where the realism lives.
-
-Its materials are tuned here and never in a previs file, because a material changed downstream is a material lost the next time the link reloads.
+- SCENERY: where the realism lives
+- Tune materials here only
+- A material changed downstream is lost the next time the link reloads
 
 ### Props file
 
-Owns one master of each moving prop. The stage cube is CUBE_18: 18 inches on a side, with its origin at the bottom center so it sits on whatever it is placed on. Six cubes on stage are six instances of that one collection.
+- One master per moving prop
+- CUBE_18: 18 in per side, origin at the bottom center so it sits on whatever it's placed on
+- Six cubes on stage = six instances of it
 
 ### Rig file
 
-Owns the hang positions as RIG.
+- RIG: the hang positions
 
 ### Blocking file
 
-Owns one number's movement. Its BLOCKING collection holds:
+One number's movement.
 
-- TRACKS, the performers
-- CUBES
-- PRESET, for musicians and anything placed once and never moved
-- the BLK collections the add-on writes into
-
-Its REFERENCE collection holds the linked venue and scenery, so there is a stage to block on.
-
-It also owns the number's reference video in the Sequencer and its timeline markers. It renders in EEVEE or Solid so it stays fast to scrub.
+- BLOCKING:
+    - TRACKS: the performers
+    - CUBES
+    - PRESET: musicians and anything placed once and never moved
+    - BLK collections: written by the [[Blocking Add-on](@previs-blocking-addon)]
+- REFERENCE: linked venue and scenery, a stage to block on
+- The number's reference video in the Sequencer, and its timeline markers
+- Renders in EEVEE or Solid, so it scrubs fast
+- How to block in it: [[Blocking Method](@previs-blocking-method)]
 
 ### Previs file
 
-Owns the lights, the cameras, the world and the Cycles settings for one number. It links the venue, the scenery, the rig, and that number's BLOCKING collection. The blocking plays in it and cannot be edited in it.
+One number's lighting and render.
+
+- Owns lights, cameras, world, Cycles settings
+- Links venue, scenery, rig, and that number's BLOCKING
+- The blocking plays here and can't be edited here
 
 !!! note "Only BLOCKING leaves a blocking file"
 
@@ -96,38 +109,49 @@ Owns the lights, the cameras, the world and the Cycles settings for one number. 
 
 ## Why one file per number
 
-A whole show on one timeline ripples. Re-cut the second number and every number after it shifts, which is the same failure a single long blocking route has, at the size of a show.
-
-Each number gets its own file and its own timeline starting at frame 1, so a change to one number cannot move another.
-
-Continuity between numbers is carried by hand: where a performer ends one number is where they are preset in the next.
+- One show-long timeline ripples: re-cut the second number and every later number shifts
+- Same failure as one long blocking route, at the size of a show ([[Blocking Method](@previs-blocking-method)])
+- Each number gets its own file and its own timeline from frame 1
+- Continuity between numbers is by hand: where a performer ends one number is their preset in the next
 
 ## Rules that are expensive to break later
 
 ### Frame rate
 
-Matches the reference video and is the same in every file of a show. It is set before any blocking starts, because changing it afterwards retimes every keyframe. The Showkit refuses to build a show until it is set.
+- Matches the reference video
+- Same in every file of a show
+- Set before blocking starts: changing it later retimes every keyframe
+- The [[Showkit](@previs-showkit)] refuses to build until it's set
 
 ### Origin
 
-Center line × plaster line, in every file. Anything imported is moved to that origin before it is used, never the other way round.
+- Center line × plaster line, in every file
+- Imports move to the origin, never the other way round
 
 ### Units
 
-Display as imperial. Blender stores metres underneath, so an 18-inch cube is 0.4572 in raw values, which matters only to scripts.
+- Display: imperial
+- Stored: metres, so an 18 in cube is 0.4572 in raw values
+- Only scripts care
 
 ### Track names
 
-By role, never by actor: TRK_A, MUS_01, CUBE_03. Both casts use the same names, and no student's name ends up in a file, a render, or this repo.
+- By role, never by actor: TRK_A, MUS_01, CUBE_03
+- Both casts share the names
+- No student names in files, renders, or this repo
 
 ### One cast per number
 
-One cast is blocked and rendered per number. The casts move at different speeds and a render shows one of them. A second cast is blocked only when its staging differs in shape, not just in pace.
+- Block and render one cast
+- Casts move at different speeds; a render shows one
+- Block the second cast only when its staging differs in shape, not just pace
 
 ### Paths
 
-Relative, so the whole MAW_PREVIS folder can move between machines. Live .blend files stay out of folders a sync service rewrites while Blender has them open.
+- Relative, so MAW_PREVIS moves between machines intact
+- Live .blend files stay out of folders a sync service rewrites while Blender has them open
 
 ### Links
 
-Made, never appended. An appended copy stops receiving fixes.
+- Link, never append
+- An appended copy stops receiving fixes

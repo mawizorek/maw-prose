@@ -13,7 +13,7 @@ related: [maw-previs, previs-architecture, previs-blocking-addon]
 
 ## The four parts
 
-Every moving thing on stage is a **unit**, and a unit is four objects with four separate jobs.
+Every moving thing on stage is a **unit**: four objects, four jobs.
 
 !!! abstract "At a glance"
 
@@ -21,81 +21,78 @@ Every moving thing on stage is a **unit**, and a unit is four objects with four 
 
 ### Route
 
-Owns where. It is a Bézier curve drawn on the stage, one per cross, and it climbs stairs because it is drawn in three dimensions.
-
-Routes are shared: two performers, a cube, or both casts can use the same one.
+- Owns where
+- A Bézier curve on the stage, one per cross
+- Drawn in 3D, so it climbs stairs
+- Shared: two performers, a cube, or both casts can use one route
 
 ### Rider
 
-Owns when. It is a small hidden sphere, one per cross, that travels its route on a Follow Path constraint.
-
-Its Offset Factor is keyed 0 at departure and 1 at arrival with Blender's default easing, so the walk starts and stops naturally.
+- Owns when
+- A small hidden sphere, one per cross
+- Travels its route on a [Follow Path](https://docs.blender.org/manual/en/5.2/animation/constraints/relationship/follow_path.html) constraint
+- Offset Factor keyed 0 at departure, 1 at arrival
+- Blender's default easing, so the walk starts and stops naturally
 
 ### Puck
 
-Owns facing. It is a floor disc with a nose that copies the position of whichever rider is live.
-
-Rotation Z on the puck is keyed by hand, so where someone looks never depends on where they walk.
+- Owns facing
+- A floor disc with a nose
+- Copies the position of whichever rider is live
+- Rotation Z keyed by hand: where someone looks never depends on where they walk
 
 ### Figure
 
-Owns the look. It is the performer or cube model, parented to the puck and never keyed. It can be swapped for a better model at any time without touching the timing.
+- Owns the look
+- The performer or cube model, parented to the puck
+- Never keyed
+- Swap in a better model any time without touching the timing
 
 ## How a cross works
 
-The puck carries one Copy Location constraint per cross, in run order. Each constraint switches from off to on exactly once and then stays on, and a later constraint overrides every earlier one. Reading the puck's constraint stack top to bottom reads the number's blocking in order.
-
-The first cross is simply on, with no keys. That makes the unit's waiting position free: before its first departure, it stands at the start of its first route.
-
-Every later cross switches on the frame after the previous cross arrives. At that moment both riders stand on the same spot, so the switch is invisible.
+- The puck carries one [Copy Location](https://docs.blender.org/manual/en/5.2/animation/constraints/transform/copy_location.html) constraint per cross, in run order
+- Each switches off to on exactly once, then stays on
+- A later constraint overrides every earlier one
+- Read the puck's constraint stack top to bottom = the number's blocking in order
+- First cross: simply on, no keys. Before its first departure, a unit waits at the start of its first route.
+- Every later cross: switches on the frame after the previous cross arrives
+- At that moment both riders stand on the same spot, so the switch is invisible
+- A hold is the gap between one arrival and the next departure; nothing is keyed to make one
 
 !!! tip "Why retiming is safe"
 
-    The departure can move anywhere inside the hold without anyone jumping. This is the property the method exists for. In the third week of rehearsal a departure gets retimed, and nothing else moves.
-
-A hold is the gap between one arrival and the next departure. Nothing has to be keyed to make one.
+    The departure can move anywhere inside the hold without anyone jumping. In the third week of rehearsal a departure gets retimed, and nothing else moves.
 
 ## Why not one long route
 
-A single route with its Offset Factor keyed along it fails the moment the route is extended. Offset Factor is a fraction of the whole route's length, so adding a segment at the end slides every earlier position along the curve.
-
-Short routes, one per cross, keep each cross's timing independent of every other.
+- Offset Factor is a fraction of the whole route's length
+- Extend the route and every earlier position slides along the curve
+- Short routes, one per cross, keep each cross's timing independent
 
 ## Blocking a number
 
-The number's reference clip sits in the blocking file's Sequencer starting at frame 1, with the musical landmarks marked on the timeline and named by lyric.
+Setup:
+
+- The number's reference clip sits in the Sequencer from frame 1 ([Sequencer scene](https://docs.blender.org/manual/en/5.2/video_editing/sequencer_scene.html))
+- Musical landmarks are timeline markers, named by lyric
+
+Steps:
 
 1. Make units from their figures and drag them to their presets.
-2. Pick one unit. Scrub the playhead to the moment the performer leaves, and start the cross.
-3. Scrub to where they land, and finish the cross.
-4. Start the next route from where the unit is standing. A new route always starts exactly there, so crosses chain without gaps.
+2. Pick one unit. Scrub to the moment the performer leaves; start the cross.
+3. Scrub to where they land; finish the cross.
+4. Start the next route from where the unit stands. New routes always start there, so crosses chain without gaps.
 5. Key turns as Rotation Z on the puck.
-6. Block that unit all the way through before starting the next.
+6. Finish that unit all the way through before starting the next.
 
-Handoffs between performers hang off the markers, not off each other's keyframes.
+- Handoffs between performers hang off the markers, not each other's keyframes
+- The buttons for all of this: [[Blocking Add-on](@previs-blocking-addon)]
 
 ## Cases
 
-### Exits
-
-Usually retrace an entrance, so a route can be walked backwards rather than drawn twice.
-
-### Sitting and standing
-
-Need no rig. A seated figure and a standing figure sit under the same puck, and their visibility is keyed at the moment of the change.
-
-### Musicians and set dressing
-
-Things that never move are placed once in PRESET and get no puck.
-
-### Carried cubes
-
-A carried cube gets its own route alongside the carrier's, with the same departure and arrival frames.
-
-### Shared routes
-
-Stay shared. Reshaping a route changes every unit that uses it, in both casts. When one cast's blocking diverges, that cast gets its own copy of the route.
-
-### Two units on one route
-
-At the same time, they walk through each other, which is accurate: that is a collision on stage as well. Parallel crosses get parallel routes.
+- **Exits:** usually retrace an entrance, so walk the route backwards instead of drawing it twice
+- **Sitting and standing:** no rig. A seated and a standing figure under one puck, visibility keyed at the change.
+- **Musicians and set dressing:** placed once in PRESET, no puck
+- **Carried cubes:** their own route beside the carrier's, same departure and arrival frames
+- **Shared routes:** reshaping one changes every unit on it, in both casts. When one cast diverges, it gets its own copy.
+- **Two units on one route at once:** they walk through each other, which is accurate, since that's a collision on stage too. Parallel crosses get parallel routes.
