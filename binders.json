@@ -2,6 +2,12 @@
  "binders": [],
  "ids": {
   "./": "maw-prose-home",
+  "apps/maw-previs/": "maw-previs",
+  "apps/maw-previs/architecture/": "previs-architecture",
+  "apps/maw-previs/blocking-addon/": "previs-blocking-addon",
+  "apps/maw-previs/blocking-method/": "previs-blocking-method",
+  "apps/maw-previs/build-sheet/": "previs-build-sheet",
+  "apps/maw-previs/showkit/": "previs-showkit",
   "apps/production-mawster/": "production-mawnster",
   "apps/production-mawster/build-sheet/": "build-sheet",
   "apps/production-mawster/data-standards/": "data-standards",

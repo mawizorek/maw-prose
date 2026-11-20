@@ -2,7 +2,7 @@
   "site": "mawprose",
   "name": "MAW Prose",
   "base_url": "https://mawizorek.github.io/maw-prose/",
-  "built": "2026-11-20T17:04:08Z",
+  "built": "2026-11-20T17:11:52Z",
   "engine": "0.1.0",
   "engine_ref": "1e9b1084e974f78b780d86f90059683fe3d6f067",
   "pages": [
@@ -200,7 +200,7 @@
       "type": "index",
       "title": "MAW Previs",
       "url": "apps/maw-previs/",
-      "status": "unlisted",
+      "status": "public",
       "gloss": null,
       "print_gloss": null
     },
@@ -263,7 +263,7 @@
       "type": "reference",
       "title": "Architecture",
       "url": "apps/maw-previs/architecture/",
-      "status": "unlisted",
+      "status": "public",
       "gloss": null,
       "print_gloss": null
     },
@@ -272,7 +272,7 @@
       "type": "reference",
       "title": "Blocking Add-on",
       "url": "apps/maw-previs/blocking-addon/",
-      "status": "unlisted",
+      "status": "public",
       "gloss": null,
       "print_gloss": null
     },
@@ -281,7 +281,7 @@
       "type": "reference",
       "title": "Blocking Method",
       "url": "apps/maw-previs/blocking-method/",
-      "status": "unlisted",
+      "status": "public",
       "gloss": null,
       "print_gloss": null
     },
@@ -290,7 +290,7 @@
       "type": "reference",
       "title": "Build Sheet",
       "url": "apps/maw-previs/build-sheet/",
-      "status": "unlisted",
+      "status": "public",
       "gloss": null,
       "print_gloss": null
     },
@@ -299,7 +299,7 @@
       "type": "reference",
       "title": "Showkit",
       "url": "apps/maw-previs/showkit/",
-      "status": "unlisted",
+      "status": "public",
       "gloss": null,
       "print_gloss": null
     },
