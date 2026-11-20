@@ -2,7 +2,7 @@
 id: previs-showkit
 title: Showkit
 type: reference
-status: unlisted
+status: public
 order: 40
 revised: 2026-11
 summary: The target spec for the show scaffolder, which builds a show's folders and pre-linked blank Blender files from one config.

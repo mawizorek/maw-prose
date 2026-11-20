@@ -2,7 +2,7 @@
 id: previs-build-sheet
 title: Build Sheet
 type: reference
-status: unlisted
+status: public
 order: 50
 revised: 2026-11
 summary: What is built, what has been tested and how, and the order of work for the first show.
