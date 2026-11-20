@@ -1,11 +1,11 @@
 {
   "site": "mawprose",
   "base_url": "https://mawizorek.github.io/maw-prose/",
-  "built": "2026-11-20T16:56:34Z",
+  "built": "2026-11-20T17:04:08Z",
   "engine": "0.1.0",
   "totals": {
-    "pages": 147,
-    "edges": 497,
+    "pages": 153,
+    "edges": 515,
     "broken": 16,
     "no_inbound": 27
   },
@@ -682,6 +682,55 @@
       "inbound": 4,
       "outbound": 0
     },
+    "maw-previs": {
+      "title": "MAW Previs",
+      "url": "apps/maw-previs/",
+      "type": "index",
+      "references": [
+        {
+          "token": "previs-architecture",
+          "kind": "page",
+          "target": "previs-architecture",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "previs-blocking-addon",
+          "kind": "page",
+          "target": "previs-blocking-addon",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "previs-blocking-method",
+          "kind": "page",
+          "target": "previs-blocking-method",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "previs-build-sheet",
+          "kind": "page",
+          "target": "previs-build-sheet",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "previs-showkit",
+          "kind": "page",
+          "target": "previs-showkit",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "previs-architecture",
+        "previs-blocking-method",
+        "previs-build-sheet"
+      ],
+      "inbound": 3,
+      "outbound": 5
+    },
     "maw-prose-home": {
       "title": "MAW Prose",
       "url": "./",
@@ -1338,6 +1387,167 @@
       "referenced_by": [],
       "inbound": 0,
       "outbound": 1
+    },
+    "previs-architecture": {
+      "title": "Architecture",
+      "url": "apps/maw-previs/architecture/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "maw-previs",
+          "kind": "page",
+          "target": "maw-previs",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "previs-blocking-method",
+          "kind": "page",
+          "target": "previs-blocking-method",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "previs-showkit",
+          "kind": "page",
+          "target": "previs-showkit",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "maw-previs",
+        "previs-blocking-method",
+        "previs-showkit"
+      ],
+      "inbound": 3,
+      "outbound": 3
+    },
+    "previs-blocking-addon": {
+      "title": "Blocking Add-on",
+      "url": "apps/maw-previs/blocking-addon/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "previs-blocking-method",
+          "kind": "page",
+          "target": "previs-blocking-method",
+          "resolved": true,
+          "count": 2
+        },
+        {
+          "token": "previs-build-sheet",
+          "kind": "page",
+          "target": "previs-build-sheet",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "maw-previs",
+        "previs-blocking-method",
+        "previs-build-sheet"
+      ],
+      "inbound": 3,
+      "outbound": 2
+    },
+    "previs-blocking-method": {
+      "title": "Blocking Method",
+      "url": "apps/maw-previs/blocking-method/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "maw-previs",
+          "kind": "page",
+          "target": "maw-previs",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "previs-architecture",
+          "kind": "page",
+          "target": "previs-architecture",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "previs-blocking-addon",
+          "kind": "page",
+          "target": "previs-blocking-addon",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "maw-previs",
+        "previs-architecture",
+        "previs-blocking-addon"
+      ],
+      "inbound": 3,
+      "outbound": 3
+    },
+    "previs-build-sheet": {
+      "title": "Build Sheet",
+      "url": "apps/maw-previs/build-sheet/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "maw-previs",
+          "kind": "page",
+          "target": "maw-previs",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "previs-blocking-addon",
+          "kind": "page",
+          "target": "previs-blocking-addon",
+          "resolved": true,
+          "count": 1
+        },
+        {
+          "token": "previs-showkit",
+          "kind": "page",
+          "target": "previs-showkit",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "maw-previs",
+        "previs-blocking-addon",
+        "previs-showkit"
+      ],
+      "inbound": 3,
+      "outbound": 3
+    },
+    "previs-showkit": {
+      "title": "Showkit",
+      "url": "apps/maw-previs/showkit/",
+      "type": "reference",
+      "references": [
+        {
+          "token": "previs-architecture",
+          "kind": "page",
+          "target": "previs-architecture",
+          "resolved": true,
+          "count": 2
+        },
+        {
+          "token": "previs-build-sheet",
+          "kind": "page",
+          "target": "previs-build-sheet",
+          "resolved": true,
+          "count": 1
+        }
+      ],
+      "referenced_by": [
+        "maw-previs",
+        "previs-architecture",
+        "previs-build-sheet"
+      ],
+      "inbound": 3,
+      "outbound": 2
     },
     "print-first-runbook": {
       "title": "Print-first Runbook",

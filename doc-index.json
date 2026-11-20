@@ -2,7 +2,7 @@
   "site": "mawprose",
   "name": "MAW Prose",
   "base_url": "https://mawizorek.github.io/maw-prose/",
-  "built": "2026-11-20T16:56:34Z",
+  "built": "2026-11-20T17:04:08Z",
   "engine": "0.1.0",
   "engine_ref": "1e9b1084e974f78b780d86f90059683fe3d6f067",
   "pages": [
@@ -196,6 +196,15 @@
       "print_gloss": null
     },
     {
+      "id": "maw-previs",
+      "type": "index",
+      "title": "MAW Previs",
+      "url": "apps/maw-previs/",
+      "status": "unlisted",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
       "id": "maw-prose-home",
       "type": "index",
       "title": "MAW Prose",
@@ -246,6 +255,51 @@
       "title": "Prev Calendar App Build",
       "url": "apps/production-mawster-no-use/90-file-imports-temp/prevProductionCalendarApp/",
       "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "previs-architecture",
+      "type": "reference",
+      "title": "Architecture",
+      "url": "apps/maw-previs/architecture/",
+      "status": "unlisted",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "previs-blocking-addon",
+      "type": "reference",
+      "title": "Blocking Add-on",
+      "url": "apps/maw-previs/blocking-addon/",
+      "status": "unlisted",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "previs-blocking-method",
+      "type": "reference",
+      "title": "Blocking Method",
+      "url": "apps/maw-previs/blocking-method/",
+      "status": "unlisted",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "previs-build-sheet",
+      "type": "reference",
+      "title": "Build Sheet",
+      "url": "apps/maw-previs/build-sheet/",
+      "status": "unlisted",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "previs-showkit",
+      "type": "reference",
+      "title": "Showkit",
+      "url": "apps/maw-previs/showkit/",
+      "status": "unlisted",
       "gloss": null,
       "print_gloss": null
     },
