@@ -2,7 +2,7 @@
 id: previs-blocking-method
 title: Blocking Method
 type: reference
-status: unlisted
+status: public
 order: 20
 revised: 2026-11
 summary: How performers, cubes and props are moved and timed against rehearsal video, and why the method survives weeks of revisions.

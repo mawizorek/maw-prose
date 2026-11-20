@@ -2,7 +2,7 @@
 id: maw-previs
 title: MAW Previs
 type: index
-status: unlisted
+status: public
 revised: 2026-11
 summary: The Blender previs system for URITP shows. Linked show files, blocking against rehearsal video, and the tools that build and drive them.
 ---

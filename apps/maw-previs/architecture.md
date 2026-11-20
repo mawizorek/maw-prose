@@ -2,7 +2,7 @@
 id: previs-architecture
 title: Architecture
 type: reference
-status: unlisted
+status: public
 order: 10
 revised: 2026-11
 summary: The folder tree, what each Blender file owns, and the rules that keep blocking and lighting from breaking each other.

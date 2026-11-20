@@ -2,7 +2,7 @@
 id: previs-blocking-addon
 title: Blocking Add-on
 type: reference
-status: unlisted
+status: public
 order: 30
 revised: 2026-11
 summary: The target spec for MAW Blocking, the Blender add-on that drives the blocking method from a sidebar tab.
