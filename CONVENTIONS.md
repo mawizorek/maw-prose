@@ -16,13 +16,18 @@ That means reference first — the layer list, the load limits, the thing that w
 
 **The test before you write a file:** would someone open this to look something up? If the only reason to open it is to understand somebody's process, it is not a note. It belongs in `DECISIONS.md` as one line, or nowhere.
 
-## Write prose
+## Bullets and links
 
-**These are notes, not a database.** Detailed, well-maintained prose from someone who knows the subject. Full sentences, real paragraphs, the aside that explains why a thing catches people.
+**These notes are read at the moment of need, often on a phone.** Bullets and links first; prose only where the reasoning is the content (D-054).
 
-**Avoid tables.** A table strips out everything except the cells — and the useful part of a note is usually the connective tissue a table has nowhere to put. "Earplugs and gloves are in both rooms; masks are in neither" is the kind of sentence a three-column grid cannot hold, and it is the sentence that saves someone a walk across the building.
+- One fact per bullet. A clause of connective tissue is fine inside a bullet; a paragraph is not.
+- A short lead line, then the list. Never a paragraph under a heading where a list would do.
+- A heading on anything someone would look up: one H3 per file, rule, part or control. Headings are the navigation.
+- Link what the page leans on: other pages by `@id`, outside references (a manual, a spec, a vendor doc) at their source, checked before they go in.
+- Keep the aside that saves a walk across the building. "Earplugs and gloves are in both rooms; masks are in neither" is still the most useful line on its page; it just lives in a bullet now.
+- Prose where the why is the point: a few sentences, under the bullet or heading they explain.
 
-A short bulleted list is fine when the content is genuinely a list. Reach for a table only when the data is truly tabular and there is nothing to say about it — and expect to justify it.
+**Avoid tables.** A table strips out everything except the cells, and the useful part of a note is usually the connective tissue a table has nowhere to put. A wide table also breaks on a phone. Reach for a table only when the data is truly tabular and there is nothing to say about it, and expect to justify it.
 
 **Write it the way the doc renderer reads it.** Every page opens with the `template-docs` header: `id`, `title`, `status`, `type` and `summary` are required, everything else only when the page needs it. Callouts, confidence markers, `@id` links and TSV data tables work the same way here as in every other docs repo, so a page written here is written exactly like a page in uritp-docs (D-041). The vocabulary lives once, in the [page template](https://github.com/mawizorek/template-docs/blob/main/_template.md) and the authoring pages it points to. Read it there; never copy it here, or in a month there are two and they disagree.
 
