@@ -1150,20 +1150,30 @@
 <p class="buildstamp buildstamp--corner" hidden><span class="buildstamp__row"><span class="buildstamp__mark" aria-hidden="true" style="background-image:url(&quot;../../maw-prose-mark.svg&quot;)"></span><span class="buildstamp__text"><span class="buildstamp__id">MAW Prose</span><span class="buildstamp__sep"> · </span><span class="buildstamp__when">Fall 2026</span></span></span></p><h1 id="maw-previs">MAW Previs<a class="headerlink" href="#maw-previs" title="Permanent link">&para;</a></h1>
 <p class="dr-lede">The Blender previs system for URITP shows. Linked show files, blocking against rehearsal video, and the tools that build and drive them.</p>
 <h2 id="what-it-is">What it is<a class="headerlink" href="#what-it-is" title="Permanent link">&para;</a></h2>
-<p>MAW Previs turns a show into a set of Blender files that can be blocked against rehearsal video and then lit photorealistically, without either job touching the other. It is built for URITP productions in SPAC and carries from show to show: the venue and the stand-in figures are made once, and each show adds only what is its own.</p>
-<p>The system has three parts. The file architecture decides what lives where, and everything else depends on it. The blocking method is how performers, cubes and props get moved and timed. The tooling is two programs: a Blender add-on that drives the blocking method, and a scaffolder that builds a new show's folders and pre-linked blank files.</p>
-<h2 id="start-here">Start here<a class="headerlink" href="#start-here" title="Permanent link">&para;</a></h2>
+<p>MAW Previs turns a show into a set of Blender files. They can be blocked against rehearsal video and then lit photorealistically, without either job touching the other.</p>
+<p>It is built for URITP productions in SPAC and carries from show to show. The venue and the stand-in figures are made once; each show adds only what is its own.</p>
+<p>The system has three parts:</p>
 <ul>
+<li><strong>The file architecture</strong> decides what lives where. Everything else depends on it.</li>
+<li><strong>The blocking method</strong> is how performers, cubes and props get moved and timed.</li>
+<li><strong>The tooling</strong> is two programs: a Blender add-on that drives the blocking method, and a scaffolder that builds a new show's folders and pre-linked blank files.</li>
+</ul>
+<h2 id="start-here">Start here<a class="headerlink" href="#start-here" title="Permanent link">&para;</a></h2>
+<ol>
 <li>[<a href="architecture/">Architecture</a>]: folders, files, what each one owns, and the linking rules.</li>
 <li>[<a href="blocking-method/">Blocking Method</a>]: routes, riders, pucks and figures, and how a number gets blocked.</li>
 <li>[<a href="blocking-addon/">Blocking Add-on</a>]: the spec for the Blender add-on.</li>
 <li>[<a href="showkit/">Showkit</a>]: the spec for the show scaffolder.</li>
 <li>[<a href="build-sheet/">Build Sheet</a>]: what is built, what is tested, and the order of work.</li>
-</ul>
+</ol>
 <h2 id="not-written-yet">Not written yet<a class="headerlink" href="#not-written-yet" title="Permanent link">&para;</a></h2>
-<p>A SPAC venue note belongs in <code>venues/</code>, covering the origin at center line × plaster line, trim heights, and the survey the venue file is built from. A lighting note belongs here once it is settled how fixtures and recorded DMX live in the previs files. A Vectorworks import spec belongs here once the export format out of Vectorworks is fixed.</p>
+<ul>
+<li><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="gap" style="--dr-mark-color: var(--dr-bad)" title="This fact should exist and does not. The absence is known, not overlooked.">SPAC venue note</span> belongs in <code>venues/</code>: the origin at center line × plaster line, trim heights, and the survey the venue file is built from.</li>
+<li><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="gap" style="--dr-mark-color: var(--dr-bad)" title="This fact should exist and does not. The absence is known, not overlooked.">Lighting note</span> belongs here once it is settled how fixtures and recorded DMX live in the previs files.</li>
+<li><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="gap" style="--dr-mark-color: var(--dr-bad)" title="This fact should exist and does not. The absence is known, not overlooked.">Vectorworks import spec</span> belongs here once the export format out of Vectorworks is fixed.</li>
+</ul>
 <p>Code lives in <code>ClickUp_apps</code>, next to its own README. Decision history lives in ClickUp.</p>
-<p class="dr-revised"><em>Revised 2026-11</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/maw-previs/index.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">PR #107</span></span></p>
+<p class="dr-revised"><em>Revised 2026-11</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/maw-previs/index.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">PR #108</span></span></p>
 
 
 
