@@ -1525,65 +1525,100 @@
 <p class="buildstamp buildstamp--corner" hidden><span class="buildstamp__row"><span class="buildstamp__mark" aria-hidden="true" style="background-image:url(&quot;../../../maw-prose-mark.svg&quot;)"></span><span class="buildstamp__text"><span class="buildstamp__id">MAW Prose</span><span class="buildstamp__sep"> · </span><span class="buildstamp__when">Fall 2026</span></span></span></p><h1 id="blocking-add-on">Blocking Add-on<a class="headerlink" href="#blocking-add-on" title="Permanent link">&para;</a></h1>
 <p class="dr-lede">The target spec for MAW Blocking, the Blender add-on that drives the blocking method from a sidebar tab.</p>
 <h2 id="what-it-is">What it is<a class="headerlink" href="#what-it-is" title="Permanent link">&para;</a></h2>
-<p>MAW Blocking is a Blender extension, installed once per computer from disk, that adds a Blocking tab to the 3D Viewport sidebar. It turns the [<a href="../blocking-method/">Blocking Method</a>] into buttons and keeps the bookkeeping out of sight.</p>
-<p>Every button is one undo step. Installing it changes nothing in any file; only pressing a button does.</p>
-<p>It targets Blender 5.2 LTS and works offline.</p>
+<ul>
+<li>MAW Blocking: a Blender extension that adds a <strong>Blocking</strong> tab to the 3D Viewport sidebar</li>
+<li>Turns the [<a href="../blocking-method/">Blocking Method</a>] into buttons and hides the bookkeeping</li>
+<li>Installed once per computer, from disk: <a href="https://docs.blender.org/manual/en/5.2/editors/preferences/extensions.html">Get Extensions › Install from Disk</a></li>
+<li>Every button is one undo step</li>
+<li>Installing changes nothing in any file; only pressing a button does</li>
+<li>Targets Blender 5.2 LTS; works offline</li>
+<li>Build status: [<a href="../build-sheet/">Build Sheet</a>]</li>
+</ul>
 <h2 id="controls">Controls<a class="headerlink" href="#controls" title="Permanent link">&para;</a></h2>
 <h3 id="pickers">Pickers<a class="headerlink" href="#pickers" title="Permanent link">&para;</a></h3>
-<p>Unit accepts only pucks. Route accepts any curve.</p>
+<ul>
+<li>Unit: accepts pucks only</li>
+<li>Route: accepts any curve</li>
+</ul>
 <h3 id="make-unit">Make Unit<a class="headerlink" href="#make-unit" title="Permanent link">&para;</a></h3>
 <p>Acts on the selected object.</p>
 <ul>
-<li>A figure, cube or prop gets a new puck at its feet, facing the way it faces, and is parented to it.</li>
-<li>A mark from the earlier single-route rig is adopted in place. Its Follow Path constraint is turned off and renamed as legacy, never deleted, and the mark stays where it visibly stands.</li>
-<li>A figure already parented to something is refused, and the refusal names the parent to select instead.</li>
+<li>Figure, cube or prop: gets a new puck at its feet, facing the way it faces, and is parented to it</li>
+<li>Mark from the earlier single-route rig: adopted in place<ul>
+<li>Its Follow Path constraint is turned off and renamed as legacy, never deleted</li>
+<li>The mark stays where it visibly stands</li>
+</ul>
+</li>
+<li>Figure already parented to something: refused; the refusal names the parent to select instead</li>
 </ul>
 <h3 id="new-route">New Route<a class="headerlink" href="#new-route" title="Permanent link">&para;</a></h3>
-<p>Draws a two-point curve that starts exactly where the unit stands and points the way it faces, then selects it for shaping.</p>
-<h3 id="walk-it-backwards">Walk it backwards<a class="headerlink" href="#walk-it-backwards" title="Permanent link">&para;</a></h3>
-<p>Makes the next cross travel its route from the last point to the first.</p>
-<h3 id="depart-and-arrive">Depart and Arrive<a class="headerlink" href="#depart-and-arrive" title="Permanent link">&para;</a></h3>
-<p>Depart starts a cross on the current frame. Arrive finishes the open cross on the current frame.</p>
-<h3 id="cross-list">Cross list<a class="headerlink" href="#cross-list" title="Permanent link">&para;</a></h3>
-<p>Each cross gets a row showing its route and its departure and arrival frames.</p>
 <ul>
-<li>Each frame is a button that moves the playhead there.</li>
-<li>A record button beside it moves that moment to the playhead.</li>
-<li>A remove button deletes the cross and its rider while leaving the route alone.</li>
+<li>Draws a two-point curve from exactly where the unit stands, pointing the way it faces</li>
+<li>Selects it for shaping</li>
+</ul>
+<h3 id="walk-it-backwards">Walk it backwards<a class="headerlink" href="#walk-it-backwards" title="Permanent link">&para;</a></h3>
+<ul>
+<li>The next cross travels its route from the last point to the first</li>
+</ul>
+<h3 id="depart-and-arrive">Depart and Arrive<a class="headerlink" href="#depart-and-arrive" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Depart: starts a cross on the current frame</li>
+<li>Arrive: finishes the open cross on the current frame</li>
+</ul>
+<h3 id="cross-list">Cross list<a class="headerlink" href="#cross-list" title="Permanent link">&para;</a></h3>
+<p>One row per cross: route, departure frame, arrival frame.</p>
+<ul>
+<li>Each frame is a button that jumps the playhead there</li>
+<li>The record button beside it moves that moment to the playhead</li>
+<li>The remove button deletes the cross and its rider; the route stays</li>
 </ul>
 <h2 id="refusals">Refusals<a class="headerlink" href="#refusals" title="Permanent link">&para;</a></h2>
-<p>The add-on refuses rather than guesses, and every refusal says what to do. It refuses:</p>
+<p>It refuses rather than guesses, and every refusal says what to do. It won't:</p>
 <ul>
-<li>to depart while another cross is still open</li>
-<li>to arrive at or before the departure</li>
-<li>to depart on a route that has more than one piece</li>
-<li>to create anything whose name already exists</li>
+<li>depart while another cross is still open</li>
+<li>arrive at or before the departure</li>
+<li>depart on a route with more than one piece</li>
+<li>create anything whose name already exists</li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Why multi-piece routes are refused</p>
-<p>Follow Path follows only a curve's first piece and gives no sign that it has ignored the rest.</p>
+<p><a href="https://docs.blender.org/manual/en/5.2/animation/constraints/relationship/follow_path.html">Follow Path</a> follows only a curve's first piece and gives no sign that it ignored the rest.</p>
 </div>
 <h2 id="warnings">Warnings<a class="headerlink" href="#warnings" title="Permanent link">&para;</a></h2>
-<p>The cross list warns, live, when:</p>
+<p>Live, in the cross list, when:</p>
 <ul>
-<li>a handoff jumps because one route does not end where the next begins</li>
+<li>a handoff jumps: one route doesn't end where the next begins</li>
 <li>a cross departs before the previous one arrives</li>
 <li>a cross never arrives</li>
 <li>a route has more than one piece</li>
 </ul>
-<p>Distances print in the scene's own units. A unit with no warnings says so.</p>
+<p>Display:</p>
+<ul>
+<li>Distances print in the scene's own units</li>
+<li>A unit with no warnings says so</li>
+</ul>
 <h2 id="what-it-writes">What it writes<a class="headerlink" href="#what-it-writes" title="Permanent link">&para;</a></h2>
 <h3 id="where-things-go">Where things go<a class="headerlink" href="#where-things-go" title="Permanent link">&para;</a></h3>
-<p>Pucks go in BLK_UNITS, routes in BLK_ROUTES and riders in BLK_RIDERS, each created under BLOCKING when that collection exists.</p>
-<p>Pucks and riders are hidden from render; figures are not. Riders stay visible as small spheres, because a rider disabled in the viewport stops being evaluated and its unit freezes.</p>
+<ul>
+<li>Pucks: BLK_UNITS</li>
+<li>Routes: BLK_ROUTES</li>
+<li>Riders: BLK_RIDERS</li>
+<li>Each created under BLOCKING when it exists ([<a href="../architecture/">Architecture</a>])</li>
+<li>Pucks and riders: hidden from render. Figures: not.</li>
+<li>Riders stay visible as small spheres: a rider disabled in the viewport stops evaluating and its unit freezes</li>
+</ul>
 <h3 id="how-keys-are-written">How keys are written<a class="headerlink" href="#how-keys-are-written" title="Permanent link">&para;</a></h3>
-<p>Switch keys are written as Constant and offset keys with Bézier easing.</p>
-<p>The add-on does this by setting the new-key preferences for the moment it writes and restoring them afterwards, rather than reaching into F-curves, whose Python API moved with Blender 5's slotted actions.</p>
+<ul>
+<li>Switch keys: Constant (<a href="https://docs.blender.org/manual/en/5.2/animation/constraints/transform/copy_location.html">Copy Location</a> influence)</li>
+<li>Offset keys: Bézier easing</li>
+<li>Done by setting the new-key preferences for the moment it writes, then restoring them</li>
+<li>Never reaches into F-curves, whose Python API moved with Blender 5's slotted actions</li>
+</ul>
 <h3 id="names">Names<a class="headerlink" href="#names" title="Permanent link">&para;</a></h3>
 <ul>
-<li>A puck is named for its figure plus <code>_PUCK</code>.</li>
-<li>A rider is the puck's name plus <code>.X</code> and a two-digit cross number.</li>
-<li>A cross's constraint is <code>BLK X</code>, its number, then the route's name.</li>
+<li>Puck: figure's name + <code>_PUCK</code></li>
+<li>Rider: puck's name + <code>.X</code> + two-digit cross number</li>
+<li>Cross constraint: <code>BLK X</code> + number + route name</li>
 </ul>
 <div class="admonition warning">
 <p class="admonition-title">The panel is the only editor</p>
@@ -1592,12 +1627,12 @@
 <h2 id="not-in-this-version">Not in this version<a class="headerlink" href="#not-in-this-version" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Spike marks as named route endpoints</li>
-<li>A blocking run-sheet export</li>
+<li>Blocking run-sheet export</li>
 <li>Facing that follows the route automatically</li>
 <li>Props handed from one performer to another</li>
 </ul>
 <p class="dr-related">Related: <a href="../blocking-method/">Blocking Method</a>, <a href="../build-sheet/">Build Sheet</a></p>
-<p class="dr-revised"><em>Revised 2026-11</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/maw-previs/blocking-addon.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">PR #108</span></span></p>
+<p class="dr-revised"><em>Revised 2026-11</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/maw-previs/blocking-addon.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">PR #109</span></span></p>
 
 
 

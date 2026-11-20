@@ -1381,51 +1381,77 @@
 <p class="buildstamp buildstamp--corner" hidden><span class="buildstamp__row"><span class="buildstamp__mark" aria-hidden="true" style="background-image:url(&quot;../../../maw-prose-mark.svg&quot;)"></span><span class="buildstamp__text"><span class="buildstamp__id">MAW Prose</span><span class="buildstamp__sep"> · </span><span class="buildstamp__when">Fall 2026</span></span></span></p><h1 id="showkit">Showkit<a class="headerlink" href="#showkit" title="Permanent link">&para;</a></h1>
 <p class="dr-lede">The target spec for the show scaffolder, which builds a show's folders and pre-linked blank Blender files from one config.</p>
 <h2 id="what-it-is">What it is<a class="headerlink" href="#what-it-is" title="Permanent link">&para;</a></h2>
-<p>The Showkit builds a new show's folders and blank Blender files, already configured and already linked to each other, from one small config file.</p>
-<p>It runs headless from Terminal through Blender's own Python, so it never touches a file that is open in Blender. It lives in <code>MAW_PREVIS/_TOOLS/</code> and finds the rest of the tree from there.</p>
-<h2 id="the-config">The config<a class="headerlink" href="#the-config" title="Permanent link">&para;</a></h2>
-<p>One JSON file per show in <code>_TOOLS/shows/</code>, named by show code. It holds:</p>
 <ul>
-<li>the show code, year and title</li>
-<li>the frame rate</li>
-<li>the venue file's path</li>
-<li>the casts, and which one is rendered</li>
-<li>the track letters</li>
-<li>how many musicians and cubes there are, and the cube size</li>
-<li>the numbers in running order, each with a two-digit code and a short name</li>
+<li>Builds a new show's folders and blank Blender files, configured and pre-linked, from one config</li>
+<li>Runs headless from Terminal through Blender's own Python: <a href="https://docs.blender.org/manual/en/5.2/advanced/command_line/arguments.html">Command Line Arguments</a></li>
+<li>Never touches a file that's open in Blender</li>
+<li>Lives in <code>MAW_PREVIS/_TOOLS/</code> and finds the rest of the tree from there</li>
+<li>What it builds toward: [<a href="../architecture/">Architecture</a>]</li>
+<li>Build status: [<a href="../build-sheet/">Build Sheet</a>]</li>
+</ul>
+<h2 id="the-config">The config<a class="headerlink" href="#the-config" title="Permanent link">&para;</a></h2>
+<p>One JSON file per show in <code>_TOOLS/shows/</code>, named by show code:</p>
+<ul>
+<li>show code, year, title</li>
+<li>frame rate</li>
+<li>venue file path</li>
+<li>casts, and which one is rendered</li>
+<li>track letters</li>
+<li>musician count, cube count, cube size</li>
+<li>numbers in running order: two-digit code + short name</li>
 </ul>
 <div class="admonition warning">
 <p class="admonition-title">The frame rate has no default</p>
-<p>The Showkit refuses to build until it is set, and the refusal prints the ffprobe command that reads it off a clip. A 29.97 clip is entered as 29.97; Blender stores it as 30 over 1.001.</p>
+<p>The Showkit refuses to build until it's set, and prints the <a href="https://ffmpeg.org/ffprobe.html">ffprobe</a> command that reads it off a clip. A 29.97 clip is entered as 29.97; Blender stores it as 30 over 1.001.</p>
 </div>
 <h2 id="what-it-builds">What it builds<a class="headerlink" href="#what-it-builds" title="Permanent link">&para;</a></h2>
-<p>It builds in dependency order, so every link points at a file that already exists:</p>
+<p>In dependency order, so every link points at a file that already exists:</p>
 <ol>
-<li>The venue and figures libraries, if they are missing</li>
+<li>Venue and figures libraries, if missing</li>
 <li>The show's scenery, props and rig files</li>
 <li>One blocking file per number</li>
 <li>One previs file per number</li>
 </ol>
-<p>It also makes the source, reference-by-cast and renders folders.</p>
+<p>Plus folders: source, reference by cast, renders.</p>
 <h3 id="every-file">Every file<a class="headerlink" href="#every-file" title="Permanent link">&para;</a></h3>
-<p>Gets the show's frame rate, frame 1 as its start, imperial display units, AgX colour, a scene named for the file, and an origin marker at center line × plaster line.</p>
-<h3 id="libraries">Libraries<a class="headerlink" href="#libraries" title="Permanent link">&para;</a></h3>
-<p>The figures library gets crude standing and seated stand-ins. The props file gets CUBE_18, built to size. Both are marked as assets.</p>
-<h3 id="blocking-files">Blocking files<a class="headerlink" href="#blocking-files" title="Permanent link">&para;</a></h3>
-<p>Get the collection tree from [<a href="../architecture/">Architecture</a>]. Each links the venue and scenery under REFERENCE and places the tracks, musicians and cubes as instances, lined up to be dragged to their presets.</p>
-<p>If a reference clip for that number exists in the render cast's folder:</p>
 <ul>
-<li>the clip goes into the Sequencer at frame 1 with its sound</li>
-<li>the scene's end follows the clip</li>
+<li>The show's frame rate</li>
+<li>Start at frame 1</li>
+<li>Imperial display units</li>
+<li>AgX colour</li>
+<li>Scene named for the file</li>
+<li>Origin marker at center line × plaster line</li>
+</ul>
+<h3 id="libraries">Libraries<a class="headerlink" href="#libraries" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Figures: crude standing and seated stand-ins</li>
+<li>Props: CUBE_18, built to size</li>
+<li>Both marked as assets</li>
+</ul>
+<h3 id="blocking-files">Blocking files<a class="headerlink" href="#blocking-files" title="Permanent link">&para;</a></h3>
+<ul>
+<li>The collection tree from [<a href="../architecture/">Architecture</a>]</li>
+<li>Venue and scenery linked under REFERENCE (<a href="https://docs.blender.org/manual/en/5.2/files/linked_libraries/link_append.html">Link &amp; Append</a>)</li>
+<li>Tracks, musicians and cubes placed as instances, lined up to drag to their presets</li>
+<li>If that number's clip is in the render cast's folder:<ul>
+<li>it goes into the Sequencer at frame 1, with sound</li>
+<li>the scene end follows the clip</li>
 <li>the Sequencer is excluded from rendering</li>
 </ul>
+</li>
+</ul>
 <h3 id="previs-files">Previs files<a class="headerlink" href="#previs-files" title="Permanent link">&para;</a></h3>
-<p>Get LIGHTS and CAMERAS collections, one house camera aimed at the stage, Cycles, and links to the venue, scenery, rig and that number's BLOCKING.</p>
+<ul>
+<li>LIGHTS and CAMERAS collections</li>
+<li>One house camera aimed at the stage</li>
+<li>Cycles</li>
+<li>Links: venue, scenery, rig, that number's BLOCKING</li>
+</ul>
 <h2 id="safety">Safety<a class="headerlink" href="#safety" title="Permanent link">&para;</a></h2>
 <ul>
-<li>A run without <code>--go</code> is a dry run: it prints the plan and writes nothing.</li>
-<li>A run with <code>--go</code> builds whatever is missing and never opens or overwrites an existing file, so it is safe to run again as the config grows.</li>
-<li>Every run writes a report into the show folder listing what it made, what it kept, and anything it skipped.</li>
+<li>No <code>--go</code>: dry run. Prints the plan, writes nothing.</li>
+<li>With <code>--go</code>: builds what's missing; never opens or overwrites an existing file. Safe to rerun as the config grows.</li>
+<li>Every run writes a report into the show folder: made, kept, skipped.</li>
 </ul>
 <h2 id="not-in-this-version">Not in this version<a class="headerlink" href="#not-in-this-version" title="Permanent link">&para;</a></h2>
 <ul>
@@ -1434,7 +1460,7 @@
 <li>A saved Blocking workspace layout</li>
 </ul>
 <p class="dr-related">Related: <a href="../architecture/">Architecture</a>, <a href="../build-sheet/">Build Sheet</a></p>
-<p class="dr-revised"><em>Revised 2026-11</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/maw-previs/showkit.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">PR #108</span></span></p>
+<p class="dr-revised"><em>Revised 2026-11</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/maw-previs/showkit.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">PR #109</span></span></p>
 
 
 

@@ -1293,39 +1293,59 @@
 <p class="buildstamp buildstamp--corner" hidden><span class="buildstamp__row"><span class="buildstamp__mark" aria-hidden="true" style="background-image:url(&quot;../../../maw-prose-mark.svg&quot;)"></span><span class="buildstamp__text"><span class="buildstamp__id">MAW Prose</span><span class="buildstamp__sep"> · </span><span class="buildstamp__when">Fall 2026</span></span></span></p><h1 id="build-sheet">Build Sheet<a class="headerlink" href="#build-sheet" title="Permanent link">&para;</a></h1>
 <p class="dr-lede">What is built, what has been tested and how, and the order of work for the first show.</p>
 <h2 id="where-things-stand">Where things stand<a class="headerlink" href="#where-things-stand" title="Permanent link">&para;</a></h2>
-<p>Both programs exist as prototypes written before these specs. They are kept as starting points and are revised against the specs before anything depends on them.</p>
+<ul>
+<li>Both programs are prototypes written before these specs</li>
+<li>Kept as starting points; revised against the specs before anything depends on them</li>
+</ul>
 <div class="admonition warning">
 <p class="admonition-title">Neither has run in Blender yet</p>
 <p>The first real install is the test.</p>
 </div>
 <h3 id="maw-blocking-200">MAW Blocking 2.0.0<a class="headerlink" href="#maw-blocking-200" title="Permanent link">&para;</a></h3>
-<p>Checked only against a stand-in for Blender's Python built for the purpose: 37 checks covering crosses, retimes, overlaps, gaps, removal, insertion, reverse travel, shared routes, adoption of the earlier rig, re-registration and panel drawing.</p>
-<p>That proves the logic. It does not prove the add-on runs in Blender. <span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="tbc" title="Not yet verified against a source. Do not rely on this without checking.">To be confirmed</span></p>
+<ul>
+<li>Spec: [<a href="../blocking-addon/">Blocking Add-on</a>]</li>
+<li>Checked only against a purpose-built stand-in for Blender's Python: 37 checks</li>
+<li>Covers crosses, retimes, overlaps, gaps, removal, insertion, reverse travel, shared routes, adopting the earlier rig, re-registration, panel drawing</li>
+<li>Proves the logic, not that it runs in Blender <span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="tbc" title="Not yet verified against a source. Do not rely on this without checking.">To be confirmed</span></li>
+</ul>
 <h3 id="showkit-1">Showkit 1<a class="headerlink" href="#showkit-1" title="Permanent link">&para;</a></h3>
-<p>Its dry run and its two refusals have been exercised. The half that builds files has not run anywhere, because only Blender can run it. <span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="tbc" title="Not yet verified against a source. Do not rely on this without checking.">To be confirmed</span></p>
+<ul>
+<li>Spec: [<a href="../showkit/">Showkit</a>]</li>
+<li>Exercised: the dry run and its two refusals</li>
+<li>Not run anywhere: the half that builds files, which only Blender can run <span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="tbc" title="Not yet verified against a source. Do not rely on this without checking.">To be confirmed</span></li>
+</ul>
 <h2 id="order-of-work">Order of work<a class="headerlink" href="#order-of-work" title="Permanent link">&para;</a></h2>
 <div class="admonition danger">
 <p class="admonition-title">Steps 1 and 2 are gates</p>
 <p>Nothing after them is built until both pass.</p>
 </div>
 <ol>
-<li><strong>Gate: run the blocking add-on in Blender.</strong> Install it, adopt the existing mark, and block one cross on the existing route. If Depart refuses that route as two pieces, that also explains why the earlier rig barely moved the figure.</li>
-<li><strong>Gate: prove linked blocking plays.</strong> Link a blocking file's BLOCKING collection into an empty file and scrub. Constraint-driven animation inside a linked collection has not been confirmed on 5.2, and the whole architecture rests on it. If it fails, the architecture changes before anything else is built.</li>
-<li>Set the show config: the frame rate read from the reference clip, and the real running order.</li>
+<li><strong>Gate: the add-on runs in Blender.</strong><ul>
+<li>Install it, adopt the existing mark, block one cross on the existing route.</li>
+<li>If Depart refuses that route as two pieces, that's also why the earlier rig barely moved the figure.</li>
+</ul>
+</li>
+<li><strong>Gate: linked blocking plays.</strong><ul>
+<li>Link a blocking file's BLOCKING into an empty file and scrub (<a href="https://docs.blender.org/manual/en/5.2/files/linked_libraries/link_append.html">Link &amp; Append</a>).</li>
+<li>Constraint-driven animation inside a linked collection isn't confirmed on 5.2, and the whole [<a href="../architecture/">Architecture</a>] rests on it.</li>
+<li>If it fails, the architecture changes before anything else is built.</li>
+</ul>
+</li>
+<li>Set the show config: frame rate from the reference clip, real running order.</li>
 <li>Dry run the Showkit, then build.</li>
-<li>Move the existing SFANW file's scenery into scenery.blend, working on copies, and relink it from the opening's blocking file.</li>
+<li>Move the existing SFANW file's scenery into scenery.blend (on copies) and relink it from the opening's blocking file.</li>
 <li>Block the opening, one track at a time, against the render cast's clip.</li>
 <li>Light the opening in its previs file while the second number is blocked.</li>
 <li>Repeat for each number.</li>
 </ol>
 <h2 id="known-gaps">Known gaps<a class="headerlink" href="#known-gaps" title="Permanent link">&para;</a></h2>
 <ul>
-<li><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="gap" style="--dr-mark-color: var(--dr-bad)" title="This fact should exist and does not. The absence is known, not overlooked.">Fixtures and recorded DMX</span> How they live in previs files is not settled, so a previs file per number is the current target rather than a fixed part of the architecture.</li>
-<li><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="gap" style="--dr-mark-color: var(--dr-bad)" title="This fact should exist and does not. The absence is known, not overlooked.">Running order</span> The SFANW config does not yet carry numbers two to seven.</li>
-<li><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="gap" style="--dr-mark-color: var(--dr-bad)" title="This fact should exist and does not. The absence is known, not overlooked.">Stand-in figures</span> Placeholders until a better figure is built into the library.</li>
+<li><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="gap" style="--dr-mark-color: var(--dr-bad)" title="This fact should exist and does not. The absence is known, not overlooked.">Fixtures and recorded DMX</span>: not settled, so one previs file per number is the current target, not a fixed part of the architecture</li>
+<li><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="gap" style="--dr-mark-color: var(--dr-bad)" title="This fact should exist and does not. The absence is known, not overlooked.">Running order</span>: the SFANW config doesn't yet carry numbers two to seven</li>
+<li><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="gap" style="--dr-mark-color: var(--dr-bad)" title="This fact should exist and does not. The absence is known, not overlooked.">Stand-in figures</span>: placeholders until a better figure is built into the library</li>
 </ul>
 <p class="dr-related">Related: <a href="../">MAW Previs</a>, <a href="../blocking-addon/">Blocking Add-on</a>, <a href="../showkit/">Showkit</a></p>
-<p class="dr-revised"><em>Revised 2026-11</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/maw-previs/build-sheet.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">PR #108</span></span></p>
+<p class="dr-revised"><em>Revised 2026-11</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/maw-previs/build-sheet.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">PR #109</span></span></p>
 
 
 

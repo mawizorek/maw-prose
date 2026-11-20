@@ -865,78 +865,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Cases">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#exits" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Exits
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#sitting-and-standing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Sitting and standing
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#musicians-and-set-dressing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Musicians and set dressing
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#carried-cubes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Carried cubes
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#shared-routes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Shared routes
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#two-units-on-one-route" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Two units on one route
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
     </ul>
@@ -1431,78 +1359,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Cases">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#exits" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Exits
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#sitting-and-standing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Sitting and standing
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#musicians-and-set-dressing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Musicians and set dressing
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#carried-cubes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Carried cubes
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#shared-routes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Shared routes
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#two-units-on-one-route" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Two units on one route
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
     </ul>
@@ -1525,60 +1381,93 @@
 <p class="buildstamp buildstamp--corner" hidden><span class="buildstamp__row"><span class="buildstamp__mark" aria-hidden="true" style="background-image:url(&quot;../../../maw-prose-mark.svg&quot;)"></span><span class="buildstamp__text"><span class="buildstamp__id">MAW Prose</span><span class="buildstamp__sep"> · </span><span class="buildstamp__when">Fall 2026</span></span></span></p><h1 id="blocking-method">Blocking Method<a class="headerlink" href="#blocking-method" title="Permanent link">&para;</a></h1>
 <p class="dr-lede">How performers, cubes and props are moved and timed against rehearsal video, and why the method survives weeks of revisions.</p>
 <h2 id="the-four-parts">The four parts<a class="headerlink" href="#the-four-parts" title="Permanent link">&para;</a></h2>
-<p>Every moving thing on stage is a <strong>unit</strong>, and a unit is four objects with four separate jobs.</p>
+<p>Every moving thing on stage is a <strong>unit</strong>: four objects, four jobs.</p>
 <div class="admonition abstract">
 <p class="admonition-title">At a glance</p>
 <p>The route owns where. The rider owns when. The puck owns facing. The figure owns the look.</p>
 </div>
 <h3 id="route">Route<a class="headerlink" href="#route" title="Permanent link">&para;</a></h3>
-<p>Owns where. It is a Bézier curve drawn on the stage, one per cross, and it climbs stairs because it is drawn in three dimensions.</p>
-<p>Routes are shared: two performers, a cube, or both casts can use the same one.</p>
+<ul>
+<li>Owns where</li>
+<li>A Bézier curve on the stage, one per cross</li>
+<li>Drawn in 3D, so it climbs stairs</li>
+<li>Shared: two performers, a cube, or both casts can use one route</li>
+</ul>
 <h3 id="rider">Rider<a class="headerlink" href="#rider" title="Permanent link">&para;</a></h3>
-<p>Owns when. It is a small hidden sphere, one per cross, that travels its route on a Follow Path constraint.</p>
-<p>Its Offset Factor is keyed 0 at departure and 1 at arrival with Blender's default easing, so the walk starts and stops naturally.</p>
+<ul>
+<li>Owns when</li>
+<li>A small hidden sphere, one per cross</li>
+<li>Travels its route on a <a href="https://docs.blender.org/manual/en/5.2/animation/constraints/relationship/follow_path.html">Follow Path</a> constraint</li>
+<li>Offset Factor keyed 0 at departure, 1 at arrival</li>
+<li>Blender's default easing, so the walk starts and stops naturally</li>
+</ul>
 <h3 id="puck">Puck<a class="headerlink" href="#puck" title="Permanent link">&para;</a></h3>
-<p>Owns facing. It is a floor disc with a nose that copies the position of whichever rider is live.</p>
-<p>Rotation Z on the puck is keyed by hand, so where someone looks never depends on where they walk.</p>
+<ul>
+<li>Owns facing</li>
+<li>A floor disc with a nose</li>
+<li>Copies the position of whichever rider is live</li>
+<li>Rotation Z keyed by hand: where someone looks never depends on where they walk</li>
+</ul>
 <h3 id="figure">Figure<a class="headerlink" href="#figure" title="Permanent link">&para;</a></h3>
-<p>Owns the look. It is the performer or cube model, parented to the puck and never keyed. It can be swapped for a better model at any time without touching the timing.</p>
+<ul>
+<li>Owns the look</li>
+<li>The performer or cube model, parented to the puck</li>
+<li>Never keyed</li>
+<li>Swap in a better model any time without touching the timing</li>
+</ul>
 <h2 id="how-a-cross-works">How a cross works<a class="headerlink" href="#how-a-cross-works" title="Permanent link">&para;</a></h2>
-<p>The puck carries one Copy Location constraint per cross, in run order. Each constraint switches from off to on exactly once and then stays on, and a later constraint overrides every earlier one. Reading the puck's constraint stack top to bottom reads the number's blocking in order.</p>
-<p>The first cross is simply on, with no keys. That makes the unit's waiting position free: before its first departure, it stands at the start of its first route.</p>
-<p>Every later cross switches on the frame after the previous cross arrives. At that moment both riders stand on the same spot, so the switch is invisible.</p>
+<ul>
+<li>The puck carries one <a href="https://docs.blender.org/manual/en/5.2/animation/constraints/transform/copy_location.html">Copy Location</a> constraint per cross, in run order</li>
+<li>Each switches off to on exactly once, then stays on</li>
+<li>A later constraint overrides every earlier one</li>
+<li>Read the puck's constraint stack top to bottom = the number's blocking in order</li>
+<li>First cross: simply on, no keys. Before its first departure, a unit waits at the start of its first route.</li>
+<li>Every later cross: switches on the frame after the previous cross arrives</li>
+<li>At that moment both riders stand on the same spot, so the switch is invisible</li>
+<li>A hold is the gap between one arrival and the next departure; nothing is keyed to make one</li>
+</ul>
 <div class="admonition tip">
 <p class="admonition-title">Why retiming is safe</p>
-<p>The departure can move anywhere inside the hold without anyone jumping. This is the property the method exists for. In the third week of rehearsal a departure gets retimed, and nothing else moves.</p>
+<p>The departure can move anywhere inside the hold without anyone jumping. In the third week of rehearsal a departure gets retimed, and nothing else moves.</p>
 </div>
-<p>A hold is the gap between one arrival and the next departure. Nothing has to be keyed to make one.</p>
 <h2 id="why-not-one-long-route">Why not one long route<a class="headerlink" href="#why-not-one-long-route" title="Permanent link">&para;</a></h2>
-<p>A single route with its Offset Factor keyed along it fails the moment the route is extended. Offset Factor is a fraction of the whole route's length, so adding a segment at the end slides every earlier position along the curve.</p>
-<p>Short routes, one per cross, keep each cross's timing independent of every other.</p>
+<ul>
+<li>Offset Factor is a fraction of the whole route's length</li>
+<li>Extend the route and every earlier position slides along the curve</li>
+<li>Short routes, one per cross, keep each cross's timing independent</li>
+</ul>
 <h2 id="blocking-a-number">Blocking a number<a class="headerlink" href="#blocking-a-number" title="Permanent link">&para;</a></h2>
-<p>The number's reference clip sits in the blocking file's Sequencer starting at frame 1, with the musical landmarks marked on the timeline and named by lyric.</p>
+<p>Setup:</p>
+<ul>
+<li>The number's reference clip sits in the Sequencer from frame 1 (<a href="https://docs.blender.org/manual/en/5.2/video_editing/sequencer_scene.html">Sequencer scene</a>)</li>
+<li>Musical landmarks are timeline markers, named by lyric</li>
+</ul>
+<p>Steps:</p>
 <ol>
 <li>Make units from their figures and drag them to their presets.</li>
-<li>Pick one unit. Scrub the playhead to the moment the performer leaves, and start the cross.</li>
-<li>Scrub to where they land, and finish the cross.</li>
-<li>Start the next route from where the unit is standing. A new route always starts exactly there, so crosses chain without gaps.</li>
+<li>Pick one unit. Scrub to the moment the performer leaves; start the cross.</li>
+<li>Scrub to where they land; finish the cross.</li>
+<li>Start the next route from where the unit stands. New routes always start there, so crosses chain without gaps.</li>
 <li>Key turns as Rotation Z on the puck.</li>
-<li>Block that unit all the way through before starting the next.</li>
+<li>
+<p>Finish that unit all the way through before starting the next.</p>
+</li>
+<li>
+<p>Handoffs between performers hang off the markers, not each other's keyframes</p>
+</li>
+<li>The buttons for all of this: [<a href="../blocking-addon/">Blocking Add-on</a>]</li>
 </ol>
-<p>Handoffs between performers hang off the markers, not off each other's keyframes.</p>
 <h2 id="cases">Cases<a class="headerlink" href="#cases" title="Permanent link">&para;</a></h2>
-<h3 id="exits">Exits<a class="headerlink" href="#exits" title="Permanent link">&para;</a></h3>
-<p>Usually retrace an entrance, so a route can be walked backwards rather than drawn twice.</p>
-<h3 id="sitting-and-standing">Sitting and standing<a class="headerlink" href="#sitting-and-standing" title="Permanent link">&para;</a></h3>
-<p>Need no rig. A seated figure and a standing figure sit under the same puck, and their visibility is keyed at the moment of the change.</p>
-<h3 id="musicians-and-set-dressing">Musicians and set dressing<a class="headerlink" href="#musicians-and-set-dressing" title="Permanent link">&para;</a></h3>
-<p>Things that never move are placed once in PRESET and get no puck.</p>
-<h3 id="carried-cubes">Carried cubes<a class="headerlink" href="#carried-cubes" title="Permanent link">&para;</a></h3>
-<p>A carried cube gets its own route alongside the carrier's, with the same departure and arrival frames.</p>
-<h3 id="shared-routes">Shared routes<a class="headerlink" href="#shared-routes" title="Permanent link">&para;</a></h3>
-<p>Stay shared. Reshaping a route changes every unit that uses it, in both casts. When one cast's blocking diverges, that cast gets its own copy of the route.</p>
-<h3 id="two-units-on-one-route">Two units on one route<a class="headerlink" href="#two-units-on-one-route" title="Permanent link">&para;</a></h3>
-<p>At the same time, they walk through each other, which is accurate: that is a collision on stage as well. Parallel crosses get parallel routes.</p>
+<ul>
+<li><strong>Exits:</strong> usually retrace an entrance, so walk the route backwards instead of drawing it twice</li>
+<li><strong>Sitting and standing:</strong> no rig. A seated and a standing figure under one puck, visibility keyed at the change.</li>
+<li><strong>Musicians and set dressing:</strong> placed once in PRESET, no puck</li>
+<li><strong>Carried cubes:</strong> their own route beside the carrier's, same departure and arrival frames</li>
+<li><strong>Shared routes:</strong> reshaping one changes every unit on it, in both casts. When one cast diverges, it gets its own copy.</li>
+<li><strong>Two units on one route at once:</strong> they walk through each other, which is accurate, since that's a collision on stage too. Parallel crosses get parallel routes.</li>
+</ul>
 <p class="dr-related">Related: <a href="../">MAW Previs</a>, <a href="../architecture/">Architecture</a>, <a href="../blocking-addon/">Blocking Add-on</a></p>
-<p class="dr-revised"><em>Revised 2026-11</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/maw-previs/blocking-method.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">PR #108</span></span></p>
+<p class="dr-revised"><em>Revised 2026-11</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/maw-previs/blocking-method.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">PR #109</span></span></p>
 
 
 

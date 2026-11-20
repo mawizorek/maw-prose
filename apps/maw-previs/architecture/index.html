@@ -1615,14 +1615,18 @@
 <h2 id="the-one-rule">The one rule<a class="headerlink" href="#the-one-rule" title="Permanent link">&para;</a></h2>
 <div class="admonition warning">
 <p class="admonition-title">Edit everything in exactly one file</p>
-<p>Every piece of the show is edited in exactly one file, and every other file sees it through a read-only link.</p>
+<p>Every other file sees it through a read-only link.</p>
 <ul>
 <li>Blocking files never hold a light.</li>
 <li>Previs files never hold a blocking keyframe.</li>
 <li>A model's geometry lives in its library file and nowhere else.</li>
 </ul>
 </div>
-<p>Breaking this rule is how a reblock quietly moves a light, or a lighting session nudges a performer off a mark, and nobody finds out until the render.</p>
+<ul>
+<li>Break it and a reblock quietly moves a light, or a lighting session nudges a performer off a mark.</li>
+<li>Nobody finds out until the render.</li>
+<li>How linking works: <a href="https://docs.blender.org/manual/en/5.2/files/linked_libraries/link_append.html">Link &amp; Append</a></li>
+</ul>
 <h2 id="the-tree">The tree<a class="headerlink" href="#the-tree" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>MAW_PREVIS/
     _TOOLS/                     the add-on, the scaffolder, show configs
@@ -1640,58 +1644,118 @@
             previs_01_opening.blend
             renders/
 </code></pre></div>
-<p><code>_LIBRARY</code> holds what every show uses. A show folder holds only what is that show's own, and is named year then show code so the folders sort by season.</p>
+<ul>
+<li><code>_LIBRARY</code>: what every show uses</li>
+<li>A show folder: only that show's own</li>
+<li>Show folders are named year then show code, so they sort by season</li>
+<li>The [<a href="../showkit/">Showkit</a>] builds this tree</li>
+</ul>
 <h2 id="what-each-file-owns">What each file owns<a class="headerlink" href="#what-each-file-owns" title="Permanent link">&para;</a></h2>
 <h3 id="venue-file">Venue file<a class="headerlink" href="#venue-file" title="Permanent link">&para;</a></h3>
-<p>Owns the room as a VENUE collection: walls, house, stage floor, pipes, anything that does not change between shows. It is built once.</p>
-<h3 id="figures-file">Figures file<a class="headerlink" href="#figures-file" title="Permanent link">&para;</a></h3>
-<p>Owns the stand-ins as FIG_STANDING and FIG_SEATED. They are deliberately crude.</p>
-<p>Every performer in every show is an instance of one of these two collections. When a better figure replaces what is inside them, every blocking file and every render updates without a keyframe changing.</p>
-<p>Each figure's origin is at its feet, and its nose faces −Y.</p>
-<h3 id="scenery-file">Scenery file<a class="headerlink" href="#scenery-file" title="Permanent link">&para;</a></h3>
-<p>Owns the set as SCENERY. This is where the realism lives.</p>
-<p>Its materials are tuned here and never in a previs file, because a material changed downstream is a material lost the next time the link reloads.</p>
-<h3 id="props-file">Props file<a class="headerlink" href="#props-file" title="Permanent link">&para;</a></h3>
-<p>Owns one master of each moving prop. The stage cube is CUBE_18: 18 inches on a side, with its origin at the bottom center so it sits on whatever it is placed on. Six cubes on stage are six instances of that one collection.</p>
-<h3 id="rig-file">Rig file<a class="headerlink" href="#rig-file" title="Permanent link">&para;</a></h3>
-<p>Owns the hang positions as RIG.</p>
-<h3 id="blocking-file">Blocking file<a class="headerlink" href="#blocking-file" title="Permanent link">&para;</a></h3>
-<p>Owns one number's movement. Its BLOCKING collection holds:</p>
 <ul>
-<li>TRACKS, the performers</li>
-<li>CUBES</li>
-<li>PRESET, for musicians and anything placed once and never moved</li>
-<li>the BLK collections the add-on writes into</li>
+<li>VENUE: walls, house, stage floor, pipes</li>
+<li>Anything that doesn't change between shows</li>
+<li>Built once</li>
 </ul>
-<p>Its REFERENCE collection holds the linked venue and scenery, so there is a stage to block on.</p>
-<p>It also owns the number's reference video in the Sequencer and its timeline markers. It renders in EEVEE or Solid so it stays fast to scrub.</p>
+<h3 id="figures-file">Figures file<a class="headerlink" href="#figures-file" title="Permanent link">&para;</a></h3>
+<ul>
+<li>FIG_STANDING and FIG_SEATED, deliberately crude</li>
+<li>Every performer in every show is an instance of one of them</li>
+<li>Replace what's inside: every blocking file and render updates, no keyframe changes</li>
+<li>Origin at the feet; nose faces −Y</li>
+</ul>
+<h3 id="scenery-file">Scenery file<a class="headerlink" href="#scenery-file" title="Permanent link">&para;</a></h3>
+<ul>
+<li>SCENERY: where the realism lives</li>
+<li>Tune materials here only</li>
+<li>A material changed downstream is lost the next time the link reloads</li>
+</ul>
+<h3 id="props-file">Props file<a class="headerlink" href="#props-file" title="Permanent link">&para;</a></h3>
+<ul>
+<li>One master per moving prop</li>
+<li>CUBE_18: 18 in per side, origin at the bottom center so it sits on whatever it's placed on</li>
+<li>Six cubes on stage = six instances of it</li>
+</ul>
+<h3 id="rig-file">Rig file<a class="headerlink" href="#rig-file" title="Permanent link">&para;</a></h3>
+<ul>
+<li>RIG: the hang positions</li>
+</ul>
+<h3 id="blocking-file">Blocking file<a class="headerlink" href="#blocking-file" title="Permanent link">&para;</a></h3>
+<p>One number's movement.</p>
+<ul>
+<li>BLOCKING:<ul>
+<li>TRACKS: the performers</li>
+<li>CUBES</li>
+<li>PRESET: musicians and anything placed once and never moved</li>
+<li>BLK collections: written by the [<a href="../blocking-addon/">Blocking Add-on</a>]</li>
+</ul>
+</li>
+<li>REFERENCE: linked venue and scenery, a stage to block on</li>
+<li>The number's reference video in the Sequencer, and its timeline markers</li>
+<li>Renders in EEVEE or Solid, so it scrubs fast</li>
+<li>How to block in it: [<a href="../blocking-method/">Blocking Method</a>]</li>
+</ul>
 <h3 id="previs-file">Previs file<a class="headerlink" href="#previs-file" title="Permanent link">&para;</a></h3>
-<p>Owns the lights, the cameras, the world and the Cycles settings for one number. It links the venue, the scenery, the rig, and that number's BLOCKING collection. The blocking plays in it and cannot be edited in it.</p>
+<p>One number's lighting and render.</p>
+<ul>
+<li>Owns lights, cameras, world, Cycles settings</li>
+<li>Links venue, scenery, rig, and that number's BLOCKING</li>
+<li>The blocking plays here and can't be edited here</li>
+</ul>
 <div class="admonition note">
 <p class="admonition-title">Only BLOCKING leaves a blocking file</p>
 <p>REFERENCE stays home. Linked out as well, it would load the scenery into the previs file twice.</p>
 </div>
 <h2 id="why-one-file-per-number">Why one file per number<a class="headerlink" href="#why-one-file-per-number" title="Permanent link">&para;</a></h2>
-<p>A whole show on one timeline ripples. Re-cut the second number and every number after it shifts, which is the same failure a single long blocking route has, at the size of a show.</p>
-<p>Each number gets its own file and its own timeline starting at frame 1, so a change to one number cannot move another.</p>
-<p>Continuity between numbers is carried by hand: where a performer ends one number is where they are preset in the next.</p>
+<ul>
+<li>One show-long timeline ripples: re-cut the second number and every later number shifts</li>
+<li>Same failure as one long blocking route, at the size of a show ([<a href="../blocking-method/">Blocking Method</a>])</li>
+<li>Each number gets its own file and its own timeline from frame 1</li>
+<li>Continuity between numbers is by hand: where a performer ends one number is their preset in the next</li>
+</ul>
 <h2 id="rules-that-are-expensive-to-break-later">Rules that are expensive to break later<a class="headerlink" href="#rules-that-are-expensive-to-break-later" title="Permanent link">&para;</a></h2>
 <h3 id="frame-rate">Frame rate<a class="headerlink" href="#frame-rate" title="Permanent link">&para;</a></h3>
-<p>Matches the reference video and is the same in every file of a show. It is set before any blocking starts, because changing it afterwards retimes every keyframe. The Showkit refuses to build a show until it is set.</p>
+<ul>
+<li>Matches the reference video</li>
+<li>Same in every file of a show</li>
+<li>Set before blocking starts: changing it later retimes every keyframe</li>
+<li>The [<a href="../showkit/">Showkit</a>] refuses to build until it's set</li>
+</ul>
 <h3 id="origin">Origin<a class="headerlink" href="#origin" title="Permanent link">&para;</a></h3>
-<p>Center line × plaster line, in every file. Anything imported is moved to that origin before it is used, never the other way round.</p>
+<ul>
+<li>Center line × plaster line, in every file</li>
+<li>Imports move to the origin, never the other way round</li>
+</ul>
 <h3 id="units">Units<a class="headerlink" href="#units" title="Permanent link">&para;</a></h3>
-<p>Display as imperial. Blender stores metres underneath, so an 18-inch cube is 0.4572 in raw values, which matters only to scripts.</p>
+<ul>
+<li>Display: imperial</li>
+<li>Stored: metres, so an 18 in cube is 0.4572 in raw values</li>
+<li>Only scripts care</li>
+</ul>
 <h3 id="track-names">Track names<a class="headerlink" href="#track-names" title="Permanent link">&para;</a></h3>
-<p>By role, never by actor: TRK_A, MUS_01, CUBE_03. Both casts use the same names, and no student's name ends up in a file, a render, or this repo.</p>
+<ul>
+<li>By role, never by actor: TRK_A, MUS_01, CUBE_03</li>
+<li>Both casts share the names</li>
+<li>No student names in files, renders, or this repo</li>
+</ul>
 <h3 id="one-cast-per-number">One cast per number<a class="headerlink" href="#one-cast-per-number" title="Permanent link">&para;</a></h3>
-<p>One cast is blocked and rendered per number. The casts move at different speeds and a render shows one of them. A second cast is blocked only when its staging differs in shape, not just in pace.</p>
+<ul>
+<li>Block and render one cast</li>
+<li>Casts move at different speeds; a render shows one</li>
+<li>Block the second cast only when its staging differs in shape, not just pace</li>
+</ul>
 <h3 id="paths">Paths<a class="headerlink" href="#paths" title="Permanent link">&para;</a></h3>
-<p>Relative, so the whole MAW_PREVIS folder can move between machines. Live .blend files stay out of folders a sync service rewrites while Blender has them open.</p>
+<ul>
+<li>Relative, so MAW_PREVIS moves between machines intact</li>
+<li>Live .blend files stay out of folders a sync service rewrites while Blender has them open</li>
+</ul>
 <h3 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h3>
-<p>Made, never appended. An appended copy stops receiving fixes.</p>
+<ul>
+<li>Link, never append</li>
+<li>An appended copy stops receiving fixes</li>
+</ul>
 <p class="dr-related">Related: <a href="../">MAW Previs</a>, <a href="../blocking-method/">Blocking Method</a>, <a href="../showkit/">Showkit</a></p>
-<p class="dr-revised"><em>Revised 2026-11</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/maw-previs/architecture.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">PR #108</span></span></p>
+<p class="dr-revised"><em>Revised 2026-11</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/maw-previs/architecture.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">PR #109</span></span></p>
 
 
 
