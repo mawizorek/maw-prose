@@ -75,12 +75,14 @@ It refuses rather than guesses, and every refusal says what to do. It won't:
 
 ## Warnings
 
-Live, in the cross list:
+Live, in the cross list, when:
 
 - a handoff jumps: one route doesn't end where the next begins
 - a cross departs before the previous one arrives
 - a cross never arrives
 - a route has more than one piece
+
+Display:
 
 - Distances print in the scene's own units
 - A unit with no warnings says so
