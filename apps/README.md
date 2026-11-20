@@ -10,6 +10,8 @@ Neither is a standard and neither is a guide. A standard is what correct practic
 
 **`hml-llc/`** — the FileMaker solution that services private-money real-estate loans. Ten tables, a script tree, and a review fixture. Runtime is FileMaker 19, permanently.
 
+**`maw-previs/`** — the Blender previs system for URITP shows: the file architecture, the blocking method, and the specs for the blocking add-on and the show scaffolder. Runtime is Blender 5.2 LTS.
+
 ## How an app package is shaped
 
 The folders mirror the application's own menus rather than a taxonomy someone invented. For a FileMaker solution that means you open `tables/`, `scripts/`, `relationships/` and see the same names you would see in *Manage*. `CONVENTIONS.md` carries the exemption that allows this to go deeper than the usual three path segments, and the reasoning: you are not choosing where a thing goes, you are copying where it already is.
