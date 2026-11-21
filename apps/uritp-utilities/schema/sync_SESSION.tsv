@@ -1,0 +1,9 @@
+Field_Name	Type	Options	Notes	status
+PrimaryKey	Text	audit	Machine identity. Get ( UUID ). Never used for cross-file joins.	Audit
+CreationTimestamp	Timestamp	audit		Audit
+CreatedBy	Text	audit		Audit
+ModificationTimestamp	Timestamp	audit		Audit
+ModifiedBy	Text	audit		Audit
+fk_Source	Text	indexed; raw	sync_SOURCE::PrimaryKey	Links
+SourceFile	Text		Calling app (provenance text, not a key)	Log
+isFullPull	Number	auto 0	1 only for an uncapped full pull. Deletion detection runs only when 1.	Settings

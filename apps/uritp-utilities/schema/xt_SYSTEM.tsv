@@ -1,0 +1,10 @@
+Field_Name	Type	Options	Notes	status
+PrimaryKey	Text	audit	Machine identity. Get ( UUID ). Never used for cross-file joins.	Audit
+CreationTimestamp	Timestamp	audit		Audit
+CreatedBy	Text	audit		Audit
+ModificationTimestamp	Timestamp	audit		Audit
+ModifiedBy	Text	audit		Audit
+Code	Text	key	Immutable system code, e.g. clickup. Adapters branch on this, never on Name.	Settings
+Name	Text		Display label only	Settings
+BaseURL	Text		External API root, e.g. https://api.clickup.com/api/v2	Settings
+Token	Text		Device-local credential. Never exported, never logged.	Settings
