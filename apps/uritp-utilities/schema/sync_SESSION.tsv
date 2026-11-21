@@ -6,3 +6,4 @@ ModificationTimestamp	Timestamp	audit		Audit
 ModifiedBy	Text	audit		Audit
 fk_Source	Text	indexed; raw	sync_SOURCE::PrimaryKey	Links
 isFullPull	Number	auto 0	1 only for an uncapped full pull. Deletion detection runs only when 1.	Settings
+Name_Display	Text	calc: GetAsText ( CreationTimestamp )	Popup label: the run start time as text (auto)	Settings
