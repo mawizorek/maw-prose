@@ -1,0 +1,11 @@
+Field_Name	Type	Options	Notes	status
+fk_xtField	Text	Indexed; not empty	xt_FIELDS::PrimaryKey; same-file key	Links
+AppCode	Text	Not empty; strict; validate [a-z0-9_]+	Consuming app, e.g. uritp_people; a code, never a PK	Settings
+PolicyCode	Text	Not empty; strict; calculation validation	Must exist in VALUES under sync_policy: fm_wins, xt_wins, reconcile, intake_only, ignore. Direction is implied by policy, never stored separately	Settings
+uniq_FieldApp	Text	Auto-enter calculation; stored; unique; strict	fk_xtField & "|" & AppCode; one rule per field per app	Settings
+Notes	Text		Why this policy	Facts
+PrimaryKey	Text	Auto-enter Get ( UUID ); unique; cannot modify	Machine identity	Audit
+CreationTimestamp	Timestamp	Auto-enter		Audit
+CreatedBy	Text	Auto-enter		Audit
+ModificationTimestamp	Timestamp	Auto-enter		Audit
+ModifiedBy	Text	Auto-enter		Audit

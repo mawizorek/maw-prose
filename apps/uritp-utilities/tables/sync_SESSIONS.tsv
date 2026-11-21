@@ -1,8 +1,9 @@
 Field_Name	Type	Options	Notes	status
 fk_Source	Text	Indexed	sync_SOURCES::PrimaryKey	Links
 SourceFile	Text		Calling app as text provenance, not a key	Log
-calc_EventCount	(c→Number)	Unstored	Count of related sync_EVENTS::PrimaryKey	Calculated
-calc_EndedAt	(c→Timestamp)	Unstored	Max of related sync_EVENTS::CreationTimestamp; not an explicit completion state	Calculated
+isFullPull	Number	Auto-enter 0; range 0-1	1 only for an uncapped full pull; deletion detection runs only when 1	Settings
+calc_EventCount	(c→Number)	Unstored	Count of this session's sync_EVENTS via sql.Table/sql.Field and ? parameter; no relationship needed	Calculated
+calc_EndedAt	(c→Timestamp)	Unstored	Max sync_EVENTS::CreationTimestamp for this session via SQL; not an explicit completion state	Calculated
 calc_ErrorCount	(c→Number)	Unstored	Session events with HttpStatus >= 300; sql.Table/sql.Field identifiers and ? session parameter	Calculated
 PrimaryKey	Text	Auto-enter Get ( UUID ); unique; cannot modify	Machine identity	Audit
 CreationTimestamp	Timestamp	Auto-enter	Run started	Audit
