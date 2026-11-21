@@ -64,7 +64,10 @@ def build(app, only, warn):
     names = only or sorted(f[:-4] for f in os.listdir(sdir) if f.endswith(".tsv"))
     audit, out, fid = audit_templates(), ['<fmxmlsnippet type="FMObjectList">'], 100
     for t in names:
-        rows = [l.rstrip("\n").split("\t") for l in open(os.path.join(sdir, t + ".tsv"), encoding="utf-8")][1:]
+        src = os.path.join(sdir, t + ".tsv")
+        if not os.path.exists(src):
+            sys.exit(f"!! no schema file {src}. Run git pull; if it is still missing, the table is not in the schema yet.")
+        rows = [l.rstrip("\n").split("\t") for l in open(src, encoding="utf-8")][1:]
         out.append(f'<BaseTable name="{t}">')
         for r in rows:
             if not r or not r[0]: continue

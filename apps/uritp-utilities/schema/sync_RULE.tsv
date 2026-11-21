@@ -5,7 +5,6 @@ CreatedBy	Text	audit		Audit
 ModificationTimestamp	Timestamp	audit		Audit
 ModifiedBy	Text	audit		Audit
 fk_xtField	Text	fk	xt_FIELD::PrimaryKey	Links
-AppCode	Text	fk	Consuming app, e.g. uritp_people. A code, never a PK.	Settings
+fk_App	Text	fk	sync_APP::PrimaryKey (in-file join; apps match on sync_APP::Code)	Links
 PolicyCode	Text	fk	VALUE code under sync_policy: fm_wins, xt_wins, reconcile, intake_only, ignore. Direction is implied. No row = ignore.	Settings
-uniqAuto_FieldApp	Text	key; calc: fk_xtField & "|" & AppCode	One rule per field per app	Settings
-Notes	Text		Why this policy	Facts
+uniqAuto_FieldApp	Text	key; calc: fk_xtField & "|" & fk_App	One rule per field per app	Settings

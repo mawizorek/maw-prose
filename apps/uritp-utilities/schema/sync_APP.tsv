@@ -1,0 +1,8 @@
+Field_Name	Type	Options	Notes	status
+PrimaryKey	Text	audit	Machine identity. Get ( UUID ). Never used for cross-file joins.	Audit
+CreationTimestamp	Timestamp	audit		Audit
+CreatedBy	Text	audit		Audit
+ModificationTimestamp	Timestamp	audit		Audit
+ModifiedBy	Text	audit		Audit
+Code	Text	key	Immutable app code, e.g. uritp_people. Hand-maintained. Apps find their own rules by this code over EDS, never by PrimaryKey.	Settings
+Name_Display	Text		Display label only	Settings
