@@ -4,6 +4,7 @@ CreationTimestamp	Timestamp	audit		Audit
 CreatedBy	Text	audit		Audit
 ModificationTimestamp	Timestamp	audit		Audit
 ModifiedBy	Text	audit		Audit
-Code	Text	key	Immutable system code, e.g. clickup. Adapters branch on this; it is also the display label.	Settings
+Code	Text	key	Immutable system code, e.g. clickup. Adapters branch on this, never on Name_Display.	Settings
 BaseURL	Text		External API root, e.g. https://api.clickup.com/api/v2	Settings
 Token	Text		Device-local credential. Never exported, never logged.	Settings
+Name_Display	Text		Display label only; Code is the identity	Settings

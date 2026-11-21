@@ -11,3 +11,4 @@ xt_FieldName	Text		Remote display label (refresh writes)	External
 xt_FieldType	Text		External type name (refresh writes)	External
 uniqAuto_ContainerMapKey	Text	unique; strict; always; indexed; raw; calc: If ( IsEmpty ( mapKey ) ; "" ; fk_xtContainer & "|" & mapKey )	One mapKey per container; empty until mapped	Settings
 uniqAuto_ContainerFieldID	Text	unique; strict; always; indexed; raw; calc: If ( IsEmpty ( xt_FieldID ) ; "" ; fk_xtContainer & "|" & xt_FieldID )	Refresh can never duplicate a field	External
+popupAuto_Name	Text	calc: If ( IsEmpty ( xt_FieldID ) ; "" ; fk_xtContainer & "|" & xt_FieldID & "|" & xt_FieldName & "|" & xt_FieldType )	Popup label (auto); recomputes when refresh rewrites name or type	Settings
