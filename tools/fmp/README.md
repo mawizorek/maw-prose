@@ -13,6 +13,12 @@ Anything the tool cannot translate (calculation fields, calculation validation, 
 
 `audit-fields.xml` is the five audit fields exactly as FileMaker copied them from URITP Utilities on 11-21-2026. Every other shape in the script was read from that same copy.
 
+## Scripts
+
+    python3 tools/fmp/fmp-script.py "apps/<app>/scripts/<name>.fmscript"
+
+Script Workspace > new script > click into the step pane > Cmd-V. Line-for-line port of the renderer's `fmscript.js`; anything it cannot translate pastes as a `TYPE BY HAND` comment and is listed with `!!`.
+
 ## Teaching it a new shape
 
 Build the field once in FileMaker, copy its table, then save the clipboard:
