@@ -7,5 +7,5 @@ ModifiedBy	Text	audit		Audit
 fk_xtField	Text	fk	xt_FIELD::PrimaryKey	Links
 AppCode	Text	fk	Consuming app, e.g. uritp_people. A code, never a PK.	Settings
 PolicyCode	Text	fk	VALUE code under sync_policy: fm_wins, xt_wins, reconcile, intake_only, ignore. Direction is implied. No row = ignore.	Settings
-uniq_FieldApp	Text	key; calc: fk_xtField & "|" & AppCode	One rule per field per app	Settings
+uniqAuto_FieldApp	Text	key; calc: fk_xtField & "|" & AppCode	One rule per field per app	Settings
 Notes	Text		Why this policy	Facts

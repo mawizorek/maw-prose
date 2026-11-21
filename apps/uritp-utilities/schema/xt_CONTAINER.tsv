@@ -6,6 +6,6 @@ ModificationTimestamp	Timestamp	audit		Audit
 ModifiedBy	Text	audit		Audit
 fk_xtSystem	Text	fk	xt_SYSTEM::PrimaryKey	Links
 xt_ID	Text	fk	ClickUp List ID or GitHub owner/repo	External
-uniq_SystemContainer	Text	unique; strict; always; indexed; raw; calc: If ( IsEmpty ( xt_ID ) ; "" ; fk_xtSystem & "|" & xt_ID )	Same container can never be registered twice	Settings
-Name	Text		Display label only	Settings
+uniqAuto_SystemContainer	Text	unique; strict; always; indexed; raw; calc: If ( IsEmpty ( xt_ID ) ; "" ; fk_xtSystem & "|" & xt_ID )	Same container can never be registered twice	Settings
+Name_Display	Text		Display label only	Settings
 isActive	Number	auto 1	1 = enabled	Settings
