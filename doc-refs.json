@@ -1,24 +1,21 @@
 {
   "site": "mawprose",
   "base_url": "https://mawizorek.github.io/maw-prose/",
-  "built": "2026-11-21T02:38:22Z",
+  "built": "2026-11-21T02:44:22Z",
   "engine": "0.1.0",
   "totals": {
-    "pages": 153,
-    "edges": 518,
+    "pages": 148,
+    "edges": 480,
     "broken": 16,
-    "no_inbound": 27
+    "no_inbound": 24
   },
   "no_inbound": [
     "delete-me-new-activity-log",
     "fmp-clipboard-snippets",
     "maw-prose-home",
     "prev-production-calendar-app",
-    "production-mawster",
     "script-importing-records",
     "scripts-importing-evemts",
-    "table-producer-info",
-    "table-venues",
     "uritp-people-next-build",
     "uritp-people-script-adapter-clickup-pull",
     "uritp-people-script-adapter-clickup-refreshfields",
@@ -65,6 +62,16 @@
       "kind": "page"
     },
     {
+      "from": "production-mawnster",
+      "token": "table-print-presets",
+      "kind": "page"
+    },
+    {
+      "from": "projection-law",
+      "token": "table-print-presets",
+      "kind": "page"
+    },
+    {
       "from": "script-importing-records",
       "token": "button:layout-import-contacts",
       "kind": "peer"
@@ -80,22 +87,7 @@
       "kind": "peer"
     },
     {
-      "from": "table-calendar-emphasis",
-      "token": "audit-fields",
-      "kind": "page"
-    },
-    {
       "from": "table-editions",
-      "token": "audit-fields",
-      "kind": "page"
-    },
-    {
-      "from": "table-events",
-      "token": "audit-fields",
-      "kind": "page"
-    },
-    {
-      "from": "table-import-events",
       "token": "audit-fields",
       "kind": "page"
     },
@@ -117,6 +109,11 @@
     {
       "from": "uritp-people-sync-plan",
       "token": "uritp-people",
+      "kind": "page"
+    },
+    {
+      "from": "workflow",
+      "token": "table-print-presets",
       "kind": "page"
     }
   ],
@@ -243,7 +240,7 @@
     },
     "build-sheet": {
       "title": "Build Sheet",
-      "url": "apps/production-mawster-no-use/build-sheet/",
+      "url": "apps/production-mawnster/build-sheet/",
       "type": "reference",
       "references": [
         {
@@ -268,13 +265,6 @@
           "count": 1
         },
         {
-          "token": "projection-law",
-          "kind": "page",
-          "target": "projection-law",
-          "resolved": true,
-          "count": 1
-        },
-        {
           "token": "table-docz-archival-media",
           "kind": "page",
           "target": "table-docz-archival-media",
@@ -290,15 +280,14 @@
         }
       ],
       "referenced_by": [
-        "production-mawnster",
-        "production-mawster"
+        "production-mawnster"
       ],
-      "inbound": 2,
-      "outbound": 6
+      "inbound": 1,
+      "outbound": 5
     },
     "cf-errjson": {
       "title": "ErrJSON",
-      "url": "apps/production-mawster/60-custom-functions/errjson/",
+      "url": "apps/production-mawnster/60-custom-functions/errjson/",
       "type": "reference",
       "references": [
         {
@@ -346,7 +335,7 @@
     },
     "custom-functions": {
       "title": "Custom Functions",
-      "url": "apps/production-mawster/60-custom-functions/",
+      "url": "apps/production-mawnster/60-custom-functions/",
       "type": "index",
       "references": [
         {
@@ -374,20 +363,19 @@
     },
     "data-standards": {
       "title": "Data standards",
-      "url": "apps/production-mawster-no-use/data-standards/",
+      "url": "apps/production-mawnster/data-standards/",
       "type": "reference",
       "references": [],
       "referenced_by": [
         "production-mawnster",
-        "production-mawster",
         "table-docz-archival-media"
       ],
-      "inbound": 3,
+      "inbound": 2,
       "outbound": 0
     },
     "ddr-punch-list": {
       "title": "DDR Punch List",
-      "url": "apps/production-mawster/ddr-punch-list/",
+      "url": "apps/production-mawnster/ddr-punch-list/",
       "type": "reference",
       "references": [],
       "referenced_by": [
@@ -399,7 +387,7 @@
     },
     "delete-me-app-open": {
       "title": "\ud83d\udd34 DELETE ME \u2014 90-Utlity/APP-OPEN.md",
-      "url": "apps/production-mawster/70-scripts/90-Utlity/DELETE-ME-app-open/",
+      "url": "apps/production-mawnster/70-scripts/90-Utlity/DELETE-ME-app-open/",
       "type": "reference",
       "references": [
         {
@@ -432,7 +420,7 @@
     },
     "delete-me-new-activity-log": {
       "title": "\ud83d\udd34 DELETE ME \u2014 90-Utlity/NEW-ACTIVITY-LOG.md",
-      "url": "apps/production-mawster/70-scripts/90-Utlity/DELETE-ME-new-activity-log/",
+      "url": "apps/production-mawnster/70-scripts/90-Utlity/DELETE-ME-new-activity-log/",
       "type": "reference",
       "references": [
         {
@@ -477,7 +465,7 @@
     },
     "device-handoff": {
       "title": "Device Handoff",
-      "url": "apps/production-mawster/device-handoff/",
+      "url": "apps/production-mawnster/device-handoff/",
       "type": "reference",
       "references": [
         {
@@ -511,7 +499,7 @@
     },
     "document-templates": {
       "title": "Document Templates",
-      "url": "apps/production-mawster/document-templates/",
+      "url": "apps/production-mawnster/document-templates/",
       "type": "reference",
       "references": [],
       "referenced_by": [
@@ -581,7 +569,7 @@
     },
     "integration": {
       "title": "ClickUp Integration",
-      "url": "apps/production-mawster-no-use/integration/",
+      "url": "apps/production-mawnster/integration/",
       "type": "reference",
       "references": [
         {
@@ -589,36 +577,34 @@
           "kind": "page",
           "target": "table-import-sessions",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-locations",
           "kind": "page",
           "target": "table-locations",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-productions",
           "kind": "page",
           "target": "table-productions",
           "resolved": true,
-          "count": 2
+          "count": 1
         }
       ],
       "referenced_by": [
         "production-mawnster",
-        "production-mawster",
         "table-export-presets",
-        "table-print-presets",
         "tables"
       ],
-      "inbound": 5,
+      "inbound": 3,
       "outbound": 3
     },
     "layout-theme-rendering": {
       "title": "Layout Theme Renderinng",
-      "url": "apps/production-mawster/50-LAYOUTS/layout-theme-rendering/",
+      "url": "apps/production-mawnster/50-LAYOUTS/layout-theme-rendering/",
       "type": "reference",
       "references": [
         {
@@ -637,7 +623,7 @@
     },
     "layouts": {
       "title": "Layouts",
-      "url": "apps/production-mawster/50-LAYOUTS/",
+      "url": "apps/production-mawnster/50-LAYOUTS/",
       "type": "index",
       "references": [
         {
@@ -670,16 +656,15 @@
     },
     "legacy-script-review": {
       "title": "Legacy Script Review",
-      "url": "apps/production-mawster-no-use/90-file-imports-temp/prevProductionCalendarApp/script-review/",
+      "url": "apps/production-mawnster/90-file-imports-temp/prevProductionCalendarApp/script-review/",
       "type": "reference",
       "references": [],
       "referenced_by": [
         "prev-production-calendar-app",
         "production-mawnster",
-        "production-mawster",
         "scripts"
       ],
-      "inbound": 4,
+      "inbound": 3,
       "outbound": 0
     },
     "maw-previs": {
@@ -750,7 +735,7 @@
     },
     "menu-database": {
       "title": "Database",
-      "url": "apps/production-mawster/10-ux/menu_database/",
+      "url": "apps/production-mawnster/10-ux/menu_database/",
       "type": "page",
       "references": [
         {
@@ -786,7 +771,7 @@
     },
     "menu-fields": {
       "title": "Fields",
-      "url": "apps/production-mawster/10-ux/menu_fields/",
+      "url": "apps/production-mawnster/10-ux/menu_fields/",
       "type": "page",
       "references": [
         {
@@ -1058,7 +1043,7 @@
     },
     "menu-relationships": {
       "title": "Relationships",
-      "url": "apps/production-mawster/10-ux/menu_relationships/",
+      "url": "apps/production-mawnster/10-ux/menu_relationships/",
       "type": "page",
       "references": [
         {
@@ -1085,7 +1070,7 @@
     },
     "menu-tables": {
       "title": "Tables",
-      "url": "apps/production-mawster/10-ux/menu_tables/",
+      "url": "apps/production-mawnster/10-ux/menu_tables/",
       "type": "page",
       "references": [
         {
@@ -1373,7 +1358,7 @@
     },
     "prev-production-calendar-app": {
       "title": "Prev Calendar App Build",
-      "url": "apps/production-mawster-no-use/90-file-imports-temp/prevProductionCalendarApp/",
+      "url": "apps/production-mawnster/90-file-imports-temp/prevProductionCalendarApp/",
       "type": "index",
       "references": [
         {
@@ -1381,7 +1366,7 @@
           "kind": "page",
           "target": "legacy-script-review",
           "resolved": true,
-          "count": 2
+          "count": 1
         }
       ],
       "referenced_by": [],
@@ -1575,7 +1560,7 @@
     },
     "print-first-runbook": {
       "title": "Print-first Runbook",
-      "url": "apps/production-mawster/print-first-runbook/",
+      "url": "apps/production-mawnster/print-first-runbook/",
       "type": "page",
       "references": [
         {
@@ -1601,7 +1586,7 @@
     },
     "print-geometry": {
       "title": "Print & iPad Geometry",
-      "url": "apps/production-mawster/print-geometry/",
+      "url": "apps/production-mawnster/print-geometry/",
       "type": "reference",
       "references": [
         {
@@ -1623,7 +1608,7 @@
     },
     "printing": {
       "title": "Printing",
-      "url": "apps/production-mawster/16-printing/",
+      "url": "apps/production-mawnster/16-printing/",
       "type": "page",
       "references": [],
       "referenced_by": [
@@ -1634,7 +1619,7 @@
     },
     "production-mawnster": {
       "title": "Production MAWnster",
-      "url": "apps/production-mawster/",
+      "url": "apps/production-mawnster/",
       "type": "index",
       "references": [
         {
@@ -1802,7 +1787,7 @@
           "token": "table-print-presets",
           "kind": "page",
           "target": "table-print-presets",
-          "resolved": true,
+          "resolved": false,
           "count": 1
         },
         {
@@ -1945,201 +1930,9 @@
       "inbound": 1,
       "outbound": 43
     },
-    "production-mawster": {
-      "title": "Production MAWster",
-      "url": "apps/production-mawster-no-use/",
-      "type": "index",
-      "references": [
-        {
-          "token": "build-sheet",
-          "kind": "page",
-          "target": "build-sheet",
-          "resolved": true,
-          "count": 1
-        },
-        {
-          "token": "data-standards",
-          "kind": "page",
-          "target": "data-standards",
-          "resolved": true,
-          "count": 1
-        },
-        {
-          "token": "integration",
-          "kind": "page",
-          "target": "integration",
-          "resolved": true,
-          "count": 1
-        },
-        {
-          "token": "legacy-script-review",
-          "kind": "page",
-          "target": "legacy-script-review",
-          "resolved": true,
-          "count": 1
-        },
-        {
-          "token": "projection-law",
-          "kind": "page",
-          "target": "projection-law",
-          "resolved": true,
-          "count": 2
-        },
-        {
-          "token": "runtime",
-          "kind": "page",
-          "target": "runtime",
-          "resolved": true,
-          "count": 1
-        },
-        {
-          "token": "scripts",
-          "kind": "page",
-          "target": "scripts",
-          "resolved": true,
-          "count": 1
-        },
-        {
-          "token": "table-assignments",
-          "kind": "page",
-          "target": "table-assignments",
-          "resolved": true,
-          "count": 1
-        },
-        {
-          "token": "table-calendar-emphasis",
-          "kind": "page",
-          "target": "table-calendar-emphasis",
-          "resolved": true,
-          "count": 1
-        },
-        {
-          "token": "table-events",
-          "kind": "page",
-          "target": "table-events",
-          "resolved": true,
-          "count": 1
-        },
-        {
-          "token": "table-events-workday",
-          "kind": "page",
-          "target": "table-events-workday",
-          "resolved": true,
-          "count": 1
-        },
-        {
-          "token": "table-import-events",
-          "kind": "page",
-          "target": "table-import-events",
-          "resolved": true,
-          "count": 1
-        },
-        {
-          "token": "table-import-sessions",
-          "kind": "page",
-          "target": "table-import-sessions",
-          "resolved": true,
-          "count": 1
-        },
-        {
-          "token": "table-locations",
-          "kind": "page",
-          "target": "table-locations",
-          "resolved": true,
-          "count": 1
-        },
-        {
-          "token": "table-print-presets",
-          "kind": "page",
-          "target": "table-print-presets",
-          "resolved": true,
-          "count": 1
-        },
-        {
-          "token": "table-print-sessions",
-          "kind": "page",
-          "target": "table-print-sessions",
-          "resolved": true,
-          "count": 1
-        },
-        {
-          "token": "table-producers",
-          "kind": "page",
-          "target": "table-producers",
-          "resolved": true,
-          "count": 1
-        },
-        {
-          "token": "table-production-calendars",
-          "kind": "page",
-          "target": "table-production-calendars",
-          "resolved": true,
-          "count": 1
-        },
-        {
-          "token": "table-productions",
-          "kind": "page",
-          "target": "table-productions",
-          "resolved": true,
-          "count": 1
-        },
-        {
-          "token": "table-roles",
-          "kind": "page",
-          "target": "table-roles",
-          "resolved": true,
-          "count": 1
-        },
-        {
-          "token": "table-styles",
-          "kind": "page",
-          "target": "table-styles",
-          "resolved": true,
-          "count": 1
-        },
-        {
-          "token": "table-weeks",
-          "kind": "page",
-          "target": "table-weeks",
-          "resolved": true,
-          "count": 1
-        },
-        {
-          "token": "table-workdays",
-          "kind": "page",
-          "target": "table-workdays",
-          "resolved": true,
-          "count": 1
-        },
-        {
-          "token": "tables",
-          "kind": "page",
-          "target": "tables",
-          "resolved": true,
-          "count": 1
-        },
-        {
-          "token": "user-experience",
-          "kind": "page",
-          "target": "user-experience",
-          "resolved": true,
-          "count": 1
-        },
-        {
-          "token": "workflow",
-          "kind": "page",
-          "target": "workflow",
-          "resolved": true,
-          "count": 1
-        }
-      ],
-      "referenced_by": [],
-      "inbound": 0,
-      "outbound": 26
-    },
     "projection-law": {
       "title": "Projection Law",
-      "url": "apps/production-mawster-no-use/projection-law/",
+      "url": "apps/production-mawnster/projection-law/",
       "type": "reference",
       "references": [
         {
@@ -2147,57 +1940,55 @@
           "kind": "page",
           "target": "table-calendar-emphasis",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-events-workday",
           "kind": "page",
           "target": "table-events-workday",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-print-presets",
           "kind": "page",
           "target": "table-print-presets",
-          "resolved": true,
-          "count": 2
+          "resolved": false,
+          "count": 1
         },
         {
           "token": "table-print-sessions",
           "kind": "page",
           "target": "table-print-sessions",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-styles",
           "kind": "page",
           "target": "table-styles",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-weeks",
           "kind": "page",
           "target": "table-weeks",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-workdays",
           "kind": "page",
           "target": "table-workdays",
           "resolved": true,
-          "count": 2
+          "count": 1
         }
       ],
       "referenced_by": [
-        "build-sheet",
         "device-handoff",
         "print-geometry",
         "production-mawnster",
-        "production-mawster",
         "table-events-workday",
         "table-production-calendars",
         "table-weeks",
@@ -2205,12 +1996,12 @@
         "theme-selection",
         "workflow"
       ],
-      "inbound": 11,
+      "inbound": 9,
       "outbound": 7
     },
     "relationships": {
       "title": "Relationships",
-      "url": "apps/production-mawster/30-RELATIONSHIPS/",
+      "url": "apps/production-mawnster/30-RELATIONSHIPS/",
       "type": "index",
       "references": [
         {
@@ -2241,7 +2032,7 @@
     },
     "retired-app-startup": {
       "title": "App_Startup (RETIRED)",
-      "url": "apps/production-mawster/70-scripts/_retired/app-startup/",
+      "url": "apps/production-mawnster/70-scripts/_retired/app-startup/",
       "type": "reference",
       "references": [
         {
@@ -2288,7 +2079,7 @@
     },
     "retired-exit-w-errors": {
       "title": "exit w/ errors (RETIRED)",
-      "url": "apps/production-mawster/70-scripts/_retired/exit-w-errors/",
+      "url": "apps/production-mawnster/70-scripts/_retired/exit-w-errors/",
       "type": "reference",
       "references": [
         {
@@ -2328,7 +2119,7 @@
     },
     "retired-new-utility-log": {
       "title": "new_UTILITY_LOG (RETIRED)",
-      "url": "apps/production-mawster/70-scripts/_retired/new-utility-log/",
+      "url": "apps/production-mawnster/70-scripts/_retired/new-utility-log/",
       "type": "reference",
       "references": [
         {
@@ -2368,7 +2159,7 @@
     },
     "retired-trigger-app-open": {
       "title": "trigger_App_Open (RETIRED)",
-      "url": "apps/production-mawster/70-scripts/_retired/trigger-app-open/",
+      "url": "apps/production-mawnster/70-scripts/_retired/trigger-app-open/",
       "type": "reference",
       "references": [
         {
@@ -2415,7 +2206,7 @@
     },
     "runtime": {
       "title": "Runtime",
-      "url": "apps/production-mawster-no-use/11-runtime/",
+      "url": "apps/production-mawnster/15-runtime/",
       "type": "page",
       "references": [
         {
@@ -2423,19 +2214,18 @@
           "kind": "page",
           "target": "user-experience",
           "resolved": true,
-          "count": 2
+          "count": 1
         }
       ],
       "referenced_by": [
-        "production-mawnster",
-        "production-mawster"
+        "production-mawnster"
       ],
-      "inbound": 2,
+      "inbound": 1,
       "outbound": 1
     },
     "script-file-close": {
       "title": "FILE \u00b7 Close",
-      "url": "apps/production-mawster/70-scripts/file-close/",
+      "url": "apps/production-mawnster/70-scripts/file-close/",
       "type": "reference",
       "references": [
         {
@@ -2489,7 +2279,7 @@
     },
     "script-file-open": {
       "title": "FILE \u00b7 Open",
-      "url": "apps/production-mawster/70-scripts/file-open/",
+      "url": "apps/production-mawnster/70-scripts/file-open/",
       "type": "reference",
       "references": [
         {
@@ -2536,7 +2326,7 @@
     },
     "script-file-save-backup": {
       "title": "FILE \u00b7 Save Backup",
-      "url": "apps/production-mawster/70-scripts/file-save-backup/",
+      "url": "apps/production-mawnster/70-scripts/file-save-backup/",
       "type": "reference",
       "references": [
         {
@@ -2583,7 +2373,7 @@
     },
     "script-find-all-or-none": {
       "title": "FIND \u00b7 All Or None",
-      "url": "apps/production-mawster/70-scripts/find-all-or-none/",
+      "url": "apps/production-mawnster/70-scripts/find-all-or-none/",
       "type": "reference",
       "references": [
         {
@@ -2637,7 +2427,7 @@
     },
     "script-goto": {
       "title": "GOTO \u00b7 (the family)",
-      "url": "apps/production-mawster/70-scripts/goto/",
+      "url": "apps/production-mawnster/70-scripts/goto/",
       "type": "reference",
       "references": [
         {
@@ -2670,7 +2460,7 @@
     },
     "script-importing-records": {
       "title": "Importing Records",
-      "url": "apps/production-mawster/15-runtime/importing-records/",
+      "url": "apps/production-mawnster/15-runtime/importing-records/",
       "type": "index",
       "references": [
         {
@@ -2708,7 +2498,7 @@
     },
     "script-template": {
       "title": "_TEMPLATE \u00b7 New Script",
-      "url": "apps/production-mawster/70-scripts/_TEMPLATE-new-script/",
+      "url": "apps/production-mawnster/70-scripts/_TEMPLATE-new-script/",
       "type": "reference",
       "references": [
         {
@@ -2787,7 +2577,7 @@
     },
     "script-util-run-end": {
       "title": "UTIL \u00b7 Run End",
-      "url": "apps/production-mawster/70-scripts/util-run-end/",
+      "url": "apps/production-mawnster/70-scripts/util-run-end/",
       "type": "reference",
       "references": [
         {
@@ -2834,7 +2624,7 @@
     },
     "script-util-run-start": {
       "title": "UTIL \u00b7 Run Start",
-      "url": "apps/production-mawster/70-scripts/util-run-start/",
+      "url": "apps/production-mawnster/70-scripts/util-run-start/",
       "type": "reference",
       "references": [
         {
@@ -2874,7 +2664,7 @@
     },
     "script-util-value-index-move": {
       "title": "UTIL \u00b7 Value Index Move (+ FIND \u00b7 Values)",
-      "url": "apps/production-mawster/70-scripts/util-value-index-move/",
+      "url": "apps/production-mawnster/70-scripts/util-value-index-move/",
       "type": "reference",
       "references": [
         {
@@ -2921,7 +2711,7 @@
     },
     "scripts": {
       "title": "Scripts",
-      "url": "apps/production-mawster-no-use/70-scripts/",
+      "url": "apps/production-mawnster/70-scripts/",
       "type": "index",
       "references": [
         {
@@ -2978,7 +2768,7 @@
           "kind": "page",
           "target": "legacy-script-review",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "script-file-close",
@@ -3139,7 +2929,7 @@
           "kind": "page",
           "target": "table-print-sets",
           "resolved": true,
-          "count": 2
+          "count": 1
         }
       ],
       "referenced_by": [
@@ -3147,16 +2937,15 @@
         "delete-me-app-open",
         "delete-me-new-activity-log",
         "production-mawnster",
-        "production-mawster",
         "script-file-close",
         "script-template"
       ],
-      "inbound": 7,
+      "inbound": 6,
       "outbound": 31
     },
     "scripts-importing-evemts": {
       "title": "Importing Events, scripts",
-      "url": "apps/production-mawster/70-scripts/40-importing-records/events/",
+      "url": "apps/production-mawnster/70-scripts/40-importing-records/events/",
       "type": "page",
       "references": [
         {
@@ -3173,7 +2962,7 @@
     },
     "scripts-retired": {
       "title": "Retired Scripts",
-      "url": "apps/production-mawster/70-scripts/_retired/",
+      "url": "apps/production-mawnster/70-scripts/_retired/",
       "type": "index",
       "references": [
         {
@@ -3262,52 +3051,42 @@
     },
     "table-assignments": {
       "title": "Assignments",
-      "url": "apps/production-mawster-no-use/20-tables/ASSIGNMENTS/",
+      "url": "apps/production-mawnster/20-tables/role_assignments/",
       "type": "reference",
       "references": [],
       "referenced_by": [
         "menu-fields",
         "menu-tables",
         "production-mawnster",
-        "production-mawster",
         "table-people",
         "table-productions",
         "table-roles",
         "tables"
       ],
-      "inbound": 8,
+      "inbound": 7,
       "outbound": 0
     },
     "table-calendar-emphasis": {
       "title": "CALENDAR_EMPHASIS",
-      "url": "apps/production-mawster-no-use/20-tables/CALENDAR_EMPHASIS/",
+      "url": "apps/production-mawnster/20-tables/calendar_highlight/",
       "type": "reference",
-      "references": [
-        {
-          "token": "audit-fields",
-          "kind": "page",
-          "target": "audit-fields",
-          "resolved": false,
-          "count": 2
-        }
-      ],
+      "references": [],
       "referenced_by": [
         "menu-fields",
         "menu-tables",
         "production-mawnster",
-        "production-mawster",
         "projection-law",
         "table-production-calendars",
         "table-standard-events",
         "tables",
         "workflow"
       ],
-      "inbound": 9,
-      "outbound": 1
+      "inbound": 8,
+      "outbound": 0
     },
     "table-colors": {
       "title": "Colors",
-      "url": "apps/production-mawster/20-tables/theme_colors/",
+      "url": "apps/production-mawnster/20-tables/theme_colors/",
       "type": "reference",
       "references": [],
       "referenced_by": [
@@ -3320,7 +3099,7 @@
     },
     "table-docz-archival-media": {
       "title": "Archival Media",
-      "url": "apps/production-mawster/20-tables/DOCz_ARCHIVAL_MEDIA/",
+      "url": "apps/production-mawnster/20-tables/DOCz_ARCHIVAL_MEDIA/",
       "type": "reference",
       "references": [
         {
@@ -3348,7 +3127,7 @@
     },
     "table-docz-archival-video": {
       "title": "Archival Video",
-      "url": "apps/production-mawster/20-tables/DOCz_ARCHIVAL_VIDEO/",
+      "url": "apps/production-mawnster/20-tables/DOCz_ARCHIVAL_VIDEO/",
       "type": "reference",
       "references": [
         {
@@ -3369,7 +3148,7 @@
     },
     "table-editions": {
       "title": "EDITIONS",
-      "url": "apps/production-mawster-no-use/20-tables/editions/",
+      "url": "apps/production-mawnster/20-tables/editions/",
       "type": "reference",
       "references": [
         {
@@ -3390,33 +3169,24 @@
     },
     "table-events": {
       "title": "Events",
-      "url": "apps/production-mawster-no-use/20-tables/EVENTS/",
+      "url": "apps/production-mawnster/20-tables/EVENTS/",
       "type": "reference",
-      "references": [
-        {
-          "token": "audit-fields",
-          "kind": "page",
-          "target": "audit-fields",
-          "resolved": false,
-          "count": 1
-        }
-      ],
+      "references": [],
       "referenced_by": [
         "menu-fields",
         "menu-tables",
         "production-mawnster",
-        "production-mawster",
         "table-events-workday",
         "table-standard-events",
         "tables",
         "workflow"
       ],
-      "inbound": 8,
-      "outbound": 1
+      "inbound": 7,
+      "outbound": 0
     },
     "table-events-workday": {
       "title": "EVENTS_workday",
-      "url": "apps/production-mawster-no-use/20-tables/EVENTS_workday/",
+      "url": "apps/production-mawnster/20-tables/EVENTS_workday/",
       "type": "reference",
       "references": [
         {
@@ -3424,31 +3194,30 @@
           "kind": "page",
           "target": "projection-law",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-events",
           "kind": "page",
           "target": "table-events",
           "resolved": true,
-          "count": 2
+          "count": 1
         }
       ],
       "referenced_by": [
         "menu-fields",
         "menu-tables",
         "production-mawnster",
-        "production-mawster",
         "projection-law",
         "tables",
         "workflow"
       ],
-      "inbound": 7,
+      "inbound": 6,
       "outbound": 2
     },
     "table-export-presets": {
       "title": "EXPORT_PRESETS",
-      "url": "apps/production-mawster/20-tables/EXPORT_PRESETS/",
+      "url": "apps/production-mawnster/20-tables/EXPORT_PRESETS/",
       "type": "reference",
       "references": [
         {
@@ -3490,7 +3259,7 @@
     },
     "table-fiscal-years": {
       "title": "FISCAL_YEARS",
-      "url": "apps/production-mawster-no-use/20-tables/FISCAL_YEARS/",
+      "url": "apps/production-mawnster/20-tables/FISCAL_YEARS/",
       "type": "reference",
       "references": [
         {
@@ -3498,7 +3267,7 @@
           "kind": "page",
           "target": "table-production-calendars",
           "resolved": true,
-          "count": 2
+          "count": 1
         }
       ],
       "referenced_by": [
@@ -3509,7 +3278,7 @@
     },
     "table-global-export": {
       "title": "GLOBAL_EXPORT_VARIABLES",
-      "url": "apps/production-mawster/20-tables/global_export/",
+      "url": "apps/production-mawnster/20-tables/global_export/",
       "type": "reference",
       "references": [],
       "referenced_by": [
@@ -3520,20 +3289,9 @@
       "inbound": 3,
       "outbound": 0
     },
-    "table-global-export-variables": {
-      "title": "GLOBAL_EXPORT_VARIABLES",
-      "url": "apps/production-mawster-no-use/20-tables/global_use_variables/",
-      "type": "reference",
-      "references": [],
-      "referenced_by": [
-        "tables"
-      ],
-      "inbound": 1,
-      "outbound": 0
-    },
     "table-global-use": {
-      "title": "GLOBAL_USE",
-      "url": "apps/production-mawster-no-use/20-tables/GLOBAL_USE/",
+      "title": "GLOBAL_USE_VARIABLES",
+      "url": "apps/production-mawnster/20-tables/global_use/",
       "type": "reference",
       "references": [],
       "referenced_by": [
@@ -3546,33 +3304,24 @@
     },
     "table-import-events": {
       "title": "import_EVENTS",
-      "url": "apps/production-mawster-no-use/20-tables/import_EVENTS/",
+      "url": "apps/production-mawnster/20-tables/import_EVENTS/",
       "type": "reference",
-      "references": [
-        {
-          "token": "audit-fields",
-          "kind": "page",
-          "target": "audit-fields",
-          "resolved": false,
-          "count": 1
-        }
-      ],
+      "references": [],
       "referenced_by": [
         "menu-fields",
         "menu-tables",
         "production-mawnster",
-        "production-mawster",
         "table-standard-events",
         "tables",
         "workflow",
         "workflow-import-events"
       ],
-      "inbound": 8,
-      "outbound": 1
+      "inbound": 7,
+      "outbound": 0
     },
     "table-import-sessions": {
       "title": "import_SESSIONS",
-      "url": "apps/production-mawster-no-use/20-tables/import_SESSIONS/",
+      "url": "apps/production-mawnster/20-tables/import_SESSIONS/",
       "type": "reference",
       "references": [],
       "referenced_by": [
@@ -3580,17 +3329,16 @@
         "menu-fields",
         "menu-tables",
         "production-mawnster",
-        "production-mawster",
         "scripts-importing-evemts",
         "tables",
         "workflow"
       ],
-      "inbound": 8,
+      "inbound": 7,
       "outbound": 0
     },
     "table-import-sources": {
       "title": "IMPORT_SOURCES",
-      "url": "apps/production-mawster/20-tables/import_sources/",
+      "url": "apps/production-mawnster/20-tables/import_sources/",
       "type": "reference",
       "references": [],
       "referenced_by": [
@@ -3603,7 +3351,7 @@
     },
     "table-location-types": {
       "title": "Location Types",
-      "url": "apps/production-mawster-no-use/20-tables/LOCATION_TYPES/",
+      "url": "apps/production-mawnster/20-tables/LOCATION_TYPES/",
       "type": "reference",
       "references": [],
       "referenced_by": [
@@ -3616,7 +3364,7 @@
     },
     "table-locations": {
       "title": "Locations",
-      "url": "apps/production-mawster-no-use/20-tables/LOCATIONS/",
+      "url": "apps/production-mawnster/20-tables/LOCATIONS/",
       "type": "reference",
       "references": [],
       "referenced_by": [
@@ -3624,16 +3372,14 @@
         "menu-fields",
         "menu-tables",
         "production-mawnster",
-        "production-mawster",
-        "table-venues",
         "tables"
       ],
-      "inbound": 7,
+      "inbound": 5,
       "outbound": 0
     },
     "table-organizations": {
       "title": "ORGANIZATIONS",
-      "url": "apps/production-mawster/20-tables/organizations/",
+      "url": "apps/production-mawnster/20-tables/organizations/",
       "type": "reference",
       "references": [
         {
@@ -3654,7 +3400,7 @@
     },
     "table-people": {
       "title": "PEOPLE",
-      "url": "apps/production-mawster-no-use/20-tables/PEOPLE/",
+      "url": "apps/production-mawnster/20-tables/PEOPLE/",
       "type": "reference",
       "references": [
         {
@@ -3662,89 +3408,44 @@
           "kind": "page",
           "target": "table-assignments",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-print-set-items",
           "kind": "page",
           "target": "table-print-set-items",
           "resolved": true,
-          "count": 2
+          "count": 1
         }
       ],
       "referenced_by": [
-        "menu-tables"
+        "menu-tables",
+        "tables"
       ],
-      "inbound": 1,
+      "inbound": 2,
       "outbound": 2
     },
-    "table-print-presets": {
-      "title": "PRINT_PRESETS",
-      "url": "apps/production-mawster-no-use/20-tables/PRINT_PRESETS/",
-      "type": "reference",
-      "references": [
-        {
-          "token": "integration",
-          "kind": "page",
-          "target": "integration",
-          "resolved": true,
-          "count": 1
-        },
-        {
-          "token": "table-print-sessions",
-          "kind": "page",
-          "target": "table-print-sessions",
-          "resolved": true,
-          "count": 1
-        },
-        {
-          "token": "table-print-set-items",
-          "kind": "page",
-          "target": "table-print-set-items",
-          "resolved": true,
-          "count": 1
-        },
-        {
-          "token": "table-print-sets",
-          "kind": "page",
-          "target": "table-print-sets",
-          "resolved": true,
-          "count": 1
-        }
-      ],
-      "referenced_by": [
-        "production-mawnster",
-        "production-mawster",
-        "projection-law",
-        "tables",
-        "workflow"
-      ],
-      "inbound": 5,
-      "outbound": 4
-    },
     "table-print-sessions": {
-      "title": "PRINT_SESSIONS",
-      "url": "apps/production-mawster-no-use/20-tables/PRINT_SESSIONS/",
+      "title": "EXPORT_SESSIONS",
+      "url": "apps/production-mawnster/20-tables/EXPORT_SESSIONS/",
       "type": "reference",
       "references": [],
       "referenced_by": [
         "menu-fields",
         "menu-tables",
         "production-mawnster",
-        "production-mawster",
         "projection-law",
         "table-export-presets",
-        "table-print-presets",
         "table-print-sets",
         "tables",
         "workflow"
       ],
-      "inbound": 10,
+      "inbound": 8,
       "outbound": 0
     },
     "table-print-set-items": {
-      "title": "PRINT_SET_ITEMS",
-      "url": "apps/production-mawster-no-use/20-tables/PRINT_SET_ITEMS/",
+      "title": "EXPORT_SET_ITEMS",
+      "url": "apps/production-mawnster/20-tables/EXPORT_SET_ITEMS/",
       "type": "reference",
       "references": [],
       "referenced_by": [
@@ -3752,16 +3453,15 @@
         "menu-tables",
         "table-export-presets",
         "table-people",
-        "table-print-presets",
         "table-print-sets",
         "tables"
       ],
-      "inbound": 7,
+      "inbound": 6,
       "outbound": 0
     },
     "table-print-sets": {
-      "title": "PRINT_SETS",
-      "url": "apps/production-mawster-no-use/20-tables/PRINT_SETS/",
+      "title": "EXPORT_SETS",
+      "url": "apps/production-mawnster/20-tables/EXPORT_SETS/",
       "type": "reference",
       "references": [
         {
@@ -3769,14 +3469,14 @@
           "kind": "page",
           "target": "table-print-sessions",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-print-set-items",
           "kind": "page",
           "target": "table-print-set-items",
           "resolved": true,
-          "count": 2
+          "count": 1
         }
       ],
       "referenced_by": [
@@ -3784,34 +3484,15 @@
         "menu-tables",
         "scripts",
         "table-export-presets",
-        "table-print-presets",
         "tables",
-        "user-experience",
         "ux"
       ],
-      "inbound": 8,
+      "inbound": 6,
       "outbound": 2
-    },
-    "table-producer-info": {
-      "title": "PRODUCER_INFO",
-      "url": "apps/production-mawster-no-use/20-tables/PRODUCER_INFO/",
-      "type": "reference",
-      "references": [
-        {
-          "token": "table-producers",
-          "kind": "page",
-          "target": "table-producers",
-          "resolved": true,
-          "count": 1
-        }
-      ],
-      "referenced_by": [],
-      "inbound": 0,
-      "outbound": 1
     },
     "table-producers": {
       "title": "Producers",
-      "url": "apps/production-mawster-no-use/20-tables/PRODUCERS/",
+      "url": "apps/production-mawnster/20-tables/PRODUCERS/",
       "type": "reference",
       "references": [
         {
@@ -3826,17 +3507,15 @@
         "menu-fields",
         "menu-tables",
         "production-mawnster",
-        "production-mawster",
-        "table-producer-info",
         "table-producers",
         "tables"
       ],
-      "inbound": 7,
+      "inbound": 5,
       "outbound": 1
     },
     "table-production-calendars": {
       "title": "PRODUCTION_CALENDARS",
-      "url": "apps/production-mawster-no-use/20-tables/PRODUCTION_CALENDARS/",
+      "url": "apps/production-mawnster/20-tables/CALENDARS/",
       "type": "reference",
       "references": [
         {
@@ -3851,32 +3530,31 @@
           "kind": "page",
           "target": "projection-law",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-calendar-emphasis",
           "kind": "page",
           "target": "table-calendar-emphasis",
           "resolved": true,
-          "count": 3
+          "count": 2
         }
       ],
       "referenced_by": [
         "menu-fields",
         "menu-tables",
         "production-mawnster",
-        "production-mawster",
         "table-fiscal-years",
         "table-productions",
         "tables",
         "workflow"
       ],
-      "inbound": 8,
+      "inbound": 7,
       "outbound": 3
     },
     "table-productions": {
       "title": "Productions",
-      "url": "apps/production-mawster-no-use/20-tables/productions/",
+      "url": "apps/production-mawnster/20-tables/productions/",
       "type": "reference",
       "references": [
         {
@@ -3891,14 +3569,14 @@
           "kind": "page",
           "target": "table-assignments",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-production-calendars",
           "kind": "page",
           "target": "table-production-calendars",
           "resolved": true,
-          "count": 2
+          "count": 1
         }
       ],
       "referenced_by": [
@@ -3906,16 +3584,15 @@
         "menu-fields",
         "menu-tables",
         "production-mawnster",
-        "production-mawster",
         "tables",
         "workflow"
       ],
-      "inbound": 7,
+      "inbound": 6,
       "outbound": 3
     },
     "table-roles": {
       "title": "Roles",
-      "url": "apps/production-mawster-no-use/20-tables/roles/",
+      "url": "apps/production-mawnster/20-tables/roles/",
       "type": "reference",
       "references": [
         {
@@ -3923,22 +3600,21 @@
           "kind": "page",
           "target": "table-assignments",
           "resolved": true,
-          "count": 2
+          "count": 1
         }
       ],
       "referenced_by": [
         "menu-fields",
         "menu-tables",
         "production-mawnster",
-        "production-mawster",
         "tables"
       ],
-      "inbound": 5,
+      "inbound": 4,
       "outbound": 1
     },
     "table-standard-events": {
       "title": "STANDARD_EVENTS",
-      "url": "apps/production-mawster-no-use/20-tables/STANDARD_EVENTS/",
+      "url": "apps/production-mawnster/20-tables/STANDARD_EVENTS/",
       "type": "reference",
       "references": [
         {
@@ -3946,21 +3622,21 @@
           "kind": "page",
           "target": "table-calendar-emphasis",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-events",
           "kind": "page",
           "target": "table-events",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-import-events",
           "kind": "page",
           "target": "table-import-events",
           "resolved": true,
-          "count": 2
+          "count": 1
         }
       ],
       "referenced_by": [
@@ -3973,23 +3649,22 @@
     },
     "table-styles": {
       "title": "Styles",
-      "url": "apps/production-mawster-no-use/20-tables/STYLES/",
+      "url": "apps/production-mawnster/20-tables/STYLES/",
       "type": "reference",
       "references": [],
       "referenced_by": [
         "menu-fields",
         "menu-tables",
         "production-mawnster",
-        "production-mawster",
         "projection-law",
         "tables"
       ],
-      "inbound": 6,
+      "inbound": 5,
       "outbound": 0
     },
     "table-themes": {
       "title": "Themes",
-      "url": "apps/production-mawster/20-tables/themes./",
+      "url": "apps/production-mawnster/20-tables/themes./",
       "type": "reference",
       "references": [],
       "referenced_by": [
@@ -4002,7 +3677,7 @@
     },
     "table-themes_x_styles": {
       "title": "THEMES_x_STYLES",
-      "url": "apps/production-mawster/20-tables/themes_x_styles/",
+      "url": "apps/production-mawnster/20-tables/themes_x_styles/",
       "type": "reference",
       "references": [],
       "referenced_by": [
@@ -4015,7 +3690,7 @@
     },
     "table-typography": {
       "title": "Typography",
-      "url": "apps/production-mawster/20-tables/theme_typography/",
+      "url": "apps/production-mawnster/20-tables/theme_typography/",
       "type": "reference",
       "references": [],
       "referenced_by": [
@@ -4028,7 +3703,7 @@
     },
     "table-utility-logs": {
       "title": "Utility logs",
-      "url": "apps/production-mawster/20-tables/utility_logs/",
+      "url": "apps/production-mawnster/20-tables/utility_logs/",
       "type": "reference",
       "references": [],
       "referenced_by": [
@@ -4043,7 +3718,7 @@
     },
     "table-utility-reports": {
       "title": "Utility Reports",
-      "url": "apps/production-mawster/20-tables/utility_reports/",
+      "url": "apps/production-mawnster/20-tables/utility_reports/",
       "type": "reference",
       "references": [],
       "referenced_by": [
@@ -4056,7 +3731,7 @@
     },
     "table-utility_logs": {
       "title": "Utility Logs",
-      "url": "apps/production-mawster/20-tables/utility_logmaw/",
+      "url": "apps/production-mawnster/20-tables/utility_logmaw/",
       "type": "reference",
       "references": [],
       "referenced_by": [
@@ -4069,7 +3744,7 @@
     },
     "table-value-lists": {
       "title": "Value Lists",
-      "url": "apps/production-mawster/20-tables/VALUE_LISTS/",
+      "url": "apps/production-mawnster/20-tables/VALUE_LISTS/",
       "type": "reference",
       "references": [],
       "referenced_by": [
@@ -4082,7 +3757,7 @@
     },
     "table-values": {
       "title": "Values",
-      "url": "apps/production-mawster/20-tables/VALUES/",
+      "url": "apps/production-mawnster/20-tables/VALUES/",
       "type": "reference",
       "references": [],
       "referenced_by": [
@@ -4093,26 +3768,9 @@
       "inbound": 3,
       "outbound": 0
     },
-    "table-venues": {
-      "title": "Venues",
-      "url": "apps/production-mawster-no-use/20-tables/VENUES/",
-      "type": "reference",
-      "references": [
-        {
-          "token": "table-locations",
-          "kind": "page",
-          "target": "table-locations",
-          "resolved": true,
-          "count": 1
-        }
-      ],
-      "referenced_by": [],
-      "inbound": 0,
-      "outbound": 1
-    },
     "table-versions": {
       "title": "Versions",
-      "url": "apps/production-mawster-no-use/20-tables/versions/",
+      "url": "apps/production-mawnster/20-tables/versions/",
       "type": "reference",
       "references": [
         {
@@ -4133,7 +3791,7 @@
     },
     "table-weeks": {
       "title": "Weeks",
-      "url": "apps/production-mawster-no-use/20-tables/WEEKS/",
+      "url": "apps/production-mawnster/20-tables/WEEKS/",
       "type": "reference",
       "references": [
         {
@@ -4141,31 +3799,30 @@
           "kind": "page",
           "target": "projection-law",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-workdays",
           "kind": "page",
           "target": "table-workdays",
           "resolved": true,
-          "count": 2
+          "count": 1
         }
       ],
       "referenced_by": [
         "menu-fields",
         "menu-tables",
         "production-mawnster",
-        "production-mawster",
         "projection-law",
         "tables",
         "workflow"
       ],
-      "inbound": 7,
+      "inbound": 6,
       "outbound": 2
     },
     "table-workdays": {
       "title": "Workdays",
-      "url": "apps/production-mawster-no-use/20-tables/WORKDAYS/",
+      "url": "apps/production-mawnster/20-tables/WORKDAYS/",
       "type": "reference",
       "references": [
         {
@@ -4194,18 +3851,17 @@
         "menu-fields",
         "menu-tables",
         "production-mawnster",
-        "production-mawster",
         "projection-law",
         "table-weeks",
         "tables",
         "workflow"
       ],
-      "inbound": 8,
+      "inbound": 7,
       "outbound": 3
     },
     "tables": {
       "title": "Tables",
-      "url": "apps/production-mawster-no-use/20-tables/",
+      "url": "apps/production-mawnster/20-tables/",
       "type": "index",
       "references": [
         {
@@ -4213,7 +3869,7 @@
           "kind": "page",
           "target": "integration",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "menu-database",
@@ -4248,14 +3904,14 @@
           "kind": "page",
           "target": "table-assignments",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-calendar-emphasis",
           "kind": "page",
           "target": "table-calendar-emphasis",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-colors",
@@ -4283,21 +3939,21 @@
           "kind": "page",
           "target": "table-editions",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-events",
           "kind": "page",
           "target": "table-events",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-events-workday",
           "kind": "page",
           "target": "table-events-workday",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-export-presets",
@@ -4314,32 +3970,25 @@
           "count": 1
         },
         {
-          "token": "table-global-export-variables",
-          "kind": "page",
-          "target": "table-global-export-variables",
-          "resolved": true,
-          "count": 1
-        },
-        {
           "token": "table-global-use",
           "kind": "page",
           "target": "table-global-use",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-import-events",
           "kind": "page",
           "target": "table-import-events",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-import-sessions",
           "kind": "page",
           "target": "table-import-sessions",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-import-sources",
@@ -4353,14 +4002,14 @@
           "kind": "page",
           "target": "table-location-types",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-locations",
           "kind": "page",
           "target": "table-locations",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-organizations",
@@ -4370,9 +4019,9 @@
           "count": 1
         },
         {
-          "token": "table-print-presets",
+          "token": "table-people",
           "kind": "page",
-          "target": "table-print-presets",
+          "target": "table-people",
           "resolved": true,
           "count": 1
         },
@@ -4381,63 +4030,63 @@
           "kind": "page",
           "target": "table-print-sessions",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-print-set-items",
           "kind": "page",
           "target": "table-print-set-items",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-print-sets",
           "kind": "page",
           "target": "table-print-sets",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-producers",
           "kind": "page",
           "target": "table-producers",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-production-calendars",
           "kind": "page",
           "target": "table-production-calendars",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-productions",
           "kind": "page",
           "target": "table-productions",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-roles",
           "kind": "page",
           "target": "table-roles",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-standard-events",
           "kind": "page",
           "target": "table-standard-events",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-styles",
           "kind": "page",
           "target": "table-styles",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-themes",
@@ -4500,34 +4149,33 @@
           "kind": "page",
           "target": "table-versions",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-weeks",
           "kind": "page",
           "target": "table-weeks",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-workdays",
           "kind": "page",
           "target": "table-workdays",
           "resolved": true,
-          "count": 2
+          "count": 1
         }
       ],
       "referenced_by": [
         "menu-tables",
-        "production-mawnster",
-        "production-mawster"
+        "production-mawnster"
       ],
-      "inbound": 3,
-      "outbound": 44
+      "inbound": 2,
+      "outbound": 43
     },
     "theme-build-order": {
       "title": "Theme Build Order",
-      "url": "apps/production-mawster/theme-build-order/",
+      "url": "apps/production-mawnster/theme-build-order/",
       "type": "reference",
       "references": [
         {
@@ -4571,7 +4219,7 @@
     },
     "theme-event-styling": {
       "title": "Event Styling",
-      "url": "apps/production-mawster/theme-event-styling/",
+      "url": "apps/production-mawnster/theme-event-styling/",
       "type": "reference",
       "references": [
         {
@@ -4614,7 +4262,7 @@
     },
     "theme-resolution": {
       "title": "Theme Resolution",
-      "url": "apps/production-mawster/theme-resolution/",
+      "url": "apps/production-mawnster/theme-resolution/",
       "type": "reference",
       "references": [
         {
@@ -4653,7 +4301,7 @@
     },
     "theme-selection": {
       "title": "Theme Selection",
-      "url": "apps/production-mawster/theme-selection/",
+      "url": "apps/production-mawnster/theme-selection/",
       "type": "reference",
       "references": [
         {
@@ -4697,7 +4345,7 @@
     },
     "theme-state": {
       "title": "Theme State (observed)",
-      "url": "apps/production-mawster/theme-state/",
+      "url": "apps/production-mawnster/theme-state/",
       "type": "reference",
       "references": [
         {
@@ -4751,7 +4399,7 @@
     },
     "theme-template-layout": {
       "title": "Styled Objects Template (build spec)",
-      "url": "apps/production-mawster/theme-template-layout/",
+      "url": "apps/production-mawnster/theme-template-layout/",
       "type": "reference",
       "references": [
         {
@@ -4791,7 +4439,7 @@
     },
     "theme-vector-grain": {
       "title": "Vector Grain (what is data, what is layout)",
-      "url": "apps/production-mawster/theme-vector-grain/",
+      "url": "apps/production-mawnster/theme-vector-grain/",
       "type": "reference",
       "references": [
         {
@@ -5598,16 +5246,9 @@
     },
     "user-experience": {
       "title": "UX",
-      "url": "apps/production-mawster-no-use/10-user-experience/",
+      "url": "apps/production-mawnster/10-ux/menu_tree/",
       "type": "index",
       "references": [
-        {
-          "token": "table-print-sets",
-          "kind": "page",
-          "target": "table-print-sets",
-          "resolved": true,
-          "count": 1
-        },
         {
           "token": "ux",
           "kind": "page",
@@ -5619,16 +5260,15 @@
       "referenced_by": [
         "device-handoff",
         "production-mawnster",
-        "production-mawster",
         "runtime",
         "ux"
       ],
-      "inbound": 5,
-      "outbound": 2
+      "inbound": 4,
+      "outbound": 1
     },
     "ux": {
       "title": "UX",
-      "url": "apps/production-mawster/10-ux/",
+      "url": "apps/production-mawnster/10-ux/",
       "type": "index",
       "references": [
         {
@@ -5655,7 +5295,7 @@
     },
     "workflow": {
       "title": "Build & Use Workflow",
-      "url": "apps/production-mawster-no-use/workflow/",
+      "url": "apps/production-mawnster/workflow/",
       "type": "reference",
       "references": [
         {
@@ -5663,96 +5303,95 @@
           "kind": "page",
           "target": "projection-law",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-calendar-emphasis",
           "kind": "page",
           "target": "table-calendar-emphasis",
           "resolved": true,
-          "count": 4
+          "count": 2
         },
         {
           "token": "table-events",
           "kind": "page",
           "target": "table-events",
           "resolved": true,
-          "count": 4
+          "count": 2
         },
         {
           "token": "table-events-workday",
           "kind": "page",
           "target": "table-events-workday",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-import-events",
           "kind": "page",
           "target": "table-import-events",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-import-sessions",
           "kind": "page",
           "target": "table-import-sessions",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-print-presets",
           "kind": "page",
           "target": "table-print-presets",
-          "resolved": true,
-          "count": 2
+          "resolved": false,
+          "count": 1
         },
         {
           "token": "table-print-sessions",
           "kind": "page",
           "target": "table-print-sessions",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-production-calendars",
           "kind": "page",
           "target": "table-production-calendars",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-productions",
           "kind": "page",
           "target": "table-productions",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-weeks",
           "kind": "page",
           "target": "table-weeks",
           "resolved": true,
-          "count": 2
+          "count": 1
         },
         {
           "token": "table-workdays",
           "kind": "page",
           "target": "table-workdays",
           "resolved": true,
-          "count": 2
+          "count": 1
         }
       ],
       "referenced_by": [
-        "production-mawnster",
-        "production-mawster"
+        "production-mawnster"
       ],
-      "inbound": 2,
+      "inbound": 1,
       "outbound": 12
     },
     "workflow-import-events": {
       "title": "Importing Events, workflow",
-      "url": "apps/production-mawster/15-runtime/importing-records/events/",
+      "url": "apps/production-mawnster/15-runtime/importing-records/events/",
       "type": "page",
       "references": [
         {
