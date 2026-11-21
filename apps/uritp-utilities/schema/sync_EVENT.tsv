@@ -1,0 +1,14 @@
+Field_Name	Type	Options	Notes	status
+PrimaryKey	Text	audit	Machine identity. Get ( UUID ). Never used for cross-file joins.	Audit
+CreationTimestamp	Timestamp	audit		Audit
+CreatedBy	Text	audit		Audit
+ModificationTimestamp	Timestamp	audit		Audit
+ModifiedBy	Text	audit		Audit
+fk_Session	Text	indexed; raw	sync_SESSION::PrimaryKey	Links
+xt_Key	Text	indexed; raw	External identity (xt_RECORD::xt_Key), not a PK	External
+ActionCode	Text	not empty; indexed; raw	VALUE code under sync_action	Log
+stored_ActionLabel	Text		Label snapshot at write time; never a matching key	Log
+SourceFile	Text		Calling app (provenance text)	Log
+HttpStatus	Number		External HTTP status; 200 = OK	Log
+Request	Text		JSON body or GET address. Never contains the token.	Log
+Response	Text		External response. Credentials never logged.	Log

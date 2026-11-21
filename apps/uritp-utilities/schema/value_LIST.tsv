@@ -1,0 +1,8 @@
+Field_Name	Type	Options	Notes	status
+PrimaryKey	Text	audit	Machine identity. Get ( UUID ). Never used for cross-file joins.	Audit
+CreationTimestamp	Timestamp	audit		Audit
+CreatedBy	Text	audit		Audit
+ModificationTimestamp	Timestamp	audit		Audit
+ModifiedBy	Text	audit		Audit
+Code	Text	key	Immutable list code: sync_action, sync_decision, sync_policy	Settings
+Name	Text		Display label only	Settings

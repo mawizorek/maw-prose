@@ -1,0 +1,14 @@
+Field_Name	Type	Options	Notes	status
+PrimaryKey	Text	audit	Machine identity. Get ( UUID ). Never used for cross-file joins.	Audit
+CreationTimestamp	Timestamp	audit		Audit
+CreatedBy	Text	audit		Audit
+ModificationTimestamp	Timestamp	audit		Audit
+ModifiedBy	Text	audit		Audit
+fk_xtContainer	Text	fk	xt_CONTAINER::PrimaryKey. Home container; updated if the task moves lists.	Links
+xt_ID	Text	fk	ClickUp task ID or GitHub path. Not unique alone; xt_Key is.	External
+xt_Key	Text	key	Written by the adapter. ClickUp = clickup:<taskID>. GitHub = github:<owner/repo>:<path> (repo-scoped, closes the cross-repo collision).	External
+xt_Label	Text		External display label. No validation: external data never blocks a pull.	External
+xt_Version	Text		ClickUp date_updated (ms) or GitHub SHA	External
+xt_Payload	Text		Latest raw JSON; overwritten when version changes	External
+LastSeenSession	Text	indexed; raw	sync_SESSION::PrimaryKey of the last FULL pull that returned this record	Log
+xt_DeletedAt	Timestamp		Tombstone: set when a full pull no longer returns the record, cleared if it reappears. Rows are never deleted.	External
