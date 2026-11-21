@@ -24,10 +24,19 @@ Proven 11-20 and 11-21-2026 building URITP Utilities: 10 tables in one paste, a 
         cd /Users/pm-prod/_repos/maw-prose && git pull && python3 tools/fmp/fmp-tables.py apps/<app> [TABLE …]
         cd /Users/pm-prod/_repos/maw-prose && git pull && python3 tools/fmp/fmp-script.py "apps/<app>/scripts/<name>.fmscript"
 
-    Tables: Manage Database > Tables > Cmd-V. Scripts: Script Workspace > new script > step pane > Cmd-V. Any `!!` line printed by a tool is read before pasting.
+    Tables: Manage Database > Tables > Cmd-V. Scripts: Script Workspace > new script > step pane > Cmd-V. Any `!!` line printed by a tool is read before pasting. After a script paste, scan for `<unknown>` and `<Missing>`; a layout deleted or recreated after the paste kills its references.
 7. **Hand steps.** Paste only adds. Every delete, rename, relationship, layout fix and data-source link is listed by name for Michael to do.
 8. **Proof.** A screenshot or a fresh DDR. Counts are checked against the brief. Anything meant to be safe to rerun gets rerun, and the counts must not move.
 9. **File wins.** When Michael renames or deletes in FileMaker, the next DDR shows it and the agent updates the source to match. The source never overwrites a choice Michael made in the file.
+
+## Data safety
+
+Learned 11-21-2026, when 17 vocab rows were duplicated after a key-format change. Nothing referenced them yet; with sync history it would have been real damage.
+
+- **Find by facts, never by a formatted key.** Scripts look up an existing row by what it is (fk + Code, fk + external ID). A `uniqAuto_` key is the database's last guard, not the lookup.
+- **Changing an auto-enter formula never recomputes existing rows.** Run Replace Field Contents to recompute, check counts, and only then run anything that reads or writes those rows.
+- **Every Commit in a script is followed by a stop-on-failure check.** A failed save ends the run with an error; it never continues quietly.
+- **History never points at vocab rows.** Events store codes and external keys, so vocabulary can be repaired without orphaning history.
 
 ## Teaching the tools a new shape
 
