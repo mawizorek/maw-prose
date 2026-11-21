@@ -3,7 +3,7 @@ id: mawster-ddr-imports
 title: "DDR imports (staging) - deletion log"
 type: reference
 status: hidden
-revised: 2026-08
+revised: 2026-11
 summary: Staging folder for FileMaker DDR exports. Records which imports were captured and deleted, and how to recover them.
 ---
 
@@ -80,6 +80,22 @@ gets a row here BEFORE it is deleted, with its last-containing commit SHA.**
 
 ## 📂 Still present
 
+### `202611201741` — Nov 20 2026 · NOT yet transcribed, NOT deleted
+
+`Production_MAWnster_fmp12.xml`, 8,539,560 bytes, UTF-16. A FileMaker 19.6.3 DDR (`FMPReport`),
+generated 2026-11-20 21:39 from `Production_MAWnster.fmp12`. Single file, no chunk set.
+`Summary.xml` alongside it was committed as a broken symlink and is not part of the record
+(Michael: not relevant).
+
+**Overview, as parsed 2026-11-20:** 60 base tables, 168 table occurrences, 102 relationships,
+36 value lists, 12 custom functions. No external data sources. Container base directory is still
+`Production_MAWster/` (pre-J21 name; renaming it without moving the stored files orphans them).
+
+**The `_ide` mirrors still cite `2608151650` and are far behind this file** (37 → 60 tables,
+15 → 102 relationships). Transcribe before deleting.
+
+⚠️ Folder name has twelve digits. Convention below is ten (`2611201741`).
+
 ### `26080916471` — NOT captured, NOT deleted
 
 `raw.txt` at 102,878 bytes plus a `source/` chunk set. **Left in place deliberately: it was never
@@ -100,4 +116,4 @@ assume from the size match.**
 `YYMMDDHHMM` — ten digits, local time of export. `2608151650` = 2026-08-15 16:50.
 
 ⚠️ Historically inconsistent: `202608091647` (12 digits, full year), `2608091647` (10, correct),
-`26080916471` (11, unexplained). **Ten digits going forward.**
+`26080916471` (11, unexplained), `202611201741` (12). **Ten digits going forward.**
