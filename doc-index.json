@@ -2,7 +2,7 @@
   "site": "mawprose",
   "name": "MAW Prose",
   "base_url": "https://mawizorek.github.io/maw-prose/",
-  "built": "2026-11-21T23:00:11Z",
+  "built": "2026-11-21T23:10:58Z",
   "engine": "0.1.0",
   "engine_ref": "1e9b1084e974f78b780d86f90059683fe3d6f067",
   "pages": [
@@ -295,10 +295,28 @@
       "print_gloss": null
     },
     {
+      "id": "previs-lighting",
+      "type": "reference",
+      "title": "Lighting",
+      "url": "apps/maw-previs/lighting/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
       "id": "previs-showkit",
       "type": "reference",
       "title": "Showkit",
       "url": "apps/maw-previs/showkit/",
+      "status": "public",
+      "gloss": null,
+      "print_gloss": null
+    },
+    {
+      "id": "previs-vectorworks-import",
+      "type": "reference",
+      "title": "Vectorworks Import",
+      "url": "apps/maw-previs/vectorworks-import/",
       "status": "public",
       "gloss": null,
       "print_gloss": null

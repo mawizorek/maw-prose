@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://mawizorek.github.io/maw-prose/apps/maw-previs/build-sheet/">
       
       
-        <link rel="prev" href="../showkit/">
+        <link rel="prev" href="../vectorworks-import/">
       
       
         <link rel="next" href="../../uritp-people/scripts/APP_CatalogRefresh/">
@@ -512,6 +512,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -682,6 +686,41 @@
   
   
     <li class="md-nav__item">
+      <a href="../lighting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lighting
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../showkit/" class="md-nav__link">
         
   
@@ -690,6 +729,41 @@
     
   
     Showkit
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--public"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vectorworks-import/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vectorworks Import
   
 
     
@@ -824,6 +898,28 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#maw-previz-050" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MAW Previz 0.5.0
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#maw-shutters-06" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MAW Shutters 0.6
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -837,6 +933,23 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Order of work">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lighting-track" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lighting track
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1169,6 +1282,28 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#maw-previz-050" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MAW Previz 0.5.0
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#maw-shutters-06" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MAW Shutters 0.6
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1182,6 +1317,23 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Order of work">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lighting-track" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lighting track
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1217,17 +1369,13 @@
 <p class="dr-lede">What is built, what has been tested and how, and the order of work for the first show.</p>
 <h2 id="where-things-stand">Where things stand<a class="headerlink" href="#where-things-stand" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Both programs are prototypes written before these specs</li>
-<li>Kept as starting points; revised against the specs before anything depends on them</li>
+<li>Status words: <strong>BUILT</strong> (written) → <strong>TESTED</strong> (automated checks pass) → <strong>VERIFIED</strong> (Michael's own Blender, screenshot or console)</li>
+<li>Only Michael's evidence makes anything VERIFIED</li>
 </ul>
-<div class="admonition warning">
-<p class="admonition-title">Neither has run in Blender yet</p>
-<p>The first real install is the test.</p>
-</div>
 <h3 id="maw-blocking-200">MAW Blocking 2.0.0<a class="headerlink" href="#maw-blocking-200" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Spec: [<a href="../blocking-addon/">Blocking Add-on</a>]</li>
-<li>Checked only against a purpose-built stand-in for Blender's Python: 37 checks</li>
+<li>TESTED only against a purpose-built stand-in for Blender's Python: 37 checks</li>
 <li>Covers crosses, retimes, overlaps, gaps, removal, insertion, reverse travel, shared routes, adopting the earlier rig, re-registration, panel drawing</li>
 <li>Proves the logic, not that it runs in Blender <span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="tbc" title="Not yet verified against a source. Do not rely on this without checking.">To be confirmed</span></li>
 </ul>
@@ -1236,6 +1384,20 @@
 <li>Spec: [<a href="../showkit/">Showkit</a>]</li>
 <li>Exercised: the dry run and its two refusals</li>
 <li>Not run anywhere: the half that builds files, which only Blender can run <span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="tbc" title="Not yet verified against a source. Do not rely on this without checking.">To be confirmed</span></li>
+</ul>
+<h3 id="maw-previz-050">MAW Previz 0.5.0<a class="headerlink" href="#maw-previz-050" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Spec: [<a href="../lighting/">Lighting</a>] and [<a href="../vectorworks-import/">Vectorworks Import</a>]</li>
+<li>BUILT. Rig-sync logic TESTED: 17 checks, plain Python, against the real inventory MVR</li>
+<li>The pre-flight already caught a real defect in that MVR: a follow spot with no GDTF that BlenderDMX had silently turned into an LED PAR</li>
+<li>Not yet run in Blender <span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="tbc" title="Not yet verified against a source. Do not rely on this without checking.">To be confirmed</span></li>
+</ul>
+<h3 id="maw-shutters-06">MAW Shutters 0.6<a class="headerlink" href="#maw-shutters-06" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Spec: [<a href="../lighting/">Lighting</a>]</li>
+<li>VERIFIED at 0.3.1: headless Cycles self-test 9/9 on Blender 5.2.2, and the sidebar panel by screenshot</li>
+<li>0.4 to 0.6 BUILT: Shutters naming, cue keys that keep hand-shaped curves, barrel and frost, Pull from Vectorworks <span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="tbc" title="Not yet verified against a source. Do not rely on this without checking.">To be confirmed</span></li>
+<li>Not yet driven by fixture blade channels <span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="tbc" title="Not yet verified against a source. Do not rely on this without checking.">To be confirmed</span></li>
 </ul>
 <h2 id="order-of-work">Order of work<a class="headerlink" href="#order-of-work" title="Permanent link">&para;</a></h2>
 <div class="admonition danger">
@@ -1261,14 +1423,24 @@
 <li>Light the opening in its previs file while the second number is blocked.</li>
 <li>Repeat for each number.</li>
 </ol>
+<h3 id="lighting-track">Lighting track<a class="headerlink" href="#lighting-track" title="Permanent link">&para;</a></h3>
+<p>Runs alongside, on the channel check rig, before any show plot.</p>
+<ol>
+<li><strong>Gate: the rig syncs.</strong> OPEN PREVIZ on the inventory MVR gives RIG PASS, every unit in place.</li>
+<li><strong>Gate: Eos drives it.</strong> A channel at full in Eos lights that unit in Blender over sACN.</li>
+<li>Shutters on the moving lights' blade channels.</li>
+<li>House lights: the Vectorworks layer, then the Previz zone faders.</li>
+<li>Then the SFANW plot.</li>
+</ol>
 <h2 id="known-gaps">Known gaps<a class="headerlink" href="#known-gaps" title="Permanent link">&para;</a></h2>
 <ul>
-<li><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="gap" style="--dr-mark-color: var(--dr-bad)" title="This fact should exist and does not. The absence is known, not overlooked.">Fixtures and recorded DMX</span>: not settled, so one previs file per number is the current target, not a fixed part of the architecture</li>
+<li><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="gap" style="--dr-mark-color: var(--dr-bad)" title="This fact should exist and does not. The absence is known, not overlooked.">Show rig file</span>: one shared MVR per show for its per-number previs files, proposed <code>source/rig.mvr</code>, not built</li>
+<li><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="gap" style="--dr-mark-color: var(--dr-bad)" title="This fact should exist and does not. The absence is known, not overlooked.">Recorded DMX</span>: whether cues are ever baked into keyframes is not settled</li>
 <li><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="gap" style="--dr-mark-color: var(--dr-bad)" title="This fact should exist and does not. The absence is known, not overlooked.">Running order</span>: the SFANW config doesn't yet carry numbers two to seven</li>
 <li><span class="dr-mark dr-mark--box dr-mark--cls-confidence" data-mark="gap" style="--dr-mark-color: var(--dr-bad)" title="This fact should exist and does not. The absence is known, not overlooked.">Stand-in figures</span>: placeholders until a better figure is built into the library</li>
 </ul>
-<p class="dr-related">Related: <a href="../">MAW Previs</a>, <a href="../blocking-addon/">Blocking Add-on</a>, <a href="../showkit/">Showkit</a></p>
-<p class="dr-revised"><em>Revised 2026-11</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/maw-previs/build-sheet.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">dd2641f</span></span></p>
+<p class="dr-related">Related: <a href="../">MAW Previs</a>, <a href="../blocking-addon/">Blocking Add-on</a>, <a href="../showkit/">Showkit</a>, <a href="../lighting/">Lighting</a></p>
+<p class="dr-revised"><em>Revised 2026-11</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/maw-previs/build-sheet.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">1e44989</span></span></p>
 
 
 
@@ -1307,7 +1479,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../showkit/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Showkit">
+          <a href="../vectorworks-import/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Vectorworks Import">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1317,7 +1489,7 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                Showkit
+                Vectorworks Import
               </div>
             </div>
           </a>
