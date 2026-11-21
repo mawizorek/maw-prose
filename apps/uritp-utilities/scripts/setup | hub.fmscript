@@ -1,0 +1,120 @@
+# setup | hub · URITP Utilities. Idempotent: finds by Code, creates what is missing, refreshes labels. Never deletes, never changes a Code. Safe to rerun.
+# To add a vocab value or register a new app source: add one line to $values or $sources, then rerun.
+Set Error Capture [ On ]
+Allow User Abort [ Off ]
+Freeze Window
+Set Variable [ $created ; Value: 0 ]
+Set Variable [ $existing ; Value: 0 ]
+#--- vocab · list code | label
+Set Variable [ $lists ; Value: List ( "sync_action|Sync action" ; "sync_decision|Sync decision" ; "sync_policy|Sync policy" ) ]
+#--- vocab · list | code | label | sort
+Set Variable [ $values ; Value: List ( "sync_action|pull|Pull|1" ; "sync_action|adopt|Adopt|2" ; "sync_action|link|Link|3" ; "sync_action|compare|Compare|4" ; "sync_action|push|Push|5" ; "sync_action|refresh|Refresh|6" ; "sync_action|tombstone|Tombstone|7" ; "sync_action|revive|Revive|8" ; "sync_decision|pending|Pending|1" ; "sync_decision|keep_fm|Keep FileMaker|2" ; "sync_decision|take_xt|Take external|3" ; "sync_decision|applied|Applied|4" ; "sync_policy|fm_wins|FileMaker wins|1" ; "sync_policy|xt_wins|External wins|2" ; "sync_policy|reconcile|Reconcile|3" ; "sync_policy|intake_only|Intake only|4" ; "sync_policy|ignore|Ignore|5" ) ]
+#--- sources · system | list ID | container label | view ID | source label. The view MUST show closed tasks.
+Set Variable [ $sources ; Value: List ( "clickup|901305646880|PEOPLE|12cwjm-66873|PEOPLE · FMP VIEW" ) ]
+#=== value_LIST
+Set Variable [ $i ; Value: 0 ]
+Loop
+	Set Variable [ $i ; Value: $i + 1 ]
+	Exit Loop If [ $i > ValueCount ( $lists ) ]
+	Set Variable [ $p ; Value: Substitute ( GetValue ( $lists ; $i ) ; "|" ; ¶ ) ]
+	Set Variable [ $code ; Value: GetValue ( $p ; 1 ) ]
+	Set Variable [ $label ; Value: GetValue ( $p ; 2 ) ]
+	Set Variable [ $pk ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( value_LIST::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( value_LIST::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( value_LIST::Code ) ) & " = ?" ; "" ; "" ; $code ) ]
+	If [ Left ( $pk ; 1 ) = "?" ]
+		Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "error" ; "SQL failed reading value_LIST " & $code ; JSONString ] ) ]
+	End If
+	Go to Layout [ "value_LIST" ]
+	If [ IsEmpty ( $pk ) ]
+		New Record/Request
+		Set Field [ value_LIST::Code ; $code ]
+		Set Variable [ $created ; Value: $created + 1 ]
+	Else
+		Enter Find Mode [ Pause: Off ]
+		Set Field [ value_LIST::PrimaryKey ; "==" & $pk ]
+		Perform Find [ ]
+		If [ Get ( FoundCount ) <> 1 ]
+			Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "error" ; "value_LIST row not found for " & $code ; JSONString ] ) ]
+		End If
+		Set Variable [ $existing ; Value: $existing + 1 ]
+	End If
+	Set Field [ value_LIST::Name_Display ; $label ]
+	Commit Records/Requests [ ]
+End Loop
+#=== VALUE
+Set Variable [ $i ; Value: 0 ]
+Loop
+	Set Variable [ $i ; Value: $i + 1 ]
+	Exit Loop If [ $i > ValueCount ( $values ) ]
+	Set Variable [ $p ; Value: Substitute ( GetValue ( $values ; $i ) ; "|" ; ¶ ) ]
+	Set Variable [ $listPK ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( value_LIST::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( value_LIST::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( value_LIST::Code ) ) & " = ?" ; "" ; "" ; GetValue ( $p ; 1 ) ) ]
+	If [ IsEmpty ( $listPK ) or Left ( $listPK ; 1 ) = "?" ]
+		Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "error" ; "No value_LIST for " & GetValue ( $p ; 1 ) ; JSONString ] ) ]
+	End If
+	Set Variable [ $code ; Value: GetValue ( $p ; 2 ) ]
+	Set Variable [ $pk ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( VALUE::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( VALUE::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( VALUE::uniqAuto_ListCode ) ) & " = ?" ; "" ; "" ; $listPK & "|" & $code ) ]
+	If [ Left ( $pk ; 1 ) = "?" ]
+		Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "error" ; "SQL failed reading VALUE " & $code ; JSONString ] ) ]
+	End If
+	Go to Layout [ "VALUE" ]
+	If [ IsEmpty ( $pk ) ]
+		New Record/Request
+		Set Field [ VALUE::fk_List ; $listPK ]
+		Set Field [ VALUE::Code ; $code ]
+		Set Variable [ $created ; Value: $created + 1 ]
+	Else
+		Enter Find Mode [ Pause: Off ]
+		Set Field [ VALUE::PrimaryKey ; "==" & $pk ]
+		Perform Find [ ]
+		If [ Get ( FoundCount ) <> 1 ]
+			Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "error" ; "VALUE row not found for " & $code ; JSONString ] ) ]
+		End If
+		Set Variable [ $existing ; Value: $existing + 1 ]
+	End If
+	Set Field [ VALUE::Name_Display ; GetValue ( $p ; 3 ) ]
+	Set Field [ VALUE::sort_Index ; GetValue ( $p ; 4 ) ]
+	Commit Records/Requests [ ]
+End Loop
+#=== xt_CONTAINER + sync_SOURCE
+Set Variable [ $i ; Value: 0 ]
+Loop
+	Set Variable [ $i ; Value: $i + 1 ]
+	Exit Loop If [ $i > ValueCount ( $sources ) ]
+	Set Variable [ $p ; Value: Substitute ( GetValue ( $sources ; $i ) ; "|" ; ¶ ) ]
+	Set Variable [ $sysPK ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_SYSTEM::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( xt_SYSTEM::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_SYSTEM::Code ) ) & " = ?" ; "" ; "" ; GetValue ( $p ; 1 ) ) ]
+	If [ ValueCount ( $sysPK ) <> 1 or Left ( $sysPK ; 1 ) = "?" ]
+		Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "error" ; "Need exactly one xt_SYSTEM row with Code " & GetValue ( $p ; 1 ) ; JSONString ] ) ]
+	End If
+	Set Variable [ $sysPK ; Value: GetValue ( $sysPK ; 1 ) ]
+	Set Variable [ $conPK ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_CONTAINER::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( xt_CONTAINER::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_CONTAINER::uniqAuto_SystemContainer ) ) & " = ?" ; "" ; "" ; $sysPK & "|" & GetValue ( $p ; 2 ) ) ]
+	If [ Left ( $conPK ; 1 ) = "?" ]
+		Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "error" ; "SQL failed reading xt_CONTAINER " & GetValue ( $p ; 2 ) ; JSONString ] ) ]
+	End If
+	Go to Layout [ "xt_CONTAINER" ]
+	If [ IsEmpty ( $conPK ) ]
+		New Record/Request
+		Set Field [ xt_CONTAINER::fk_xtSystem ; $sysPK ]
+		Set Field [ xt_CONTAINER::xt_ID ; GetValue ( $p ; 2 ) ]
+		Set Field [ xt_CONTAINER::Name_Display ; GetValue ( $p ; 3 ) ]
+		Commit Records/Requests [ ]
+		Set Variable [ $conPK ; Value: xt_CONTAINER::PrimaryKey ]
+		Set Variable [ $created ; Value: $created + 1 ]
+	Else
+		Set Variable [ $existing ; Value: $existing + 1 ]
+	End If
+	Set Variable [ $srcPK ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( sync_SOURCE::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( sync_SOURCE::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( sync_SOURCE::xt_ViewPath ) ) & " = ?" ; "" ; "" ; GetValue ( $p ; 4 ) ) ]
+	If [ Left ( $srcPK ; 1 ) = "?" or ValueCount ( $srcPK ) > 1 ]
+		Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "error" ; "View " & GetValue ( $p ; 4 ) & " is registered more than once or SQL failed. Fix by hand." ; JSONString ] ) ]
+	End If
+	If [ IsEmpty ( $srcPK ) ]
+		Go to Layout [ "sync_SOURCE" ]
+		New Record/Request
+		Set Field [ sync_SOURCE::fk_xtContainer ; $conPK ]
+		Set Field [ sync_SOURCE::xt_ViewPath ; GetValue ( $p ; 4 ) ]
+		Set Field [ sync_SOURCE::Name_Display ; GetValue ( $p ; 5 ) ]
+		Commit Records/Requests [ ]
+		Set Variable [ $created ; Value: $created + 1 ]
+	Else
+		Set Variable [ $existing ; Value: $existing + 1 ]
+	End If
+End Loop
+Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 1 ; JSONNumber ] ; [ "created" ; $created ; JSONNumber ] ; [ "existing" ; $existing ; JSONNumber ] ) ]
