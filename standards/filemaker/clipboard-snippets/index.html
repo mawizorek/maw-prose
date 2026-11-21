@@ -589,10 +589,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-fmscript-is-the-only-source" class="md-nav__link">
+  <a href="#the-readable-file-is-the-only-source" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The .fmscript is the only source
+        The readable file is the only source
       
     </span>
   </a>
@@ -611,10 +611,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#steps-that-do-not-translate-yet" class="md-nav__link">
+  <a href="#getting-tables-into-filemaker" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Steps that do not translate yet
+        Getting tables into FileMaker
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#teaching-a-tool-a-new-shape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Teaching a tool a new shape
       
     </span>
   </a>
@@ -834,10 +845,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-fmscript-is-the-only-source" class="md-nav__link">
+  <a href="#the-readable-file-is-the-only-source" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The .fmscript is the only source
+        The readable file is the only source
       
     </span>
   </a>
@@ -856,10 +867,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#steps-that-do-not-translate-yet" class="md-nav__link">
+  <a href="#getting-tables-into-filemaker" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Steps that do not translate yet
+        Getting tables into FileMaker
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#teaching-a-tool-a-new-shape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Teaching a tool a new shape
       
     </span>
   </a>
@@ -895,23 +917,40 @@
 
 
 <p class="buildstamp buildstamp--corner" hidden><span class="buildstamp__row"><span class="buildstamp__mark" aria-hidden="true" style="background-image:url(&quot;../../../maw-prose-mark.svg&quot;)"></span><span class="buildstamp__text"><span class="buildstamp__id">MAW Prose</span><span class="buildstamp__sep"> · </span><span class="buildstamp__when">Fall 2026</span></span></span></p><h1 id="clipboard-snippets">Clipboard snippets<a class="headerlink" href="#clipboard-snippets" title="Permanent link">&para;</a></h1>
-<p class="dr-lede">How a script written in this repo gets into FileMaker without retyping it. The fmp-renderer turns the .fmscript into FileMaker's clipboard format on demand; nothing generated is stored.</p>
+<p class="dr-lede">How scripts and tables written in this repo get into FileMaker without retyping. Scripts render from .fmscript in the fmp-renderer; tables render from schema .tsv with tools/fmp/fmp-tables.py. Nothing generated is stored.</p>
 <h2 id="why-plain-text-does-not-paste">Why plain text does not paste<a class="headerlink" href="#why-plain-text-does-not-paste" title="Permanent link">&para;</a></h2>
-<p>FileMaker's Script Workspace ignores ordinary text on the clipboard. It only accepts steps in its own XML, <code>fmxmlsnippet</code>, carried under a private clipboard type, <code>XMSS</code>. Copy a <code>.fmscript</code> from GitHub and paste it, and nothing happens. Proven on URITP People's PEOPLE_Compare, 89 steps, 2026-10-05.</p>
-<h2 id="the-fmscript-is-the-only-source">The .fmscript is the only source<a class="headerlink" href="#the-fmscript-is-the-only-source" title="Permanent link">&para;</a></h2>
-<p>A script lives here once, as its readable <code>.fmscript</code>. Its XML is derived, so it is never committed: a stored copy is a second version of the script that drifts the first time someone edits one and not the other.</p>
+<p>FileMaker ignores ordinary text on the clipboard. It only accepts its own XML, <code>fmxmlsnippet</code>, carried under a private clipboard type: <code>XMSS</code> for script steps, <code>XMTB</code> for tables. Copy a <code>.fmscript</code> from GitHub and paste it, and nothing happens. Proven on URITP People's PEOPLE_Compare, 89 steps, 2026-10-05.</p>
+<h2 id="the-readable-file-is-the-only-source">The readable file is the only source<a class="headerlink" href="#the-readable-file-is-the-only-source" title="Permanent link">&para;</a></h2>
+<p>A script lives here once, as its <code>.fmscript</code>. A table lives here once, as <code>apps/&lt;app&gt;/schema/&lt;TABLE&gt;.tsv</code>. The XML is derived, so it is never committed: a stored copy is a second version that drifts the first time someone edits one and not the other.</p>
 <h2 id="getting-a-script-into-filemaker">Getting a script into FileMaker<a class="headerlink" href="#getting-a-script-into-filemaker" title="Permanent link">&para;</a></h2>
 <p>Open the app in the fmp-renderer, go to Scripts, pick the script, press Copy for FileMaker. The renderer reads the <code>.fmscript</code>, builds the XML in the browser, and copies a one-line Terminal command with the XML baked in. Paste it into Terminal, press Enter, click into an empty script in FileMaker, press ⌘V. Nothing touches the disk, so it does not matter where or whether the repo is checked out.</p>
 <p>A browser cannot put FileMaker's private clipboard type on the clipboard itself, which is the only reason Terminal is in the loop.</p>
-<h2 id="steps-that-do-not-translate-yet">Steps that do not translate yet<a class="headerlink" href="#steps-that-do-not-translate-yet" title="Permanent link">&para;</a></h2>
-<p>The renderer translates only steps whose XML has been proven by a real paste. Any other step pastes as a comment reading <code>TYPE BY HAND:</code> followed by the original line, and shows in red before you copy, so a script never pastes silently short. Type those few by hand.</p>
-<p>To teach the renderer a new step: build it once in FileMaker, copy it, and read what FileMaker wrote. This command saves the clipboard's steps to a file:</p>
+<h2 id="getting-tables-into-filemaker">Getting tables into FileMaker<a class="headerlink" href="#getting-tables-into-filemaker" title="Permanent link">&para;</a></h2>
+<p>Proven 2026-11-21: ten URITP Utilities tables, 54 fields plus audit fields, one paste.</p>
+<p>From the repo root of a local pull:</p>
+<div class="highlight"><pre><span></span><code>python3 tools/fmp/fmp-tables.py apps/&lt;app&gt;
+python3 tools/fmp/fmp-tables.py apps/&lt;app&gt; xt_RECORD sync_EVENT
+</code></pre></div>
+<p>Then Manage Database → Tables tab → ⌘V. Tables arrive with their fields, comments, auto-enter, validation and indexing, and FileMaker creates a table occurrence for each.</p>
+<ul>
+<li>One <code>.tsv</code> per table; the filename is the table name. Columns: Field_Name, Type, Options, Notes, status. Notes become field comments.</li>
+<li>Options grammar is in the script header: <code>audit</code>, <code>key</code>, <code>fk</code>, <code>not empty</code>, <code>unique</code>, <code>strict</code>, <code>always</code>, <code>indexed</code>, <code>raw</code>, <code>auto &lt;value&gt;</code>, <code>calc: &lt;expr&gt;</code>.</li>
+<li>Anything the tool cannot translate yet (calculation fields, calculation validation, range checks) prints as <code>!!</code> and is skipped. A table never pastes silently short. Do those few by hand.</li>
+<li>A table whose name already exists pastes alongside it, not over it. Rename or delete the old one first.</li>
+<li><code>tools/fmp/audit-fields.xml</code> holds the five audit fields exactly as FileMaker copied them.</li>
+</ul>
+<h2 id="teaching-a-tool-a-new-shape">Teaching a tool a new shape<a class="headerlink" href="#teaching-a-tool-a-new-shape" title="Permanent link">&para;</a></h2>
+<p>The tools translate only what a real paste has proven. To add a step or field shape, build it once in FileMaker, copy it, and read what FileMaker wrote.</p>
+<p>Script steps:</p>
 <div class="highlight"><pre><span></span><code>osascript -e 'the clipboard as «class XMSS»' | sed 's/^«data XMSS//; s/»$//' | xxd -r -p &gt; step.xml
 </code></pre></div>
-<p>That file is what the translation for the step gets written from, so the renderer only ever writes XML FileMaker itself produced.</p>
+<p>Tables (copy the table in Manage Database → Tables):</p>
+<div class="highlight"><pre><span></span><code>osascript -e 'the clipboard as «class XMTB»' | sed 's/^«data XMTB//; s/»$//' | xxd -r -p &gt; ~/Desktop/XMTB.xml
+</code></pre></div>
+<p>That file is what the translation gets written from, so the tools only ever write XML FileMaker itself produced. Script steps that do not translate yet paste as a <code>TYPE BY HAND:</code> comment and show in red in the renderer.</p>
 <h2 id="what-resolves-on-paste">What resolves on paste<a class="headerlink" href="#what-resolves-on-paste" title="Permanent link">&para;</a></h2>
-<p>Fields resolve by table occurrence and field name, so a script written against the file's real names pastes cleanly. A name that does not exist pastes as a missing-field marker rather than failing, which makes it easy to find. Check every Go to Layout step after a paste.</p>
-<p class="dr-revised"><em>Revised 2026-10</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/standards/filemaker/clipboard-snippets.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">6f25330</span></span></p>
+<p>Fields resolve by table occurrence and field name, so a script written against the file's real names pastes cleanly. A name that does not exist pastes as a missing-field marker rather than failing, which makes it easy to find. Check every Go to Layout step after a paste. Calculations inside pasted tables resolve against fields in the same paste, so list a calc's inputs above the calc.</p>
+<p class="dr-revised"><em>Revised 2026-11</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/standards/filemaker/clipboard-snippets.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">d16ef84</span></span></p>
 
 
 
