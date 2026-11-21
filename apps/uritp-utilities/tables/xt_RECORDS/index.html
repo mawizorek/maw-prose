@@ -1445,7 +1445,7 @@
 <td class="dr-col--tok">fk_Container</td>
 <td class="dr-col--tok">Text</td>
 <td class="dr-col--prose">Indexed; not empty</td>
-<td class="dr-col--prose">xt_CONTAINERS::PrimaryKey; home container</td>
+<td class="dr-col--prose">xt_CONTAINERS::PrimaryKey; home container; updated if the task moves lists</td>
 <td class="dr-col--tok">Links</td>
 </tr>
 <tr>
@@ -1484,6 +1484,20 @@
 <td class="dr-col--tok">External</td>
 </tr>
 <tr>
+<td class="dr-col--tok">LastSeenSession</td>
+<td class="dr-col--tok">Text</td>
+<td class="dr-col--prose">Indexed</td>
+<td class="dr-col--prose">sync_SESSIONS::PrimaryKey of the last full pull that returned this record</td>
+<td class="dr-col--tok">Log</td>
+</tr>
+<tr>
+<td class="dr-col--tok">xt_DeletedAt</td>
+<td class="dr-col--tok">Timestamp</td>
+<td class="dr-col--prose"></td>
+<td class="dr-col--prose">Set when a full pull no longer returns the record; cleared if it reappears. Rows are never deleted; apps decide what a tombstone means</td>
+<td class="dr-col--tok">External</td>
+</tr>
+<tr>
 <td class="dr-col--tok">PrimaryKey</td>
 <td class="dr-col--tok">Text</td>
 <td class="dr-col--prose">Auto-enter Get ( UUID ); unique; cannot modify</td>
@@ -1519,7 +1533,7 @@
 <td class="dr-col--tok">Audit</td>
 </tr>
 </tbody></table>
-<p class="dr-data__source">11 rows &middot; <a href="../xt_RECORDS.tsv" download>xt_RECORDS.tsv</a></p>
+<p class="dr-data__source">13 rows &middot; <a href="../xt_RECORDS.tsv" download>xt_RECORDS.tsv</a></p>
 </div>
 
 <h2 id="latest-payload-not-a-second-domain-table">Latest payload, not a second domain table<a class="headerlink" href="#latest-payload-not-a-second-domain-table" title="Permanent link">&para;</a></h2>
@@ -1532,7 +1546,7 @@
 <p>The v1 formula does not include the container. Since GitHub xt_ID is a repository-relative path, the same path in two repositories produces the same key under the github system. The formula is retained here without claiming it is collision-safe across repositories. Multi-repository GitHub integration remains unverified; this documentation pass does not choose a replacement identity contract.</p>
 </div>
 <p>A unique validation catches a collision at commit; it does not make the identity formula correct. Do not remove validation to make a failing import pass.</p>
-<p class="dr-revised"><em>Revised 2026-11</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/uritp-utilities/tables/xt_RECORDS.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">5139e55</span></span></p>
+<p class="dr-revised"><em>Revised 2026-11</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/uritp-utilities/tables/xt_RECORDS.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">0d876ae</span></span></p>
 
 
 

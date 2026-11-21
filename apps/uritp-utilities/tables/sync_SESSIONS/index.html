@@ -1456,17 +1456,24 @@
 <td class="dr-col--tok">Log</td>
 </tr>
 <tr>
+<td class="dr-col--tok">isFullPull</td>
+<td class="dr-col--tok">Number</td>
+<td class="dr-col--prose">Auto-enter 0; range 0-1</td>
+<td class="dr-col--prose">1 only for an uncapped full pull; deletion detection runs only when 1</td>
+<td class="dr-col--tok">Settings</td>
+</tr>
+<tr>
 <td class="dr-col--tok">calc_EventCount</td>
 <td class="dr-col--tok">(c→Number)</td>
 <td class="dr-col--prose">Unstored</td>
-<td class="dr-col--prose">Count of related sync_EVENTS::PrimaryKey</td>
+<td class="dr-col--prose">Count of this session&#x27;s sync_EVENTS via sql.Table/sql.Field and ? parameter; no relationship needed</td>
 <td class="dr-col--tok">Calculated</td>
 </tr>
 <tr>
 <td class="dr-col--tok">calc_EndedAt</td>
 <td class="dr-col--tok">(c→Timestamp)</td>
 <td class="dr-col--prose">Unstored</td>
-<td class="dr-col--prose">Max of related sync_EVENTS::CreationTimestamp; not an explicit completion state</td>
+<td class="dr-col--prose">Max sync_EVENTS::CreationTimestamp for this session via SQL; not an explicit completion state</td>
 <td class="dr-col--tok">Calculated</td>
 </tr>
 <tr>
@@ -1512,7 +1519,7 @@
 <td class="dr-col--tok">Audit</td>
 </tr>
 </tbody></table>
-<p class="dr-data__source">10 rows &middot; <a href="../sync_SESSIONS.tsv" download>sync_SESSIONS.tsv</a></p>
+<p class="dr-data__source">11 rows &middot; <a href="../sync_SESSIONS.tsv" download>sync_SESSIONS.tsv</a></p>
 </div>
 
 <h2 id="provenance-is-not-a-cross-file-foreign-key">Provenance is not a cross-file foreign key<a class="headerlink" href="#provenance-is-not-a-cross-file-foreign-key" title="Permanent link">&para;</a></h2>
@@ -1520,7 +1527,7 @@
 <h2 id="summaries-come-from-events">Summaries come from events<a class="headerlink" href="#summaries-come-from-events" title="Permanent link">&para;</a></h2>
 <p><code>calc_EventCount</code> counts related events. <code>calc_EndedAt</code> is the latest related event's CreationTimestamp, not an independently authored completion flag. <code>calc_ErrorCount</code> retains the inherited count of this session's events with HttpStatus at least 300.</p>
 <p>The error-count SQL must obtain identifiers through <code>sql.Table</code> and <code>sql.Field</code>, with the session identity passed as a <code>?</code> parameter. Literal table and field strings previously broke on renames. This page specifies the calculation contract, not a tested copy-ready expression.</p>
-<p class="dr-revised"><em>Revised 2026-11</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/uritp-utilities/tables/sync_SESSIONS.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">5139e55</span></span></p>
+<p class="dr-revised"><em>Revised 2026-11</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/uritp-utilities/tables/sync_SESSIONS.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">0d876ae</span></span></p>
 
 
 

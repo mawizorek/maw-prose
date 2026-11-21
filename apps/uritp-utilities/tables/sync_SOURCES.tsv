@@ -3,6 +3,8 @@ fk_Container	Text	Indexed; not empty	xt_CONTAINERS::PrimaryKey	Links
 xt_ViewPath	Text		ClickUp view ID or GitHub file path; ClickUp view includes closed tasks	External
 isActive	Number	Auto-enter 1; range 0-1	Source enabled	Settings
 Name	Text		Display label only; never a source-name script parameter	Settings
+RunLock	Text		Session PK while a run is active; empty when idle. A second caller refuses to start	Log
+RunLockAt	Timestamp		When the lock was taken; older than 30 minutes = stale, may be broken	Log
 PrimaryKey	Text	Auto-enter Get ( UUID ); unique; cannot modify	Machine identity	Audit
 CreationTimestamp	Timestamp	Auto-enter		Audit
 CreatedBy	Text	Auto-enter		Audit
