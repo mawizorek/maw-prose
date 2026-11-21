@@ -8,5 +8,3 @@ fk_xtContainer	Text	fk	xt_CONTAINER::PrimaryKey	Links
 xt_ViewPath	Text		ClickUp view ID or GitHub file path. The ClickUp view MUST include closed tasks.	External
 Name	Text		Display label only. Never a script parameter.	Settings
 isActive	Number	auto 1	1 = enabled	Settings
-RunLock	Text	raw	Session PK while a run is active; empty when idle. A second caller refuses to start.	Log
-RunLockAt	Timestamp		When the lock was taken. Older than 30 min = stale, may be broken.	Log

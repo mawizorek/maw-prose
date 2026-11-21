@@ -6,9 +6,8 @@ ModificationTimestamp	Timestamp	audit		Audit
 ModifiedBy	Text	audit		Audit
 fk_xtContainer	Text	fk	xt_CONTAINER::PrimaryKey	Links
 mapKey	Text		Stable meaning, e.g. person.email. Lowercase, digits, underscore, period.	Settings
-xt_FieldID	Text	indexed; raw	Remote field identity. Refresh upserts on this, never delete-and-recreate. Native rows: native:name, native:status.	External
+xt_FieldID	Text	indexed; raw	Remote field identity. Refresh upserts on this, never delete-and-recreate. Native fields are seeded as native:name, native:status; refresh skips any ID starting native:.	External
 xt_FieldName	Text		Remote display label (refresh writes)	External
 xt_FieldType	Text		External type name (refresh writes)	External
-isNative	Number	auto 0	1 = seeded native field (name, status, assignees); refresh never touches it	Settings
 uniq_ContainerMapKey	Text	unique; strict; always; indexed; raw; calc: If ( IsEmpty ( mapKey ) ; "" ; fk_xtContainer & "|" & mapKey )	One mapKey per container; empty until mapped	Settings
 uniq_ContainerFieldID	Text	unique; strict; always; indexed; raw; calc: If ( IsEmpty ( xt_FieldID ) ; "" ; fk_xtContainer & "|" & xt_FieldID )	Refresh can never duplicate a field	External
