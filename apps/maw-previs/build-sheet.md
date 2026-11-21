@@ -6,24 +6,20 @@ status: public
 order: 50
 revised: 2026-11
 summary: What is built, what has been tested and how, and the order of work for the first show.
-related: [maw-previs, previs-blocking-addon, previs-showkit]
+related: [maw-previs, previs-blocking-addon, previs-showkit, previs-lighting]
 ---
 
 # Build Sheet
 
 ## Where things stand
 
-- Both programs are prototypes written before these specs
-- Kept as starting points; revised against the specs before anything depends on them
-
-!!! warning "Neither has run in Blender yet"
-
-    The first real install is the test.
+- Status words: **BUILT** (written) → **TESTED** (automated checks pass) → **VERIFIED** (Michael's own Blender, screenshot or console)
+- Only Michael's evidence makes anything VERIFIED
 
 ### MAW Blocking 2.0.0
 
 - Spec: [[Blocking Add-on](@previs-blocking-addon)]
-- Checked only against a purpose-built stand-in for Blender's Python: 37 checks
+- TESTED only against a purpose-built stand-in for Blender's Python: 37 checks
 - Covers crosses, retimes, overlaps, gaps, removal, insertion, reverse travel, shared routes, adopting the earlier rig, re-registration, panel drawing
 - Proves the logic, not that it runs in Blender {.tbc}
 
@@ -32,6 +28,20 @@ related: [maw-previs, previs-blocking-addon, previs-showkit]
 - Spec: [[Showkit](@previs-showkit)]
 - Exercised: the dry run and its two refusals
 - Not run anywhere: the half that builds files, which only Blender can run {.tbc}
+
+### MAW Previz 0.5.0
+
+- Spec: [[Lighting](@previs-lighting)] and [[Vectorworks Import](@previs-vectorworks-import)]
+- BUILT. Rig-sync logic TESTED: 17 checks, plain Python, against the real inventory MVR
+- The pre-flight already caught a real defect in that MVR: a follow spot with no GDTF that BlenderDMX had silently turned into an LED PAR
+- Not yet run in Blender {.tbc}
+
+### MAW Shutters 0.6
+
+- Spec: [[Lighting](@previs-lighting)]
+- VERIFIED at 0.3.1: headless Cycles self-test 9/9 on Blender 5.2.2, and the sidebar panel by screenshot
+- 0.4 to 0.6 BUILT: Shutters naming, cue keys that keep hand-shaped curves, barrel and frost, Pull from Vectorworks {.tbc}
+- Not yet driven by fixture blade channels {.tbc}
 
 ## Order of work
 
@@ -53,8 +63,19 @@ related: [maw-previs, previs-blocking-addon, previs-showkit]
 7. Light the opening in its previs file while the second number is blocked.
 8. Repeat for each number.
 
+### Lighting track
+
+Runs alongside, on the channel check rig, before any show plot.
+
+1. **Gate: the rig syncs.** OPEN PREVIZ on the inventory MVR gives RIG PASS, every unit in place.
+2. **Gate: Eos drives it.** A channel at full in Eos lights that unit in Blender over sACN.
+3. Shutters on the moving lights' blade channels.
+4. House lights: the Vectorworks layer, then the Previz zone faders.
+5. Then the SFANW plot.
+
 ## Known gaps
 
-- [Fixtures and recorded DMX]{.gap}: not settled, so one previs file per number is the current target, not a fixed part of the architecture
+- [Show rig file]{.gap}: one shared MVR per show for its per-number previs files, proposed `source/rig.mvr`, not built
+- [Recorded DMX]{.gap}: whether cues are ever baked into keyframes is not settled
 - [Running order]{.gap}: the SFANW config doesn't yet carry numbers two to seven
 - [Stand-in figures]{.gap}: placeholders until a better figure is built into the library
