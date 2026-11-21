@@ -9,8 +9,8 @@ Set Variable [ $existing ; Value: 0 ]
 Set Variable [ $lists ; Value: List ( "sync_action|Sync action" ; "sync_decision|Sync decision" ; "sync_policy|Sync policy" ) ]
 #--- vocab · list | code | label | sort
 Set Variable [ $values ; Value: List ( "sync_action|pull|Pull|1" ; "sync_action|adopt|Adopt|2" ; "sync_action|link|Link|3" ; "sync_action|compare|Compare|4" ; "sync_action|push|Push|5" ; "sync_action|refresh|Refresh|6" ; "sync_action|tombstone|Tombstone|7" ; "sync_action|revive|Revive|8" ; "sync_decision|pending|Pending|1" ; "sync_decision|keep_fm|Keep FileMaker|2" ; "sync_decision|take_xt|Take external|3" ; "sync_decision|applied|Applied|4" ; "sync_policy|fm_wins|FileMaker wins|1" ; "sync_policy|xt_wins|External wins|2" ; "sync_policy|reconcile|Reconcile|3" ; "sync_policy|intake_only|Intake only|4" ; "sync_policy|ignore|Ignore|5" ) ]
-#--- sources · system | list ID | container label | view ID | view label (the view's own ClickUp name, never restating the container). The view MUST show closed tasks.
-Set Variable [ $sources ; Value: List ( "clickup|901305646880|PEOPLE|12cwjm-66873|FMP VIEW" ) ]
+#--- sources · system | list ID | container label | view ID | view label (the view's own ClickUp name, never restating the container). The view MUST show closed tasks. One source = a plain string; two or more = List ( a ; b ). FileMaker rejects List() with a single literal (it wants a field).
+Set Variable [ $sources ; Value: "clickup|901305646880|PEOPLE|12cwjm-66873|FMP VIEW" ]
 #=== value_LIST
 Set Variable [ $i ; Value: 0 ]
 Loop
