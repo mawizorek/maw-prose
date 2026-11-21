@@ -9,5 +9,5 @@ mapKey	Text		Stable meaning, e.g. person.email. Lowercase, digits, underscore, p
 xt_FieldID	Text	indexed; raw	Remote field identity. Refresh upserts on this, never delete-and-recreate. Native fields are seeded as native:name, native:status; refresh skips any ID starting native:.	External
 xt_FieldName	Text		Remote display label (refresh writes)	External
 xt_FieldType	Text		External type name (refresh writes)	External
-uniq_ContainerMapKey	Text	unique; strict; always; indexed; raw; calc: If ( IsEmpty ( mapKey ) ; "" ; fk_xtContainer & "|" & mapKey )	One mapKey per container; empty until mapped	Settings
-uniq_ContainerFieldID	Text	unique; strict; always; indexed; raw; calc: If ( IsEmpty ( xt_FieldID ) ; "" ; fk_xtContainer & "|" & xt_FieldID )	Refresh can never duplicate a field	External
+uniqAuto_ContainerMapKey	Text	unique; strict; always; indexed; raw; calc: If ( IsEmpty ( mapKey ) ; "" ; fk_xtContainer & "|" & mapKey )	One mapKey per container; empty until mapped	Settings
+uniqAuto_ContainerFieldID	Text	unique; strict; always; indexed; raw; calc: If ( IsEmpty ( xt_FieldID ) ; "" ; fk_xtContainer & "|" & xt_FieldID )	Refresh can never duplicate a field	External

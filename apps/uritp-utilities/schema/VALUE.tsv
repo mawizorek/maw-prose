@@ -6,6 +6,6 @@ ModificationTimestamp	Timestamp	audit		Audit
 ModifiedBy	Text	audit		Audit
 fk_List	Text	fk	value_LIST::PrimaryKey	Links
 Code	Text	fk	Immutable value code scoped to its list	Settings
-uniq_ListCode	Text	key; calc: fk_List & "|" & Code	One code per list	Settings
-Name	Text		Display label only	Facts
+uniqAuto_ListCode	Text	key; calc: fk_List & "|" & Code	One code per list	Settings
+Name_Display	Text		Display label only	Facts
 sort_Index	Number		Menu order	Facts

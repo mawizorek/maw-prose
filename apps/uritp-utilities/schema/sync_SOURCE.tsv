@@ -6,5 +6,5 @@ ModificationTimestamp	Timestamp	audit		Audit
 ModifiedBy	Text	audit		Audit
 fk_xtContainer	Text	fk	xt_CONTAINER::PrimaryKey	Links
 xt_ViewPath	Text		ClickUp view ID or GitHub file path. The ClickUp view MUST include closed tasks.	External
-Name	Text		Display label only. Never a script parameter.	Settings
+Name_Display	Text		Display label only. Never a script parameter.	Settings
 isActive	Number	auto 1	1 = enabled	Settings
