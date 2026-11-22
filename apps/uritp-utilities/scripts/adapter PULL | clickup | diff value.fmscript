@@ -1,5 +1,6 @@
 # adapter PULL | clickup | diff value · URITP Utilities. One side of one tracked field: what to compare, what to show, what to store. Never changes layout or record.
 # FileMaker 19 safe: no JSONGetElementType. The JSON type comes from the kind (native) or rides inside the whole field entry (custom field).
+# Identity, not label: status compares by status.id (falls back to the name if a payload has no ID), so renaming a status in ClickUp is never a move. The change line still shows names.
 # Param: json (the task, or one custom_fields entry; empty = absent), kind (text | status | date | list | cf), path (native key; cf reads value), item (list element key: id | name). Result: ok, cmp, show, store.
 Set Error Capture [ On ]
 Set Variable [ $param ; Value: Get ( ScriptParameter ) ]
@@ -12,7 +13,7 @@ Set Variable [ $v ; Value: If ( IsEmpty ( $json ) ; "" ; JSONGetElement ( $json 
 Set Variable [ $isList ; Value: Left ( $v ; 1 ) = "[" ]
 # List compare key: sorted element IDs (or names for tags), so order and avatar churn never read as a move.
 Set Variable [ $keys ; Value: If ( $isList ; SortValues ( While ( [ i = 0 ; n = ValueCount ( JSONListKeys ( $v ; "" ) ) ; out = "" ; el = "" ] ; i < n ; [ el = JSONGetElement ( $v ; "[" & i & "]" ) ; out = List ( out ; If ( Left ( el ; 1 ) = "{" ; JSONGetElement ( el ; $item ) ; el ) ) ; i = i + 1 ] ; out ) ; 1 ) ; "" ) ]
-Set Variable [ $cmp ; Value: Case ( IsEmpty ( $json ) ; "" ; $type = "status" ; JSONGetElement ( $json ; "status.status" ) ; $isList ; $keys ; $v ) ]
+Set Variable [ $cmp ; Value: Case ( IsEmpty ( $json ) ; "" ; $type = "status" ; Let ( sid = JSONGetElement ( $json ; "status.id" ) ; If ( IsEmpty ( sid ) ; JSONGetElement ( $json ; "status.status" ) ; sid ) ) ; $isList ; $keys ; $v ) ]
 Set Variable [ $opts ; Value: If ( $kind = "cf" ; JSONGetElement ( $json ; "type_config.options" ) ; "" ) ]
 # ClickUp dates are epoch milliseconds (UTC). Shown in local time at today's offset.
 Set Variable [ $offset ; Value: Round ( ( GetAsNumber ( Get ( CurrentTimestamp ) ) - Int ( Get ( CurrentTimeUTCMilliseconds ) / 1000 ) ) / 900 ; 0 ) * 900 ]
