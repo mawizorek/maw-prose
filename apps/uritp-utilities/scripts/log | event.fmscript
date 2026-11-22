@@ -5,11 +5,11 @@ Set Variable [ $param ; Value: Get ( ScriptParameter ) ]
 Set Variable [ $action ; Value: ParamGetText ( $param ; "action" ; "" ) ]
 Set Variable [ $listPK ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( value_LIST::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( value_LIST::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( value_LIST::Code ) ) & " = ?" ; "" ; "" ; "sync_action" ) ]
 If [ ValueCount ( $listPK ) <> 1 or Left ( $listPK ; 1 ) = "?" ]
-	Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "error" ; "need exactly one value_LIST sync_action" ; JSONString ] ) ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "need exactly one value_LIST sync_action" ) ) ) ]
 End If
 Set Variable [ $label ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( VALUE::Name_Display ) ) & " FROM " & sql.Table ( GetFieldName ( VALUE::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( VALUE::fk_List ) ) & " = ? AND " & sql.Field ( GetFieldName ( VALUE::Code ) ) & " = ?" ; "" ; "" ; GetValue ( $listPK ; 1 ) ; $action ) ]
 If [ ValueCount ( $label ) <> 1 or Left ( $label ; 1 ) = "?" ]
-	Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "error" ; "unknown sync_action code: " & $action ; JSONString ] ) ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "unknown sync_action code: " & $action ) ) ) ]
 End If
 Go to Layout [ "sync_EVENT" ]
 New Record/Request
@@ -22,6 +22,6 @@ Set Field [ sync_EVENT::Request ; ParamGetText ( $param ; "request" ; "" ) ]
 Set Field [ sync_EVENT::Response ; ParamGetText ( $param ; "response" ; "" ) ]
 Commit Records/Requests [ ]
 If [ Get ( LastError ) <> 0 ]
-	Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "error" ; "commit failed (sync_EVENT): error " & Get ( LastError ) ; JSONString ] ) ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "commit failed (sync_EVENT): error " & Get ( LastError ) ) ) ) ]
 End If
-Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 1 ; JSONNumber ] ) ]
+Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 1 ) ) ) ]
