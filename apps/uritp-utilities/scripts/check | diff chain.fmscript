@@ -1,0 +1,55 @@
+# check | diff chain · URITP Utilities. Proves the feed for one record, the Eos way: start from the newest block (any event for the record whose Response carries a full copy), play every later move forward, then diff the result against xt_Payload.
+# count 0 = the chain rebuilds the current version on every tracked field. Legacy rows work as-is: their last full pull event is the block. Read-only.
+# Param: key (xt_Key, e.g. clickup:86abc). Result: ok, block, moves, count, changes (mismatches, same shape as diff).
+Set Error Capture [ On ]
+Set Variable [ $key ; Value: ParamGetText ( Get ( ScriptParameter ) ; "key" ; "" ) ]
+Set Variable [ $current ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_RECORD::xt_Payload ) ) & " FROM " & sql.Table ( GetFieldName ( xt_RECORD::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_RECORD::xt_Key ) ) & " = ?" ; "" ; "" ; $key ) ]
+If [ Left ( $current ; 1 ) <> "{" ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "no xt_RECORD payload for " & $key ) ) ) ]
+End If
+Set Variable [ $events ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( sync_EVENT::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( sync_EVENT::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( sync_EVENT::xt_Key ) ) & " = ? ORDER BY " & sql.Field ( GetFieldName ( sync_EVENT::CreationTimestamp ) ) ; "" ; ¶ ; $key ) ]
+Set Variable [ $blocks ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( sync_EVENT::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( sync_EVENT::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( sync_EVENT::xt_Key ) ) & " = ? AND " & sql.Field ( GetFieldName ( sync_EVENT::Response ) ) & " LIKE ? ORDER BY " & sql.Field ( GetFieldName ( sync_EVENT::CreationTimestamp ) ) ; "" ; ¶ ; $key ; "{%" ) ]
+If [ Left ( $events ; 1 ) = "?" or Left ( $blocks ; 1 ) = "?" or IsEmpty ( $blocks ) ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "no block (full copy) found for " & $key ) ) ) ]
+End If
+Set Variable [ $block ; Value: GetValue ( $blocks ; ValueCount ( $blocks ) ) ]
+Set Variable [ $rebuilt ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( sync_EVENT::Response ) ) & " FROM " & sql.Table ( GetFieldName ( sync_EVENT::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( sync_EVENT::PrimaryKey ) ) & " = ?" ; "" ; "" ; $block ) ]
+#--- play forward: every event after the block, every move in sort order
+Set Variable [ $after ; Value: 0 ]
+Set Variable [ $played ; Value: 0 ]
+Set Variable [ $i ; Value: 0 ]
+Loop
+	Set Variable [ $i ; Value: $i + 1 ]
+	Exit Loop If [ $i > ValueCount ( $events ) ]
+	Set Variable [ $e ; Value: GetValue ( $events ; $i ) ]
+	If [ $after ]
+		Set Variable [ $rows ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( sync_CHANGE::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( sync_CHANGE::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( sync_CHANGE::fk_Event ) ) & " = ? ORDER BY " & sql.Field ( GetFieldName ( sync_CHANGE::sort_Index ) ) ; "" ; ¶ ; $e ) ]
+		Set Variable [ $j ; Value: 0 ]
+		Loop
+			Set Variable [ $j ; Value: $j + 1 ]
+			Exit Loop If [ $j > ValueCount ( $rows ) or Left ( $rows ; 1 ) = "?" ]
+			Set Variable [ $code ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( sync_CHANGE::FieldCode ) ) & " FROM " & sql.Table ( GetFieldName ( sync_CHANGE::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( sync_CHANGE::PrimaryKey ) ) & " = ?" ; "" ; "" ; GetValue ( $rows ; $j ) ) ]
+			Set Variable [ $nv ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( sync_CHANGE::NewValue ) ) & " FROM " & sql.Table ( GetFieldName ( sync_CHANGE::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( sync_CHANGE::PrimaryKey ) ) & " = ?" ; "" ; "" ; GetValue ( $rows ; $j ) ) ]
+			If [ Left ( $code ; 3 ) = "cf:" ]
+				Set Variable [ $fid ; Value: Middle ( $code ; 4 ; 999 ) ]
+				Set Variable [ $idx ; Value: While ( [ i = 0 ; k = ValueCount ( JSONListKeys ( $rebuilt ; "custom_fields" ) ) ; hit = -1 ] ; i < k ; [ hit = If ( hit < 0 and JSONGetElement ( $rebuilt ; "custom_fields[" & i & "].id" ) = $fid ; i ; hit ) ; i = i + 1 ] ; hit ) ]
+				Set Variable [ $rebuilt ; Value: Case ( IsEmpty ( $nv ) and $idx >= 0 ; JSONDeleteElement ( $rebuilt ; "custom_fields[" & $idx & "]" ) ; IsEmpty ( $nv ) ; $rebuilt ; $idx >= 0 ; JSONSetElement ( $rebuilt ; "custom_fields[" & $idx & "]" ; $nv ; JSONObject ) ; JSONSetElement ( $rebuilt ; "custom_fields[" & ValueCount ( JSONListKeys ( $rebuilt ; "custom_fields" ) ) & "]" ; $nv ; JSONObject ) ) ]
+			Else
+				Set Variable [ $rebuilt ; Value: Let ( v = JSONGetElement ( $nv ; "v" ) ; Case ( $code = "status" ; JSONSetElement ( $rebuilt ; "status" ; v ; JSONObject ) ; $code = "assignees" or $code = "tags" ; JSONSetElement ( $rebuilt ; $code ; If ( IsEmpty ( v ) ; "[]" ; v ) ; JSONArray ) ; IsEmpty ( v ) ; JSONSetElement ( $rebuilt ; $code ; "" ; JSONNull ) ; JSONSetElement ( $rebuilt ; $code ; v ; JSONString ) ) ) ]
+			End If
+			If [ Left ( $rebuilt ; 1 ) = "?" ]
+				Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "could not play move " & $code & " from event " & $e ) ) ) ]
+			End If
+			Set Variable [ $played ; Value: $played + 1 ]
+		End Loop
+	End If
+	If [ $e = $block ]
+		Set Variable [ $after ; Value: 1 ]
+	End If
+End Loop
+Perform Script [ Specified: From list ; "adapter PULL | clickup | diff" ; Parameter: Param ( List ( PText ( "old" ; $rebuilt ) ; PText ( "new" ; $current ) ) ) ]
+Set Variable [ $d ; Value: Get ( ScriptResult ) ]
+If [ not ParamGetBool ( $d ; "ok" ; 0 ) ]
+	Exit Script [ Text Result: $d ]
+End If
+Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 1 ) ; PText ( "block" ; $block ) ; PNum ( "moves" ; $played ) ; PNum ( "count" ; ParamGetNumber ( $d ; "count" ; 0 ) ) ; Pjson ( "changes" ; ParamGetText ( $d ; "changes" ; "[]" ) ) ) ) ]

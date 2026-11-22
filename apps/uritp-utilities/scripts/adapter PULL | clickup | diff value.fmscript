@@ -1,0 +1,26 @@
+# adapter PULL | clickup | diff value · URITP Utilities. One side of one tracked field: what to compare, what to show, what to store. Never changes layout or record.
+# FileMaker 19 safe: no JSONGetElementType. The JSON type comes from the kind (native) or rides inside the whole field entry (custom field).
+# Param: json (the task, or one custom_fields entry; empty = absent), kind (text | status | date | list | cf), path (native key; cf reads value), item (list element key: id | name). Result: ok, cmp, show, store.
+Set Error Capture [ On ]
+Set Variable [ $param ; Value: Get ( ScriptParameter ) ]
+Set Variable [ $json ; Value: ParamGetText ( $param ; "json" ; "" ) ]
+Set Variable [ $kind ; Value: ParamGetText ( $param ; "kind" ; "" ) ]
+Set Variable [ $path ; Value: If ( $kind = "cf" ; "value" ; ParamGetText ( $param ; "path" ; "" ) ) ]
+Set Variable [ $item ; Value: ParamGetText ( $param ; "item" ; "id" ) ]
+Set Variable [ $type ; Value: If ( $kind = "cf" ; JSONGetElement ( $json ; "type" ) ; $kind ) ]
+Set Variable [ $v ; Value: If ( IsEmpty ( $json ) ; "" ; JSONGetElement ( $json ; $path ) ) ]
+Set Variable [ $isList ; Value: Left ( $v ; 1 ) = "[" ]
+# List compare key: sorted element IDs (or names for tags), so order and avatar churn never read as a move.
+Set Variable [ $keys ; Value: If ( $isList ; SortValues ( While ( [ i = 0 ; n = ValueCount ( JSONListKeys ( $v ; "" ) ) ; out = "" ; el = "" ] ; i < n ; [ el = JSONGetElement ( $v ; "[" & i & "]" ) ; out = List ( out ; If ( Left ( el ; 1 ) = "{" ; JSONGetElement ( el ; $item ) ; el ) ) ; i = i + 1 ] ; out ) ; 1 ) ; "" ) ]
+Set Variable [ $cmp ; Value: Case ( IsEmpty ( $json ) ; "" ; $type = "status" ; JSONGetElement ( $json ; "status.status" ) ; $isList ; $keys ; $v ) ]
+Set Variable [ $opts ; Value: If ( $kind = "cf" ; JSONGetElement ( $json ; "type_config.options" ) ; "" ) ]
+# ClickUp dates are epoch milliseconds (UTC). Shown in local time at today's offset.
+Set Variable [ $offset ; Value: Round ( ( GetAsNumber ( Get ( CurrentTimestamp ) ) - Int ( Get ( CurrentTimeUTCMilliseconds ) / 1000 ) ) / 900 ; 0 ) * 900 ]
+Set Variable [ $ts ; Value: If ( $type = "date" and not IsEmpty ( $v ) ; GetAsTimestamp ( GetAsNumber ( Timestamp ( Date ( 1 ; 1 ; 1970 ) ; 0 ) ) + Int ( GetAsNumber ( $v ) / 1000 ) + $offset ) ; "" ) ]
+Set Variable [ $show ; Value: Case ( IsEmpty ( $json ) ; "(none)" ; $type = "status" ; JSONGetElement ( $json ; "status.status" ) ; IsEmpty ( $v ) ; "(none)" ; $type = "date" ; GetAsText ( GetAsDate ( $ts ) ) & " " & GetAsText ( Time ( Hour ( $ts ) ; Minute ( $ts ) ; 0 ) ) ; $type = "drop_down" ; While ( [ i = 0 ; n = ValueCount ( JSONListKeys ( $opts ; "" ) ) ; out = $v ] ; i < n ; [ out = If ( JSONGetElement ( $opts ; "[" & i & "].orderindex" ) = $v or JSONGetElement ( $opts ; "[" & i & "].id" ) = $v ; JSONGetElement ( $opts ; "[" & i & "].name" ) ; out ) ; i = i + 1 ] ; out ) ; $type = "labels" ; Substitute ( While ( [ i = 1 ; n = ValueCount ( $keys ) ; out = "" ; k = "" ; lbl = "" ] ; i <= n ; [ k = GetValue ( $keys ; i ) ; lbl = While ( [ j = 0 ; m = ValueCount ( JSONListKeys ( $opts ; "" ) ) ; hit = k ] ; j < m ; [ hit = If ( JSONGetElement ( $opts ; "[" & j & "].id" ) = k ; JSONGetElement ( $opts ; "[" & j & "].label" ) ; hit ) ; j = j + 1 ] ; hit ) ; out = List ( out ; lbl ) ; i = i + 1 ] ; out ) ; ¶ ; ", " ) ; $isList ; Substitute ( While ( [ i = 0 ; n = ValueCount ( JSONListKeys ( $v ; "" ) ) ; out = "" ; el = "" ] ; i < n ; [ el = JSONGetElement ( $v ; "[" & i & "]" ) ; out = List ( out ; If ( Left ( el ; 1 ) = "{" ; Case ( not IsEmpty ( JSONGetElement ( el ; "username" ) ) ; JSONGetElement ( el ; "username" ) ; not IsEmpty ( JSONGetElement ( el ; "name" ) ) ; JSONGetElement ( el ; "name" ) ; JSONGetElement ( el ; "id" ) ) ; el ) ) ; i = i + 1 ] ; out ) ; ¶ ; ", " ) ; $type = "checkbox" ; If ( $v = "true" or $v = "1" ; "checked" ; "unchecked" ) ; $type = "location" ; JSONGetElement ( $json ; "value.formatted_address" ) ; Left ( $v ; 1 ) = "{" ; "(edited)" ; $v ) ]
+Set Variable [ $show ; Value: Let ( s = Substitute ( If ( IsEmpty ( $show ) ; "(none)" ; $show ) ; [ ¶ ; " / " ] ; [ Char ( 10 ) ; " / " ] ) ; If ( Length ( s ) > 80 ; Left ( s ; 79 ) & "…" ; s ) ) ]
+Set Variable [ $store ; Value: Case ( IsEmpty ( $json ) ; "" ; $kind = "cf" ; If ( IsEmpty ( JSONGetElement ( $json ; "type_config" ) ) ; $json ; JSONDeleteElement ( $json ; "type_config" ) ) ; $kind = "status" ; JSONSetElement ( "{}" ; "v" ; JSONGetElement ( $json ; "status" ) ; JSONObject ) ; $kind = "list" ; JSONSetElement ( "{}" ; "v" ; If ( $isList ; $v ; "[]" ) ; JSONArray ) ; $kind = "date" and IsEmpty ( $v ) ; JSONSetElement ( "{}" ; "v" ; "" ; JSONNull ) ; JSONSetElement ( "{}" ; "v" ; $v ; JSONString ) ) ]
+If [ Left ( $store ; 1 ) = "?" ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "could not build stored value for " & $kind & " " & $path ) ) ) ]
+End If
+Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 1 ) ; PText ( "cmp" ; $cmp ) ; PText ( "show" ; $show ) ; PText ( "store" ; $store ) ) ) ]

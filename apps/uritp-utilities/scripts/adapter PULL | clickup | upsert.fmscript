@@ -1,6 +1,7 @@
 # adapter PULL | clickup | upsert · URITP Utilities. One ClickUp task in, one xt_RECORD row out. Finds by xt_Key (written verbatim); never deletes.
-# New or changed version: payload overwritten + one pull event carrying that version's JSON (the history). Unchanged: no event. Back after a tombstone: cleared + revive event.
-# Param: session, container, system, full, task (JSON), request. Result: ok, action (created | changed | unchanged), revived, warning.
+# Eos tracking. New record: create event carrying one trimmed full copy (the block). New version: diff, then one change event whose sync_CHANGE rows are the moves; untouched fields track. A version bump that moves nothing tracked updates the row and writes no event.
+# Unchanged: nothing written (home only set when it differs). Back after a tombstone: cleared + revive event carrying a fresh block. A row with no usable old payload gets a change event carrying a block (rebase).
+# Param: session, container, system, full, task (JSON), request. Result: ok, action (created | changed | unchanged), moves, revived, warning.
 Set Error Capture [ On ]
 Set Variable [ $param ; Value: Get ( ScriptParameter ) ]
 Set Variable [ $session ; Value: ParamGetText ( $param ; "session" ; "" ) ]
@@ -15,6 +16,9 @@ End If
 Set Variable [ $key ; Value: "clickup:" & $id ]
 Set Variable [ $version ; Value: JSONGetElement ( $task ; "date_updated" ) ]
 Set Variable [ $warning ; Value: "" ]
+Set Variable [ $moves ; Value: 0 ]
+Set Variable [ $changes ; Value: "[]" ]
+Set Variable [ $rebase ; Value: 0 ]
 #--- home list: follow the task when its list is registered for this system; otherwise it stays where it is
 Set Variable [ $home ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_CONTAINER::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( xt_CONTAINER::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_CONTAINER::fk_xtSystem ) ) & " = ? AND " & sql.Field ( GetFieldName ( xt_CONTAINER::xt_ID ) ) & " = ? AND " & sql.Field ( GetFieldName ( xt_CONTAINER::isActive ) ) & " = 1" ; "" ; "" ; $system ; JSONGetElement ( $task ; "list.id" ) ) ]
 If [ Left ( $home ; 1 ) = "?" ]
@@ -47,10 +51,22 @@ Else
 	If [ Get ( FoundCount ) <> 1 ]
 		Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "xt_RECORD row not found for " & $key ) ) ) ]
 	End If
-	If [ $homeKnown ]
+	If [ $homeKnown and not Exact ( xt_RECORD::fk_xtContainer ; $home ) ]
 		Set Field [ xt_RECORD::fk_xtContainer ; $home ]
 	End If
 	Set Variable [ $action ; Value: If ( GetValue ( Substitute ( $row ; "|" ; ¶ ) ; 2 ) <> $version ; "changed" ; "unchanged" ) ]
+	#--- diff before the payload is overwritten: the old version is still on the row
+	If [ $action = "changed" and Left ( xt_RECORD::xt_Payload ; 1 ) <> "{" ]
+		Set Variable [ $rebase ; Value: 1 ]
+	Else If [ $action = "changed" ]
+		Perform Script [ Specified: From list ; "adapter PULL | clickup | diff" ; Parameter: Param ( List ( PText ( "old" ; xt_RECORD::xt_Payload ) ; PText ( "new" ; $task ) ) ) ]
+		Set Variable [ $d ; Value: Get ( ScriptResult ) ]
+		If [ not ParamGetBool ( $d ; "ok" ; 0 ) ]
+			Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "diff failed for " & $key & ": " & ParamGetText ( $d ; "error" ; "(no error text)" ) ) ) ) ]
+		End If
+		Set Variable [ $moves ; Value: GetAsNumber ( ParamGetNumber ( $d ; "count" ; 0 ) ) ]
+		Set Variable [ $changes ; Value: ParamGetText ( $d ; "changes" ; "[]" ) ]
+	End If
 End If
 If [ $action <> "unchanged" ]
 	Set Field [ xt_RECORD::xt_Label ; JSONGetElement ( $task ; "name" ) ]
@@ -67,16 +83,25 @@ Commit Records/Requests [ ]
 If [ Get ( LastError ) <> 0 ]
 	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "commit failed (xt_RECORD " & $key & "): error " & Get ( LastError ) ) ) ) ]
 End If
-If [ $action <> "unchanged" ]
-	Perform Script [ Specified: From list ; "log | event" ; Parameter: Param ( List ( PText ( "session" ; $session ) ; PText ( "key" ; $key ) ; PText ( "action" ; "pull" ) ; PNum ( "status" ; 200 ) ; PText ( "request" ; ParamGetText ( $param ; "request" ; "" ) ) ; PText ( "response" ; $task ) ) ) ]
+#--- block: one full copy, trimmed (custom_fields[].type_config dropped; xt_FIELD owns field definitions). Values are never trimmed.
+If [ $action = "created" or $wasDeleted or $rebase ]
+	Set Variable [ $block ; Value: If ( Left ( JSONGetElement ( $task ; "custom_fields" ) ; 1 ) = "[" ; While ( [ i = 0 ; n = ValueCount ( JSONListKeys ( $task ; "custom_fields" ) ) ; out = $task ] ; i < n ; [ out = If ( IsEmpty ( JSONGetElement ( out ; "custom_fields[" & i & "].type_config" ) ) ; out ; JSONDeleteElement ( out ; "custom_fields[" & i & "].type_config" ) ) ; i = i + 1 ] ; out ) ; $task ) ]
+End If
+If [ $action = "created" ]
+	Perform Script [ Specified: From list ; "log | event" ; Parameter: Param ( List ( PText ( "session" ; $session ) ; PText ( "key" ; $key ) ; PText ( "action" ; "create" ) ; PNum ( "status" ; 200 ) ; PText ( "request" ; ParamGetText ( $param ; "request" ; "" ) ) ; PText ( "response" ; $block ) ) ) ]
+	If [ not ParamGetBool ( Get ( ScriptResult ) ; "ok" ; 0 ) ]
+		Exit Script [ Text Result: Get ( ScriptResult ) ]
+	End If
+Else If [ $action = "changed" and ( $moves > 0 or $rebase ) ]
+	Perform Script [ Specified: From list ; "log | event" ; Parameter: Param ( List ( PText ( "session" ; $session ) ; PText ( "key" ; $key ) ; PText ( "action" ; "change" ) ; PNum ( "status" ; 200 ) ; PText ( "request" ; ParamGetText ( $param ; "request" ; "" ) ) ; PText ( "response" ; If ( $rebase ; $block ; "" ) ) ; Pjson ( "changes" ; $changes ) ) ) ]
 	If [ not ParamGetBool ( Get ( ScriptResult ) ; "ok" ; 0 ) ]
 		Exit Script [ Text Result: Get ( ScriptResult ) ]
 	End If
 End If
 If [ $wasDeleted ]
-	Perform Script [ Specified: From list ; "log | event" ; Parameter: Param ( List ( PText ( "session" ; $session ) ; PText ( "key" ; $key ) ; PText ( "action" ; "revive" ) ; PNum ( "status" ; 200 ) ; PText ( "request" ; ParamGetText ( $param ; "request" ; "" ) ) ) ) ]
+	Perform Script [ Specified: From list ; "log | event" ; Parameter: Param ( List ( PText ( "session" ; $session ) ; PText ( "key" ; $key ) ; PText ( "action" ; "revive" ) ; PNum ( "status" ; 200 ) ; PText ( "request" ; ParamGetText ( $param ; "request" ; "" ) ) ; PText ( "response" ; $block ) ) ) ]
 	If [ not ParamGetBool ( Get ( ScriptResult ) ; "ok" ; 0 ) ]
 		Exit Script [ Text Result: Get ( ScriptResult ) ]
 	End If
 End If
-Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 1 ) ; PText ( "action" ; $action ) ; PNum ( "revived" ; $wasDeleted ) ; PText ( "warning" ; $warning ) ) ) ]
+Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 1 ) ; PText ( "action" ; $action ) ; PNum ( "moves" ; $moves ) ; PNum ( "revived" ; $wasDeleted ) ; PText ( "warning" ; $warning ) ) ) ]

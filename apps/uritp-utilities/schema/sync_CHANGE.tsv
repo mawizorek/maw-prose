@@ -9,5 +9,5 @@ FieldCode	Text	not empty; indexed; raw	Tracked field code: name, status, start_d
 stored_FieldLabel	Text		Label snapshot at write time (custom field name then). Never a matching key.	Log
 OldValue	Text		JSON before the move. Top-level fields: {"v":value}, type fixed by FieldCode. Custom fields: the whole field entry minus type_config. Empty = field absent in that version (nl check: absence is the fact, no other home).	Log
 NewValue	Text		JSON after the move, same shape as OldValue. Empty = field removed. Never both empty.	Log
-Line	Text	not empty	Human line, e.g. name: Kate → Katherine. Written once by log | event.	Log
+Change	Text	not empty	Human line, e.g. name: Kate → Katherine. Written once by log | event.	Log
 sort_Index	Number	not empty	Order of the move within its event.	Log
