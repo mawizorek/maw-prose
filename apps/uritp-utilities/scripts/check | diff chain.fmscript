@@ -1,5 +1,5 @@
 # check | diff chain · URITP Utilities. Proves the feed for one record, the Eos way: start from the newest block (any event for the record whose Response carries a full copy), play every later move forward, then diff the result against xt_Payload.
-# count 0 = the chain rebuilds the current version on every tracked field. Legacy rows work as-is: their last full pull event is the block. Read-only.
+# count 0 = the chain rebuilds the current version on every tracked field. Legacy rows work as-is: their last full pull event is the block. Moves within one event touch distinct fields, so their order never matters. Read-only.
 # Param: key (xt_Key, e.g. clickup:86abc). Result: ok, block, moves, count, changes (mismatches, same shape as diff).
 Set Error Capture [ On ]
 Set Variable [ $key ; Value: ParamGetText ( Get ( ScriptParameter ) ; "key" ; "" ) ]
@@ -14,7 +14,7 @@ If [ Left ( $events ; 1 ) = "?" or Left ( $blocks ; 1 ) = "?" or IsEmpty ( $bloc
 End If
 Set Variable [ $block ; Value: GetValue ( $blocks ; ValueCount ( $blocks ) ) ]
 Set Variable [ $rebuilt ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( sync_EVENT::Response ) ) & " FROM " & sql.Table ( GetFieldName ( sync_EVENT::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( sync_EVENT::PrimaryKey ) ) & " = ?" ; "" ; "" ; $block ) ]
-#--- play forward: every event after the block, every move in sort order
+#--- play forward: every event after the block, every move it holds
 Set Variable [ $after ; Value: 0 ]
 Set Variable [ $played ; Value: 0 ]
 Set Variable [ $i ; Value: 0 ]
@@ -23,7 +23,7 @@ Loop
 	Exit Loop If [ $i > ValueCount ( $events ) ]
 	Set Variable [ $e ; Value: GetValue ( $events ; $i ) ]
 	If [ $after ]
-		Set Variable [ $rows ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( sync_CHANGE::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( sync_CHANGE::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( sync_CHANGE::fk_Event ) ) & " = ? ORDER BY " & sql.Field ( GetFieldName ( sync_CHANGE::sort_Index ) ) ; "" ; ¶ ; $e ) ]
+		Set Variable [ $rows ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( sync_CHANGE::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( sync_CHANGE::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( sync_CHANGE::fk_Event ) ) & " = ?" ; "" ; ¶ ; $e ) ]
 		Set Variable [ $j ; Value: 0 ]
 		Loop
 			Set Variable [ $j ; Value: $j + 1 ]

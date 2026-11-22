@@ -1,5 +1,5 @@
 # log | event · URITP Utilities. The only script that writes sync_EVENT and sync_CHANGE, so every event has one shape. Codes and external keys only; never a token.
-# Param: session, key, action (sync_action code), status, request, response, changes (optional array of code, label, old, new, change, sort: one sync_CHANGE row each). Result: ok, action, event, moves.
+# Param: session, key, action (sync_action code), status, request, response, changes (optional array of code, label, old, new, change: one sync_CHANGE row each, written in diff order). Result: ok, action, event, moves.
 Set Error Capture [ On ]
 Set Variable [ $param ; Value: Get ( ScriptParameter ) ]
 Set Variable [ $action ; Value: ParamGetText ( $param ; "action" ; "" ) ]
@@ -26,7 +26,7 @@ If [ Get ( LastError ) <> 0 ]
 	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "commit failed (sync_EVENT): error " & Get ( LastError ) ) ) ) ]
 End If
 Set Variable [ $event ; Value: sync_EVENT::PrimaryKey ]
-#--- moves: one sync_CHANGE row per changed field, in diff order
+#--- moves: one sync_CHANGE row per changed field. Creation order is the display order.
 Set Variable [ $k ; Value: If ( Left ( $changes ; 1 ) = "[" ; ValueCount ( JSONListKeys ( $changes ; "" ) ) ; 0 ) ]
 Set Variable [ $j ; Value: 0 ]
 If [ $k > 0 ]
@@ -41,7 +41,6 @@ If [ $k > 0 ]
 		Set Field [ sync_CHANGE::OldValue ; JSONGetElement ( $c ; "old" ) ]
 		Set Field [ sync_CHANGE::NewValue ; JSONGetElement ( $c ; "new" ) ]
 		Set Field [ sync_CHANGE::Change ; JSONGetElement ( $c ; "change" ) ]
-		Set Field [ sync_CHANGE::sort_Index ; JSONGetElement ( $c ; "sort" ) ]
 		Commit Records/Requests [ ]
 		If [ Get ( LastError ) <> 0 ]
 			Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "commit failed (sync_CHANGE " & JSONGetElement ( $c ; "code" ) & "): error " & Get ( LastError ) ) ; PText ( "event" ; $event ) ) ) ]

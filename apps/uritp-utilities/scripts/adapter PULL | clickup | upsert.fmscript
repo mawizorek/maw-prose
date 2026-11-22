@@ -1,7 +1,7 @@
 # adapter PULL | clickup | upsert · URITP Utilities. One ClickUp task in, one xt_RECORD row out. Finds by xt_Key (written verbatim); never deletes.
 # Eos tracking. New record: create event carrying one trimmed full copy (the block). New version: diff, then one change event whose sync_CHANGE rows are the moves; untouched fields track. A version bump that moves nothing tracked updates the row and writes no event.
 # Unchanged: nothing written (home only set when it differs). Back after a tombstone: cleared + revive event carrying a fresh block. A row with no usable old payload gets a change event carrying a block (rebase).
-# Param: session, container, system, full, task (JSON), request. Result: ok, action (created | changed | unchanged), moves, revived, warning.
+# Param: session, container, system, full, task (JSON), request. Result: ok, action (created | changed | unchanged), moves, revived, warning. Never returns empty: a blank log | event result is named as an error.
 Set Error Capture [ On ]
 Set Variable [ $param ; Value: Get ( ScriptParameter ) ]
 Set Variable [ $session ; Value: ParamGetText ( $param ; "session" ; "" ) ]
@@ -62,7 +62,7 @@ Else
 		Perform Script [ Specified: From list ; "adapter PULL | clickup | diff" ; Parameter: Param ( List ( PText ( "old" ; xt_RECORD::xt_Payload ) ; PText ( "new" ; $task ) ) ) ]
 		Set Variable [ $d ; Value: Get ( ScriptResult ) ]
 		If [ not ParamGetBool ( $d ; "ok" ; 0 ) ]
-			Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "diff failed for " & $key & ": " & ParamGetText ( $d ; "error" ; "(no error text)" ) ) ) ) ]
+			Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "diff failed for " & $key & ": " & ParamGetText ( $d ; "error" ; "(diff returned nothing: check its Perform Script line for <unknown>)" ) ) ) ) ]
 		End If
 		Set Variable [ $moves ; Value: GetAsNumber ( ParamGetNumber ( $d ; "count" ; 0 ) ) ]
 		Set Variable [ $changes ; Value: ParamGetText ( $d ; "changes" ; "[]" ) ]
@@ -89,19 +89,22 @@ If [ $action = "created" or $wasDeleted or $rebase ]
 End If
 If [ $action = "created" ]
 	Perform Script [ Specified: From list ; "log | event" ; Parameter: Param ( List ( PText ( "session" ; $session ) ; PText ( "key" ; $key ) ; PText ( "action" ; "create" ) ; PNum ( "status" ; 200 ) ; PText ( "request" ; ParamGetText ( $param ; "request" ; "" ) ) ; PText ( "response" ; $block ) ) ) ]
-	If [ not ParamGetBool ( Get ( ScriptResult ) ; "ok" ; 0 ) ]
-		Exit Script [ Text Result: Get ( ScriptResult ) ]
+	Set Variable [ $log ; Value: Get ( ScriptResult ) ]
+	If [ not ParamGetBool ( $log ; "ok" ; 0 ) ]
+		Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "create event failed for " & $key & ": " & ParamGetText ( $log ; "error" ; "(log | event returned nothing: check its Perform Script line for <unknown>)" ) ) ) ) ]
 	End If
 Else If [ $action = "changed" and ( $moves > 0 or $rebase ) ]
 	Perform Script [ Specified: From list ; "log | event" ; Parameter: Param ( List ( PText ( "session" ; $session ) ; PText ( "key" ; $key ) ; PText ( "action" ; "change" ) ; PNum ( "status" ; 200 ) ; PText ( "request" ; ParamGetText ( $param ; "request" ; "" ) ) ; PText ( "response" ; If ( $rebase ; $block ; "" ) ) ; Pjson ( "changes" ; $changes ) ) ) ]
-	If [ not ParamGetBool ( Get ( ScriptResult ) ; "ok" ; 0 ) ]
-		Exit Script [ Text Result: Get ( ScriptResult ) ]
+	Set Variable [ $log ; Value: Get ( ScriptResult ) ]
+	If [ not ParamGetBool ( $log ; "ok" ; 0 ) ]
+		Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "change event failed for " & $key & " (" & $moves & " moves): " & ParamGetText ( $log ; "error" ; "(log | event returned nothing: check its Perform Script line for <unknown>)" ) ) ) ) ]
 	End If
 End If
 If [ $wasDeleted ]
 	Perform Script [ Specified: From list ; "log | event" ; Parameter: Param ( List ( PText ( "session" ; $session ) ; PText ( "key" ; $key ) ; PText ( "action" ; "revive" ) ; PNum ( "status" ; 200 ) ; PText ( "request" ; ParamGetText ( $param ; "request" ; "" ) ) ; PText ( "response" ; $block ) ) ) ]
-	If [ not ParamGetBool ( Get ( ScriptResult ) ; "ok" ; 0 ) ]
-		Exit Script [ Text Result: Get ( ScriptResult ) ]
+	Set Variable [ $log ; Value: Get ( ScriptResult ) ]
+	If [ not ParamGetBool ( $log ; "ok" ; 0 ) ]
+		Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "revive event failed for " & $key & ": " & ParamGetText ( $log ; "error" ; "(log | event returned nothing: check its Perform Script line for <unknown>)" ) ) ) ) ]
 	End If
 End If
 Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 1 ) ; PText ( "action" ; $action ) ; PNum ( "moves" ; $moves ) ; PNum ( "revived" ; $wasDeleted ) ; PText ( "warning" ; $warning ) ) ) ]
