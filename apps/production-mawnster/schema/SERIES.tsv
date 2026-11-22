@@ -1,0 +1,11 @@
+Field_Name	Type	Options	Notes	status
+PrimaryKey	Text	audit		
+CreationTimestamp	Timestamp	audit		
+CreatedBy	Text	audit		
+ModificationTimestamp	Timestamp	audit		
+ModifiedBy	Text	audit		
+fkOrganization	Text	fk; strict; always	ORGANIZATION. The company that programs this series (not the work context)	
+Name	Text	indexed	Mainstage, One Acts, Class Productions / Main Season, Second Stage	
+NameShort	Text			
+Sort	Number			
+fkTheme	Text	fk; strict; always	THEMES. Series identity. Auto-enter from the org brand is a hand step	
