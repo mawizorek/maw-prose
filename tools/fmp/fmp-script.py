@@ -76,6 +76,38 @@ def s_goto_record(a):
         return 16, '<NoInteract state="True"/>' + ('<Exit state="True"/>' if ex else '') + f'<RowPageLocation value="{where}"/>'
     raise Hand('only First, Last, Next and Previous translate')
 
+def s_insert_from_url(a):
+    # Shape proven by XMSS capture 2026-11-22 (URITP Utilities scratch | capture).
+    tgt = url = curl = None; sel = ssl = dont = False; nodlg = True
+    for p in a:
+        if after(p, 'Target') is not None: tgt = after(p, 'Target').strip(); continue
+        if after(p, 'cURL options') is not None: curl = after(p, 'cURL options'); continue
+        if after(p, 'With dialog') is not None: nodlg = not on_off(after(p, 'With dialog')); continue
+        if re.match(r'^select$', p, re.I): sel = True; continue
+        if re.match(r'^verify ssl certificates$', p, re.I): ssl = True; continue
+        if re.match(r'^do not automatically encode url$', p, re.I): dont = True; continue
+        if url is None and p: url = p; continue
+        raise Hand('unexpected argument: ' + p)
+    tgt = need(tgt, 'no Target:')
+    if not re.match(r'^\$\$?\S+$', tgt): raise Hand('only a variable target translates; type a field target by hand')
+    need(url, 'no URL')
+    st = lambda b: '"True"' if b else '"False"'
+    return 160, (f'<NoInteract state={st(nodlg)}></NoInteract><DontEncodeURL state={st(dont)}></DontEncodeURL>'
+                 f'<SelectAll state={st(sel)}></SelectAll><VerifySSLCertificates state={st(ssl)}></VerifySSLCertificates>'
+                 + ('<CURLOptions>' + calc(curl) + '</CURLOptions>' if curl not in (None, '') else '')
+                 + calc(url) + '<Text></Text><Field>' + x(tgt) + '</Field>')
+def s_perform_script(a):
+    # Shape proven by XMSS capture 2026-11-22. id="0": FileMaker binds by name on paste (as Go to Layout); scan for <unknown>.
+    rest = [p for p in a if not re.match(r'^specified\s*:\s*from list$', p, re.I)]
+    if any(re.match(r'^specified\s*:', p, re.I) for p in rest): raise Hand('only Specified: From list translates')
+    name = par = None
+    for p in rest:
+        if after(p, 'Parameter') is not None: par = after(p, 'Parameter'); continue
+        if name is None: name = need(unquote(p), 'script name must be a quoted name'); continue
+        raise Hand('unexpected argument: ' + p)
+    need(name, 'no script name')
+    return 1, ('' if par in (None, '') else calc(par)) + '<Script id="0" name="' + x(name) + '"></Script>'
+
 STEPS = {
     'Set Variable': s_set_variable,
     'If': lambda a: (68, calc(a[0])), 'Else If': lambda a: (125, calc(a[0])),
@@ -93,6 +125,8 @@ STEPS = {
     'Show All Records': lambda a: (23, ''),
     'New Record/Request': lambda a: (7, ''),
     'Commit Records/Requests': lambda a: (75, '<NoInteract state="True"/>'),
+    'Insert from URL': s_insert_from_url,
+    'Perform Script': s_perform_script,
 }
 
 def to_snippet(text):
