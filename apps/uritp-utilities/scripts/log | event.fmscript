@@ -1,0 +1,27 @@
+# log | event · URITP Utilities. The only script that writes sync_EVENT, so every event has one shape. Codes and external keys only; never a token.
+# Param: session, key, action (sync_action code), status, request, response. Result: ok.
+Set Error Capture [ On ]
+Set Variable [ $param ; Value: Get ( ScriptParameter ) ]
+Set Variable [ $action ; Value: ParamGetText ( $param ; "action" ; "" ) ]
+Set Variable [ $listPK ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( value_LIST::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( value_LIST::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( value_LIST::Code ) ) & " = ?" ; "" ; "" ; "sync_action" ) ]
+If [ ValueCount ( $listPK ) <> 1 or Left ( $listPK ; 1 ) = "?" ]
+	Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "error" ; "need exactly one value_LIST sync_action" ; JSONString ] ) ]
+End If
+Set Variable [ $label ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( VALUE::Name_Display ) ) & " FROM " & sql.Table ( GetFieldName ( VALUE::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( VALUE::fk_List ) ) & " = ? AND " & sql.Field ( GetFieldName ( VALUE::Code ) ) & " = ?" ; "" ; "" ; GetValue ( $listPK ; 1 ) ; $action ) ]
+If [ ValueCount ( $label ) <> 1 or Left ( $label ; 1 ) = "?" ]
+	Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "error" ; "unknown sync_action code: " & $action ; JSONString ] ) ]
+End If
+Go to Layout [ "sync_EVENT" ]
+New Record/Request
+Set Field [ sync_EVENT::fk_Session ; ParamGetText ( $param ; "session" ; "" ) ]
+Set Field [ sync_EVENT::xt_Key ; ParamGetText ( $param ; "key" ; "" ) ]
+Set Field [ sync_EVENT::ActionCode ; $action ]
+Set Field [ sync_EVENT::stored_ActionLabel ; GetValue ( $label ; 1 ) ]
+Set Field [ sync_EVENT::HttpStatus ; ParamGetNumber ( $param ; "status" ; "" ) ]
+Set Field [ sync_EVENT::Request ; ParamGetText ( $param ; "request" ; "" ) ]
+Set Field [ sync_EVENT::Response ; ParamGetText ( $param ; "response" ; "" ) ]
+Commit Records/Requests [ ]
+If [ Get ( LastError ) <> 0 ]
+	Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "error" ; "commit failed (sync_EVENT): error " & Get ( LastError ) ; JSONString ] ) ]
+End If
+Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 1 ; JSONNumber ] ) ]

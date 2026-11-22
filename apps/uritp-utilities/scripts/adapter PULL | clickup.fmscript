@@ -1,0 +1,26 @@
+# adapter PULL | clickup · URITP Utilities. Organizer: session > page > tombstone (full runs only) > fields. Stops at the first module that fails and returns its error.
+# Param: view (ClickUp view ID; MUST show closed tasks), cap (optional; > 0 = capped test run, no tombstoning). Result: one summary JSON.
+Set Error Capture [ On ]
+Allow User Abort [ Off ]
+Freeze Window
+Perform Script [ Specified: From list ; "adapter PULL | clickup | session" ; Parameter: Get ( ScriptParameter ) ]
+Set Variable [ $s ; Value: Get ( ScriptResult ) ]
+If [ not JSONGetElement ( $s ; "ok" ) ]
+	Exit Script [ Text Result: $s ]
+End If
+Perform Script [ Specified: From list ; "adapter PULL | clickup | page" ; Parameter: $s ]
+Set Variable [ $p ; Value: Get ( ScriptResult ) ]
+If [ not JSONGetElement ( $p ; "ok" ) ]
+	Exit Script [ Text Result: JSONSetElement ( $p ; [ "session" ; JSONGetElement ( $s ; "session" ) ; JSONString ] ) ]
+End If
+Perform Script [ Specified: From list ; "adapter PULL | clickup | tombstone" ; Parameter: $s ]
+Set Variable [ $t ; Value: Get ( ScriptResult ) ]
+If [ not JSONGetElement ( $t ; "ok" ) ]
+	Exit Script [ Text Result: JSONSetElement ( $t ; [ "session" ; JSONGetElement ( $s ; "session" ) ; JSONString ] ) ]
+End If
+Perform Script [ Specified: From list ; "adapter PULL | clickup | fields" ; Parameter: $s ]
+Set Variable [ $f ; Value: Get ( ScriptResult ) ]
+If [ not JSONGetElement ( $f ; "ok" ) ]
+	Exit Script [ Text Result: JSONSetElement ( $f ; [ "session" ; JSONGetElement ( $s ; "session" ) ; JSONString ] ) ]
+End If
+Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 1 ; JSONNumber ] ; [ "session" ; JSONGetElement ( $s ; "session" ) ; JSONString ] ; [ "full" ; GetAsNumber ( JSONGetElement ( $s ; "full" ) ) ; JSONNumber ] ; [ "seen" ; GetAsNumber ( JSONGetElement ( $p ; "seen" ) ) ; JSONNumber ] ; [ "created" ; GetAsNumber ( JSONGetElement ( $p ; "created" ) ) ; JSONNumber ] ; [ "changed" ; GetAsNumber ( JSONGetElement ( $p ; "changed" ) ) ; JSONNumber ] ; [ "unchanged" ; GetAsNumber ( JSONGetElement ( $p ; "unchanged" ) ) ; JSONNumber ] ; [ "revived" ; GetAsNumber ( JSONGetElement ( $p ; "revived" ) ) ; JSONNumber ] ; [ "tombstoned" ; GetAsNumber ( JSONGetElement ( $t ; "tombstoned" ) ) ; JSONNumber ] ; [ "fields_created" ; GetAsNumber ( JSONGetElement ( $f ; "created" ) ) ; JSONNumber ] ; [ "fields_updated" ; GetAsNumber ( JSONGetElement ( $f ; "updated" ) ) ; JSONNumber ] ; [ "warnings" ; List ( JSONGetElement ( $p ; "warnings" ) ; JSONGetElement ( $t ; "warnings" ) ) ; JSONString ] ) ]
