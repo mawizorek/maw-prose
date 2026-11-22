@@ -6,5 +6,6 @@ ModificationTimestamp	Timestamp	audit		Audit
 ModifiedBy	Text	audit		Audit
 fk_xtField	Text	fk	xt_FIELD::PrimaryKey	Links
 fk_App	Text	fk	sync_APP::PrimaryKey (in-file join; apps match on sync_APP::Code)	Links
-PolicyCode	Text	fk	VALUE code under sync_policy: fm_wins, xt_wins, reconcile, intake_only, ignore. Direction is implied. No row = ignore.	Settings
+PolicyCode	Text	fk	VALUE code under sync_policy: fm_wins, xt_wins, reconcile, intake_only, ignore. Stores the code, never the VALUE PK. Popup shows auto_FULL_PARENT_NAME, stores Code. Validation (strict, always): code must be in the sync_policy popup list. No row = ignore.	Settings
+calc_PolicyListKey	Text	calc: ExecuteSQL ( "SELECT \"PrimaryKey\" FROM \"value_LIST\" WHERE \"Code\" = ?" ; "" ; "" ; "sync_policy" )	Unstored constant key. Relationship sync_RULE::calc_PolicyListKey = sync_RULE__POLICY::fk_List filters the popup to sync_policy.	Links
 uniqAuto_FieldApp	Text	key; calc: fk_xtField & "|" & fk_App	One rule per field per app	Settings
