@@ -6,7 +6,7 @@ Set Variable [ $base ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName 
 Set Variable [ $token ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_SYSTEM::Token ) ) & " FROM " & sql.Table ( GetFieldName ( xt_SYSTEM::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_SYSTEM::Code ) ) & " = ?" ; "" ; "" ; "clickup" ) ]
 If [ ValueCount ( $base ) <> 1 or ValueCount ( $token ) <> 1 or Left ( $base ; 1 ) = "?" or Left ( $token ; 1 ) = "?" ]
 	Set Variable [ $token ; Value: "" ]
-	Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "error" ; "need exactly one xt_SYSTEM clickup row with BaseURL and Token" ; JSONString ] ) ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "need exactly one xt_SYSTEM clickup row with BaseURL and Token" ) ) ) ]
 End If
 Set Variable [ $url ; Value: GetValue ( $base ; 1 ) & $path ]
 Set Variable [ $token ; Value: GetValue ( $token ; 1 ) ]
@@ -15,8 +15,8 @@ Insert from URL [ Select ; With dialog: Off ; Target: $body ; $url ; Verify SSL 
 Set Variable [ $err ; Value: Get ( LastError ) ]
 Set Variable [ $token ; Value: "" ]
 If [ $err <> 0 ]
-	Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "status" ; 0 ; JSONNumber ] ; [ "url" ; $url ; JSONString ] ; [ "error" ; "Insert from URL error " & $err ; JSONString ] ) ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PNum ( "status" ; 0 ) ; PText ( "url" ; $url ) ; PText ( "error" ; "Insert from URL error " & $err ) ) ) ]
 End If
 #--- status from the first header line, e.g. HTTP/2 200 (MiddleWords would split on the slash)
 Set Variable [ $status ; Value: Let ( [ _l = GetValue ( $headers ; 1 ) ; _p = Position ( _l ; " " ; 1 ; 1 ) ] ; GetAsNumber ( Middle ( _l ; _p + 1 ; 3 ) ) ) ]
-Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 1 ; JSONNumber ] ; [ "status" ; $status ; JSONNumber ] ; [ "url" ; $url ; JSONString ] ; [ "body" ; $body ; JSONString ] ) ]
+Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 1 ) ; PNum ( "status" ; $status ) ; PText ( "url" ; $url ) ; PText ( "body" ; $body ) ) ) ]

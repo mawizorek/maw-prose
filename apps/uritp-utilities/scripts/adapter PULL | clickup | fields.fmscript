@@ -1,8 +1,8 @@
 # adapter PULL | clickup | fields · URITP Utilities. Reads custom_fields out of the payloads already pulled (no extra call) and upserts xt_FIELD by container + xt_FieldID.
 # Seeds native:name and native:status once and never rewrites them. mapKey is never touched (Michael maps). Param: the session result. Result: ok, created, updated.
 Set Error Capture [ On ]
-Set Variable [ $container ; Value: JSONGetElement ( Get ( ScriptParameter ) ; "container" ) ]
-Set Variable [ $map ; Value: JSONSetElement ( "{}" ; [ "native:name" ; JSONSetElement ( "{}" ; [ "name" ; "Name" ; JSONString ] ; [ "type" ; "native" ; JSONString ] ) ; JSONObject ] ; [ "native:status" ; JSONSetElement ( "{}" ; [ "name" ; "Status" ; JSONString ] ; [ "type" ; "native" ; JSONString ] ) ; JSONObject ] ) ]
+Set Variable [ $container ; Value: ParamGetText ( Get ( ScriptParameter ) ; "container" ; "" ) ]
+Set Variable [ $map ; Value: Param ( List ( Pjson ( "native:name" ; Param ( List ( PText ( "name" ; "Name" ) ; PText ( "type" ; "native" ) ) ) ) ; Pjson ( "native:status" ; Param ( List ( PText ( "name" ; "Status" ) ; PText ( "type" ; "native" ) ) ) ) ) ) ]
 Go to Layout [ "xt_RECORD" ]
 Enter Find Mode [ Pause: Off ]
 Set Field [ xt_RECORD::fk_xtContainer ; "==" & $container ]
@@ -18,7 +18,7 @@ If [ Get ( FoundCount ) > 0 ]
 			Exit Loop If [ $j >= $k ]
 			Set Variable [ $f ; Value: JSONGetElement ( $cf ; "[" & $j & "]" ) ]
 			If [ not IsEmpty ( JSONGetElement ( $f ; "id" ) ) ]
-				Set Variable [ $map ; Value: JSONSetElement ( $map ; [ JSONGetElement ( $f ; "id" ) ; JSONSetElement ( "{}" ; [ "name" ; JSONGetElement ( $f ; "name" ) ; JSONString ] ; [ "type" ; JSONGetElement ( $f ; "type" ) ; JSONString ] ) ; JSONObject ] ) ]
+				Set Variable [ $map ; Value: JSONSetElement ( $map ; [ JSONGetElement ( $f ; "id" ) ; Param ( List ( PText ( "name" ; JSONGetElement ( $f ; "name" ) ) ; PText ( "type" ; JSONGetElement ( $f ; "type" ) ) ) ) ; JSONObject ] ) ]
 			End If
 			Set Variable [ $j ; Value: $j + 1 ]
 		End Loop
@@ -38,7 +38,7 @@ Loop
 	Set Variable [ $type ; Value: JSONGetElement ( JSONGetElement ( $map ; $fid ) ; "type" ) ]
 	Set Variable [ $pk ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_FIELD::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( xt_FIELD::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_FIELD::fk_xtContainer ) ) & " = ? AND " & sql.Field ( GetFieldName ( xt_FIELD::xt_FieldID ) ) & " = ?" ; "" ; "" ; $container ; $fid ) ]
 	If [ Left ( $pk ; 1 ) = "?" or ValueCount ( $pk ) > 1 ]
-		Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "error" ; "SQL failed or duplicate xt_FIELD for " & $fid ; JSONString ] ) ]
+		Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "SQL failed or duplicate xt_FIELD for " & $fid ) ) ) ]
 	End If
 	If [ IsEmpty ( $pk ) ]
 		New Record/Request
@@ -48,7 +48,7 @@ Loop
 		Set Field [ xt_FIELD::xt_FieldType ; $type ]
 		Commit Records/Requests [ ]
 		If [ Get ( LastError ) <> 0 ]
-			Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "error" ; "commit failed (xt_FIELD " & $fid & "): error " & Get ( LastError ) ; JSONString ] ) ]
+			Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "commit failed (xt_FIELD " & $fid & "): error " & Get ( LastError ) ) ) ) ]
 		End If
 		Set Variable [ $created ; Value: $created + 1 ]
 	Else If [ Left ( $fid ; 7 ) <> "native:" ]
@@ -56,17 +56,17 @@ Loop
 		Set Field [ xt_FIELD::PrimaryKey ; "==" & GetValue ( $pk ; 1 ) ]
 		Perform Find [ ]
 		If [ Get ( FoundCount ) <> 1 ]
-			Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "error" ; "xt_FIELD row not found for " & $fid ; JSONString ] ) ]
+			Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "xt_FIELD row not found for " & $fid ) ) ) ]
 		End If
 		If [ xt_FIELD::xt_FieldName <> $name or xt_FIELD::xt_FieldType <> $type ]
 			Set Field [ xt_FIELD::xt_FieldName ; $name ]
 			Set Field [ xt_FIELD::xt_FieldType ; $type ]
 			Commit Records/Requests [ ]
 			If [ Get ( LastError ) <> 0 ]
-				Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "error" ; "commit failed (xt_FIELD " & $fid & "): error " & Get ( LastError ) ; JSONString ] ) ]
+				Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "commit failed (xt_FIELD " & $fid & "): error " & Get ( LastError ) ) ) ) ]
 			End If
 			Set Variable [ $updated ; Value: $updated + 1 ]
 		End If
 	End If
 End Loop
-Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 1 ; JSONNumber ] ; [ "created" ; $created ; JSONNumber ] ; [ "updated" ; $updated ; JSONNumber ] ) ]
+Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 1 ) ; PNum ( "created" ; $created ) ; PNum ( "updated" ; $updated ) ) ) ]

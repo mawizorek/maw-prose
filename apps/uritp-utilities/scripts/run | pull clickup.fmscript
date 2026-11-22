@@ -1,5 +1,5 @@
 # run | pull clickup · URITP Utilities. Button runner on the sync_SOURCE layout. The button passes the row's view and a cap; this shows the result and returns to sync_SOURCE.
-# Button parameter: JSONSetElement ( "{}" ; [ "view" ; sync_SOURCE::xt_ViewPath ; JSONString ] ; [ "cap" ; 0 ; JSONNumber ] ). cap 0 = full pull; 5 = capped test.
+# Button parameter: Param ( List ( PText ( "view" ; sync_SOURCE::xt_ViewPath ) ; PNum ( "cap" ; 0 ) ) ). cap 0 = full pull; 5 = capped test.
 Perform Script [ Specified: From list ; "adapter PULL | clickup" ; Parameter: Get ( ScriptParameter ) ]
 Set Variable [ $r ; Value: Get ( ScriptResult ) ]
 Go to Layout [ "sync_SOURCE" ]
