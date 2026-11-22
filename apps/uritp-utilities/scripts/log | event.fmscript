@@ -1,8 +1,9 @@
-# log | event · URITP Utilities. The only script that writes sync_EVENT, so every event has one shape. Codes and external keys only; never a token.
-# Param: session, key, action (sync_action code), status, request, response. Result: ok, action.
+# log | event · URITP Utilities. The only script that writes sync_EVENT and sync_CHANGE, so every event has one shape. Codes and external keys only; never a token.
+# Param: session, key, action (sync_action code), status, request, response, changes (optional array of code, label, old, new, change, sort: one sync_CHANGE row each). Result: ok, action, event, moves.
 Set Error Capture [ On ]
 Set Variable [ $param ; Value: Get ( ScriptParameter ) ]
 Set Variable [ $action ; Value: ParamGetText ( $param ; "action" ; "" ) ]
+Set Variable [ $changes ; Value: ParamGetText ( $param ; "changes" ; "" ) ]
 Set Variable [ $listPK ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( value_LIST::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( value_LIST::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( value_LIST::Code ) ) & " = ?" ; "" ; "" ; "sync_action" ) ]
 If [ ValueCount ( $listPK ) <> 1 or Left ( $listPK ; 1 ) = "?" ]
 	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "need exactly one value_LIST sync_action" ) ) ) ]
@@ -24,5 +25,28 @@ Commit Records/Requests [ ]
 If [ Get ( LastError ) <> 0 ]
 	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "commit failed (sync_EVENT): error " & Get ( LastError ) ) ) ) ]
 End If
-# Two elements on purpose: a single-argument List() returns <Field Missing>.
-Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 1 ) ; PText ( "action" ; $action ) ) ) ]
+Set Variable [ $event ; Value: sync_EVENT::PrimaryKey ]
+#--- moves: one sync_CHANGE row per changed field, in diff order
+Set Variable [ $k ; Value: If ( Left ( $changes ; 1 ) = "[" ; ValueCount ( JSONListKeys ( $changes ; "" ) ) ; 0 ) ]
+Set Variable [ $j ; Value: 0 ]
+If [ $k > 0 ]
+	Go to Layout [ "sync_CHANGE" ]
+	Loop
+		Exit Loop If [ $j >= $k ]
+		Set Variable [ $c ; Value: JSONGetElement ( $changes ; "[" & $j & "]" ) ]
+		New Record/Request
+		Set Field [ sync_CHANGE::fk_Event ; $event ]
+		Set Field [ sync_CHANGE::FieldCode ; JSONGetElement ( $c ; "code" ) ]
+		Set Field [ sync_CHANGE::stored_FieldLabel ; JSONGetElement ( $c ; "label" ) ]
+		Set Field [ sync_CHANGE::OldValue ; JSONGetElement ( $c ; "old" ) ]
+		Set Field [ sync_CHANGE::NewValue ; JSONGetElement ( $c ; "new" ) ]
+		Set Field [ sync_CHANGE::Change ; JSONGetElement ( $c ; "change" ) ]
+		Set Field [ sync_CHANGE::sort_Index ; JSONGetElement ( $c ; "sort" ) ]
+		Commit Records/Requests [ ]
+		If [ Get ( LastError ) <> 0 ]
+			Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "commit failed (sync_CHANGE " & JSONGetElement ( $c ; "code" ) & "): error " & Get ( LastError ) ) ; PText ( "event" ; $event ) ) ) ]
+		End If
+		Set Variable [ $j ; Value: $j + 1 ]
+	End Loop
+End If
+Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 1 ) ; PText ( "action" ; $action ) ; PText ( "event" ; $event ) ; PNum ( "moves" ; $k ) ) ) ]

@@ -1,0 +1,83 @@
+# adapter PULL | clickup | diff · URITP Utilities. Two versions of one task in, the moves out. Eos tracking: only what moved is recorded; everything else tracks.
+# Tracked: name, status, start_date, due_date, assignees, tags, and every custom field value by field ID (never position). Exact ( ), because = ignores case. FileMaker 19 safe.
+# Param: old, new (task JSON). Result: ok, count, changes (array of code, label, old, new, change, sort). Never changes layout or record.
+Set Error Capture [ On ]
+Set Variable [ $param ; Value: Get ( ScriptParameter ) ]
+Set Variable [ $old ; Value: ParamGetText ( $param ; "old" ; "" ) ]
+Set Variable [ $new ; Value: ParamGetText ( $param ; "new" ; "" ) ]
+If [ Left ( $old ; 1 ) <> "{" or Left ( $new ; 1 ) <> "{" ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "old and new must both be task JSON" ) ) ) ]
+End If
+Set Variable [ $changes ; Value: "[]" ]
+Set Variable [ $n ; Value: 0 ]
+#--- native fields · code | kind | list element key
+Set Variable [ $native ; Value: List ( "name|text|id" ; "status|status|id" ; "start_date|date|id" ; "due_date|date|id" ; "assignees|list|id" ; "tags|list|name" ) ]
+Set Variable [ $i ; Value: 0 ]
+Loop
+	Set Variable [ $i ; Value: $i + 1 ]
+	Exit Loop If [ $i > ValueCount ( $native ) ]
+	Set Variable [ $p ; Value: Substitute ( GetValue ( $native ; $i ) ; "|" ; ¶ ) ]
+	Set Variable [ $code ; Value: GetValue ( $p ; 1 ) ]
+	Perform Script [ Specified: From list ; "adapter PULL | clickup | diff value" ; Parameter: Param ( List ( PText ( "json" ; $old ) ; PText ( "kind" ; GetValue ( $p ; 2 ) ) ; PText ( "path" ; $code ) ; PText ( "item" ; GetValue ( $p ; 3 ) ) ) ) ]
+	Set Variable [ $a ; Value: Get ( ScriptResult ) ]
+	Perform Script [ Specified: From list ; "adapter PULL | clickup | diff value" ; Parameter: Param ( List ( PText ( "json" ; $new ) ; PText ( "kind" ; GetValue ( $p ; 2 ) ) ; PText ( "path" ; $code ) ; PText ( "item" ; GetValue ( $p ; 3 ) ) ) ) ]
+	Set Variable [ $b ; Value: Get ( ScriptResult ) ]
+	If [ not ParamGetBool ( $a ; "ok" ; 0 ) or not ParamGetBool ( $b ; "ok" ; 0 ) ]
+		Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "diff value failed on " & $code & ": " & ParamGetText ( $a ; "error" ; "" ) & ParamGetText ( $b ; "error" ; "" ) ) ) ) ]
+	End If
+	If [ not Exact ( ParamGetText ( $a ; "cmp" ; "" ) ; ParamGetText ( $b ; "cmp" ; "" ) ) ]
+		Set Variable [ $label ; Value: Substitute ( $code ; "_" ; " " ) ]
+		Set Variable [ $changes ; Value: JSONSetElement ( $changes ; "[" & $n & "]" ; Param ( List ( PText ( "code" ; $code ) ; PText ( "label" ; $label ) ; PText ( "old" ; ParamGetText ( $a ; "store" ; "" ) ) ; PText ( "new" ; ParamGetText ( $b ; "store" ; "" ) ) ; PText ( "change" ; $label & ": " & ParamGetText ( $a ; "show" ; "" ) & " → " & ParamGetText ( $b ; "show" ; "" ) ) ; PNum ( "sort" ; $n + 1 ) ) ) ; JSONObject ) ]
+		Set Variable [ $n ; Value: $n + 1 ]
+	End If
+End Loop
+#--- custom fields, matched by field ID. Old entries indexed by ID first; whatever is left after the new pass was removed from the list.
+Set Variable [ $ocf ; Value: JSONGetElement ( $old ; "custom_fields" ) ]
+Set Variable [ $ncf ; Value: JSONGetElement ( $new ; "custom_fields" ) ]
+Set Variable [ $omap ; Value: If ( Left ( $ocf ; 1 ) = "[" ; While ( [ i = 0 ; k = ValueCount ( JSONListKeys ( $ocf ; "" ) ) ; out = "{}" ; ent = "" ] ; i < k ; [ ent = JSONGetElement ( $ocf ; "[" & i & "]" ) ; out = If ( IsEmpty ( JSONGetElement ( ent ; "id" ) ) ; out ; JSONSetElement ( out ; JSONGetElement ( ent ; "id" ) ; ent ; JSONObject ) ) ; i = i + 1 ] ; out ) ; "{}" ) ]
+Set Variable [ $k ; Value: If ( Left ( $ncf ; 1 ) = "[" ; ValueCount ( JSONListKeys ( $ncf ; "" ) ) ; 0 ) ]
+Set Variable [ $j ; Value: 0 ]
+Loop
+	Exit Loop If [ $j >= $k ]
+	Set Variable [ $ne ; Value: JSONGetElement ( $ncf ; "[" & $j & "]" ) ]
+	Set Variable [ $fid ; Value: JSONGetElement ( $ne ; "id" ) ]
+	Set Variable [ $oe ; Value: If ( IsEmpty ( $fid ) ; "" ; JSONGetElement ( $omap ; $fid ) ) ]
+	If [ not IsEmpty ( $fid ) and not IsEmpty ( $oe ) ]
+		Set Variable [ $omap ; Value: JSONDeleteElement ( $omap ; $fid ) ]
+	End If
+	If [ not IsEmpty ( $fid ) and ( IsEmpty ( $oe ) or not Exact ( JSONGetElement ( $oe ; "value" ) ; JSONGetElement ( $ne ; "value" ) ) ) ]
+		Perform Script [ Specified: From list ; "adapter PULL | clickup | diff value" ; Parameter: Param ( List ( PText ( "json" ; $oe ) ; PText ( "kind" ; "cf" ) ; PText ( "item" ; "id" ) ) ) ]
+		Set Variable [ $a ; Value: Get ( ScriptResult ) ]
+		Perform Script [ Specified: From list ; "adapter PULL | clickup | diff value" ; Parameter: Param ( List ( PText ( "json" ; $ne ) ; PText ( "kind" ; "cf" ) ; PText ( "item" ; "id" ) ) ) ]
+		Set Variable [ $b ; Value: Get ( ScriptResult ) ]
+		If [ not ParamGetBool ( $a ; "ok" ; 0 ) or not ParamGetBool ( $b ; "ok" ; 0 ) ]
+			Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "diff value failed on cf:" & $fid ) ) ) ]
+		End If
+		If [ not Exact ( ParamGetText ( $a ; "cmp" ; "" ) ; ParamGetText ( $b ; "cmp" ; "" ) ) ]
+			Set Variable [ $label ; Value: JSONGetElement ( $ne ; "name" ) ]
+			Set Variable [ $changes ; Value: JSONSetElement ( $changes ; "[" & $n & "]" ; Param ( List ( PText ( "code" ; "cf:" & $fid ) ; PText ( "label" ; $label ) ; PText ( "old" ; ParamGetText ( $a ; "store" ; "" ) ) ; PText ( "new" ; ParamGetText ( $b ; "store" ; "" ) ) ; PText ( "change" ; $label & ": " & ParamGetText ( $a ; "show" ; "" ) & " → " & ParamGetText ( $b ; "show" ; "" ) ) ; PNum ( "sort" ; $n + 1 ) ) ) ; JSONObject ) ]
+			Set Variable [ $n ; Value: $n + 1 ]
+		End If
+	End If
+	Set Variable [ $j ; Value: $j + 1 ]
+End Loop
+#--- removed from the list: a move only if the old entry held a value
+Set Variable [ $gone ; Value: JSONListKeys ( $omap ; "" ) ]
+Set Variable [ $j ; Value: 0 ]
+Loop
+	Set Variable [ $j ; Value: $j + 1 ]
+	Exit Loop If [ $j > ValueCount ( $gone ) or Left ( $gone ; 1 ) = "?" ]
+	Set Variable [ $fid ; Value: GetValue ( $gone ; $j ) ]
+	Set Variable [ $oe ; Value: JSONGetElement ( $omap ; $fid ) ]
+	If [ not IsEmpty ( JSONGetElement ( $oe ; "value" ) ) ]
+		Perform Script [ Specified: From list ; "adapter PULL | clickup | diff value" ; Parameter: Param ( List ( PText ( "json" ; $oe ) ; PText ( "kind" ; "cf" ) ; PText ( "item" ; "id" ) ) ) ]
+		Set Variable [ $a ; Value: Get ( ScriptResult ) ]
+		If [ not ParamGetBool ( $a ; "ok" ; 0 ) ]
+			Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "diff value failed on removed cf:" & $fid ) ) ) ]
+		End If
+		Set Variable [ $label ; Value: JSONGetElement ( $oe ; "name" ) ]
+		Set Variable [ $changes ; Value: JSONSetElement ( $changes ; "[" & $n & "]" ; Param ( List ( PText ( "code" ; "cf:" & $fid ) ; PText ( "label" ; $label ) ; PText ( "old" ; ParamGetText ( $a ; "store" ; "" ) ) ; PText ( "new" ; "" ) ; PText ( "change" ; $label & ": " & ParamGetText ( $a ; "show" ; "" ) & " → (removed)" ) ; PNum ( "sort" ; $n + 1 ) ) ) ; JSONObject ) ]
+		Set Variable [ $n ; Value: $n + 1 ]
+	End If
+End Loop
+Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 1 ) ; PNum ( "count" ; $n ) ; Pjson ( "changes" ; $changes ) ) ) ]
