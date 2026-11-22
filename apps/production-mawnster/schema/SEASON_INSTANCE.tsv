@@ -6,5 +6,5 @@ ModificationTimestamp	Timestamp	audit
 ModifiedBy	Text	audit		
 fkSeason	Text	fk; strict; always	SEASON. Explicit programming, never derived from date_Opening	
 fkProduction	Text	fk; strict; always	PRODUCTIONS. Festival pieces take the parent row, no own rows	
-fkSeries	Text	fk; strict; always	SERIES. Guard: same org as the season	
+fkSeries	Text	fk; strict; always	PRODUCTION_SERIES. Guard: same org as the season	
 Sort	Number			
