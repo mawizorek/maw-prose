@@ -1,0 +1,54 @@
+# adapter PULL | clickup | tombstone · URITP Utilities. Full runs only. Rows in this container that the run did not see get checked against ClickUp first.
+# 404 = tombstone (xt_DeletedAt + event; rows are never deleted). 200 = the view hid it: warning only. Anything else stops. Refuses when more than 10% of live rows are missing.
+# Param: the session result. Result: ok, tombstoned, warnings.
+Set Error Capture [ On ]
+Set Variable [ $s ; Value: Get ( ScriptParameter ) ]
+Set Variable [ $session ; Value: JSONGetElement ( $s ; "session" ) ]
+Set Variable [ $container ; Value: JSONGetElement ( $s ; "container" ) ]
+If [ not ParamGetBool ( $s ; "full" ; 0 ) ]
+	Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 1 ; JSONNumber ] ; [ "tombstoned" ; 0 ; JSONNumber ] ; [ "warnings" ; "capped run: tombstone skipped" ; JSONString ] ) ]
+End If
+Set Variable [ $total ; Value: ExecuteSQL ( "SELECT COUNT(*) FROM " & sql.Table ( GetFieldName ( xt_RECORD::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_RECORD::fk_xtContainer ) ) & " = ? AND " & sql.Field ( GetFieldName ( xt_RECORD::xt_DeletedAt ) ) & " IS NULL" ; "" ; "" ; $container ) ]
+Set Variable [ $cands ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_RECORD::PrimaryKey ) ) & ", " & sql.Field ( GetFieldName ( xt_RECORD::xt_ID ) ) & " FROM " & sql.Table ( GetFieldName ( xt_RECORD::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_RECORD::fk_xtContainer ) ) & " = ? AND " & sql.Field ( GetFieldName ( xt_RECORD::xt_DeletedAt ) ) & " IS NULL AND ( " & sql.Field ( GetFieldName ( xt_RECORD::LastSeenSession ) ) & " IS NULL OR " & sql.Field ( GetFieldName ( xt_RECORD::LastSeenSession ) ) & " <> ? )" ; "|" ; ¶ ; $container ; $session ) ]
+If [ Left ( $total ; 1 ) = "?" or Left ( $cands ; 1 ) = "?" ]
+	Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "error" ; "SQL failed reading xt_RECORD candidates" ; JSONString ] ) ]
+End If
+Set Variable [ $c ; Value: ValueCount ( $cands ) ]
+If [ $c > GetAsNumber ( $total ) * 0.1 ]
+	Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "error" ; $c & " of " & $total & " rows missing from the view (over 10%). Refused; nothing tombstoned. Check the view shows closed tasks." ; JSONString ] ) ]
+End If
+Set Variable [ $tombstoned ; Value: 0 ]
+Set Variable [ $warnings ; Value: "" ]
+Set Variable [ $i ; Value: 0 ]
+Loop
+	Set Variable [ $i ; Value: $i + 1 ]
+	Exit Loop If [ $i > $c ]
+	Set Variable [ $pk ; Value: GetValue ( Substitute ( GetValue ( $cands ; $i ) ; "|" ; ¶ ) ; 1 ) ]
+	Set Variable [ $id ; Value: GetValue ( Substitute ( GetValue ( $cands ; $i ) ; "|" ; ¶ ) ; 2 ) ]
+	Perform Script [ Specified: From list ; "http | clickup" ; Parameter: JSONSetElement ( "{}" ; [ "path" ; "/task/" & $id ; JSONString ] ) ]
+	Set Variable [ $r ; Value: Get ( ScriptResult ) ]
+	If [ JSONGetElement ( $r ; "status" ) = 200 ]
+		Set Variable [ $warnings ; Value: List ( $warnings ; "view_hiding " & $id ) ]
+	Else If [ JSONGetElement ( $r ; "status" ) = 404 ]
+		Go to Layout [ "xt_RECORD" ]
+		Enter Find Mode [ Pause: Off ]
+		Set Field [ xt_RECORD::PrimaryKey ; "==" & $pk ]
+		Perform Find [ ]
+		If [ Get ( FoundCount ) <> 1 ]
+			Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "error" ; "xt_RECORD row not found for clickup:" & $id ; JSONString ] ) ]
+		End If
+		Set Field [ xt_RECORD::xt_DeletedAt ; Get ( CurrentTimestamp ) ]
+		Commit Records/Requests [ ]
+		If [ Get ( LastError ) <> 0 ]
+			Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "error" ; "commit failed (tombstone clickup:" & $id & "): error " & Get ( LastError ) ; JSONString ] ) ]
+		End If
+		Perform Script [ Specified: From list ; "log | event" ; Parameter: JSONSetElement ( "{}" ; [ "session" ; $session ; JSONString ] ; [ "key" ; "clickup:" & $id ; JSONString ] ; [ "action" ; "tombstone" ; JSONString ] ; [ "status" ; 404 ; JSONNumber ] ; [ "request" ; JSONGetElement ( $r ; "url" ) ; JSONString ] ; [ "response" ; Left ( JSONGetElement ( $r ; "body" ) ; 2000 ) ; JSONString ] ) ]
+		If [ not JSONGetElement ( Get ( ScriptResult ) ; "ok" ) ]
+			Exit Script [ Text Result: Get ( ScriptResult ) ]
+		End If
+		Set Variable [ $tombstoned ; Value: $tombstoned + 1 ]
+	Else
+		Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "error" ; "verify clickup:" & $id & " got HTTP " & JSONGetElement ( $r ; "status" ) & " " & ParamGetText ( $r ; "error" ; "" ) & ". Stopped." ; JSONString ] ) ]
+	End If
+End Loop
+Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 1 ; JSONNumber ] ; [ "tombstoned" ; $tombstoned ; JSONNumber ] ; [ "warnings" ; $warnings ; JSONString ] ) ]

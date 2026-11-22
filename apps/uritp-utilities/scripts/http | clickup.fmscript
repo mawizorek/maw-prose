@@ -1,0 +1,22 @@
+# http | clickup · URITP Utilities. The only script that calls ClickUp. Reads BaseURL and Token itself; the token never enters a parameter, result or event.
+# Param: path (e.g. /view/<viewID>/task?page=0). Result: ok, status, url, body. A 4xx/5xx is ok = 1 with that status; the caller decides.
+Set Error Capture [ On ]
+Set Variable [ $path ; Value: ParamGetText ( Get ( ScriptParameter ) ; "path" ; "" ) ]
+Set Variable [ $base ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_SYSTEM::BaseURL ) ) & " FROM " & sql.Table ( GetFieldName ( xt_SYSTEM::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_SYSTEM::Code ) ) & " = ?" ; "" ; "" ; "clickup" ) ]
+Set Variable [ $token ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_SYSTEM::Token ) ) & " FROM " & sql.Table ( GetFieldName ( xt_SYSTEM::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_SYSTEM::Code ) ) & " = ?" ; "" ; "" ; "clickup" ) ]
+If [ ValueCount ( $base ) <> 1 or ValueCount ( $token ) <> 1 or Left ( $base ; 1 ) = "?" or Left ( $token ; 1 ) = "?" ]
+	Set Variable [ $token ; Value: "" ]
+	Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "error" ; "need exactly one xt_SYSTEM clickup row with BaseURL and Token" ; JSONString ] ) ]
+End If
+Set Variable [ $url ; Value: GetValue ( $base ; 1 ) & $path ]
+Set Variable [ $token ; Value: GetValue ( $token ; 1 ) ]
+Set Variable [ $headers ; Value: "" ]
+Insert from URL [ Select ; With dialog: Off ; Target: $body ; $url ; Verify SSL Certificates ; cURL options: "--header \"Authorization: " & $token & "\" --dump-header $headers" ]
+Set Variable [ $err ; Value: Get ( LastError ) ]
+Set Variable [ $token ; Value: "" ]
+If [ $err <> 0 ]
+	Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "status" ; 0 ; JSONNumber ] ; [ "url" ; $url ; JSONString ] ; [ "error" ; "Insert from URL error " & $err ; JSONString ] ) ]
+End If
+#--- status from the first header line, e.g. HTTP/2 200 (MiddleWords would split on the slash)
+Set Variable [ $status ; Value: Let ( [ _l = GetValue ( $headers ; 1 ) ; _p = Position ( _l ; " " ; 1 ; 1 ) ] ; GetAsNumber ( Middle ( _l ; _p + 1 ; 3 ) ) ) ]
+Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 1 ; JSONNumber ] ; [ "status" ; $status ; JSONNumber ] ; [ "url" ; $url ; JSONString ] ; [ "body" ; $body ; JSONString ] ) ]

@@ -1,0 +1,82 @@
+# adapter PULL | clickup | upsert · URITP Utilities. One ClickUp task in, one xt_RECORD row out. Finds by xt_Key (written verbatim); never deletes.
+# New or changed version: payload overwritten + one pull event carrying that version's JSON (the history). Unchanged: no event. Back after a tombstone: cleared + revive event.
+# Param: session, container, system, full, task (JSON), request. Result: ok, action (created | changed | unchanged), revived, warning.
+Set Error Capture [ On ]
+Set Variable [ $param ; Value: Get ( ScriptParameter ) ]
+Set Variable [ $session ; Value: ParamGetText ( $param ; "session" ; "" ) ]
+Set Variable [ $container ; Value: ParamGetText ( $param ; "container" ; "" ) ]
+Set Variable [ $system ; Value: ParamGetText ( $param ; "system" ; "" ) ]
+Set Variable [ $full ; Value: ParamGetBool ( $param ; "full" ; 0 ) ]
+Set Variable [ $task ; Value: JSONGetElement ( $param ; "task" ) ]
+Set Variable [ $id ; Value: JSONGetElement ( $task ; "id" ) ]
+If [ IsEmpty ( $id ) or Left ( $id ; 1 ) = "?" ]
+	Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "error" ; "task has no id" ; JSONString ] ) ]
+End If
+Set Variable [ $key ; Value: "clickup:" & $id ]
+Set Variable [ $version ; Value: JSONGetElement ( $task ; "date_updated" ) ]
+Set Variable [ $warning ; Value: "" ]
+#--- home list: follow the task when its list is registered for this system; otherwise it stays where it is
+Set Variable [ $home ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_CONTAINER::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( xt_CONTAINER::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_CONTAINER::fk_xtSystem ) ) & " = ? AND " & sql.Field ( GetFieldName ( xt_CONTAINER::xt_ID ) ) & " = ? AND " & sql.Field ( GetFieldName ( xt_CONTAINER::isActive ) ) & " = 1" ; "" ; "" ; $system ; JSONGetElement ( $task ; "list.id" ) ) ]
+If [ Left ( $home ; 1 ) = "?" ]
+	Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "error" ; "SQL failed reading xt_CONTAINER" ; JSONString ] ) ]
+End If
+Set Variable [ $homeKnown ; Value: ValueCount ( $home ) = 1 ]
+If [ $homeKnown ]
+	Set Variable [ $home ; Value: GetValue ( $home ; 1 ) ]
+Else
+	Set Variable [ $home ; Value: $container ]
+	Set Variable [ $warning ; Value: "unregistered_home" ]
+End If
+Set Variable [ $row ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_RECORD::PrimaryKey ) ) & ", " & sql.Field ( GetFieldName ( xt_RECORD::xt_Version ) ) & ", " & sql.Field ( GetFieldName ( xt_RECORD::xt_DeletedAt ) ) & " FROM " & sql.Table ( GetFieldName ( xt_RECORD::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_RECORD::xt_Key ) ) & " = ?" ; "|" ; ¶ ; $key ) ]
+If [ Left ( $row ; 1 ) = "?" or ValueCount ( $row ) > 1 ]
+	Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "error" ; "SQL failed or duplicate xt_RECORD for " & $key ; JSONString ] ) ]
+End If
+Set Variable [ $pk ; Value: GetValue ( Substitute ( $row ; "|" ; ¶ ) ; 1 ) ]
+Set Variable [ $wasDeleted ; Value: not IsEmpty ( GetValue ( Substitute ( $row ; "|" ; ¶ ) ; 3 ) ) ]
+Go to Layout [ "xt_RECORD" ]
+If [ IsEmpty ( $pk ) ]
+	New Record/Request
+	Set Field [ xt_RECORD::fk_xtContainer ; $home ]
+	Set Field [ xt_RECORD::xt_ID ; $id ]
+	Set Field [ xt_RECORD::xt_Key ; $key ]
+	Set Variable [ $action ; Value: "created" ]
+Else
+	Enter Find Mode [ Pause: Off ]
+	Set Field [ xt_RECORD::PrimaryKey ; "==" & $pk ]
+	Perform Find [ ]
+	If [ Get ( FoundCount ) <> 1 ]
+		Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "error" ; "xt_RECORD row not found for " & $key ; JSONString ] ) ]
+	End If
+	If [ $homeKnown ]
+		Set Field [ xt_RECORD::fk_xtContainer ; $home ]
+	End If
+	Set Variable [ $action ; Value: If ( GetValue ( Substitute ( $row ; "|" ; ¶ ) ; 2 ) <> $version ; "changed" ; "unchanged" ) ]
+End If
+If [ $action <> "unchanged" ]
+	Set Field [ xt_RECORD::xt_Label ; JSONGetElement ( $task ; "name" ) ]
+	Set Field [ xt_RECORD::xt_Version ; $version ]
+	Set Field [ xt_RECORD::xt_Payload ; $task ]
+End If
+If [ $full ]
+	Set Field [ xt_RECORD::LastSeenSession ; $session ]
+End If
+If [ $wasDeleted ]
+	Set Field [ xt_RECORD::xt_DeletedAt ; "" ]
+End If
+Commit Records/Requests [ ]
+If [ Get ( LastError ) <> 0 ]
+	Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 0 ; JSONNumber ] ; [ "error" ; "commit failed (xt_RECORD " & $key & "): error " & Get ( LastError ) ; JSONString ] ) ]
+End If
+If [ $action <> "unchanged" ]
+	Perform Script [ Specified: From list ; "log | event" ; Parameter: JSONSetElement ( "{}" ; [ "session" ; $session ; JSONString ] ; [ "key" ; $key ; JSONString ] ; [ "action" ; "pull" ; JSONString ] ; [ "status" ; 200 ; JSONNumber ] ; [ "request" ; ParamGetText ( $param ; "request" ; "" ) ; JSONString ] ; [ "response" ; $task ; JSONString ] ) ]
+	If [ not JSONGetElement ( Get ( ScriptResult ) ; "ok" ) ]
+		Exit Script [ Text Result: Get ( ScriptResult ) ]
+	End If
+End If
+If [ $wasDeleted ]
+	Perform Script [ Specified: From list ; "log | event" ; Parameter: JSONSetElement ( "{}" ; [ "session" ; $session ; JSONString ] ; [ "key" ; $key ; JSONString ] ; [ "action" ; "revive" ; JSONString ] ; [ "status" ; 200 ; JSONNumber ] ; [ "request" ; ParamGetText ( $param ; "request" ; "" ) ; JSONString ] ) ]
+	If [ not JSONGetElement ( Get ( ScriptResult ) ; "ok" ) ]
+		Exit Script [ Text Result: Get ( ScriptResult ) ]
+	End If
+End If
+Exit Script [ Text Result: JSONSetElement ( "{}" ; [ "ok" ; 1 ; JSONNumber ] ; [ "action" ; $action ; JSONString ] ; [ "revived" ; $wasDeleted ; JSONNumber ] ; [ "warning" ; $warning ; JSONString ] ) ]

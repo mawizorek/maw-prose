@@ -1,0 +1,3 @@
+# test | pull clickup · URITP Utilities. Button runner for the gate test: PEOPLE view, capped at 5. Run it twice; the second run must create 0. Set cap to 0 for the first full pull.
+Perform Script [ Specified: From list ; "adapter PULL | clickup" ; Parameter: JSONSetElement ( "{}" ; [ "view" ; "12cwjm-66873" ; JSONString ] ; [ "cap" ; 5 ; JSONNumber ] ) ]
+Show Custom Dialog [ "adapter PULL | clickup" ; Get ( ScriptResult ) ]
