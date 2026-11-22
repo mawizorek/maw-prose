@@ -1,0 +1,9 @@
+Field_Name	Type	Options	Notes	status
+PrimaryKey	Text	audit		
+CreationTimestamp	Timestamp	audit		
+CreatedBy	Text	audit		
+ModificationTimestamp	Timestamp	audit		
+ModifiedBy	Text	audit		
+fkRole	Text	fk; unique; strict; always	CANONICAL_ROLES, kind = Organization. 1:1 add-on	
+bool_PrintsLogo	Number	auto 0	1 = this credit prints the org logo. WHERE it prints is a PRINT_PRESETS decision	
+vl_BillingBlock	Text		Above Title | Producers | Sponsors | Licensing Notice	

@@ -1,0 +1,11 @@
+Field_Name	Type	Options	Notes	status
+PrimaryKey	Text	audit		
+CreationTimestamp	Timestamp	audit		
+CreatedBy	Text	audit		
+ModificationTimestamp	Timestamp	audit		
+ModifiedBy	Text	audit		
+fkProduction	Text	fk; strict; always	PRODUCTIONS	
+fkOrganization	Text	fk; strict; always	ORGANIZATION. Who is credited	
+fkRole	Text	fk; strict; always	CANONICAL_ROLES, kind = Organization only	
+Sort	Number		Billing order. Logo order follows it	
+auto_RoleKind	Text	auto Organization; indexed	Left side of the org-role picker match on CANONICAL_ROLES vl_RoleKind. Constant, never edit	

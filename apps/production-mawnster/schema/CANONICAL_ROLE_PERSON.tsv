@@ -1,0 +1,9 @@
+Field_Name	Type	Options	Notes	status
+PrimaryKey	Text	audit		
+CreationTimestamp	Timestamp	audit		
+CreatedBy	Text	audit		
+ModificationTimestamp	Timestamp	audit		
+ModifiedBy	Text	audit		
+fkRole	Text	fk; unique; strict; always	CANONICAL_ROLES, kind = Person. 1:1 add-on	
+vl_DefaultCalls	Text		always | never | from tech | fittings. ROLE_INSTANCES vl_Calls defaults from here	
+vl_DefaultReports	Text		always | never | from tech | fittings. ROLE_INSTANCES vl_Reports defaults from here	
