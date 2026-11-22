@@ -1,5 +1,5 @@
 # setup | hub · URITP Utilities. Idempotent: finds by Code, creates what is missing, refreshes labels. Never deletes, never changes a Code. Safe to rerun.
-# To add a vocab value or register a new app source: add one line to $values or $sources, then rerun.
+# To add a vocab value or register a new app source: add one line to $values or $sources, then rerun. Removing a value here does not delete its VALUE row; delete that by hand.
 Set Error Capture [ On ]
 Allow User Abort [ Off ]
 Freeze Window
@@ -7,8 +7,8 @@ Set Variable [ $created ; Value: 0 ]
 Set Variable [ $existing ; Value: 0 ]
 #--- vocab · list code | label
 Set Variable [ $lists ; Value: List ( "sync_action|Sync action" ; "sync_decision|Sync decision" ; "sync_policy|Sync policy" ) ]
-#--- vocab · list | code | label | sort
-Set Variable [ $values ; Value: List ( "sync_action|pull|Pull|1" ; "sync_action|adopt|Adopt|2" ; "sync_action|link|Link|3" ; "sync_action|compare|Compare|4" ; "sync_action|push|Push|5" ; "sync_action|refresh|Refresh|6" ; "sync_action|tombstone|Tombstone|7" ; "sync_action|revive|Revive|8" ; "sync_action|create|Create|9" ; "sync_action|change|Change|10" ; "sync_decision|pending|Pending|1" ; "sync_decision|keep_fm|Keep FileMaker|2" ; "sync_decision|take_xt|Take external|3" ; "sync_decision|applied|Applied|4" ; "sync_policy|fm_wins|FileMaker wins|1" ; "sync_policy|xt_wins|External wins|2" ; "sync_policy|reconcile|Reconcile|3" ; "sync_policy|intake_only|Intake only|4" ; "sync_policy|ignore|Ignore|5" ) ]
+#--- vocab · list | code | label | sort. sync_action: only codes some script writes (pull, tombstone, revive, create, change) or an owed adapter will (adopt, compare, push).
+Set Variable [ $values ; Value: List ( "sync_action|pull|Pull|1" ; "sync_action|adopt|Adopt|2" ; "sync_action|compare|Compare|3" ; "sync_action|push|Push|4" ; "sync_action|tombstone|Tombstone|5" ; "sync_action|revive|Revive|6" ; "sync_action|create|Create|7" ; "sync_action|change|Change|8" ; "sync_decision|pending|Pending|1" ; "sync_decision|keep_fm|Keep FileMaker|2" ; "sync_decision|take_xt|Take external|3" ; "sync_decision|applied|Applied|4" ; "sync_policy|fm_wins|FileMaker wins|1" ; "sync_policy|xt_wins|External wins|2" ; "sync_policy|reconcile|Reconcile|3" ; "sync_policy|intake_only|Intake only|4" ; "sync_policy|ignore|Ignore|5" ) ]
 #--- sources · system | list ID | container label | view ID | view label (the view's own ClickUp name, never restating the container). The view MUST show closed tasks. One source = a plain string; two or more = List ( a ; b ). FileMaker rejects List() with a single literal (it wants a field).
 Set Variable [ $sources ; Value: "clickup|901305646880|PEOPLE|12cwjm-66873|FMP VIEW" ]
 #=== value_LIST
