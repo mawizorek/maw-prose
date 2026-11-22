@@ -118,7 +118,7 @@ STEPS = {
     'Allow User Abort': lambda a: (85, f'<Set state="{"True" if on_off(a[0] if a else "") else "False"}"/>'),
     'Freeze Window': lambda a: (79, ''),
     'Go to Layout': s_go_to_layout,
-    'Enter Find Mode': lambda a: (22, f'<Pause state="{"True" if re.search(r"pause\s*:\s*on", ";".join(a), re.I) else "False"}"/>'),
+    'Enter Find Mode': lambda a: (22, '<Pause state="%s"/>' % ('True' if re.search(r'pause\s*:\s*on', ';'.join(a), re.I) else 'False')),
     'Perform Find': s_perform_find,
     'Set Field': s_set_field,
     'Go to Record/Request/Page': s_goto_record,
