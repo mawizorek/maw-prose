@@ -1,5 +1,5 @@
 # log | event · URITP Utilities. The only script that writes sync_EVENT, so every event has one shape. Codes and external keys only; never a token.
-# Param: session, key, action (sync_action code), status, request, response. Result: ok.
+# Param: session, key, action (sync_action code), status, request, response. Result: ok, action.
 Set Error Capture [ On ]
 Set Variable [ $param ; Value: Get ( ScriptParameter ) ]
 Set Variable [ $action ; Value: ParamGetText ( $param ; "action" ; "" ) ]
@@ -24,4 +24,5 @@ Commit Records/Requests [ ]
 If [ Get ( LastError ) <> 0 ]
 	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "commit failed (sync_EVENT): error " & Get ( LastError ) ) ) ) ]
 End If
-Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 1 ) ) ) ]
+# Two elements on purpose: a single-argument List() returns <Field Missing>.
+Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 1 ) ; PText ( "action" ; $action ) ) ) ]
