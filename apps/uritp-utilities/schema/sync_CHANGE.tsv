@@ -5,9 +5,8 @@ CreatedBy	Text	audit		Audit
 ModificationTimestamp	Timestamp	audit		Audit
 ModifiedBy	Text	audit		Audit
 fk_Event	Text	fk	sync_EVENT::PrimaryKey. The change event this move belongs to; xt_Key and session live on the event.	Links
-FieldCode	Text	not empty; indexed; raw	Tracked field code: name, status, start_date, due_date, assignees, tags, or cf:<ClickUp field ID>. Code layer; never a label.	Log
+FieldCode	Text	not empty; indexed; raw	Tracked field code: name, status, start_date, due_date, assignees, tags, or cf:<ClickUp field ID>. Code layer; never a label. One row per field per event, so moves in an event never depend on order; display order = creation order.	Log
 stored_FieldLabel	Text		Label snapshot at write time (custom field name then). Never a matching key.	Log
 OldValue	Text		JSON before the move. Top-level fields: {"v":value}, type fixed by FieldCode. Custom fields: the whole field entry minus type_config. Empty = field absent in that version (nl check: absence is the fact, no other home).	Log
 NewValue	Text		JSON after the move, same shape as OldValue. Empty = field removed. Never both empty.	Log
 Change	Text	not empty	Human line, e.g. name: Kate → Katherine. Written once by log | event.	Log
-sort_Index	Number	not empty	Order of the move within its event.	Log
