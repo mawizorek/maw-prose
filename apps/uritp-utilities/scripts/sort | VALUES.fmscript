@@ -1,0 +1,8 @@
+# sort | VALUES · URITP Utilities. Layout sort for the VALUE table. Mirrored from the file (DDR 2026-11-22); the file is the source of truth.
+#
+#fk_List
+#sort_order
+#
+Sort Records [ Keep records in sorted order ; Specified Sort Order: VALUE::fk_List ; ascending
+VALUE::sort_Index ; ascending ]
+[ Restore ; No dialog ]
