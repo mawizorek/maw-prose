@@ -1,9 +1,0 @@
-Field_Name	Type	Options	Notes	status
-PrimaryKey	Text	audit		
-CreationTimestamp	Timestamp	audit		
-CreatedBy	Text	audit		
-ModificationTimestamp	Timestamp	audit		
-ModifiedBy	Text	audit		
-Name	Text	indexed	How a show is made: Full Production, Staged Reading, Workshop, Festival, Concert. Universal, not per org	
-NameShort	Text			
-Sort	Number			
