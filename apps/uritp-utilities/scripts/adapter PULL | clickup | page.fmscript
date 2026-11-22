@@ -1,5 +1,6 @@
 # adapter PULL | clickup | page · URITP Utilities. Walks the view page by page and hands each task to upsert. Any HTTP error is logged and stops the run.
 # Param: the session result (session, container, system, view, full, cap). Result: ok, seen, created, changed, unchanged, revived, warnings.
+# Rule: never wrap a single element in List(). List is an aggregate; one argument is read as a field reference and returns <Field Missing>. Write Param ( PText ( ... ) ).
 Set Error Capture [ On ]
 Set Variable [ $s ; Value: Get ( ScriptParameter ) ]
 Set Variable [ $cap ; Value: ParamGetNumber ( $s ; "cap" ; 0 ) ]
@@ -11,7 +12,7 @@ Set Variable [ $unchanged ; Value: 0 ]
 Set Variable [ $revived ; Value: 0 ]
 Set Variable [ $warnings ; Value: "" ]
 Loop
-	Perform Script [ Specified: From list ; "http | clickup" ; Parameter: Param ( List ( PText ( "path" ; "/view/" & ParamGetText ( $s ; "view" ; "" ) & "/task?page=" & $page ) ) ) ]
+	Perform Script [ Specified: From list ; "http | clickup" ; Parameter: Param ( PText ( "path" ; "/view/" & ParamGetText ( $s ; "view" ; "" ) & "/task?page=" & $page ) ) ]
 	Set Variable [ $r ; Value: Get ( ScriptResult ) ]
 	If [ ParamGetNumber ( $r ; "status" ; 0 ) <> 200 ]
 		Perform Script [ Specified: From list ; "log | event" ; Parameter: Param ( List ( PText ( "session" ; ParamGetText ( $s ; "session" ; "" ) ) ; PText ( "key" ; "" ) ; PText ( "action" ; "pull" ) ; PNum ( "status" ; GetAsNumber ( ParamGetNumber ( $r ; "status" ; 0 ) ) ) ; PText ( "request" ; ParamGetText ( $r ; "url" ; "" ) ) ; PText ( "response" ; Left ( ParamGetText ( $r ; "error" ; "" ) & ParamGetText ( $r ; "body" ; "" ) ; 2000 ) ) ) ) ]
@@ -19,8 +20,9 @@ Loop
 	End If
 	Set Variable [ $body ; Value: ParamGetText ( $r ; "body" ; "" ) ]
 	Set Variable [ $tasks ; Value: JSONGetElement ( $body ; "tasks" ) ]
-	If [ Left ( $tasks ; 1 ) = "?" ]
-		Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "page " & $page & ": response has no tasks array" ) ) ) ]
+	# A missing key returns empty, not "?", so test for an array, and show what came back.
+	If [ Left ( $tasks ; 1 ) <> "[" ]
+		Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "page " & $page & ": response has no tasks array. Body starts: " & Left ( $body ; 300 ) ) ) ) ]
 	End If
 	Set Variable [ $n ; Value: ValueCount ( JSONListKeys ( $tasks ; "" ) ) ]
 	Set Variable [ $i ; Value: 0 ]
@@ -30,7 +32,7 @@ Loop
 		Perform Script [ Specified: From list ; "adapter PULL | clickup | upsert" ; Parameter: Param ( List ( PText ( "session" ; ParamGetText ( $s ; "session" ; "" ) ) ; PText ( "container" ; ParamGetText ( $s ; "container" ; "" ) ) ; PText ( "system" ; ParamGetText ( $s ; "system" ; "" ) ) ; PNum ( "full" ; ParamGetBool ( $s ; "full" ; 0 ) ) ; Pjson ( "task" ; $task ) ; PText ( "request" ; ParamGetText ( $r ; "url" ; "" ) ) ) ) ]
 		Set Variable [ $u ; Value: Get ( ScriptResult ) ]
 		If [ not ParamGetBool ( $u ; "ok" ; 0 ) ]
-			Exit Script [ Text Result: $u ]
+			Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "upsert failed on task " & JSONGetElement ( $task ; "id" ) & ": " & ParamGetText ( $u ; "error" ; "(upsert returned no error text)" ) ) ; PNum ( "seen" ; $seen ) ; PNum ( "created" ; $created ) ; PNum ( "changed" ; $changed ) ) ) ]
 		End If
 		Set Variable [ $seen ; Value: $seen + 1 ]
 		Set Variable [ $created ; Value: $created + ( ParamGetText ( $u ; "action" ; "" ) = "created" ) ]
