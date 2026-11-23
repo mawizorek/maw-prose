@@ -937,6 +937,34 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#futures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Futures
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Futures">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#render-push-to-google-sheets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Render push to Google Sheets
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1174,6 +1202,34 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#futures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Futures
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Futures">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#render-push-to-google-sheets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Render push to Google Sheets
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1245,7 +1301,27 @@
 <p>Stays in each app: a thin <code>sync RUN</code> orchestrator (loop active <code>Target_Tables</code> subscriptions: Pull, dispatch, upsert, <code>RECONCILE_Apply</code>, Push) and the <code>&lt;Entity&gt;_Upsert_From_xtRecord</code> scripts. Each upsert declares the mapKeys it reads in one block at the top.</p>
 <h2 id="done-means">Done means<a class="headerlink" href="#done-means" title="Permanent link">&para;</a></h2>
 <p>URITP People passes Checkpoint 2 against this file with zero xt_ tables left in People, and Production MAWnster pulls its first event without building any.</p>
-<p class="dr-revised"><em>Revised 2026-11</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/uritp-utilities/next-build-spec.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">92b2aa0</span></span></p>
+<h2 id="futures">Futures<a class="headerlink" href="#futures" title="Permanent link">&para;</a></h2>
+<h3 id="render-push-to-google-sheets">Render push to Google Sheets<a class="headerlink" href="#render-push-to-google-sheets" title="Permanent link">&para;</a></h3>
+<p>Requested by Michael, 2026-11-23, for the Songs for a New World cue lists (follow spot, lighting, video). He expects to push several times a day during tech.</p>
+<p>This is a push-only system. A consuming app renders one view and overwrites a fixed range in a Google Sheet, so students and the class read the current state without anyone pasting. The sheet is a render surface, never a source. Nothing is pulled back, and edits made in the sheet are flattened by the next push. Everyone except the push account has view-only access.</p>
+<p>It is not <code>HUB · Push</code>, which writes one record and refuses on a version mismatch (J22 rule 4). A render push replaces a whole range and has no version to check.</p>
+<p>Shape to prove:</p>
+<ul>
+<li><code>xt_SYSTEM</code> code <code>gsheets</code>. <code>xt_SYSTEM_HTTP</code> holds the API root and the service-account credential, device-local like every token.</li>
+<li>A container is one spreadsheet tab: the spreadsheet ID plus the tab.</li>
+<li>Auth: a service-account JWT signed in FileMaker (<code>CryptGenerateSignature</code>, RS256) and exchanged for an access token. No plugin.</li>
+<li>Write: two <code>Insert from URL</code> calls, values clear then values update, with <code>valueInputOption</code> RAW so a cue like <code>3/4</code> stays text and a leading <code>=</code> never becomes a formula.</li>
+</ul>
+<p>Open:</p>
+<ul>
+<li>What the app hands the adapter: a rendered row array from a layout, or rows plus a column map.</li>
+<li>Whether the header row is pushed or designed once in the sheet.</li>
+<li>How a push is logged in <code>sync_EVENT</code>.</li>
+</ul>
+<p>The cue list schema belongs to the consuming app, not here.</p>
+<p>Until the push is built: a sheet-shaped layout, <code>Copy All Records/Requests</code>, then paste values only into A2 of the designed sheet.</p>
+<p class="dr-revised"><em>Revised 2026-11</em></p><hr class="pagefoot__rule"><p class="pagefoot"><a class="pagefoot__edit" href="https://github.com/mawizorek/maw-prose/edit/main/apps/uritp-utilities/next-build-spec.md">Edit this page on GitHub</a></p><p class="buildstamp buildstamp--foot">MAW Prose<span class="buildstamp__debug" tabindex="0"><svg class="buildstamp__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M2 1h12a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V3a2 2 0 012-2Zm2.4 3.3L3.3 5.4 5.4 7.5 3.3 9.6l1.1 1.1L7.6 7.5ZM8 10.2h4.2v1.5H8Z"/></svg><span class="buildstamp__pop">57cc0db</span></span></p>
 
 
 
