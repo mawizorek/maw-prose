@@ -4,7 +4,7 @@ title: Data standards
 type: reference
 status: public
 order: 25
-revised: 2026-08
+revised: 2026-11
 summary: Naming conventions for this app. Names lock before any calc queries them by name.
 ---
 
@@ -16,7 +16,9 @@ summary: Naming conventions for this app. Names lock before any calc queries the
 |---|---|---|
 | Primary keys | `PrimaryKey`, UUID, never serial | ⚠️ Diverges from house `pk_` prefix (open governance item) |
 | Foreign keys | `fk<Parent>` | `fkProduction`, `fkCalendar`, `fkStandardEvent` |
+| Nullable foreign keys | `fk_nl<Parent>` | `fk_nlSourceMedia`, `fk_nlProduction` (J41) |
 | Dates | `date_` prefix | `date_FirstRehearsal`, `date_NeededLast` |
+| Timestamps | `ts_` prefix | `ts_CaptureStart`, `ts_Sealed` |
 | Booleans | `bool_` prefix | `bool_AddPreProWeek`, `bool_IsScratch` |
 | Calculations | `calc_` prefix | `calc_TotalOutstanding` |
 | Overrides | `ovr_` prefix | `ovr_OutputSize` — empty means INHERIT from the parent |
@@ -27,6 +29,8 @@ summary: Naming conventions for this app. Names lock before any calc queries the
 | Value list vs table | Metadata beyond display value → table | Location type = value list until it earns `SortOrder`; event type (carries skin + report role) = `STANDARD_EVENTS` |
 
 ⚠️ **`date_`, `bool_`, `ovr_` and `cu` were added 2026-08-08** from live practice. This page had documented only `calc_`, `g_` and `fk` while the build was already using the others — the doc lost to the diff.
+
+⚠️ **`ts_` and `fk_nl` were added 2026-11-22.** `ts_` from live practice (`ts_CaptureStart`), `fk_nl` from J41. Same lesson, second time.
 
 ## Why names lock before SQL
 

@@ -1,0 +1,15 @@
+id	Field_Name	Type	Options	Notes
+[Integration Keys]{.tbc}	xt_Key	Text	Indexed, Unique	folder:<root code>:<relative path> (J43). Sync identity. Never a hub PK
+[Normalized]{.tbc}	PathUnderRoot	Text		
+[Normalized]{.tbc}	DropboxHash	Text	Indexed	Match key. Every copy carries it
+[Normalized]{.tbc}	Sha256	Text	Indexed	Confirmation. Empty on Dropbox API rows
+[Normalized]{.tbc}	SizeBytes	Number		
+[Normalized]{.tbc}	ts_LastSeen	Timestamp		Last complete scan that saw it. The fixity record
+[Relationship]{.tbc}	fkDrive	Text	Indexed	DOCz_DRIVE. Set by script: root code in xt_Key to DOCz_DRIVE::RootCode
+[Relationship]{.tbc}	fk_nlFile	Text	Indexed	DOCz_FILE. Set by script on hash match. Empty = content the archive doesn't know yet
+[Audit Fields]{.tbc}	PrimaryKey	Text	Indexed, Auto-enter Calculation replaces existing value, Can't Modify Auto, Required Value, Unique	
+[Audit Fields]{.tbc}	CreationTimestamp	Timestamp	Creation Timestamp, Can't Modify Auto, Required Value	
+[Audit Fields]{.tbc}	CreatedBy	Text	Creation Account Name, Can't Modify Auto, Required Value	
+[Audit Fields]{.tbc}	ModificationTimestamp	Timestamp	Modification Timestamp, Can't Modify Auto, Required Value	
+[Audit Fields]{.tbc}	ModifiedBy	Text	Modification Account Name, Can't Modify Auto, Required Value	
+- EOF -				

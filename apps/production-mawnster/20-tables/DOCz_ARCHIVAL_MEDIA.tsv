@@ -1,15 +1,24 @@
 id	Field_Name	Type	Options	Notes
-[Normalized]{.conf}	auto_sourceFileName	Text	Auto-enter Calculation replaces existing value	
+[Normalized]{.conf}	auto_sourceFileName	Text	Auto-enter Calculation replaces existing value	Display only, not identity (J45)
 [Normalized]{.conf}	auto_sourceFileType	Text		Named auto_, no auto-enter
 [Normalized]{.conf}	auto_sourceFileSize	Number		Named auto_, no auto-enter
 [Normalized]{.conf}	auto_sourceSlug	Text		Named auto_, no auto-enter. Date part typed; should derive
-[Normalized]{.conf}	auto_sourcePath	Text		Named auto_, no auto-enter. Should become folder & auto_CalcFileName
+[Normalized]{.conf}	auto_sourcePath	Text		RETIRING (J45: a path is always a copy). Moves to DOCz_COPY::PathUnderRoot
 [Normalized]{.conf}	auto_CalcFileName	Text	Auto-enter Calculation replaces existing value	
 [Normalized]{.tbc}	ts_CaptureStart	Timestamp		Wall clock the recording began. Empty on a derivative
-[Relationship]{.conf}	fkEvent	Text	Indexed	EVENT_INSTANCES
-[Relationship]{.conf}	fkContentModifier	Text		DOCUMENT_MODIFIERS (ORIGINAL, TRIMMED)
-[Relationship]{.tbc}	fkSourceMedia	Text	Indexed	Self-join via DOCz_ARCHIVAL_MEDIA_self_Source. Empty = original
-[Children]{.conf}	DOCz_ARCHIVAL_VIDEO			1:1 extension on fkMedia
+[Normalized]{.tbc}	DropboxHash	Text	Indexed	Dropbox content_hash. Every file row carries it. Match key (J44)
+[Normalized]{.tbc}	Sha256	Text	Indexed	J43 content hash. Empty until a local scan reads the file
+[Normalized]{.tbc}	Format	Text		J39 axis
+[Normalized]{.tbc}	Origin	Text		J39 axis. capture | authored
+[Normalized]{.tbc}	Content	Text		J39 axis
+[Normalized]{.tbc}	Access	Text		private | public. Designer runs = private, never owed (J44)
+[Relationship]{.conf}	fkEvent	Text	Indexed	EVENT_INSTANCES. RENAME to fk_nlEvent: a plot PDF has no capture event
+[Relationship]{.conf}	fkContentModifier	Text		DOCUMENT_MODIFIERS (ORIGINAL, TRIMMED). RENAME to fk_nlContentModifier
+[Relationship]{.tbc}	fkSourceMedia	Text	Indexed	Self-join via DOCz_ARCHIVAL_MEDIA_self_Source. Empty = original. RENAME to fk_nlSourceMedia (J45)
+[Children]{.conf}	DOCz_ARCHIVAL_VIDEO			1:1 extension on fkMedia. Becomes DOCz_FILE_VIDEO on fkFile
+[Children]{.tbc}	DOCz_REVISION_FILE			on fkFile
+[Children]{.tbc}	DOCz_PACKAGE_ITEM			on fkFile
+[Children]{.tbc}	DOCz_COPY			on fk_nlFile
 [Audit Fields]{.conf}	PrimaryKey	Text	Indexed, Auto-enter Calculation replaces existing value, Can't Modify Auto, Required Value, Unique	
 [Audit Fields]{.conf}	CreationTimestamp	Timestamp	Creation Timestamp, Can't Modify Auto, Required Value	
 [Audit Fields]{.conf}	CreatedBy	Text	Creation Account Name, Can't Modify Auto, Required Value	

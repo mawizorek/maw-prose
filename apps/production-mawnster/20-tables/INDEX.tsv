@@ -22,6 +22,16 @@ STYLING TABLES
 	THEMES			
 {.conf}	THEME_COLORS			
 {.conf}	THEME_TYPOGRAPHY	FileMaker		
+ARCHIVE TABLES (DOCz_)				
+{.conf}	DOCz_ARCHIVAL_MEDIA	FileMaker	Becomes DOCz_FILE (J45). Base table + TOs in one pass	
+{.conf}	DOCz_ARCHIVAL_VIDEO	FileMaker	Becomes DOCz_FILE_VIDEO (J45)	
+{.tbc}	DOCz_REVISION_FILE	FileMaker	File × revision. Evidence (J46)	
+{.tbc}	DOCz_PACKAGE	FileMaker	Build first	
+{.tbc}	DOCz_PACKAGE_ITEM	FileMaker	Build first	
+{.tbc}	DOCz_PACKAGE_CONTENT	FileMaker	Build first. What a package should hold	
+{.tbc}	DOCz_DRIVE	FileMaker	Authored here, not ClickUp (J45)	
+{.tbc}	DOCz_PACKAGE_DRIVE	FileMaker	Where a package should live	
+{.tbc}	DOCz_COPY	FileMaker	Synced from URITP Utilities. Never typed	
 IMPORT TABLES				
 	IMPORT_SESSIONS	FileMaker		
 {.gap}	IMPORT_SOURCES	FileMaker		

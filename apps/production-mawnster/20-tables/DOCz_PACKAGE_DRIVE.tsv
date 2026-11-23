@@ -1,0 +1,10 @@
+id	Field_Name	Type	Options	Notes
+[Normalized]{.tbc}	RootPath	Text		Where under the drive's root this package should live
+[Relationship]{.tbc}	fkPackage	Text	Indexed	DOCz_PACKAGE. Unique with fkDrive. First row seals the package
+[Relationship]{.tbc}	fkDrive	Text	Indexed	DOCz_DRIVE
+[Audit Fields]{.tbc}	PrimaryKey	Text	Indexed, Auto-enter Calculation replaces existing value, Can't Modify Auto, Required Value, Unique	
+[Audit Fields]{.tbc}	CreationTimestamp	Timestamp	Creation Timestamp, Can't Modify Auto, Required Value	Also the declared-at moment. No separate field
+[Audit Fields]{.tbc}	CreatedBy	Text	Creation Account Name, Can't Modify Auto, Required Value	
+[Audit Fields]{.tbc}	ModificationTimestamp	Timestamp	Modification Timestamp, Can't Modify Auto, Required Value	
+[Audit Fields]{.tbc}	ModifiedBy	Text	Modification Account Name, Can't Modify Auto, Required Value	
+- EOF -				
