@@ -1,0 +1,24 @@
+# run | pull · URITP Utilities. The one runner behind the pull and test buttons on sync_SOURCE, for every system. Resolves the selected source's system Code, calls that system's organizer, shows the result, returns to sync_SOURCE.
+# Button parameter: Param ( List ( PText ( "source" ; <the selected-source global> ) ; PNum ( "cap" ; <0 on pull; the cap global on test> ) ) ). cap 0 = full pull (tombstones run); cap > 0 = capped test.
+# Dispatch is ID-bound Perform Script per Code (J23). A new system adds one Else If. Replaces run | pull clickup once both buttons point here.
+Set Error Capture [ On ]
+Set Variable [ $param ; Value: Get ( ScriptParameter ) ]
+Set Variable [ $source ; Value: ParamGetText ( $param ; "source" ; "" ) ]
+Set Variable [ $cap ; Value: ParamGetNumber ( $param ; "cap" ; 0 ) ]
+Set Variable [ $row ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( sync_SOURCE::xt_ViewPath ) ) & ", " & sql.Field ( GetFieldName ( sync_SOURCE::fk_xtContainer ) ) & " FROM " & sql.Table ( GetFieldName ( sync_SOURCE::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( sync_SOURCE::PrimaryKey ) ) & " = ? AND " & sql.Field ( GetFieldName ( sync_SOURCE::isActive ) ) & " = 1" ; "|" ; ¶ ; $source ) ]
+Set Variable [ $view ; Value: GetValue ( Substitute ( $row ; "|" ; ¶ ) ; 1 ) ]
+Set Variable [ $system ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_CONTAINER::fk_xtSystem ) ) & " FROM " & sql.Table ( GetFieldName ( xt_CONTAINER::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_CONTAINER::PrimaryKey ) ) & " = ?" ; "" ; "" ; GetValue ( Substitute ( $row ; "|" ; ¶ ) ; 2 ) ) ]
+Set Variable [ $code ; Value: GetValue ( ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_SYSTEM::Code ) ) & " FROM " & sql.Table ( GetFieldName ( xt_SYSTEM::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_SYSTEM::PrimaryKey ) ) & " = ?" ; "" ; "" ; GetValue ( $system ; 1 ) ) ; 1 ) ]
+If [ IsEmpty ( $source ) or ValueCount ( $row ) <> 1 or Left ( $row ; 1 ) = "?" or IsEmpty ( $view ) ]
+	Set Variable [ $r ; Value: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "select one active sync_SOURCE row first" ) ) ) ]
+Else If [ $code = "clickup" ]
+	Perform Script [ Specified: From list ; "adapter PULL | clickup" ; Parameter: Param ( List ( PText ( "view" ; $view ) ; PNum ( "cap" ; $cap ) ) ) ]
+	Set Variable [ $r ; Value: Get ( ScriptResult ) ]
+Else If [ $code = "folder" ]
+	Perform Script [ Specified: From list ; "adapter PULL | folder" ; Parameter: Param ( List ( PText ( "view" ; $view ) ; PNum ( "cap" ; $cap ) ) ) ]
+	Set Variable [ $r ; Value: Get ( ScriptResult ) ]
+Else
+	Set Variable [ $r ; Value: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "no pull organizer for system \"" & $code & "\"" ) ) ) ]
+End If
+Go to Layout [ "sync_SOURCE" ]
+Show Custom Dialog [ Get ( ScriptName ) ; $r ]
