@@ -4,5 +4,5 @@ CreationTimestamp	Timestamp	audit		Audit
 CreatedBy	Text	audit		Audit
 ModificationTimestamp	Timestamp	audit		Audit
 ModifiedBy	Text	audit		Audit
-Code	Text	key	Immutable system code: clickup, github, folder. Adapters branch on this, never on Name_Display. Only what every system has lives here; HTTP facts live on xt_SYSTEM_http.	Settings
+Code	Text	key	Immutable system code: clickup, github, folder. Adapters branch on this, never on Name_Display. Only what every system has lives here; HTTP facts live on xt_SYSTEM_HTTP.	Settings
 Name_Display	Text		Display label only; Code is the identity	Settings
