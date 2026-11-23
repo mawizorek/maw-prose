@@ -75,3 +75,30 @@ Stays in each app: a thin `sync RUN` orchestrator (loop active `Target_Tables` s
 ## Done means
 
 URITP People passes Checkpoint 2 against this file with zero xt_ tables left in People, and Production MAWnster pulls its first event without building any.
+
+## Futures
+
+### Render push to Google Sheets
+
+Requested by Michael, 2026-11-23, for the Songs for a New World cue lists (follow spot, lighting, video). He expects to push several times a day during tech.
+
+This is a push-only system. A consuming app renders one view and overwrites a fixed range in a Google Sheet, so students and the class read the current state without anyone pasting. The sheet is a render surface, never a source. Nothing is pulled back, and edits made in the sheet are flattened by the next push. Everyone except the push account has view-only access.
+
+It is not `HUB · Push`, which writes one record and refuses on a version mismatch (J22 rule 4). A render push replaces a whole range and has no version to check.
+
+Shape to prove:
+
+- `xt_SYSTEM` code `gsheets`. `xt_SYSTEM_HTTP` holds the API root and the service-account credential, device-local like every token.
+- A container is one spreadsheet tab: the spreadsheet ID plus the tab.
+- Auth: a service-account JWT signed in FileMaker (`CryptGenerateSignature`, RS256) and exchanged for an access token. No plugin.
+- Write: two `Insert from URL` calls, values clear then values update, with `valueInputOption` RAW so a cue like `3/4` stays text and a leading `=` never becomes a formula.
+
+Open:
+
+- What the app hands the adapter: a rendered row array from a layout, or rows plus a column map.
+- Whether the header row is pushed or designed once in the sheet.
+- How a push is logged in `sync_EVENT`.
+
+The cue list schema belongs to the consuming app, not here.
+
+Until the push is built: a sheet-shaped layout, `Copy All Records/Requests`, then paste values only into A2 of the designed sheet.
