@@ -108,6 +108,38 @@ def s_perform_script(a):
     need(name, 'no script name')
     return 1, ('' if par in (None, '') else calc(par)) + '<Script id="0" name="' + x(name) + '"></Script>'
 
+# Data-file steps. Shapes proven by XMSS capture 2026-11-22 (URITP Utilities file | read text, FileMaker 19).
+# The path is one entry, written as FileMaker shows it: $variable or a quoted literal path. Only a variable target translates.
+def _path_target(a):
+    path = tgt = None
+    for p in a:
+        if after(p, 'Target') is not None: tgt = after(p, 'Target').strip(); continue
+        if path is None and p: path = unquote(p) if unquote(p) is not None else p; continue
+        raise Hand('unexpected argument: ' + p)
+    need(path, 'no file path'); tgt = need(tgt, 'no Target:')
+    if not re.match(r'^\$\$?\S+$', tgt): raise Hand('only a variable target translates')
+    if '\n' in path or '¶' in path: raise Hand('only a single path translates')
+    return '<UniversalPathList>' + x(path) + '</UniversalPathList><Text></Text><Field>' + x(tgt) + '</Field>'
+def s_get_file_exists(a): return 188, _path_target(a)
+def s_open_data_file(a): return 191, _path_target(a)
+def s_read_from_data_file(a):
+    fid = tgt = None; enc = 'UTF-8'
+    for p in a:
+        if after(p, 'File ID') is not None: fid = after(p, 'File ID').strip(); continue
+        if after(p, r'Amount \(bytes\)') is not None:
+            if after(p, r'Amount \(bytes\)').strip(): raise Hand('only an empty Amount (read the whole file) is proven')
+            continue
+        if after(p, 'Target') is not None: tgt = after(p, 'Target').strip(); continue
+        if after(p, 'Read as') is not None: enc = after(p, 'Read as').strip(); continue
+        raise Hand('unexpected argument: ' + p)
+    fid = need(fid, 'no File ID:'); tgt = need(tgt, 'no Target:')
+    if enc.upper() != 'UTF-8': raise Hand('only Read as: UTF-8 is proven')
+    if not re.match(r'^\$\$?\S+$', tgt): raise Hand('only a variable target translates')
+    return 193, '<DataSourceType value="2"></DataSourceType>' + calc(fid) + '<Text></Text><Field>' + x(tgt) + '</Field>'
+def s_close_data_file(a):
+    fid = need(after(a[0] if a else '', 'File ID'), 'no File ID:')
+    return 196, calc(fid.strip())
+
 STEPS = {
     'Set Variable': s_set_variable,
     'If': lambda a: (68, calc(a[0])), 'Else If': lambda a: (125, calc(a[0])),
@@ -127,6 +159,10 @@ STEPS = {
     'Commit Records/Requests': lambda a: (75, '<NoInteract state="True"/>'),
     'Insert from URL': s_insert_from_url,
     'Perform Script': s_perform_script,
+    'Get File Exists': s_get_file_exists,
+    'Open Data File': s_open_data_file,
+    'Read from Data File': s_read_from_data_file,
+    'Close Data File': s_close_data_file,
 }
 
 def to_snippet(text):

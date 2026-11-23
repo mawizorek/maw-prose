@@ -1,4 +1,4 @@
-# file | read text · URITP Utilities. One UTF-8 text file in, its text out. The only script with data-file steps (FileMaker 18+), so the four steps fmp-script.py can't translate yet are typed by hand here, once.
+# file | read text · URITP Utilities. One UTF-8 text file in, its text out. The only script with data-file steps (FileMaker 18+). Their paste shapes were captured from this script, 2026-11-22.
 # Param: path (a FileMaker path, e.g. file:/Macintosh HD/Users/…/page-0000.json). Result: ok, text. Never writes.
 Set Error Capture [ On ]
 Set Variable [ $path ; Value: ParamGetText ( Get ( ScriptParameter ) ; "path" ; "" ) ]
