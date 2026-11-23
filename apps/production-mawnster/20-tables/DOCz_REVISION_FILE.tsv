@@ -1,0 +1,11 @@
+id	Field_Name	Type	Options	Notes
+[Normalized]{.tbc}	Role	Text		native | issued | reference. Native = the working file (.vwx, .lw6). Issued = what went out (the PDF)
+[Normalized]{.tbc}	Sort	Number		
+[Relationship]{.tbc}	fkRevision	Text	Indexed	DOCUMENT_REVISIONS (live name). Unique with fkFile
+[Relationship]{.tbc}	fkFile	Text	Indexed	DOCz_FILE (live: DOCz_ARCHIVAL_MEDIA)
+[Audit Fields]{.tbc}	PrimaryKey	Text	Indexed, Auto-enter Calculation replaces existing value, Can't Modify Auto, Required Value, Unique	
+[Audit Fields]{.tbc}	CreationTimestamp	Timestamp	Creation Timestamp, Can't Modify Auto, Required Value	
+[Audit Fields]{.tbc}	CreatedBy	Text	Creation Account Name, Can't Modify Auto, Required Value	
+[Audit Fields]{.tbc}	ModificationTimestamp	Timestamp	Modification Timestamp, Can't Modify Auto, Required Value	
+[Audit Fields]{.tbc}	ModifiedBy	Text	Modification Account Name, Can't Modify Auto, Required Value	
+- EOF -				

@@ -1,0 +1,13 @@
+id	Field_Name	Type	Options	Notes
+[Normalized]{.tbc}	RevisionOwed	Text		FINAL | ARCHIVAL. Copied from the template set item. What the contents check looks for
+[Normalized]{.tbc}	bool_Required	Number		1 = owed. 0 = welcome, not owed
+[Normalized]{.tbc}	Sort	Number		
+[Relationship]{.tbc}	fkPackage	Text	Indexed, Validation: parent ts_Sealed is empty	DOCz_PACKAGE
+[Relationship]{.tbc}	fkInstance	Text	Indexed	DOCUMENT_INSTANCES (live name; two prefixes for now, J46). Unique with fkPackage
+[Relationship]{.tbc}	fk_nlTemplateSetItem	Text	Indexed	TEMPLATE_SET_ITEMS (J46, not yet ported). Empty = typed by hand
+[Audit Fields]{.tbc}	PrimaryKey	Text	Indexed, Auto-enter Calculation replaces existing value, Can't Modify Auto, Required Value, Unique	
+[Audit Fields]{.tbc}	CreationTimestamp	Timestamp	Creation Timestamp, Can't Modify Auto, Required Value	
+[Audit Fields]{.tbc}	CreatedBy	Text	Creation Account Name, Can't Modify Auto, Required Value	
+[Audit Fields]{.tbc}	ModificationTimestamp	Timestamp	Modification Timestamp, Can't Modify Auto, Required Value	
+[Audit Fields]{.tbc}	ModifiedBy	Text	Modification Account Name, Can't Modify Auto, Required Value	
+- EOF -				

@@ -1,0 +1,17 @@
+id	Field_Name	Type	Options	Notes
+[Normalized]{.tbc}	Name	Text	Auto-enter Calculation, do not replace existing	Production · template set ("BC · Lighting · archival"). Editable until sealed
+[Normalized]{.tbc}	ts_Sealed	Timestamp		Set by script at the first DOCz_PACKAGE_DRIVE row or first matched DOCz_COPY. Not empty = items and contents locked
+[Normalized]{.tbc}	PackageHash	Text		Set by script at seal. Hash of the sorted (PathInPackage + DropboxHash) list
+[Normalized]{.tbc}	Notes	Text		
+[Relationship]{.tbc}	fk_nlProduction	Text	Indexed	PRODUCTIONS. Empty if the package crosses productions
+[Relationship]{.tbc}	fk_nlTemplateSet	Text	Indexed	TEMPLATE_SETS (J46, not yet ported). Where the content rows defaulted from
+[Relationship]{.tbc}	fk_nlSupersedes	Text	Indexed	Self-join via DOCz_PACKAGE_self_Supersedes. The package this one replaces
+[Children]{.tbc}	DOCz_PACKAGE_ITEM			on fkPackage
+[Children]{.tbc}	DOCz_PACKAGE_CONTENT			on fkPackage
+[Children]{.tbc}	DOCz_PACKAGE_DRIVE			on fkPackage
+[Audit Fields]{.tbc}	PrimaryKey	Text	Indexed, Auto-enter Calculation replaces existing value, Can't Modify Auto, Required Value, Unique	
+[Audit Fields]{.tbc}	CreationTimestamp	Timestamp	Creation Timestamp, Can't Modify Auto, Required Value	
+[Audit Fields]{.tbc}	CreatedBy	Text	Creation Account Name, Can't Modify Auto, Required Value	
+[Audit Fields]{.tbc}	ModificationTimestamp	Timestamp	Modification Timestamp, Can't Modify Auto, Required Value	
+[Audit Fields]{.tbc}	ModifiedBy	Text	Modification Account Name, Can't Modify Auto, Required Value	
+- EOF -				

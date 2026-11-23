@@ -5,7 +5,7 @@ type: reference
 status: public
 order: 10
 revised: Nov 2026
-summary: One file of archival media, original or derived. Small on purpose.
+summary: One file, identified by its hash. Original or derived. Small on purpose. Renaming to DOCz_FILE.
 data:
   catalog:
     file: DOCz_ARCHIVAL_MEDIA.tsv
@@ -13,14 +13,23 @@ data:
 
 # Archival Media
 
+!!! warning "Renaming to DOCz_FILE (J45)"
+    Do it in one pass: rename the base table, then both TOs (`DOCz_ARCHIVAL_MEDIA` to `DOCz_FILE`, `DOCz_ARCHIVAL_MEDIA_self_Source` to `DOCz_FILE_self_Source`), then search the scripts for `ExecuteSQL` text naming either one. ExecuteSQL reads TO names as text, and a rename returns empty, not an error. Rename `fkEvent`, `fkContentModifier` and `fkSourceMedia` to their `fk_nl` forms in the same pass. Then rename these two files. Until then, this page keeps the live name.
+
 !!! abstract "Grain"
-    One media file. An original capture or a file derived from one.
+    One file: one piece of content, identified by its hash. An original capture, an authored document, or a file derived from one.
 
 !!! data "catalog"
 
+## Identity is the hash, not the path
+
+Moving or renaming a file doesn't make it a new file. Re-exporting it does (J45). `DropboxHash` is the match key, because every row carries it. `Sha256` fills in on the first local scan. Where a file sits is a [Copy](@table-docz-copy), so `auto_sourcePath` retires from this table. The 11-15 audit below shows why: one file, three names.
+
+Not everything here is archival anymore. Designer runs are kept as `Access = private` with no [Revision File](@table-docz-revision-file) row, so they're never owed (J44).
+
 ## What belongs here
 
-Only what is true of **every** kind of media the solution will ever hold: which event it documents, what file it is, where it lives, when it was captured, and what it was made from. Anything specific to one kind of media goes on that kind's extension table, which joins 1:1 on `fkMedia`. Video is the first extension: [Archival Video](@table-docz-archival-video).
+Only what is true of **every** kind of media the solution will ever hold: which event it documents, what file it is, when it was captured, and what it was made from. Anything specific to one kind of media goes on that kind's extension table, which joins 1:1 on `fkMedia`. Video is the first extension: [Archival Video](@table-docz-archival-video).
 
 ## Derivatives are records, and they point home
 
@@ -33,7 +42,7 @@ DOCz_ARCHIVAL_MEDIA_self_Source
   DOCz_ARCHIVAL_MEDIA::fkSourceMedia = DOCz_ARCHIVAL_MEDIA_self_Source::PrimaryKey
 ```
 
-The link is generic on purpose. A proxy, a compressed upload copy or an audio pull from the same tape is the same relationship with a different modifier, and needs no new field.
+The link is generic on purpose. A proxy, a compressed upload copy or an audio pull from the same tape is the same relationship with a different modifier, and needs no new field. It holds one parent. An edit cut from two performances needs a file × source join the day a real case shows up, not before.
 
 ## Capture start is the anchor
 

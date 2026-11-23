@@ -6,9 +6,9 @@ id	Field_Name	Type	Options	Notes
 [Normalized]{.tbc}	calc_TrimCommand	Calculation (Text)	Unstored	Replaces auto_Calc_TerminalTrimCommand
 [Normalized]{.conf}	ts_ContentTrimStart	Text		RETIRING. Text offset; superseded by ts_CutIn
 [Normalized]{.conf}	ts_ContentTrimEnd	Text		RETIRING. Text offset; superseded by ts_CutOut
-[Normalized]{.conf}	auto_ContentOutputPath	Text		RETIRING. Output is the derivative's own auto_sourcePath
+[Normalized]{.conf}	auto_ContentOutputPath	Text		RETIRING. Output is the derivative's own copy (DOCz_COPY), not a path on the file
 [Normalized]{.conf}	auto_Calc_TerminalTrimCommand	Text	Auto-enter Calculation replaces existing value	RETIRING. Auto-enter cannot watch related fields
-[Relationship]{.conf}	fkMedia	Text	Indexed	Add Unique, validate always. Makes the 1:1 enforced
+[Relationship]{.conf}	fkMedia	Text	Indexed	Add Unique, validate always. Makes the 1:1 enforced. RENAME to fkFile when the table becomes DOCz_FILE_VIDEO (J45)
 [Audit Fields]{.conf}	PrimaryKey	Text	Indexed, Auto-enter Calculation replaces existing value, Can't Modify Auto, Required Value, Unique	
 [Audit Fields]{.conf}	CreationTimestamp	Timestamp	Creation Timestamp, Can't Modify Auto, Required Value	
 [Audit Fields]{.conf}	CreatedBy	Text	Creation Account Name, Can't Modify Auto, Required Value	

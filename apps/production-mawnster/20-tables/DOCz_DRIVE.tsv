@@ -1,0 +1,17 @@
+id	Field_Name	Type	Options	Notes
+[Normalized]{.tbc}	Name	Text		
+[Normalized]{.tbc}	Label	Text		What's physically written on the drive
+[Normalized]{.tbc}	MediaKind	Text		SSD | HDD | cloud | NAS. Feeds the 3-2-1 line
+[Normalized]{.tbc}	bool_Offsite	Number		
+[Normalized]{.tbc}	bool_RequiredForArchival	Number		1 = gets every archival package without being asked
+[Normalized]{.tbc}	FixityWindowDays	Number		How long a complete scan stays trusted
+[Normalized]{.tbc}	Notes	Text		
+[Integration Keys]{.tbc}	RootCode	Text	Indexed, Unique	The Utilities folder root this drive hosts (J43 key folder:<root code>:<path>). One root per drive in v1
+[Children]{.tbc}	DOCz_PACKAGE_DRIVE			on fkDrive
+[Children]{.tbc}	DOCz_COPY			on fkDrive
+[Audit Fields]{.tbc}	PrimaryKey	Text	Indexed, Auto-enter Calculation replaces existing value, Can't Modify Auto, Required Value, Unique	
+[Audit Fields]{.tbc}	CreationTimestamp	Timestamp	Creation Timestamp, Can't Modify Auto, Required Value	
+[Audit Fields]{.tbc}	CreatedBy	Text	Creation Account Name, Can't Modify Auto, Required Value	
+[Audit Fields]{.tbc}	ModificationTimestamp	Timestamp	Modification Timestamp, Can't Modify Auto, Required Value	
+[Audit Fields]{.tbc}	ModifiedBy	Text	Modification Account Name, Can't Modify Auto, Required Value	
+- EOF -				
