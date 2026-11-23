@@ -9,7 +9,9 @@ Identity (J43): one record per file placement. The root is named by the code in 
 mount path, so the same folder reads the same on any Mac and an unplugged drive refuses instead of reading as empty.
 The marker also records the volume it was named on. A cloned backup drive carries a copy of the marker, so a scan
 on a different volume refuses: name the clone with --init <new code>, or --adopt if it really is the same root
-(a replaced or reformatted drive). A Dropbox or Drive root is named with --synced, since it lives on many Macs.
+(a replaced or reformatted drive). On APFS and HFS+ it also records its own file number: a move keeps it, a Finder
+duplicate on the same disk gets a new one, so the duplicate refuses too. A Dropbox or Drive root is named with
+--synced, since it lives on many Macs.
 Version = sha256. Each file is read once, in 4 MiB blocks, feeding two hashes: plain sha256 and Dropbox's
 content_hash (sha256 of the block sha256s), so a drive copy matches the hash Dropbox's API reports without a download.
 
@@ -21,7 +23,7 @@ inodes change per mount), so a 20 GB video is read once; --verify ignores the ca
 Output: <out>/<code>/scan-<id>/page-NNNN.json + scan.json (written last, complete: true), then <out>/<code>/latest.json
 points at it. Each step is a temp write + rename, so FileMaker never reads half a scan. Standard library only.
 """
-import argparse, datetime, hashlib, json, os, plistlib, re, shutil, subprocess, sys, time, unicodedata
+import argparse, datetime, hashlib, json, os, plistlib, re, shlex, shutil, subprocess, sys, time, unicodedata
 
 BLOCK = 4 * 1024 * 1024                      # Dropbox content_hash block size, exactly 4 MiB
 MARKER = '.uritp-root'
@@ -42,26 +44,29 @@ def ext_of(name):
     base, dot, e = name.rpartition('.')
     return e.lower() if dot and base else ''
 
-def volume_uuid(path):
-    """The volume's own UUID (macOS diskutil). Empty when unknown. FOLDER_SCAN_VOLUME overrides it, for tests only."""
-    if 'FOLDER_SCAN_VOLUME' in os.environ: return os.environ['FOLDER_SCAN_VOLUME']
-    if sys.platform != 'darwin' or not shutil.which('diskutil'): return ''
+def volume_info(path):
+    """(VolumeUUID, filesystem) from macOS diskutil. Empty when unknown. FOLDER_SCAN_VOLUME / _FS override, for tests only."""
+    if 'FOLDER_SCAN_VOLUME' in os.environ: return os.environ['FOLDER_SCAN_VOLUME'], os.environ.get('FOLDER_SCAN_FS', 'apfs')
+    if sys.platform != 'darwin' or not shutil.which('diskutil'): return '', ''
     try:
         r = subprocess.run(['diskutil', 'info', '-plist', path], capture_output=True, timeout=20)
-        return plistlib.loads(r.stdout).get('VolumeUUID', '') or ''
-    except Exception: return ''
+        d = plistlib.loads(r.stdout)
+        return d.get('VolumeUUID', '') or '', (d.get('FilesystemType', '') or '').lower()
+    except Exception: return '', ''
 
 def read_marker(path):
     raw = open(path, encoding='utf-8').read().strip()
     try: m = json.loads(raw)
     except ValueError: m = {'code': raw}                       # plain-text marker: code only, volume unknown
+    ino = m.get('inode', 0)
     return dict(code=str(m.get('code', '')), volume=str(m.get('volume', '')), synced=bool(m.get('synced', False)),
-                named=str(m.get('named', '')))
+                inode=ino if isinstance(ino, int) else 0, named=str(m.get('named', '')))
 
-def write_marker(path, m):
-    tmp = path + '.tmp'
-    with open(tmp, 'w', encoding='utf-8') as f: json.dump(m, f, indent=1); f.write('\n')
-    os.replace(tmp, path)
+def write_marker(path, m, track_inode):
+    """Rewritten in place (same file, same inode), so the inode it records is its own."""
+    if not os.path.exists(path): open(path, 'w').close()
+    m = dict(m, inode=os.stat(path).st_ino if track_inode else 0)
+    with open(path, 'w', encoding='utf-8') as f: json.dump(m, f, indent=1); f.write('\n')
 
 def write_json(path, obj):
     tmp = path + '.tmp'
@@ -217,24 +222,33 @@ def main():
     root = os.path.abspath(a.root)
     if not os.path.isdir(root): sys.exit(f'REFUSED: {root} is not a folder (unplugged drive or wrong path). Nothing written.')
     marker = os.path.join(root, MARKER)
-    vol = volume_uuid(root)
+    vol, fs = volume_info(root)
+    inode_fs = fs in ('apfs', 'hfs')                           # file numbers survive a remount here; not on exFAT/FAT
     have = read_marker(marker) if os.path.exists(marker) else None
     if a.init:
         if not CODE.match(a.init): sys.exit('REFUSED: --init code must be lowercase a-z, 0-9 and _ only.')
         if have and have['code'] != a.init:
-            cloned = have['volume'] and vol and have['volume'] != vol and not have['synced']
-            if not cloned: sys.exit(f'REFUSED: {root} is already named "{have["code"]}". Codes never change.')
-            print(f'  named the cloned drive: "{have["code"]}" (copied marker) -> "{a.init}"')
-        if not have or have['code'] != a.init or (not have['volume'] and not a.synced):
-            write_marker(marker, dict(code=a.init, volume='' if a.synced else vol, synced=a.synced, named=now_iso()))
+            moved_disk = have['volume'] and vol and have['volume'] != vol
+            copied = inode_fs and have['inode'] and have['volume'] == vol and os.stat(marker).st_ino != have['inode']
+            if have['synced'] or not (moved_disk or copied):
+                sys.exit(f'REFUSED: {root} is already named "{have["code"]}". Codes never change.')
+            print(f'  named the copy: "{have["code"]}" (copied marker) -> "{a.init}"')
+        upgrade = have and not have['synced'] and ((not have['volume'] and vol) or (inode_fs and not have['inode']))
+        if not have or have['code'] != a.init or upgrade:
+            write_marker(marker, dict(code=a.init, volume='' if a.synced else vol, synced=a.synced, named=now_iso()),
+                         inode_fs and not a.synced)
     if not os.path.exists(marker): sys.exit(f'REFUSED: no {MARKER} in {root}. Name it once with --init <code>.')
     m = read_marker(marker); code = m['code']
     if not CODE.match(code): sys.exit(f'REFUSED: {marker} holds "{code}", not a valid code.')
     if a.adopt:
-        m['volume'] = vol; write_marker(marker, m); print(f'  adopted: "{code}" now belongs to volume {vol or "(unknown)"}')
+        write_marker(marker, dict(m, volume=vol), inode_fs and not m['synced']); m = read_marker(marker)
+        print(f'  adopted: "{code}" now belongs to volume {vol or "(unknown)"} at {root}')
     elif not m['synced'] and m['volume'] and vol and m['volume'] != vol:
         sys.exit(f'REFUSED: "{code}" was named on volume {m["volume"]}, but this is volume {vol}. '
                  f'A cloned backup? Name it: --init <new code>. The same root on a replaced drive? --adopt. Nothing written.')
+    elif not m['synced'] and inode_fs and m['inode'] and os.stat(marker).st_ino != m['inode']:
+        sys.exit(f'REFUSED: this "{code}" marker is a copy (its file number changed). A duplicated folder? Name it: '
+                 f'--init <new code>. Restored from a backup? --adopt. Nothing written.')
     if not m['synced'] and not m['volume']:
         print('  !! volume unknown for this root: clone detection is off until it is named on a Mac (rerun with --init <same code>).')
 
@@ -269,8 +283,10 @@ def main():
     for n in range(pages):
         write_json(os.path.join(tmp, f'page-{n:04d}.json'),
                    dict(scan=scan_id, page=n, last_page=n == pages - 1, files=s.entries[n * ps:(n + 1) * ps]))
-    header = dict(scan=scan_id, root_code=code, root_path=root, volume=vol, synced=m['synced'], mode='verify' if a.verify else 'scan',
-                  started=started, finished=now_iso(), seconds=round(time.time() - t0, 1), pages=pages,
+    rescan = ' '.join(shlex.quote(x) for x in ['python3', os.path.abspath(__file__), root, '--out', os.path.abspath(a.out)])
+    header = dict(scan=scan_id, root_code=code, root_path=root, volume=vol, filesystem=fs, synced=m['synced'],
+                  mode='verify' if a.verify else 'scan', rescan=rescan, started=started, finished=now_iso(),
+                  finished_local=datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S'), seconds=round(time.time() - t0, 1), pages=pages,
                   page_size=ps, counts=s.counts, skipped=s.skipped, duplicate_groups=len(groups),
                   case_clashes=sorted(set(clash)), errors=s.errors[:200], complete=True)
     write_json(os.path.join(tmp, 'scan.json'), header)

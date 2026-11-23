@@ -1,4 +1,4 @@
-# adapter PULL | clickup | session · URITP Utilities. Resolves the source by view ID (a fact, never Name_Display), checks the system, opens one sync_SESSION.
+# adapter PULL | clickup | session · URITP Utilities. Resolves the source by view ID (a fact, never Name_Display), checks the system and its HTTP add-on, opens one sync_SESSION.
 # Param: view, cap. Result: ok, session, source, container, system, view, full, cap.
 Set Error Capture [ On ]
 Set Variable [ $param ; Value: Get ( ScriptParameter ) ]
@@ -18,9 +18,11 @@ If [ ValueCount ( $system ) <> 1 or Left ( $system ; 1 ) = "?" ]
 	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "source container missing or inactive" ) ) ) ]
 End If
 Set Variable [ $system ; Value: GetValue ( $system ; 1 ) ]
-Set Variable [ $code ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_SYSTEM::Code ) ) & " FROM " & sql.Table ( GetFieldName ( xt_SYSTEM::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_SYSTEM::PrimaryKey ) ) & " = ? AND " & sql.Field ( GetFieldName ( xt_SYSTEM::BaseURL ) ) & " IS NOT NULL AND " & sql.Field ( GetFieldName ( xt_SYSTEM::Token ) ) & " IS NOT NULL" ; "" ; "" ; $system ) ]
-If [ GetValue ( $code ; 1 ) <> "clickup" ]
-	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "system is not clickup, or BaseURL / Token is empty" ) ) ) ]
+Set Variable [ $code ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_SYSTEM::Code ) ) & " FROM " & sql.Table ( GetFieldName ( xt_SYSTEM::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_SYSTEM::PrimaryKey ) ) & " = ?" ; "" ; "" ; $system ) ]
+#--- BaseURL and Token are validated not-empty on the add-on itself, so one row is enough to know they are there
+Set Variable [ $http ; Value: ExecuteSQL ( "SELECT COUNT(*) FROM " & sql.Table ( GetFieldName ( xt_SYSTEM_http::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_SYSTEM_http::fk_xtSystem ) ) & " = ?" ; "" ; "" ; $system ) ]
+If [ GetValue ( $code ; 1 ) <> "clickup" or GetAsNumber ( $http ) <> 1 ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "system is not clickup, or it has no xt_SYSTEM_http row (BaseURL, Token)" ) ) ) ]
 End If
 Go to Layout [ "sync_SESSION" ]
 New Record/Request

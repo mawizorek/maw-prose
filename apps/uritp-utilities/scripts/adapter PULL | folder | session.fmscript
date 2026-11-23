@@ -1,6 +1,6 @@
 # adapter PULL | folder | session · URITP Utilities. Resolves the source by its path (a fact, never Name_Display), checks the system is folder, proves the scan is complete and is this root's, opens one sync_SESSION.
 # Source row: sync_SOURCE::xt_ViewPath = "<root code>/" (the whole root; a subfolder scope would read "<root code>/<subpath>", not built). Container: xt_ID = root code from <root>/.uritp-root.
-# Manifests live beside this file: <this file's folder>/folder-scans/<root code>/latest.json → scan-<id>/scan.json + page-NNNN.json. No device paths are stored anywhere.
+# Manifests live beside this file: <this file's folder>/folder-scans/<root code>/latest.json → scan-<id>/scan.json + page-NNNN.json. Identity never rests on a path; the last scan's path, volume and rescan line are copied onto xt_CONTAINER_folder as evidence.
 # Param: view, cap. Result: ok, session, source, container, system, code, root, dir, scan, pages, full, cap, online_only, unstable.
 Set Error Capture [ On ]
 Set Variable [ $param ; Value: Get ( ScriptParameter ) ]
@@ -47,6 +47,36 @@ If [ not Exact ( JSONGetElement ( $head ; "root_code" ) ; $root ) ]
 End If
 If [ not IsEmpty ( JSONGetElement ( $head ; "case_clashes[0]" ) ) ]
 	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "paths that differ only by case would share one key here. Rename one, rescan: " & Substitute ( JSONListValues ( $head ; "case_clashes" ) ; ¶ ; " | " ) ) ) ) ]
+End If
+If [ IsEmpty ( JSONGetElement ( $head ; "rescan" ) ) or IsEmpty ( JSONGetElement ( $head ; "finished_local" ) ) ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "this scan was written by an older folder-scan.py. git pull, rescan, then pull." ) ) ) ]
+End If
+#--- the root's last-seen facts, copied from the scan (never typed): one xt_CONTAINER_folder row per container
+Set Variable [ $fx ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_CONTAINER_folder::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( xt_CONTAINER_folder::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_CONTAINER_folder::fk_xtContainer ) ) & " = ?" ; "" ; "" ; $container ) ]
+If [ Left ( $fx ; 1 ) = "?" or ValueCount ( $fx ) > 1 ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "SQL failed or duplicate xt_CONTAINER_folder for " & $root ) ) ) ]
+End If
+Go to Layout [ "xt_CONTAINER_folder" ]
+If [ IsEmpty ( $fx ) ]
+	New Record/Request
+	Set Field [ xt_CONTAINER_folder::fk_xtContainer ; $container ]
+Else
+	Enter Find Mode [ Pause: Off ]
+	Set Field [ xt_CONTAINER_folder::PrimaryKey ; "==" & $fx ]
+	Perform Find [ ]
+	If [ Get ( FoundCount ) <> 1 ]
+		Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "xt_CONTAINER_folder row not found for " & $root ) ) ) ]
+	End If
+End If
+Set Field [ xt_CONTAINER_folder::xt_RootPath ; JSONGetElement ( $head ; "root_path" ) ]
+Set Field [ xt_CONTAINER_folder::xt_Volume ; JSONGetElement ( $head ; "volume" ) ]
+Set Field [ xt_CONTAINER_folder::isSynced ; If ( JSONGetElement ( $head ; "synced" ) = 1 ; 1 ; 0 ) ]
+Set Field [ xt_CONTAINER_folder::xt_ScanID ; JSONGetElement ( $head ; "scan" ) ]
+Set Field [ xt_CONTAINER_folder::xt_ScannedAt ; Let ( t = JSONGetElement ( $head ; "finished_local" ) ; Timestamp ( Date ( Middle ( t ; 6 ; 2 ) ; Middle ( t ; 9 ; 2 ) ; Left ( t ; 4 ) ) ; Time ( Middle ( t ; 12 ; 2 ) ; Middle ( t ; 15 ; 2 ) ; Middle ( t ; 18 ; 2 ) ) ) ) ]
+Set Field [ xt_CONTAINER_folder::xt_RescanCommand ; JSONGetElement ( $head ; "rescan" ) ]
+Commit Records/Requests [ ]
+If [ Get ( LastError ) <> 0 ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "commit failed (xt_CONTAINER_folder " & $root & "): error " & Get ( LastError ) ) ) ) ]
 End If
 Go to Layout [ "sync_SESSION" ]
 New Record/Request
