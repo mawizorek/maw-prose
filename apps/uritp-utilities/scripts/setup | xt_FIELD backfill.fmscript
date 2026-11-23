@@ -1,0 +1,86 @@
+# setup | xt_FIELD backfill · URITP Utilities. One-time, safe to rerun. Links every xt_CONTAINER_x_FIELD placement with an empty fk_xtField to its parent xt_FIELD (one per system + xt_FieldID), creating the parent from the placement's name and type when none exists yet.
+# Order-independent: when placements of one field disagree, the most recently modified placement's name and type win and every disagreement is counted. A parent that existed before this run is never overwritten (the live refresh owns it). Never touches mapKey, bool_HIDE or sync_RULE. No param. Result: ok, parents_created, linked, conflicts, skipped, orphans.
+Set Error Capture [ On ]
+Allow User Abort [ Off ]
+Freeze Window
+Set Variable [ $parents ; Value: 0 ]
+Set Variable [ $linked ; Value: 0 ]
+Set Variable [ $conflicts ; Value: 0 ]
+Set Variable [ $skipped ; Value: 0 ]
+Set Variable [ $won ; Value: JSONSetElement ( "{}" ; "" ; "" ; JSONString ) ]
+Set Variable [ $won ; Value: "{}" ]
+Go to Layout [ "xt_CONTAINER_x_FIELD" ]
+Enter Find Mode [ Pause: Off ]
+Set Field [ xt_CONTAINER_x_FIELD::fk_xtField ; "=" ]
+Perform Find [ ]
+If [ Get ( FoundCount ) > 0 ]
+	Go to Record/Request/Page [ First ]
+	Loop
+		Set Variable [ $fid ; Value: xt_CONTAINER_x_FIELD::xt_FieldID ]
+		Set Variable [ $name ; Value: xt_CONTAINER_x_FIELD::xt_FieldName ]
+		Set Variable [ $type ; Value: xt_CONTAINER_x_FIELD::xt_FieldType ]
+		Set Variable [ $ts ; Value: GetAsNumber ( xt_CONTAINER_x_FIELD::ModificationTimestamp ) ]
+		Set Variable [ $system ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_CONTAINER::fk_xtSystem ) ) & " FROM " & sql.Table ( GetFieldName ( xt_CONTAINER::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_CONTAINER::PrimaryKey ) ) & " = ?" ; "" ; "" ; xt_CONTAINER_x_FIELD::fk_xtContainer ) ]
+		If [ IsEmpty ( $fid ) or ValueCount ( $system ) <> 1 or Left ( $system ; 1 ) = "?" or IsEmpty ( $system ) ]
+			#--- no field ID, or the container has no system: left unlinked for a person to look at
+			Set Variable [ $skipped ; Value: $skipped + 1 ]
+		Else
+			Set Variable [ $system ; Value: GetValue ( $system ; 1 ) ]
+			Set Variable [ $key ; Value: $system & "|" & $fid ]
+			Set Variable [ $fk ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_FIELD::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( xt_FIELD::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_FIELD::fk_xtSystem ) ) & " = ? AND " & sql.Field ( GetFieldName ( xt_FIELD::xt_FieldID ) ) & " = ?" ; "" ; "" ; $system ; $fid ) ]
+			If [ Left ( $fk ; 1 ) = "?" or ValueCount ( $fk ) > 1 ]
+				Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "SQL failed or duplicate xt_FIELD for " & $key ) ; PNum ( "parents_created" ; $parents ) ; PNum ( "linked" ; $linked ) ) ) ]
+			End If
+			If [ IsEmpty ( $fk ) ]
+				Go to Layout [ "xt_FIELD" ]
+				New Record/Request
+				Set Field [ xt_FIELD::fk_xtSystem ; $system ]
+				Set Field [ xt_FIELD::xt_FieldID ; $fid ]
+				Set Field [ xt_FIELD::xt_FieldName ; $name ]
+				Set Field [ xt_FIELD::xt_FieldType ; $type ]
+				Commit Records/Requests [ ]
+				If [ Get ( LastError ) <> 0 ]
+					Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "commit failed (xt_FIELD " & $key & "): error " & Get ( LastError ) ) ; PNum ( "parents_created" ; $parents ) ; PNum ( "linked" ; $linked ) ) ) ]
+				End If
+				Set Variable [ $fk ; Value: xt_FIELD::PrimaryKey ]
+				Set Variable [ $won ; Value: JSONSetElement ( $won ; $key ; $ts ; JSONNumber ) ]
+				Set Variable [ $parents ; Value: $parents + 1 ]
+				Go to Layout [ "xt_CONTAINER_x_FIELD" ]
+			Else
+				Set Variable [ $fk ; Value: GetValue ( $fk ; 1 ) ]
+				Set Variable [ $has ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_FIELD::xt_FieldName ) ) & ", " & sql.Field ( GetFieldName ( xt_FIELD::xt_FieldType ) ) & " FROM " & sql.Table ( GetFieldName ( xt_FIELD::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_FIELD::PrimaryKey ) ) & " = ?" ; "|" ; "" ; $fk ) ]
+				If [ $has <> $name & "|" & $type ]
+					Set Variable [ $conflicts ; Value: $conflicts + 1 ]
+					#--- only parents born in this run are rewritten, and only by a newer placement
+					Set Variable [ $best ; Value: JSONGetElement ( $won ; $key ) ]
+					If [ not IsEmpty ( $best ) and Left ( $best ; 1 ) <> "?" and $ts > GetAsNumber ( $best ) ]
+						Go to Layout [ "xt_FIELD" ]
+						Enter Find Mode [ Pause: Off ]
+						Set Field [ xt_FIELD::PrimaryKey ; "==" & $fk ]
+						Perform Find [ ]
+						If [ Get ( FoundCount ) <> 1 ]
+							Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "xt_FIELD row not found for " & $key ) ) ) ]
+						End If
+						Set Field [ xt_FIELD::xt_FieldName ; $name ]
+						Set Field [ xt_FIELD::xt_FieldType ; $type ]
+						Commit Records/Requests [ ]
+						If [ Get ( LastError ) <> 0 ]
+							Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "commit failed (xt_FIELD " & $key & "): error " & Get ( LastError ) ) ) ) ]
+						End If
+						Set Variable [ $won ; Value: JSONSetElement ( $won ; $key ; $ts ; JSONNumber ) ]
+						Go to Layout [ "xt_CONTAINER_x_FIELD" ]
+					End If
+				End If
+			End If
+			Set Field [ xt_CONTAINER_x_FIELD::fk_xtField ; $fk ]
+			Commit Records/Requests [ ]
+			If [ Get ( LastError ) <> 0 ]
+				Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "commit failed (xt_CONTAINER_x_FIELD " & $key & "): error " & Get ( LastError ) ) ; PNum ( "parents_created" ; $parents ) ; PNum ( "linked" ; $linked ) ) ) ]
+			End If
+			Set Variable [ $linked ; Value: $linked + 1 ]
+		End If
+		Go to Record/Request/Page [ Next ; Exit after last: On ]
+	End Loop
+End If
+Set Variable [ $orphans ; Value: ExecuteSQL ( "SELECT COUNT(*) FROM " & sql.Table ( GetFieldName ( xt_CONTAINER_x_FIELD::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_CONTAINER_x_FIELD::fk_xtField ) ) & " IS NULL" ; "" ; "" ) ]
+Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 1 ) ; PNum ( "parents_created" ; $parents ) ; PNum ( "linked" ; $linked ) ; PNum ( "conflicts" ; $conflicts ) ; PNum ( "skipped" ; $skipped ) ; PNum ( "orphans" ; GetAsNumber ( $orphans ) ) ) ) ]
