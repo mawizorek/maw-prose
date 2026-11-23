@@ -1,48 +1,58 @@
-# adapter PULL | clickup | fields · URITP Utilities. Reads custom_fields out of the payloads already pulled (no extra call) and upserts xt_FIELD by container + xt_FieldID.
-# Seeds native:name and native:status once and never rewrites them. mapKey is never touched (Michael maps). Param: the session result. Result: ok, created, updated.
+# adapter PULL | clickup | fields · URITP Utilities. Asks ClickUp which fields the container's list can see (GET /list/<xt_ID>/field, one call per poll; no record crawl). Upserts the parent xt_FIELD on system + xt_FieldID, then the xt_CONTAINER_x_FIELD placement on container + xt_FieldID.
+# Name and type live on xt_FIELD only. Placements seen this poll get LastSeenSession + isPresent = 1; placements in this container ClickUp no longer lists get isPresent = 0. Seeds native:name and native:status as always present and never rewrites their parent. Never touches mapKey or bool_HIDE. Param: the session result. Result: ok, created, updated, parents_created, absent.
 Set Error Capture [ On ]
-Set Variable [ $container ; Value: ParamGetText ( Get ( ScriptParameter ) ; "container" ; "" ) ]
-Set Variable [ $map ; Value: Param ( List ( Pjson ( "native:name" ; Param ( List ( PText ( "name" ; "Name" ) ; PText ( "type" ; "native" ) ) ) ) ; Pjson ( "native:status" ; Param ( List ( PText ( "name" ; "Status" ) ; PText ( "type" ; "native" ) ) ) ) ) ) ]
-Go to Layout [ "xt_RECORD" ]
-Enter Find Mode [ Pause: Off ]
-Set Field [ xt_RECORD::fk_xtContainer ; "==" & $container ]
-Set Field [ xt_RECORD::xt_DeletedAt ; "=" ]
-Perform Find [ ]
-If [ Get ( FoundCount ) > 0 ]
-	Go to Record/Request/Page [ First ]
-	Loop
-		Set Variable [ $cf ; Value: JSONGetElement ( xt_RECORD::xt_Payload ; "custom_fields" ) ]
-		Set Variable [ $k ; Value: If ( Left ( $cf ; 1 ) = "?" ; 0 ; ValueCount ( JSONListKeys ( $cf ; "" ) ) ) ]
-		Set Variable [ $j ; Value: 0 ]
-		Loop
-			Exit Loop If [ $j >= $k ]
-			Set Variable [ $f ; Value: JSONGetElement ( $cf ; "[" & $j & "]" ) ]
-			If [ not IsEmpty ( JSONGetElement ( $f ; "id" ) ) ]
-				Set Variable [ $map ; Value: JSONSetElement ( $map ; [ JSONGetElement ( $f ; "id" ) ; Param ( List ( PText ( "name" ; JSONGetElement ( $f ; "name" ) ) ; PText ( "type" ; JSONGetElement ( $f ; "type" ) ) ) ) ; JSONObject ] ) ]
-			End If
-			Set Variable [ $j ; Value: $j + 1 ]
-		End Loop
-		Go to Record/Request/Page [ Next ; Exit after last: On ]
-	End Loop
+Set Variable [ $param ; Value: Get ( ScriptParameter ) ]
+Set Variable [ $container ; Value: ParamGetText ( $param ; "container" ; "" ) ]
+Set Variable [ $system ; Value: ParamGetText ( $param ; "system" ; "" ) ]
+Set Variable [ $session ; Value: ParamGetText ( $param ; "session" ; "" ) ]
+If [ IsEmpty ( $container ) or IsEmpty ( $system ) or IsEmpty ( $session ) ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "fields needs container, system and session" ) ) ) ]
 End If
+Set Variable [ $list ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_CONTAINER::xt_ID ) ) & " FROM " & sql.Table ( GetFieldName ( xt_CONTAINER::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_CONTAINER::PrimaryKey ) ) & " = ?" ; "" ; "" ; $container ) ]
+If [ ValueCount ( $list ) <> 1 or Left ( $list ; 1 ) = "?" or IsEmpty ( $list ) ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "container has no xt_ID (ClickUp list ID)" ) ) ) ]
+End If
+Perform Script [ Specified: From list ; "http | clickup" ; Parameter: Param ( List ( PText ( "path" ; "/list/" & GetValue ( $list ; 1 ) & "/field" ) ) ) ]
+Set Variable [ $h ; Value: Get ( ScriptResult ) ]
+If [ not ParamGetBool ( $h ; "ok" ; 0 ) or ParamGetNumber ( $h ; "status" ; 0 ) <> 200 ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "list fields call failed: status " & ParamGetNumber ( $h ; "status" ; 0 ) & " " & ParamGetText ( $h ; "error" ; "" ) ) ) ) ]
+End If
+Set Variable [ $fields ; Value: JSONGetElement ( ParamGetText ( $h ; "body" ; "" ) ; "fields" ) ]
+If [ Left ( $fields ; 1 ) = "?" ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "list fields body has no fields array" ) ) ) ]
+End If
+#--- native fields are task properties, not custom fields: ClickUp never lists them, every list has them
+Set Variable [ $map ; Value: Param ( List ( Pjson ( "native:name" ; Param ( List ( PText ( "name" ; "Name" ) ; PText ( "type" ; "native" ) ) ) ) ; Pjson ( "native:status" ; Param ( List ( PText ( "name" ; "Status" ) ; PText ( "type" ; "native" ) ) ) ) ) ) ]
+Set Variable [ $k ; Value: ValueCount ( JSONListKeys ( $fields ; "" ) ) ]
+Set Variable [ $j ; Value: 0 ]
+Loop
+	Exit Loop If [ $j >= $k ]
+	Set Variable [ $f ; Value: JSONGetElement ( $fields ; "[" & $j & "]" ) ]
+	If [ not IsEmpty ( JSONGetElement ( $f ; "id" ) ) ]
+		Set Variable [ $map ; Value: JSONSetElement ( $map ; [ JSONGetElement ( $f ; "id" ) ; Param ( List ( PText ( "name" ; JSONGetElement ( $f ; "name" ) ) ; PText ( "type" ; JSONGetElement ( $f ; "type" ) ) ) ) ; JSONObject ] ) ]
+	End If
+	Set Variable [ $j ; Value: $j + 1 ]
+End Loop
 Set Variable [ $keys ; Value: JSONListKeys ( $map ; "" ) ]
 Set Variable [ $created ; Value: 0 ]
 Set Variable [ $updated ; Value: 0 ]
+Set Variable [ $parents ; Value: 0 ]
 Set Variable [ $i ; Value: 0 ]
-Go to Layout [ "xt_FIELD" ]
 Loop
 	Set Variable [ $i ; Value: $i + 1 ]
 	Exit Loop If [ $i > ValueCount ( $keys ) ]
 	Set Variable [ $fid ; Value: GetValue ( $keys ; $i ) ]
 	Set Variable [ $name ; Value: JSONGetElement ( JSONGetElement ( $map ; $fid ) ; "name" ) ]
 	Set Variable [ $type ; Value: JSONGetElement ( JSONGetElement ( $map ; $fid ) ; "type" ) ]
-	Set Variable [ $pk ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_FIELD::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( xt_FIELD::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_FIELD::fk_xtContainer ) ) & " = ? AND " & sql.Field ( GetFieldName ( xt_FIELD::xt_FieldID ) ) & " = ?" ; "" ; "" ; $container ; $fid ) ]
-	If [ Left ( $pk ; 1 ) = "?" or ValueCount ( $pk ) > 1 ]
+	#--- parent: one xt_FIELD per system + field ID. Name and type are written here and nowhere else
+	Set Variable [ $fk ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_FIELD::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( xt_FIELD::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_FIELD::fk_xtSystem ) ) & " = ? AND " & sql.Field ( GetFieldName ( xt_FIELD::xt_FieldID ) ) & " = ?" ; "" ; "" ; $system ; $fid ) ]
+	If [ Left ( $fk ; 1 ) = "?" or ValueCount ( $fk ) > 1 ]
 		Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "SQL failed or duplicate xt_FIELD for " & $fid ) ) ) ]
 	End If
-	If [ IsEmpty ( $pk ) ]
+	Go to Layout [ "xt_FIELD" ]
+	If [ IsEmpty ( $fk ) ]
 		New Record/Request
-		Set Field [ xt_FIELD::fk_xtContainer ; $container ]
+		Set Field [ xt_FIELD::fk_xtSystem ; $system ]
 		Set Field [ xt_FIELD::xt_FieldID ; $fid ]
 		Set Field [ xt_FIELD::xt_FieldName ; $name ]
 		Set Field [ xt_FIELD::xt_FieldType ; $type ]
@@ -50,23 +60,75 @@ Loop
 		If [ Get ( LastError ) <> 0 ]
 			Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "commit failed (xt_FIELD " & $fid & "): error " & Get ( LastError ) ) ) ) ]
 		End If
-		Set Variable [ $created ; Value: $created + 1 ]
-	Else If [ Left ( $fid ; 7 ) <> "native:" ]
-		Enter Find Mode [ Pause: Off ]
-		Set Field [ xt_FIELD::PrimaryKey ; "==" & GetValue ( $pk ; 1 ) ]
-		Perform Find [ ]
-		If [ Get ( FoundCount ) <> 1 ]
-			Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "xt_FIELD row not found for " & $fid ) ) ) ]
-		End If
-		If [ xt_FIELD::xt_FieldName <> $name or xt_FIELD::xt_FieldType <> $type ]
-			Set Field [ xt_FIELD::xt_FieldName ; $name ]
-			Set Field [ xt_FIELD::xt_FieldType ; $type ]
-			Commit Records/Requests [ ]
-			If [ Get ( LastError ) <> 0 ]
-				Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "commit failed (xt_FIELD " & $fid & "): error " & Get ( LastError ) ) ) ) ]
+		Set Variable [ $fk ; Value: xt_FIELD::PrimaryKey ]
+		Set Variable [ $parents ; Value: $parents + 1 ]
+	Else
+		Set Variable [ $fk ; Value: GetValue ( $fk ; 1 ) ]
+		If [ Left ( $fid ; 7 ) <> "native:" ]
+			Enter Find Mode [ Pause: Off ]
+			Set Field [ xt_FIELD::PrimaryKey ; "==" & $fk ]
+			Perform Find [ ]
+			If [ Get ( FoundCount ) <> 1 ]
+				Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "xt_FIELD row not found for " & $fid ) ) ) ]
 			End If
-			Set Variable [ $updated ; Value: $updated + 1 ]
+			If [ xt_FIELD::xt_FieldName <> $name or xt_FIELD::xt_FieldType <> $type ]
+				Set Field [ xt_FIELD::xt_FieldName ; $name ]
+				Set Field [ xt_FIELD::xt_FieldType ; $type ]
+				Commit Records/Requests [ ]
+				If [ Get ( LastError ) <> 0 ]
+					Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "commit failed (xt_FIELD " & $fid & "): error " & Get ( LastError ) ) ) ) ]
+				End If
+				Set Variable [ $updated ; Value: $updated + 1 ]
+			End If
 		End If
 	End If
+	#--- placement: one xt_CONTAINER_x_FIELD per container + field ID. Tracks where the field keeps appearing
+	Set Variable [ $pk ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_CONTAINER_x_FIELD::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( xt_CONTAINER_x_FIELD::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_CONTAINER_x_FIELD::fk_xtContainer ) ) & " = ? AND " & sql.Field ( GetFieldName ( xt_CONTAINER_x_FIELD::xt_FieldID ) ) & " = ?" ; "" ; "" ; $container ; $fid ) ]
+	If [ Left ( $pk ; 1 ) = "?" or ValueCount ( $pk ) > 1 ]
+		Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "SQL failed or duplicate xt_CONTAINER_x_FIELD for " & $fid ) ) ) ]
+	End If
+	Go to Layout [ "xt_CONTAINER_x_FIELD" ]
+	If [ IsEmpty ( $pk ) ]
+		New Record/Request
+		Set Field [ xt_CONTAINER_x_FIELD::fk_xtContainer ; $container ]
+		Set Field [ xt_CONTAINER_x_FIELD::xt_FieldID ; $fid ]
+		Set Variable [ $created ; Value: $created + 1 ]
+	Else
+		Enter Find Mode [ Pause: Off ]
+		Set Field [ xt_CONTAINER_x_FIELD::PrimaryKey ; "==" & GetValue ( $pk ; 1 ) ]
+		Perform Find [ ]
+		If [ Get ( FoundCount ) <> 1 ]
+			Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "xt_CONTAINER_x_FIELD row not found for " & $fid ) ) ) ]
+		End If
+	End If
+	Set Field [ xt_CONTAINER_x_FIELD::fk_xtField ; $fk ]
+	Set Field [ xt_CONTAINER_x_FIELD::LastSeenSession ; $session ]
+	Set Field [ xt_CONTAINER_x_FIELD::isPresent ; 1 ]
+	Commit Records/Requests [ ]
+	If [ Get ( LastError ) <> 0 ]
+		Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "commit failed (xt_CONTAINER_x_FIELD " & $fid & "): error " & Get ( LastError ) ) ) ) ]
+	End If
 End Loop
-Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 1 ) ; PNum ( "created" ; $created ) ; PNum ( "updated" ; $updated ) ) ) ]
+#--- placements in this container that ClickUp no longer lists: the field left the list
+Set Variable [ $gone ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_CONTAINER_x_FIELD::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( xt_CONTAINER_x_FIELD::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_CONTAINER_x_FIELD::fk_xtContainer ) ) & " = ? AND ( " & sql.Field ( GetFieldName ( xt_CONTAINER_x_FIELD::isPresent ) ) & " = 1 OR " & sql.Field ( GetFieldName ( xt_CONTAINER_x_FIELD::isPresent ) ) & " IS NULL ) AND ( " & sql.Field ( GetFieldName ( xt_CONTAINER_x_FIELD::LastSeenSession ) ) & " IS NULL OR " & sql.Field ( GetFieldName ( xt_CONTAINER_x_FIELD::LastSeenSession ) ) & " <> ? )" ; "" ; "" ; $container ; $session ) ]
+If [ Left ( $gone ; 1 ) = "?" ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "SQL failed (absent placements)" ) ) ) ]
+End If
+Set Variable [ $absent ; Value: 0 ]
+Set Variable [ $i ; Value: 0 ]
+Loop
+	Set Variable [ $i ; Value: $i + 1 ]
+	Exit Loop If [ $i > ValueCount ( $gone ) ]
+	Enter Find Mode [ Pause: Off ]
+	Set Field [ xt_CONTAINER_x_FIELD::PrimaryKey ; "==" & GetValue ( $gone ; $i ) ]
+	Perform Find [ ]
+	If [ Get ( FoundCount ) = 1 ]
+		Set Field [ xt_CONTAINER_x_FIELD::isPresent ; 0 ]
+		Commit Records/Requests [ ]
+		If [ Get ( LastError ) <> 0 ]
+			Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "commit failed (absent placement): error " & Get ( LastError ) ) ) ) ]
+		End If
+		Set Variable [ $absent ; Value: $absent + 1 ]
+	End If
+End Loop
+Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 1 ) ; PNum ( "created" ; $created ) ; PNum ( "updated" ; $updated ) ; PNum ( "parents_created" ; $parents ) ; PNum ( "absent" ; $absent ) ) ) ]
