@@ -5,7 +5,7 @@ type: index
 status: public
 order: 20
 nav: collapsed
-revised: 2026-09
+revised: 2026-11
 summary: Every table in the app, grouped by what it serves.
 data:
   catalog:
@@ -75,6 +75,29 @@ data:
 - The role LIBRARY.
 [[ASSIGNMENTS](@table-assignments)]
 - production x role x NULLABLE person. The credit line. The contact sheet.
+
+### For the __Archive__ (DOCz_)
+
+Storage follows expectation vs fulfillment. A package declares what it should hold and where it should live, the Utilities scan observes copies, and fulfillment is a report. Ruled J44 to J46. "Version" is retired here: instance, revision, modifier.
+
+[[Archival Media](@table-docz-archival-media)]
+- One file, identified by its hash. Renaming to DOCz_FILE (J45).
+[[Archival Video](@table-docz-archival-video)]
+- 1:1 video extension. Renaming to DOCz_FILE_VIDEO.
+[[Revision File](@table-docz-revision-file)]{.tbc}
+- File × revision. Which revision a file is evidence for. Fulfillment rolls up through here.
+[[Package](@table-docz-package)]{.tbc}
+- A stored, sealed bundle. Usually one department's folder after strike.
+[[Package Item](@table-docz-package-item)]{.tbc}
+- One file inside one package.
+[[Package Content](@table-docz-package-content)]{.tbc}
+- The **what** expectation: package × instance.
+[[Drive](@table-docz-drive)]{.tbc}
+- One place a copy can live. Authored here, not in ClickUp.
+[[Package Drive](@table-docz-package-drive)]{.tbc}
+- The **where** expectation: package × drive.
+[[Copy](@table-docz-copy)]{.tbc}
+- What the scanner saw. Synced from URITP Utilities, never typed.
 
 ## Exporting — the print hub
 
