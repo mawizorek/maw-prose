@@ -25,4 +25,8 @@ Build the field once in FileMaker, copy its table, then save the clipboard:
 
     osascript -e 'the clipboard as «class XMTB»' | sed 's/^«data XMTB//; s/»$//' | xxd -r -p > ~/Desktop/XMTB.xml
 
+For a script step, type it once, select it in the step pane, Cmd-C, then:
+
+    osascript -e 'the clipboard as «class XMSS»' | sed 's/^«data XMSS//; s/»$//' | xxd -r -p > ~/Desktop/XMSS.xml
+
 Write the translation from that file only.
