@@ -1,9 +1,0 @@
-Field_Name	Type	Options	Notes	status
-PrimaryKey	Text	audit	Machine identity. Get ( UUID ). Never used for cross-file joins.	Audit
-CreationTimestamp	Timestamp	audit		Audit
-CreatedBy	Text	audit		Audit
-ModificationTimestamp	Timestamp	audit		Audit
-ModifiedBy	Text	audit		Audit
-fk_xtSystem	Text	key	xt_SYSTEM::PrimaryKey. One row per system that is reached over HTTP (1:1). A system with no web API (folder) has no row.	Links
-BaseURL	Text	not empty	API root, e.g. https://api.clickup.com/api/v2	Settings
-Token	Text	not empty	Device-local credential. Never exported, never logged, never in a parameter, result or event.	Settings
