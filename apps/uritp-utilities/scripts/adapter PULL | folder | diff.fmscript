@@ -1,0 +1,34 @@
+# adapter PULL | folder | diff · URITP Utilities. Two versions of one file entry (scanner JSON) in, the moves out. Eos tracking: only what moved is recorded.
+# Runs only when xt_Version (sha256) moved, so sha256 always moves; the rest move with it when they do. Path, name and ext are the identity (xt_Key) and never move inside one record.
+# Tracked · code | label | kind (hash | bytes | number | text). Exact ( ), because = ignores case. FileMaker 19 safe. Stored values are {"v":…} like the ClickUp diff.
+# Param: old, new (file entry JSON). Result: ok, count, changes (array of code, label, old, new, change, sort). Never changes layout or record.
+Set Error Capture [ On ]
+Set Variable [ $param ; Value: Get ( ScriptParameter ) ]
+Set Variable [ $old ; Value: ParamGetText ( $param ; "old" ; "" ) ]
+Set Variable [ $new ; Value: ParamGetText ( $param ; "new" ; "" ) ]
+If [ Left ( $old ; 1 ) <> "{" or Left ( $new ; 1 ) <> "{" ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "old and new must both be file entry JSON" ) ) ) ]
+End If
+Set Variable [ $tracked ; Value: List ( "sha256|sha256|hash" ; "size|size|bytes" ; "mtime|modified|text" ; "status|status|text" ; "media.duration_s|duration|number" ; "media.video.codec|video codec|text" ; "media.video.width|width|number" ; "media.video.height|height|number" ; "media.video.fps|fps|number" ; "media.audio.codec|audio codec|text" ; "media.audio.channels|channels|number" ) ]
+Set Variable [ $changes ; Value: "[]" ]
+Set Variable [ $n ; Value: 0 ]
+Set Variable [ $i ; Value: 0 ]
+Loop
+	Set Variable [ $i ; Value: $i + 1 ]
+	Exit Loop If [ $i > ValueCount ( $tracked ) ]
+	Set Variable [ $p ; Value: Substitute ( GetValue ( $tracked ; $i ) ; "|" ; ¶ ) ]
+	Set Variable [ $code ; Value: GetValue ( $p ; 1 ) ]
+	Set Variable [ $label ; Value: GetValue ( $p ; 2 ) ]
+	Set Variable [ $kind ; Value: GetValue ( $p ; 3 ) ]
+	Set Variable [ $a ; Value: JSONGetElement ( $old ; $code ) ]
+	Set Variable [ $b ; Value: JSONGetElement ( $new ; $code ) ]
+	If [ not Exact ( $a ; $b ) ]
+		Set Variable [ $type ; Value: If ( $kind = "bytes" or $kind = "number" ; JSONNumber ; JSONString ) ]
+		Set Variable [ $sa ; Value: If ( IsEmpty ( $a ) ; JSONSetElement ( "{}" ; "v" ; "" ; JSONNull ) ; JSONSetElement ( "{}" ; "v" ; $a ; $type ) ) ]
+		Set Variable [ $sb ; Value: If ( IsEmpty ( $b ) ; JSONSetElement ( "{}" ; "v" ; "" ; JSONNull ) ; JSONSetElement ( "{}" ; "v" ; $b ; $type ) ) ]
+		Set Variable [ $show ; Value: Case ( IsEmpty ( $a ) ; "(none)" ; $kind = "hash" ; Left ( $a ; 12 ) & "…" ; $kind = "bytes" ; $a & " B" ; $a ) & " → " & Case ( IsEmpty ( $b ) ; "(none)" ; $kind = "hash" ; Left ( $b ; 12 ) & "…" ; $kind = "bytes" ; $b & " B" ; $b ) ]
+		Set Variable [ $changes ; Value: JSONSetElement ( $changes ; "[" & $n & "]" ; Param ( List ( PText ( "code" ; $code ) ; PText ( "label" ; $label ) ; PText ( "old" ; $sa ) ; PText ( "new" ; $sb ) ; PText ( "change" ; $label & ": " & $show ) ; PNum ( "sort" ; $n + 1 ) ) ) ; JSONObject ) ]
+		Set Variable [ $n ; Value: $n + 1 ]
+	End If
+End Loop
+Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 1 ) ; PNum ( "count" ; $n ) ; Pjson ( "changes" ; $changes ) ) ) ]

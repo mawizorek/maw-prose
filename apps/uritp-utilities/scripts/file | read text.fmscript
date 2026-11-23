@@ -1,0 +1,20 @@
+# file | read text · URITP Utilities. One UTF-8 text file in, its text out. The only script with data-file steps (FileMaker 18+), so the four steps fmp-script.py can't translate yet are typed by hand here, once.
+# Param: path (a FileMaker path, e.g. file:/Macintosh HD/Users/…/page-0000.json). Result: ok, text. Never writes.
+Set Error Capture [ On ]
+Set Variable [ $path ; Value: ParamGetText ( Get ( ScriptParameter ) ; "path" ; "" ) ]
+Get File Exists [ $path ; Target: $exists ]
+If [ not $exists ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "file not found: " & $path ) ) ) ]
+End If
+Open Data File [ $path ; Target: $fid ]
+If [ Get ( LastError ) <> 0 ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "could not open " & $path & ": error " & Get ( LastError ) ) ) ) ]
+End If
+Read from Data File [ File ID: $fid ; Amount (bytes): ; Target: $text ; Read as: UTF-8 ]
+Set Variable [ $err ; Value: Get ( LastError ) ]
+Close Data File [ File ID: $fid ]
+# 10 = read reached the end of the file. Only an error when nothing came back.
+If [ $err <> 0 and not ( $err = 10 and not IsEmpty ( $text ) ) ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "read failed on " & $path & ": error " & $err ) ) ) ]
+End If
+Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 1 ) ; PText ( "text" ; $text ) ) ) ]

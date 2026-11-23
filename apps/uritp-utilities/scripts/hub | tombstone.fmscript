@@ -1,0 +1,50 @@
+# hub | tombstone · URITP Utilities. Full runs only. Rows in this container that the run did not see are candidates; each is confirmed gone by its system before it is marked. Rows are never deleted.
+# Refuses when more than 10% of live rows are missing, so a bad source never mass-tombstones.
+# Confirm-gone, picked by xt_SYSTEM Code: folder = gone (session already proved the scan complete and its root marker matched, and online-only files count as seen). clickup = owed at cutover (the HTTP 404 check moves out of adapter PULL | clickup | tombstone). Unknown code stops.
+# Param: the session result (session, container, code, full, scan). Result: ok, tombstoned, warnings.
+Set Error Capture [ On ]
+Set Variable [ $s ; Value: Get ( ScriptParameter ) ]
+Set Variable [ $session ; Value: ParamGetText ( $s ; "session" ; "" ) ]
+Set Variable [ $container ; Value: ParamGetText ( $s ; "container" ; "" ) ]
+Set Variable [ $code ; Value: ParamGetText ( $s ; "code" ; "" ) ]
+If [ not ParamGetBool ( $s ; "full" ; 0 ) ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 1 ) ; PNum ( "tombstoned" ; 0 ) ; PText ( "warnings" ; "capped run: tombstone skipped" ) ) ) ]
+End If
+If [ $code <> "folder" ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "hub | tombstone has no confirm-gone for system " & $code & " yet" ) ) ) ]
+End If
+Set Variable [ $total ; Value: ExecuteSQL ( "SELECT COUNT(*) FROM " & sql.Table ( GetFieldName ( xt_RECORD::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_RECORD::fk_xtContainer ) ) & " = ? AND " & sql.Field ( GetFieldName ( xt_RECORD::xt_DeletedAt ) ) & " IS NULL" ; "" ; "" ; $container ) ]
+Set Variable [ $cands ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_RECORD::PrimaryKey ) ) & ", " & sql.Field ( GetFieldName ( xt_RECORD::xt_Key ) ) & " FROM " & sql.Table ( GetFieldName ( xt_RECORD::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_RECORD::fk_xtContainer ) ) & " = ? AND " & sql.Field ( GetFieldName ( xt_RECORD::xt_DeletedAt ) ) & " IS NULL AND ( " & sql.Field ( GetFieldName ( xt_RECORD::LastSeenSession ) ) & " IS NULL OR " & sql.Field ( GetFieldName ( xt_RECORD::LastSeenSession ) ) & " <> ? )" ; "|" ; ¶ ; $container ; $session ) ]
+If [ Left ( $total ; 1 ) = "?" or Left ( $cands ; 1 ) = "?" ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "SQL failed reading xt_RECORD candidates" ) ) ) ]
+End If
+Set Variable [ $c ; Value: ValueCount ( $cands ) ]
+If [ $c > GetAsNumber ( $total ) * 0.1 ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; $c & " of " & $total & " rows missing from the source (over 10%). Refused; nothing tombstoned. Check the source before rerunning." ) ) ) ]
+End If
+Set Variable [ $tombstoned ; Value: 0 ]
+Set Variable [ $i ; Value: 0 ]
+Loop
+	Set Variable [ $i ; Value: $i + 1 ]
+	Exit Loop If [ $i > $c ]
+	Set Variable [ $pk ; Value: GetValue ( Substitute ( GetValue ( $cands ; $i ) ; "|" ; ¶ ) ; 1 ) ]
+	Set Variable [ $key ; Value: GetValue ( Substitute ( GetValue ( $cands ; $i ) ; "|" ; ¶ ) ; 2 ) ]
+	Go to Layout [ "xt_RECORD" ]
+	Enter Find Mode [ Pause: Off ]
+	Set Field [ xt_RECORD::PrimaryKey ; "==" & $pk ]
+	Perform Find [ ]
+	If [ Get ( FoundCount ) <> 1 ]
+		Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "xt_RECORD row not found for " & $key ) ) ) ]
+	End If
+	Set Field [ xt_RECORD::xt_DeletedAt ; Get ( CurrentTimestamp ) ]
+	Commit Records/Requests [ ]
+	If [ Get ( LastError ) <> 0 ]
+		Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "commit failed (tombstone " & $key & "): error " & Get ( LastError ) ) ) ) ]
+	End If
+	Perform Script [ Specified: From list ; "log | event" ; Parameter: Param ( List ( PText ( "session" ; $session ) ; PText ( "key" ; $key ) ; PText ( "action" ; "tombstone" ) ; PText ( "request" ; ParamGetText ( $s ; "scan" ; "" ) ) ; PText ( "response" ; "not in complete scan" ) ) ) ]
+	If [ not ParamGetBool ( Get ( ScriptResult ) ; "ok" ; 0 ) ]
+		Exit Script [ Text Result: Get ( ScriptResult ) ]
+	End If
+	Set Variable [ $tombstoned ; Value: $tombstoned + 1 ]
+End Loop
+Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 1 ) ; PNum ( "tombstoned" ; $tombstoned ) ; PText ( "warnings" ; "" ) ) ) ]

@@ -1,0 +1,123 @@
+# hub | upsert · URITP Utilities. One shaped external record in, one xt_RECORD row out. System-neutral: finds by xt_Key (written verbatim), never deletes, never reads a payload's shape.
+# Extracted from adapter PULL | clickup | upsert with the same Eos tracking. Created = create event carrying the block. New version = the system's diff, then one change event whose sync_CHANGE rows are the moves. A version bump that moves nothing writes no event. Back after a tombstone = revive with a fresh block. No usable old payload = change event carrying a block (rebase).
+# The only system-specific step is the diff, picked by xt_SYSTEM Code with ID-bound Perform Script lines (J23). A new system adds one Else If.
+# Param: session, container (source container PK, the fallback home), system (xt_SYSTEM PK), code (xt_SYSTEM Code), full, key, id (xt_ID), version, label, home (external container ID, matched with system; empty = container), payload (JSON), block (optional trimmed copy; empty = payload), request, status (optional HTTP status for its events; folder sends none).
+# Result: ok, action (created | changed | unchanged), moves, revived, warning. Never returns empty: a blank diff or log | event result is named as an error.
+Set Error Capture [ On ]
+Set Variable [ $param ; Value: Get ( ScriptParameter ) ]
+Set Variable [ $session ; Value: ParamGetText ( $param ; "session" ; "" ) ]
+Set Variable [ $container ; Value: ParamGetText ( $param ; "container" ; "" ) ]
+Set Variable [ $system ; Value: ParamGetText ( $param ; "system" ; "" ) ]
+Set Variable [ $code ; Value: ParamGetText ( $param ; "code" ; "" ) ]
+Set Variable [ $full ; Value: ParamGetBool ( $param ; "full" ; 0 ) ]
+Set Variable [ $key ; Value: ParamGetText ( $param ; "key" ; "" ) ]
+Set Variable [ $id ; Value: ParamGetText ( $param ; "id" ; "" ) ]
+Set Variable [ $version ; Value: ParamGetText ( $param ; "version" ; "" ) ]
+Set Variable [ $payload ; Value: ParamGetText ( $param ; "payload" ; "" ) ]
+Set Variable [ $block ; Value: ParamGetText ( $param ; "block" ; "" ) ]
+Set Variable [ $homeID ; Value: ParamGetText ( $param ; "home" ; "" ) ]
+Set Variable [ $status ; Value: ParamGetText ( $param ; "status" ; "" ) ]
+If [ IsEmpty ( $key ) or IsEmpty ( $id ) or IsEmpty ( $code ) or Left ( $payload ; 1 ) <> "{" ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "hub | upsert needs key, id, code and a JSON payload (" & $key & ")" ) ) ) ]
+End If
+If [ IsEmpty ( $block ) ]
+	Set Variable [ $block ; Value: $payload ]
+End If
+Set Variable [ $warning ; Value: "" ]
+Set Variable [ $moves ; Value: 0 ]
+Set Variable [ $changes ; Value: "[]" ]
+Set Variable [ $rebase ; Value: 0 ]
+#--- home: follow the record when its external container is registered for this system; otherwise it stays where it is
+Set Variable [ $homeKnown ; Value: 0 ]
+Set Variable [ $home ; Value: $container ]
+If [ not IsEmpty ( $homeID ) ]
+	Set Variable [ $h ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_CONTAINER::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( xt_CONTAINER::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_CONTAINER::fk_xtSystem ) ) & " = ? AND " & sql.Field ( GetFieldName ( xt_CONTAINER::xt_ID ) ) & " = ? AND " & sql.Field ( GetFieldName ( xt_CONTAINER::isActive ) ) & " = 1" ; "" ; "" ; $system ; $homeID ) ]
+	If [ Left ( $h ; 1 ) = "?" ]
+		Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "SQL failed reading xt_CONTAINER" ) ) ) ]
+	End If
+	If [ ValueCount ( $h ) = 1 ]
+		Set Variable [ $homeKnown ; Value: 1 ]
+		Set Variable [ $home ; Value: GetValue ( $h ; 1 ) ]
+	Else
+		Set Variable [ $warning ; Value: "unregistered_home" ]
+	End If
+End If
+Set Variable [ $row ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_RECORD::PrimaryKey ) ) & ", " & sql.Field ( GetFieldName ( xt_RECORD::xt_Version ) ) & ", " & sql.Field ( GetFieldName ( xt_RECORD::xt_DeletedAt ) ) & " FROM " & sql.Table ( GetFieldName ( xt_RECORD::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_RECORD::xt_Key ) ) & " = ?" ; "|" ; ¶ ; $key ) ]
+If [ Left ( $row ; 1 ) = "?" or ValueCount ( $row ) > 1 ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "SQL failed or duplicate xt_RECORD for " & $key ) ) ) ]
+End If
+Set Variable [ $pk ; Value: GetValue ( Substitute ( $row ; "|" ; ¶ ) ; 1 ) ]
+Set Variable [ $wasDeleted ; Value: not IsEmpty ( GetValue ( Substitute ( $row ; "|" ; ¶ ) ; 3 ) ) ]
+Go to Layout [ "xt_RECORD" ]
+If [ IsEmpty ( $pk ) ]
+	New Record/Request
+	Set Field [ xt_RECORD::fk_xtContainer ; $home ]
+	Set Field [ xt_RECORD::xt_ID ; $id ]
+	Set Field [ xt_RECORD::xt_Key ; $key ]
+	Set Variable [ $action ; Value: "created" ]
+Else
+	Enter Find Mode [ Pause: Off ]
+	Set Field [ xt_RECORD::PrimaryKey ; "==" & $pk ]
+	Perform Find [ ]
+	If [ Get ( FoundCount ) <> 1 ]
+		Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "xt_RECORD row not found for " & $key ) ) ) ]
+	End If
+	If [ $homeKnown and not Exact ( xt_RECORD::fk_xtContainer ; $home ) ]
+		Set Field [ xt_RECORD::fk_xtContainer ; $home ]
+	End If
+	Set Variable [ $action ; Value: If ( Exact ( GetValue ( Substitute ( $row ; "|" ; ¶ ) ; 2 ) ; $version ) ; "unchanged" ; "changed" ) ]
+	#--- diff before the payload is overwritten: the old version is still on the row
+	If [ $action = "changed" and Left ( xt_RECORD::xt_Payload ; 1 ) <> "{" ]
+		Set Variable [ $rebase ; Value: 1 ]
+	Else If [ $action = "changed" ]
+		If [ $code = "clickup" ]
+			Perform Script [ Specified: From list ; "adapter PULL | clickup | diff" ; Parameter: Param ( List ( PText ( "old" ; xt_RECORD::xt_Payload ) ; PText ( "new" ; $payload ) ) ) ]
+		Else If [ $code = "folder" ]
+			Perform Script [ Specified: From list ; "adapter PULL | folder | diff" ; Parameter: Param ( List ( PText ( "old" ; xt_RECORD::xt_Payload ) ; PText ( "new" ; $payload ) ) ) ]
+		Else
+			Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "hub | upsert has no diff for system " & $code ) ) ) ]
+		End If
+		Set Variable [ $d ; Value: Get ( ScriptResult ) ]
+		If [ not ParamGetBool ( $d ; "ok" ; 0 ) ]
+			Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "diff failed for " & $key & ": " & ParamGetText ( $d ; "error" ; "(diff returned nothing: check its Perform Script line for <unknown>)" ) ) ) ) ]
+		End If
+		Set Variable [ $moves ; Value: GetAsNumber ( ParamGetNumber ( $d ; "count" ; 0 ) ) ]
+		Set Variable [ $changes ; Value: ParamGetText ( $d ; "changes" ; "[]" ) ]
+	End If
+End If
+If [ $action <> "unchanged" ]
+	Set Field [ xt_RECORD::xt_Label ; ParamGetText ( $param ; "label" ; "" ) ]
+	Set Field [ xt_RECORD::xt_Version ; $version ]
+	Set Field [ xt_RECORD::xt_Payload ; $payload ]
+End If
+If [ $full ]
+	Set Field [ xt_RECORD::LastSeenSession ; $session ]
+End If
+If [ $wasDeleted ]
+	Set Field [ xt_RECORD::xt_DeletedAt ; "" ]
+End If
+Commit Records/Requests [ ]
+If [ Get ( LastError ) <> 0 ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "commit failed (xt_RECORD " & $key & "): error " & Get ( LastError ) ) ) ) ]
+End If
+If [ $action = "created" ]
+	Perform Script [ Specified: From list ; "log | event" ; Parameter: Param ( List ( PText ( "session" ; $session ) ; PText ( "key" ; $key ) ; PText ( "action" ; "create" ) ; If ( IsEmpty ( $status ) ; "" ; PNum ( "status" ; $status ) ) ; PText ( "request" ; ParamGetText ( $param ; "request" ; "" ) ) ; PText ( "response" ; $block ) ) ) ]
+	Set Variable [ $log ; Value: Get ( ScriptResult ) ]
+	If [ not ParamGetBool ( $log ; "ok" ; 0 ) ]
+		Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "create event failed for " & $key & ": " & ParamGetText ( $log ; "error" ; "(log | event returned nothing: check its Perform Script line for <unknown>)" ) ) ) ) ]
+	End If
+Else If [ $action = "changed" and ( $moves > 0 or $rebase ) ]
+	Perform Script [ Specified: From list ; "log | event" ; Parameter: Param ( List ( PText ( "session" ; $session ) ; PText ( "key" ; $key ) ; PText ( "action" ; "change" ) ; If ( IsEmpty ( $status ) ; "" ; PNum ( "status" ; $status ) ) ; PText ( "request" ; ParamGetText ( $param ; "request" ; "" ) ) ; PText ( "response" ; If ( $rebase ; $block ; "" ) ) ; Pjson ( "changes" ; $changes ) ) ) ]
+	Set Variable [ $log ; Value: Get ( ScriptResult ) ]
+	If [ not ParamGetBool ( $log ; "ok" ; 0 ) ]
+		Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "change event failed for " & $key & " (" & $moves & " moves): " & ParamGetText ( $log ; "error" ; "(log | event returned nothing: check its Perform Script line for <unknown>)" ) ) ) ) ]
+	End If
+End If
+If [ $wasDeleted ]
+	Perform Script [ Specified: From list ; "log | event" ; Parameter: Param ( List ( PText ( "session" ; $session ) ; PText ( "key" ; $key ) ; PText ( "action" ; "revive" ) ; If ( IsEmpty ( $status ) ; "" ; PNum ( "status" ; $status ) ) ; PText ( "request" ; ParamGetText ( $param ; "request" ; "" ) ) ; PText ( "response" ; $block ) ) ) ]
+	Set Variable [ $log ; Value: Get ( ScriptResult ) ]
+	If [ not ParamGetBool ( $log ; "ok" ; 0 ) ]
+		Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "revive event failed for " & $key & ": " & ParamGetText ( $log ; "error" ; "(log | event returned nothing: check its Perform Script line for <unknown>)" ) ) ) ) ]
+	End If
+End If
+Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 1 ) ; PText ( "action" ; $action ) ; PNum ( "moves" ; $moves ) ; PNum ( "revived" ; $wasDeleted ) ; PText ( "warning" ; $warning ) ) ) ]

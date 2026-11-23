@@ -1,0 +1,59 @@
+# adapter PULL | folder | session · URITP Utilities. Resolves the source by its path (a fact, never Name_Display), checks the system is folder, proves the scan is complete and is this root's, opens one sync_SESSION.
+# Source row: sync_SOURCE::xt_ViewPath = "<root code>/" (the whole root; a subfolder scope would read "<root code>/<subpath>", not built). Container: xt_ID = root code from <root>/.uritp-root.
+# Manifests live beside this file: <this file's folder>/folder-scans/<root code>/latest.json → scan-<id>/scan.json + page-NNNN.json. No device paths are stored anywhere.
+# Param: view, cap. Result: ok, session, source, container, system, code, root, dir, scan, pages, full, cap, online_only, unstable.
+Set Error Capture [ On ]
+Set Variable [ $param ; Value: Get ( ScriptParameter ) ]
+Set Variable [ $view ; Value: ParamGetText ( $param ; "view" ; "" ) ]
+Set Variable [ $cap ; Value: ParamGetNumber ( $param ; "cap" ; 0 ) ]
+If [ IsEmpty ( $view ) ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "no view in parameter" ) ) ) ]
+End If
+Set Variable [ $src ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( sync_SOURCE::PrimaryKey ) ) & ", " & sql.Field ( GetFieldName ( sync_SOURCE::fk_xtContainer ) ) & " FROM " & sql.Table ( GetFieldName ( sync_SOURCE::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( sync_SOURCE::xt_ViewPath ) ) & " = ? AND " & sql.Field ( GetFieldName ( sync_SOURCE::isActive ) ) & " = 1" ; "|" ; ¶ ; $view ) ]
+If [ ValueCount ( $src ) <> 1 or Left ( $src ; 1 ) = "?" ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "need exactly one active sync_SOURCE for " & $view ) ) ) ]
+End If
+Set Variable [ $source ; Value: GetValue ( Substitute ( $src ; "|" ; ¶ ) ; 1 ) ]
+Set Variable [ $container ; Value: GetValue ( Substitute ( $src ; "|" ; ¶ ) ; 2 ) ]
+Set Variable [ $con ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_CONTAINER::fk_xtSystem ) ) & ", " & sql.Field ( GetFieldName ( xt_CONTAINER::xt_ID ) ) & " FROM " & sql.Table ( GetFieldName ( xt_CONTAINER::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_CONTAINER::PrimaryKey ) ) & " = ? AND " & sql.Field ( GetFieldName ( xt_CONTAINER::isActive ) ) & " = 1" ; "|" ; ¶ ; $container ) ]
+If [ ValueCount ( $con ) <> 1 or Left ( $con ; 1 ) = "?" ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "source container missing or inactive" ) ) ) ]
+End If
+Set Variable [ $system ; Value: GetValue ( Substitute ( $con ; "|" ; ¶ ) ; 1 ) ]
+Set Variable [ $root ; Value: GetValue ( Substitute ( $con ; "|" ; ¶ ) ; 2 ) ]
+Set Variable [ $code ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_SYSTEM::Code ) ) & " FROM " & sql.Table ( GetFieldName ( xt_SYSTEM::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_SYSTEM::PrimaryKey ) ) & " = ?" ; "" ; "" ; $system ) ]
+If [ GetValue ( $code ; 1 ) <> "folder" ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "source " & $view & " is not on the folder system" ) ) ) ]
+End If
+If [ not Exact ( $view ; $root & "/" ) ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "folder source must read \"" & $root & "/\" (whole root). Subfolder scopes aren't built." ) ) ) ]
+End If
+#--- the scan: latest.json names it; scan.json is written last, so its complete flag proves every page is there
+Set Variable [ $base ; Value: Let ( p = Get ( FilePath ) ; Left ( p ; Position ( p ; "/" ; Length ( p ) ; -1 ) ) ) & "folder-scans/" & $root & "/" ]
+Perform Script [ Specified: From list ; "file | read text" ; Parameter: Param ( PText ( "path" ; $base & "latest.json" ) ) ]
+Set Variable [ $r ; Value: Get ( ScriptResult ) ]
+If [ not ParamGetBool ( $r ; "ok" ; 0 ) ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "no scan for " & $root & ". Run folder-scan.py with --out into this file's folder-scans. " & ParamGetText ( $r ; "error" ; "" ) ) ) ) ]
+End If
+Set Variable [ $dir ; Value: $base & JSONGetElement ( ParamGetText ( $r ; "text" ; "" ) ; "dir" ) & "/" ]
+Perform Script [ Specified: From list ; "file | read text" ; Parameter: Param ( PText ( "path" ; $dir & "scan.json" ) ) ]
+Set Variable [ $r ; Value: Get ( ScriptResult ) ]
+Set Variable [ $head ; Value: ParamGetText ( $r ; "text" ; "" ) ]
+If [ not ParamGetBool ( $r ; "ok" ; 0 ) or JSONGetElement ( $head ; "complete" ) <> 1 ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "scan at " & $dir & " is missing or incomplete. Nothing read; nothing tombstoned." ) ) ) ]
+End If
+If [ not Exact ( JSONGetElement ( $head ; "root_code" ) ; $root ) ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "scan names root " & JSONGetElement ( $head ; "root_code" ) & ", source wants " & $root & ". Refused." ) ) ) ]
+End If
+If [ not IsEmpty ( JSONGetElement ( $head ; "case_clashes[0]" ) ) ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "paths that differ only by case would share one key here. Rename one, rescan: " & Substitute ( JSONListValues ( $head ; "case_clashes" ) ; ¶ ; " | " ) ) ) ) ]
+End If
+Go to Layout [ "sync_SESSION" ]
+New Record/Request
+Set Field [ sync_SESSION::fk_Source ; $source ]
+Set Field [ sync_SESSION::isFullPull ; If ( $cap > 0 ; 0 ; 1 ) ]
+Commit Records/Requests [ ]
+If [ Get ( LastError ) <> 0 ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "commit failed (sync_SESSION): error " & Get ( LastError ) ) ) ) ]
+End If
+Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 1 ) ; PText ( "session" ; sync_SESSION::PrimaryKey ) ; PText ( "source" ; $source ) ; PText ( "container" ; $container ) ; PText ( "system" ; $system ) ; PText ( "code" ; "folder" ) ; PText ( "root" ; $root ) ; PText ( "dir" ; $dir ) ; PText ( "scan" ; JSONGetElement ( $head ; "scan" ) ) ; PNum ( "pages" ; GetAsNumber ( JSONGetElement ( $head ; "pages" ) ) ) ; PNum ( "full" ; If ( $cap > 0 ; 0 ; 1 ) ) ; PNum ( "cap" ; $cap ) ; PNum ( "online_only" ; GetAsNumber ( JSONGetElement ( $head ; "counts.online_only" ) ) ) ; PNum ( "unstable" ; GetAsNumber ( JSONGetElement ( $head ; "counts.unstable" ) ) ) ) ) ]
