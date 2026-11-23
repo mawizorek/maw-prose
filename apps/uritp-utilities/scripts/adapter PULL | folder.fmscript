@@ -1,0 +1,21 @@
+# adapter PULL | folder · URITP Utilities. Organizer: session > page > hub | tombstone (full runs only). Stops at the first module that fails and returns its error. No fields step: a folder's facts are the scanner's fixed set.
+# Param: view (sync_SOURCE::xt_ViewPath, "<root code>/"), cap (optional; > 0 = capped test run, no tombstoning). Result: one summary JSON.
+Set Error Capture [ On ]
+Allow User Abort [ Off ]
+Freeze Window
+Perform Script [ Specified: From list ; "adapter PULL | folder | session" ; Parameter: Get ( ScriptParameter ) ]
+Set Variable [ $s ; Value: Get ( ScriptResult ) ]
+If [ not ParamGetBool ( $s ; "ok" ; 0 ) ]
+	Exit Script [ Text Result: $s ]
+End If
+Perform Script [ Specified: From list ; "adapter PULL | folder | page" ; Parameter: $s ]
+Set Variable [ $p ; Value: Get ( ScriptResult ) ]
+If [ not ParamGetBool ( $p ; "ok" ; 0 ) ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; ParamGetText ( $p ; "error" ; "" ) ) ; PText ( "session" ; ParamGetText ( $s ; "session" ; "" ) ) ) ) ]
+End If
+Perform Script [ Specified: From list ; "hub | tombstone" ; Parameter: $s ]
+Set Variable [ $t ; Value: Get ( ScriptResult ) ]
+If [ not ParamGetBool ( $t ; "ok" ; 0 ) ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; ParamGetText ( $t ; "error" ; "" ) ) ; PText ( "session" ; ParamGetText ( $s ; "session" ; "" ) ) ) ) ]
+End If
+Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 1 ) ; PText ( "session" ; ParamGetText ( $s ; "session" ; "" ) ) ; PText ( "scan" ; ParamGetText ( $s ; "scan" ; "" ) ) ; PNum ( "full" ; ParamGetNumber ( $s ; "full" ; 0 ) ) ; PNum ( "seen" ; ParamGetNumber ( $p ; "seen" ; 0 ) ) ; PNum ( "created" ; ParamGetNumber ( $p ; "created" ; 0 ) ) ; PNum ( "changed" ; ParamGetNumber ( $p ; "changed" ; 0 ) ) ; PNum ( "unchanged" ; ParamGetNumber ( $p ; "unchanged" ; 0 ) ) ; PNum ( "revived" ; ParamGetNumber ( $p ; "revived" ; 0 ) ) ; PNum ( "tombstoned" ; ParamGetNumber ( $t ; "tombstoned" ; 0 ) ) ; PNum ( "online_only" ; ParamGetNumber ( $s ; "online_only" ; 0 ) ) ; PNum ( "unstable" ; ParamGetNumber ( $s ; "unstable" ; 0 ) ) ; PText ( "warnings" ; List ( ParamGetText ( $p ; "warnings" ; "" ) ; ParamGetText ( $t ; "warnings" ; "" ) ) ) ) ) ]

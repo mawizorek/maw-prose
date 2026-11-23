@@ -1,0 +1,67 @@
+# adapter PULL | folder | page · URITP Utilities. Walks the scan page by page and hands each file entry to hub | upsert. A page that can't be read is logged and stops the run.
+# Key (J43): folder:<root code>:<relative path>. Version = sha256. An entry with no hash this scan (online-only or still copying) keeps the version already on file, so a file Dropbox evicted never reads as a move; a new one lands unversioned and gets its hash on the scan that can read it.
+# Param: the session result. Result: ok, seen, created, changed, unchanged, revived, warnings.
+# Rule: never wrap a single element in List(). Write Param ( PText ( ... ) ).
+Set Error Capture [ On ]
+Set Variable [ $s ; Value: Get ( ScriptParameter ) ]
+Set Variable [ $cap ; Value: ParamGetNumber ( $s ; "cap" ; 0 ) ]
+Set Variable [ $root ; Value: ParamGetText ( $s ; "root" ; "" ) ]
+Set Variable [ $pages ; Value: GetAsNumber ( ParamGetNumber ( $s ; "pages" ; 0 ) ) ]
+Set Variable [ $page ; Value: 0 ]
+Set Variable [ $seen ; Value: 0 ]
+Set Variable [ $created ; Value: 0 ]
+Set Variable [ $changed ; Value: 0 ]
+Set Variable [ $unchanged ; Value: 0 ]
+Set Variable [ $revived ; Value: 0 ]
+Set Variable [ $unhashed ; Value: 0 ]
+Set Variable [ $warnings ; Value: "" ]
+Loop
+	Exit Loop If [ $page >= $pages or ( $cap > 0 and $seen >= $cap ) ]
+	Set Variable [ $file ; Value: "page-" & Right ( "000" & $page ; 4 ) & ".json" ]
+	Set Variable [ $request ; Value: ParamGetText ( $s ; "scan" ; "" ) & "/" & $file ]
+	Perform Script [ Specified: From list ; "file | read text" ; Parameter: Param ( PText ( "path" ; ParamGetText ( $s ; "dir" ; "" ) & $file ) ) ]
+	Set Variable [ $r ; Value: Get ( ScriptResult ) ]
+	Set Variable [ $files ; Value: JSONGetElement ( ParamGetText ( $r ; "text" ; "" ) ; "files" ) ]
+	If [ not ParamGetBool ( $r ; "ok" ; 0 ) or Left ( $files ; 1 ) <> "[" ]
+		Perform Script [ Specified: From list ; "log | event" ; Parameter: Param ( List ( PText ( "session" ; ParamGetText ( $s ; "session" ; "" ) ) ; PText ( "key" ; "" ) ; PText ( "action" ; "pull" ) ; PText ( "request" ; $request ) ; PText ( "response" ; Left ( ParamGetText ( $r ; "error" ; "" ) & " " & Left ( ParamGetText ( $r ; "text" ; "" ) ; 300 ) ; 2000 ) ) ) ) ]
+		Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; $file & ": unreadable or has no files array. Run stopped; nothing tombstoned. " & ParamGetText ( $r ; "error" ; "" ) ) ) ) ]
+	End If
+	Set Variable [ $n ; Value: ValueCount ( JSONListKeys ( $files ; "" ) ) ]
+	Set Variable [ $i ; Value: 0 ]
+	Loop
+		Exit Loop If [ $i >= $n or ( $cap > 0 and $seen >= $cap ) ]
+		Set Variable [ $f ; Value: JSONGetElement ( $files ; "[" & $i & "]" ) ]
+		Set Variable [ $path ; Value: JSONGetElement ( $f ; "path" ) ]
+		Set Variable [ $key ; Value: "folder:" & $root & ":" & $path ]
+		Set Variable [ $version ; Value: JSONGetElement ( $f ; "sha256" ) ]
+		If [ IsEmpty ( $version ) ]
+			Set Variable [ $version ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_RECORD::xt_Version ) ) & " FROM " & sql.Table ( GetFieldName ( xt_RECORD::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_RECORD::xt_Key ) ) & " = ?" ; "" ; "" ; $key ) ]
+			If [ Left ( $version ; 1 ) = "?" ]
+				Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "SQL failed reading xt_Version for " & $key ) ) ) ]
+			End If
+			Set Variable [ $unhashed ; Value: $unhashed + 1 ]
+			If [ $unhashed <= 20 ]
+				Set Variable [ $warnings ; Value: List ( $warnings ; JSONGetElement ( $f ; "status" ) & " " & $path ) ]
+			End If
+		End If
+		Perform Script [ Specified: From list ; "hub | upsert" ; Parameter: Param ( List ( PText ( "session" ; ParamGetText ( $s ; "session" ; "" ) ) ; PText ( "container" ; ParamGetText ( $s ; "container" ; "" ) ) ; PText ( "system" ; ParamGetText ( $s ; "system" ; "" ) ) ; PText ( "code" ; "folder" ) ; PNum ( "full" ; ParamGetBool ( $s ; "full" ; 0 ) ) ; PText ( "key" ; $key ) ; PText ( "id" ; $path ) ; PText ( "version" ; $version ) ; PText ( "label" ; JSONGetElement ( $f ; "name" ) ) ; PText ( "home" ; $root ) ; Pjson ( "payload" ; $f ) ; PText ( "request" ; $request ) ) ) ]
+		Set Variable [ $u ; Value: Get ( ScriptResult ) ]
+		If [ not ParamGetBool ( $u ; "ok" ; 0 ) ]
+			Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "upsert failed on " & $path & ": " & ParamGetText ( $u ; "error" ; "(hub | upsert returned no error text)" ) ) ) ) ]
+		End If
+		Set Variable [ $seen ; Value: $seen + 1 ]
+		Set Variable [ $created ; Value: $created + ( ParamGetText ( $u ; "action" ; "" ) = "created" ) ]
+		Set Variable [ $changed ; Value: $changed + ( ParamGetText ( $u ; "action" ; "" ) = "changed" ) ]
+		Set Variable [ $unchanged ; Value: $unchanged + ( ParamGetText ( $u ; "action" ; "" ) = "unchanged" ) ]
+		Set Variable [ $revived ; Value: $revived + GetAsNumber ( ParamGetNumber ( $u ; "revived" ; 0 ) ) ]
+		If [ not IsEmpty ( ParamGetText ( $u ; "warning" ; "" ) ) ]
+			Set Variable [ $warnings ; Value: List ( $warnings ; ParamGetText ( $u ; "warning" ; "" ) & " " & $path ) ]
+		End If
+		Set Variable [ $i ; Value: $i + 1 ]
+	End Loop
+	Set Variable [ $page ; Value: $page + 1 ]
+End Loop
+If [ $unhashed > 20 ]
+	Set Variable [ $warnings ; Value: List ( $warnings ; "… " & $unhashed & " files not hashed this scan (online-only or still copying)" ) ]
+End If
+Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 1 ) ; PNum ( "seen" ; $seen ) ; PNum ( "created" ; $created ) ; PNum ( "changed" ; $changed ) ; PNum ( "unchanged" ; $unchanged ) ; PNum ( "revived" ; $revived ) ; PText ( "warnings" ; $warnings ) ) ) ]

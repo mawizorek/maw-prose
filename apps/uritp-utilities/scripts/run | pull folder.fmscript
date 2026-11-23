@@ -1,0 +1,6 @@
+# run | pull folder · URITP Utilities. Button runner on the sync_SOURCE layout, same shape as run | pull clickup. Run folder-scan.py first; this only reads its manifest.
+# Button parameter: Param ( List ( PText ( "view" ; sync_SOURCE::xt_ViewPath ) ; PNum ( "cap" ; 0 ) ) ). cap 0 = full pull; 5 = capped test.
+Perform Script [ Specified: From list ; "adapter PULL | folder" ; Parameter: Get ( ScriptParameter ) ]
+Set Variable [ $r ; Value: Get ( ScriptResult ) ]
+Go to Layout [ "sync_SOURCE" ]
+Show Custom Dialog [ Get ( ScriptName ) ; $r ]
