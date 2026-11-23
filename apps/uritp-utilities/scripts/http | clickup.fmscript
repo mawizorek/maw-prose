@@ -1,12 +1,13 @@
-# http | clickup · URITP Utilities. The only script that calls ClickUp. Reads BaseURL and Token itself; the token never enters a parameter, result or event.
+# http | clickup · URITP Utilities. The only script that calls ClickUp. Reads BaseURL and Token itself, from the clickup row's xt_SYSTEM_HTTP add-on; the token never enters a parameter, result or event.
 # Param: path (e.g. /view/<viewID>/task?page=0). Result: ok, status, url, body. A 4xx/5xx is ok = 1 with that status; the caller decides.
 Set Error Capture [ On ]
 Set Variable [ $path ; Value: ParamGetText ( Get ( ScriptParameter ) ; "path" ; "" ) ]
-Set Variable [ $base ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_SYSTEM::BaseURL ) ) & " FROM " & sql.Table ( GetFieldName ( xt_SYSTEM::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_SYSTEM::Code ) ) & " = ?" ; "" ; "" ; "clickup" ) ]
-Set Variable [ $token ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_SYSTEM::Token ) ) & " FROM " & sql.Table ( GetFieldName ( xt_SYSTEM::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_SYSTEM::Code ) ) & " = ?" ; "" ; "" ; "clickup" ) ]
-If [ ValueCount ( $base ) <> 1 or ValueCount ( $token ) <> 1 or Left ( $base ; 1 ) = "?" or Left ( $token ; 1 ) = "?" ]
+Set Variable [ $sys ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_SYSTEM::PrimaryKey ) ) & " FROM " & sql.Table ( GetFieldName ( xt_SYSTEM::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_SYSTEM::Code ) ) & " = ?" ; "" ; "" ; "clickup" ) ]
+Set Variable [ $base ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_SYSTEM_HTTP::BaseURL ) ) & " FROM " & sql.Table ( GetFieldName ( xt_SYSTEM_HTTP::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_SYSTEM_HTTP::fk_xtSystem ) ) & " = ?" ; "" ; "" ; GetValue ( $sys ; 1 ) ) ]
+Set Variable [ $token ; Value: ExecuteSQL ( "SELECT " & sql.Field ( GetFieldName ( xt_SYSTEM_HTTP::Token ) ) & " FROM " & sql.Table ( GetFieldName ( xt_SYSTEM_HTTP::PrimaryKey ) ) & " WHERE " & sql.Field ( GetFieldName ( xt_SYSTEM_HTTP::fk_xtSystem ) ) & " = ?" ; "" ; "" ; GetValue ( $sys ; 1 ) ) ]
+If [ ValueCount ( $sys ) <> 1 or ValueCount ( $base ) <> 1 or ValueCount ( $token ) <> 1 or Left ( $sys ; 1 ) = "?" or Left ( $base ; 1 ) = "?" or Left ( $token ; 1 ) = "?" ]
 	Set Variable [ $token ; Value: "" ]
-	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "need exactly one xt_SYSTEM clickup row with BaseURL and Token" ) ) ) ]
+	Exit Script [ Text Result: Param ( List ( PNum ( "ok" ; 0 ) ; PText ( "error" ; "need exactly one xt_SYSTEM clickup row with one xt_SYSTEM_HTTP row (BaseURL, Token)" ) ) ) ]
 End If
 Set Variable [ $url ; Value: GetValue ( $base ; 1 ) & $path ]
 Set Variable [ $token ; Value: GetValue ( $token ; 1 ) ]

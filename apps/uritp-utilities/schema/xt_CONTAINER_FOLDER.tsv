@@ -1,0 +1,13 @@
+Field_Name	Type	Options	Notes	status
+PrimaryKey	Text	audit	Machine identity. Get ( UUID ). Never used for cross-file joins.	Audit
+CreationTimestamp	Timestamp	audit		Audit
+CreatedBy	Text	audit		Audit
+ModificationTimestamp	Timestamp	audit		Audit
+ModifiedBy	Text	audit		Audit
+fk_xtContainer	Text	key	xt_CONTAINER::PrimaryKey. One row per folder root (1:1). Written by adapter PULL | folder | session from the scan, never typed.	Links
+xt_RootPath	Text		Absolute path the last scan read. Evidence only: identity is the code in <root>/.uritp-root, because paths change (a remount, a Dropbox move).	External
+xt_Volume	Text		Volume UUID the last scan ran on	External
+isSynced	Number		1 = Dropbox/Drive root named with --synced (no volume or copy check); 0 = a disk	External
+xt_ScanID	Text		ID of the last scan pulled	External
+xt_ScannedAt	Timestamp		When that scan finished, local time	External
+xt_RescanCommand	Text		The exact scanner line for this root, shell-quoted by the scanner. Copy into Terminal to rescan.	External
